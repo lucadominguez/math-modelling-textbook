@@ -5,8 +5,141 @@
  "duration_s": 1633,
  "url": "https://youtu.be/0qi6s-injSo",
  "transcript_source": "whisper-local",
- "frames": [],
+ "frames": [
+  {
+   "file": "frames/frame_01_100s.jpg",
+   "ts": 100.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows two equations for probability and functions: F(x)=TP(X<=x) and f(x)=F'(x)."
+  },
+  {
+   "file": "frames/frame_02_200s.jpg",
+   "ts": 200.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard displays mathematical formulas for distribution, density, and probability calculations."
+  },
+  {
+   "file": "frames/frame_03_240s.jpg",
+   "ts": 240.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard displays formulas for distribution, density, probability, and expected value."
+  },
+  {
+   "file": "frames/frame_04_320s.jpg",
+   "ts": 320.0,
+   "kind": "whiteboard",
+   "caption": "A person writes mathematical formulas on a blackboard, including definitions for distribution, density, and expected value."
+  },
+  {
+   "file": "frames/frame_05_420s.jpg",
+   "ts": 420.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows several mathematical formulas related to probability distributions, including definitions for F(x), f(x), P(a \u2264 X \u2264 b), E(X), and an example of F(t) and f(t) for an exponential distribution."
+  },
+  {
+   "file": "frames/frame_06_500s.jpg",
+   "ts": 500.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard displays several probability and statistics formulas, including definitions for distribution, density, expected value, and conditional probability."
+  },
+  {
+   "file": "frames/frame_07_540s.jpg",
+   "ts": 540.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows several probability and statistics formulas written on a whiteboard, including definitions for distribution, density, expected value, and conditional probability, as well as a formula related to the \"lack of memory\" property."
+  },
+  {
+   "file": "frames/frame_08_600s.jpg",
+   "ts": 600.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays various probability and calculus formulas, including distribution, density, expected value, and the 'lack of memory' property, written on a blackboard."
+  },
+  {
+   "file": "frames/frame_09_680s.jpg",
+   "ts": 680.0,
+   "kind": "whiteboard",
+   "caption": "The word 'Ex:' is written on a black background, indicating an example is about to be presented."
+  },
+  {
+   "file": "frames/frame_10_720s.jpg",
+   "ts": 720.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows an example of lambda as a decay rate per second."
+  },
+  {
+   "file": "frames/frame_11_800s.jpg",
+   "ts": 800.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn."
+  },
+  {
+   "file": "frames/frame_12_860s.jpg",
+   "ts": 860.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn."
+  },
+  {
+   "file": "frames/frame_13_960s.jpg",
+   "ts": 960.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations defining lambda as decay rate, Tn as time of nth observation, and Xn and Yn as related variables, with Yn modeled by an exponential distribution."
+  },
+  {
+   "file": "frames/frame_14_1020s.jpg",
+   "ts": 1020.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations defining variables like decay rate, time of observation, and an exponential distribution, with a person writing on it."
+  },
+  {
+   "file": "frames/frame_15_1080s.jpg",
+   "ts": 1080.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example problem calculating the expected value of Xn, which is a + 1/\u03bb."
+  },
+  {
+   "file": "frames/frame_16_1140s.jpg",
+   "ts": 1140.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for decay rate, time of observation, and the strong law of large numbers."
+  },
+  {
+   "file": "frames/frame_17_1220s.jpg",
+   "ts": 1220.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to decay rate, observations, and the strong law of large numbers."
+  },
+  {
+   "file": "frames/frame_18_1280s.jpg",
+   "ts": 1280.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers."
+  },
+  {
+   "file": "frames/frame_19_1320s.jpg",
+   "ts": 1320.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers."
+  },
+  {
+   "file": "frames/frame_20_1440s.jpg",
+   "ts": 1440.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers."
+  },
+  {
+   "file": "frames/frame_21_1480s.jpg",
+   "ts": 1480.0,
+   "kind": "whiteboard",
+   "caption": "This whiteboard shows mathematical equations related to decay rate, time of observation, and the strong law of large numbers, with a speaker pointing to an equation."
+  },
+  {
+   "file": "frames/frame_22_1520s.jpg",
+   "ts": 1520.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time observations, and the strong law of large numbers."
+  }
+ ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 00:00"
+ "generated": "2026-08-04 01:44"
 }

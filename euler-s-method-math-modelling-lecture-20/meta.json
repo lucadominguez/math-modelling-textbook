@@ -5,8 +5,135 @@
  "duration_s": 1198,
  "url": "https://youtu.be/203GsVI7fpU",
  "transcript_source": "whisper-local",
- "frames": [],
+ "frames": [
+  {
+   "file": "frames/frame_01_200s.jpg",
+   "ts": 200.0,
+   "kind": "whiteboard",
+   "caption": "Mathematical equations for x' = F(x) and the definition of a derivative are written on a blackboard."
+  },
+  {
+   "file": "frames/frame_02_240s.jpg",
+   "ts": 240.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for a derivative and its approximation, including definitions for x and F."
+  },
+  {
+   "file": "frames/frame_03_300s.jpg",
+   "ts": 300.0,
+   "kind": "whiteboard",
+   "caption": "Mathematical equations for a system of differential equations and its approximation are written on a blackboard."
+  },
+  {
+   "file": "frames/frame_04_360s.jpg",
+   "ts": 360.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for x' = F(x) and the approximation of dx/dt, leading to the final equation x(t+h) = x(t) + hF(x(t))."
+  },
+  {
+   "file": "frames/frame_05_380s.jpg",
+   "ts": 380.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical equations on a whiteboard, including definitions for x', x, and F, the definition of a derivative, and a derivation leading to the Euler method formula."
+  },
+  {
+   "file": "frames/frame_06_440s.jpg",
+   "ts": 440.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for X prime equals F of X, the definition of a derivative, and an approximation for X of T plus H."
+  },
+  {
+   "file": "frames/frame_07_460s.jpg",
+   "ts": 460.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small h, and the iterative formula for x(t+h)."
+  },
+  {
+   "file": "frames/frame_08_520s.jpg",
+   "ts": 520.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical equations related to differential equations and numerical methods, including the definition of a derivative and an iterative formula for approximating solutions."
+  },
+  {
+   "file": "frames/frame_09_560s.jpg",
+   "ts": 560.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method, including the definition of a derivative, its approximation, and the iterative formula for x(t+h)."
+  },
+  {
+   "file": "frames/frame_10_600s.jpg",
+   "ts": 600.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows the definition of a derivative, an approximation for dx/dt, and the derivation of x(t+h) = x(t) + hF(x(t)), along with an iterative formula for x(nh)."
+  },
+  {
+   "file": "frames/frame_11_640s.jpg",
+   "ts": 640.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small step size h, and the iterative formula for x(t+h)."
+  },
+  {
+   "file": "frames/frame_12_720s.jpg",
+   "ts": 720.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method, including the definition of a derivative, the approximation of x(t+h), and a step-by-step calculation of x(h), x(2h), and x((n+1)h), alongside a graph of x(t) versus t."
+  },
+  {
+   "file": "frames/frame_13_740s.jpg",
+   "ts": 740.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for the derivative, and the iterative formula for x(t+h), along with a graph of x(t) versus t."
+  },
+  {
+   "file": "frames/frame_14_780s.jpg",
+   "ts": 780.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows the Euler method for approximating solutions to differential equations, with the formula x(t+h) = x(t)+hF(x(t)) highlighted."
+  },
+  {
+   "file": "frames/frame_15_820s.jpg",
+   "ts": 820.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows the Euler method for approximating solutions to ordinary differential equations, with the formula x(t+h) = x(t) + hF(x(t)) highlighted."
+  },
+  {
+   "file": "frames/frame_16_840s.jpg",
+   "ts": 840.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows the derivation of Euler's method for solving ordinary differential equations, including the definition of the derivative and the approximation leading to the iterative formula."
+  },
+  {
+   "file": "frames/frame_17_900s.jpg",
+   "ts": 900.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method and a graph illustrating the approximation of a function x(t) over time."
+  },
+  {
+   "file": "frames/frame_18_940s.jpg",
+   "ts": 940.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows the Euler method for solving ordinary differential equations, including the definition of the derivative, the approximation for a fixed step size h, and the iterative formula for x(t+h)."
+  },
+  {
+   "file": "frames/frame_19_980s.jpg",
+   "ts": 980.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical equations for differential equations and Euler's method, along with a graph illustrating the approximation of a continuous function."
+  },
+  {
+   "file": "frames/frame_20_1040s.jpg",
+   "ts": 1040.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations for Euler's method and a phase portrait diagram with a spiral trajectory."
+  },
+  {
+   "file": "frames/frame_21_1060s.jpg",
+   "ts": 1060.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical equations for differential equations, Euler's method, and a phase portrait diagram."
+  }
+ ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 00:24"
+ "generated": "2026-08-04 02:24"
 }

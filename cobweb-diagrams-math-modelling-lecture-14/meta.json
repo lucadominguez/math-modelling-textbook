@@ -5,8 +5,141 @@
  "duration_s": 1864,
  "url": "https://youtu.be/1hCX5Gbeo0E",
  "transcript_source": "whisper-local",
- "frames": [],
+ "frames": [
+  {
+   "file": "frames/frame_01_120s.jpg",
+   "ts": 120.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows the example equation r(n) = \u0394x(n) / x."
+  },
+  {
+   "file": "frames/frame_02_180s.jpg",
+   "ts": 180.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example equation for r(n) and its derived form for \u0394X(n)."
+  },
+  {
+   "file": "frames/frame_03_220s.jpg",
+   "ts": 220.0,
+   "kind": "whiteboard",
+   "caption": "An example of a discrete growth model is shown, with the rate of change of X(n) being 0.1 times X(n), leading to X(n+1) being 1.1 times X(n), and an initial value of X(0) = 100,000."
+  },
+  {
+   "file": "frames/frame_04_280s.jpg",
+   "ts": 280.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example calculation for exponential growth, starting with r(n) = \u0394X(n)/X(n) = 0.1 and leading to X(n) = (1.1)^n * 100,000, with a prompt to calculate X(4)."
+  },
+  {
+   "file": "frames/frame_05_380s.jpg",
+   "ts": 380.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example problem calculating population growth and doubling time using a formula involving r(n), x(n), and logarithms."
+  },
+  {
+   "file": "frames/frame_06_500s.jpg",
+   "ts": 500.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example problem calculating population growth and doubling time using the formula x(n) = (1.1)^n * 100,000."
+  },
+  {
+   "file": "frames/frame_07_560s.jpg",
+   "ts": 560.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows an example of population growth calculation, including the initial population, growth after 4 hours, and the time it takes for the population to double."
+  },
+  {
+   "file": "frames/frame_08_600s.jpg",
+   "ts": 600.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example problem calculating population growth and doubling time using mathematical formulas."
+  },
+  {
+   "file": "frames/frame_09_640s.jpg",
+   "ts": 640.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example calculation for population growth and doubling time using the formula x(n) = (1.1)^n * 100,000."
+  },
+  {
+   "file": "frames/frame_10_700s.jpg",
+   "ts": 700.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example calculation for population growth and doubling time using the formula x(n+1) = 1.1x(n)."
+  },
+  {
+   "file": "frames/frame_11_840s.jpg",
+   "ts": 840.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for population growth and a graph of F(x) versus x."
+  },
+  {
+   "file": "frames/frame_12_920s.jpg",
+   "ts": 920.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example calculation for exponential growth and a diagram illustrating a function F(x) and the line y=x."
+  },
+  {
+   "file": "frames/frame_13_1120s.jpg",
+   "ts": 1120.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows an example problem calculating population growth and doubling time, along with a graph illustrating a function F(x) and its relationship to x."
+  },
+  {
+   "file": "frames/frame_14_1160s.jpg",
+   "ts": 1160.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and a graph related to population growth models, including an example calculation for when a population doubles."
+  },
+  {
+   "file": "frames/frame_15_1200s.jpg",
+   "ts": 1200.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations and graphs related to population growth and logistic models, including an example calculation for when a population doubles."
+  },
+  {
+   "file": "frames/frame_16_1360s.jpg",
+   "ts": 1360.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical equations and two graphs illustrating population growth models, with a speaker standing to the right."
+  },
+  {
+   "file": "frames/frame_17_1480s.jpg",
+   "ts": 1480.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations and graphs related to population growth models, including an example calculation for population doubling time and two logistic growth diagrams."
+  },
+  {
+   "file": "frames/frame_18_1580s.jpg",
+   "ts": 1580.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical equations and graphs related to population growth models, including an example calculation for population doubling time and two cobweb diagrams illustrating the behavior of a function F(x)."
+  },
+  {
+   "file": "frames/frame_19_1640s.jpg",
+   "ts": 1640.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations and graphs related to population growth models, including examples of exponential growth and logistic growth, with a person explaining them."
+  },
+  {
+   "file": "frames/frame_20_1680s.jpg",
+   "ts": 1680.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for population growth and diagrams illustrating the logistic map with cobweb plots."
+  },
+  {
+   "file": "frames/frame_21_1720s.jpg",
+   "ts": 1720.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows mathematical equations and graphs related to population dynamics, including an example of exponential growth and a logistic growth model."
+  },
+  {
+   "file": "frames/frame_22_1800s.jpg",
+   "ts": 1800.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and graphs related to population growth models, including an example calculation for population doubling time and a logistic growth model, with a person writing an equation for X(n+1)."
+  }
+ ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-03 23:44"
+ "generated": "2026-08-04 01:23"
 }

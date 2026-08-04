@@ -5,8 +5,147 @@
  "duration_s": 1790,
  "url": "https://youtu.be/7c43WFHCRac",
  "transcript_source": "whisper-local",
- "frames": [],
+ "frames": [
+  {
+   "file": "frames/frame_01_140s.jpg",
+   "ts": 140.0,
+   "kind": "whiteboard",
+   "caption": "A mathematical expression X \u2208 {x1, ..., xn}, n \u2265 1 is written on a dark background."
+  },
+  {
+   "file": "frames/frame_02_200s.jpg",
+   "ts": 200.0,
+   "kind": "whiteboard",
+   "caption": "The frame shows the definition of a random variable X as a set of values x1 to xn, where n is greater than 1, and the probability P(X=xi) is equal to pi."
+  },
+  {
+   "file": "frames/frame_03_240s.jpg",
+   "ts": 240.0,
+   "kind": "whiteboard",
+   "caption": "The frame shows mathematical notation for a discrete random variable X, its probability P(X=xi)=pi, and the sum of probabilities p1+p2+...+pn=1."
+  },
+  {
+   "file": "frames/frame_04_320s.jpg",
+   "ts": 320.0,
+   "kind": "whiteboard",
+   "caption": "Mathematical formulas for probability and expected value are written on a dark background."
+  },
+  {
+   "file": "frames/frame_05_380s.jpg",
+   "ts": 380.0,
+   "kind": "whiteboard",
+   "caption": "Mathematical equations for probability and expected value are written on a dark background."
+  },
+  {
+   "file": "frames/frame_06_480s.jpg",
+   "ts": 480.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard displays mathematical equations for probability distributions, expected value, and the probability of independent events."
+  },
+  {
+   "file": "frames/frame_07_580s.jpg",
+   "ts": 580.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard displays mathematical equations for probability distribution, expected value, and joint probability."
+  },
+  {
+   "file": "frames/frame_08_680s.jpg",
+   "ts": 680.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard displays mathematical equations for probability distribution, expected value, and an example of 'n = # of diodes'."
+  },
+  {
+   "file": "frames/frame_09_740s.jpg",
+   "ts": 740.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard displays mathematical formulas for probability distribution, expected value, and an example problem defining variables for diodes, testing cost, and average testing cost."
+  },
+  {
+   "file": "frames/frame_10_780s.jpg",
+   "ts": 780.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical formulas for probability distribution and expected value, along with definitions for variables related to testing costs."
+  },
+  {
+   "file": "frames/frame_11_840s.jpg",
+   "ts": 840.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem defining variables for testing cost."
+  },
+  {
+   "file": "frames/frame_12_880s.jpg",
+   "ts": 880.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical formulas for probability distribution and expected value, along with an example problem involving diode testing costs."
+  },
+  {
+   "file": "frames/frame_13_940s.jpg",
+   "ts": 940.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem about testing costs for diodes."
+  },
+  {
+   "file": "frames/frame_14_1020s.jpg",
+   "ts": 1020.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard displays mathematical formulas for probability distributions and an example problem about testing costs for diodes."
+  },
+  {
+   "file": "frames/frame_15_1140s.jpg",
+   "ts": 1140.0,
+   "kind": "whiteboard",
+   "caption": "This frame shows a whiteboard with mathematical equations and an example problem related to probability distributions and expected value, specifically calculating the average testing cost for diodes."
+  },
+  {
+   "file": "frames/frame_16_1200s.jpg",
+   "ts": 1200.0,
+   "kind": "whiteboard",
+   "caption": "This frame displays mathematical formulas and definitions related to probability distribution and an example problem involving diode testing costs."
+  },
+  {
+   "file": "frames/frame_17_1240s.jpg",
+   "ts": 1240.0,
+   "kind": "whiteboard",
+   "caption": "A person writes the letter 'E' on a dark background, likely a whiteboard or similar surface."
+  },
+  {
+   "file": "frames/frame_18_1300s.jpg",
+   "ts": 1300.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows the equations for E(C) and A, which is E(C) divided by n."
+  },
+  {
+   "file": "frames/frame_19_1360s.jpg",
+   "ts": 1360.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows equations for E(C) and A, and the minimum value of A at n=17."
+  },
+  {
+   "file": "frames/frame_20_1400s.jpg",
+   "ts": 1400.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows the equations for E(C) and A, and the minimum value of A at n=17."
+  },
+  {
+   "file": "frames/frame_21_1520s.jpg",
+   "ts": 1520.0,
+   "kind": "whiteboard",
+   "caption": "Mathematical equations for E(C) and A are displayed, along with the minimum value of A."
+  },
+  {
+   "file": "frames/frame_22_1580s.jpg",
+   "ts": 1580.0,
+   "kind": "whiteboard",
+   "caption": "The whiteboard shows the equations for E(C) and A, the minimum value of A, and a new equation for A with q=0.003."
+  },
+  {
+   "file": "frames/frame_23_1640s.jpg",
+   "ts": 1640.0,
+   "kind": "whiteboard",
+   "caption": "A whiteboard shows mathematical equations for E(C), A, and S(A,q) with specific values for q and n."
+  }
+ ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 00:11"
+ "generated": "2026-08-04 01:55"
 }

@@ -1,798 +1,667 @@
-# Discrete Probability Models in Mathematical Modeling: A Self Contained Video Based Course
+# Discrete Probability Models: From Basics to Optimization in a Diode Testing Problem
 > **Source:** [Discrete Probability Models - Math Modelling - Lecture 23](https://www.youtube.com/watch?v=7c43WFHCRac) by Math Modelling · 29:50 · Training document generated from the video.
 **How to use this document:** read it top to bottom in place of watching the video. Screenshots appear exactly where the video depends on something visual, with links that jump to that moment. Questions at the end of each section confirm you learned the material. The glossary and footnotes add definitions and detail the video assumes you already have.
-**Who this is for:** This course is for students who have completed studies in optimization and dynamical systems and are ready to learn how probability models integrate with those topics.
+**Who this is for:** This course is for learners who have a basic understanding of probability and want to apply discrete probability models to practical optimization problems in manufacturing.
 ## Learning objectives
 
 After working through this document you can:
 
-1. Define a discrete probability distribution and explain the completeness of information assumption.
-2. Calculate the expected value of a discrete random variable using a weighted sum of probabilities and outcomes.
-3. State the condition for independence between two discrete random variables.
-4. Formulate a real world quality control problem as a discrete probability model using the five step method.
-5. Derive the expected testing cost per diode for a given batch size using probabilities of faulty and non faulty diodes.
-6. Optimize the batch size to minimize the average testing cost per diode by taking a derivative and setting it to zero.
-7. Analyze the sensitivity of the optimal average cost to changes in the estimated probability of a faulty diode.
-8. Interpret the results of sensitivity analysis to determine the robustness of the model against estimation errors.
+1. Define discrete probability models and their key components (random variable, probability distribution, expected value, independence)
+2. Calculate expected values for discrete random variables using weighted sums
+3. Model a real-world scenario (diode testing) using a discrete probability distribution
+4. Construct an expected cost function and optimize it to find the minimum average cost
+5. Interpret the optimal batch size in the context of the problem
+6. Perform sensitivity analysis on model parameters and interpret the results
+7. Explain the importance of sensitivity in probabilistic models for robustness
+8. Distinguish between discrete and continuous probability models in the context of the lecture series
 ## Prerequisites
 
-- Basic familiarity with probability theory, including random variables, discrete probability distributions, expected value, and independence.
-- Understanding of optimization techniques, including finding minima of functions using derivatives.
-- Familiarity with the five step method for mathematical modeling as used in previous lectures of this series.
-- Ability to interpret sensitivity analysis using relative change formulas.
-## Introduction to Probability Models and Review of Discrete Probability
+- Basic understanding of probability (random variables, probability distributions, expected value, independence)
+- Familiarity with calculus (derivatives) for optimization
+- Experience with mathematical modeling or optimization problems (helpful but not required)
+## Introduction and Course Context
 
-This section marks the transition from deterministic dynamical systems to stochastic (random) models. Probability models incorporate ideas from optimization and dynamical systems, but now the outcomes are uncertain. We assume you have a basic familiarity with probability; we will review the essential concepts and then apply them to a manufacturing quality control problem.
+This section marks the beginning of the third major unit in your study of mathematical modeling. You have concluded your discussion of dynamic systems, which remains an open area of investigation, and now you will transition into probability models. Probability models incorporate many ideas from optimization and dynamical systems, and you will carry those concepts forward into stochastic (random) models.
 
-### 1. Review of Discrete Probability
 
-A **random variable** \(X\) is a quantity whose value is determined by the outcome of a random experiment. In a **discrete probability distribution**, \(X\) can take on only a finite number of distinct values (states). For example, rolling a fair six‑sided die gives six possible states: 1, 2, 3, 4, 5, 6.
+![A mathematical expression X ∈ {x1, ..., xn}, n ≥ 1 is written on a dark background.](frames/frame_01_140s.jpg)
+*[02:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=140s) A mathematical expression X ∈ {x1, ..., xn}, n ≥ 1 is written on a dark background.*
 
-Let the possible values of \(X\) be \(x_1, x_2, \dots, x_N\). For each state \(x_i\) we assign a **probability** \(p_i = P(X = x_i)\). Each probability satisfies \(0 \le p_i \le 1\). Because we assume we know all possible states, the probabilities must sum to 1:
 
-\[
-\sum_{i=1}^{N} p_i = 1
-\]
+### The Cascading Structure of Mathematical Modeling
 
-This is the **completeness of information** assumption: every possible outcome is accounted for, and any outcome not in the list has probability zero.
+This transition mirrors what you did in the previous lecture on data fitting. In that lecture, you saw that all ideas developed for optimization could be carried over into data fitting. Now you will see a similar cascading effect: optimization ideas flow into dynamical systems, and those ideas then flow into probability models. This cascading structure is the unifying idea of applied mathematics: you use whatever tool is necessary for the job.
 
-#### Expected Value (Mean)
+### Course Focus on Modeling
 
-The **expected value** (or mean) of a discrete random variable \(X\) is the weighted average of its possible values, weighted by their probabilities:
-
-\[
-E[X] = \sum_{i=1}^{N} p_i \, x_i
-\]
-
-For a fair die, each \(p_i = \frac{1}{6}\) and \(x_i = i\). Then
-
-\[
-E[X] = \frac{1}{6}(1+2+3+4+5+6) = 3.5
-\]
-
-The set \(\{p_1, p_2, \dots, p_N\}\) is called the **probability distribution** of \(X\).
-
-#### Independence
-
-Two random variables \(Y\) and \(Z\) (each with a finite number of states) are **independent** if the probability that \(Y\) takes a particular value \(y\) and \(Z\) takes a particular value \(z\) equals the product of their individual probabilities:
-
-\[
-P(Y = y \text{ and } Z = z) = P(Y = y) \cdot P(Z = z)
-\]
-
-For example, rolling two separate fair dice: the probability of a 2 on the first die and a 1 on the second die is \(\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}\). The outcome of one die does not affect the other.
-
-### 2. A Discrete Probability Model: Quality Control for Diodes
-
-We now apply these ideas to a real‑world optimization problem.
-
-#### Problem Setup
-
-You work at an electronics manufacturing firm that produces diodes. Quality control engineers want to detect faulty diodes before shipping. It is estimated that **0.3%** of all diodes produced are faulty (probability \(p = 0.003\)). The faults appear completely at random; there is no pattern.
-
-Testing every diode individually is expensive: it costs **5 cents per diode**. To reduce cost, you can test diodes in **batches** (groups). The testing procedure is:
-
-- Test a batch of \(n\) diodes together as a group. The cost for this group test is **4 cents plus 1 cent per diode** in the batch, i.e., \(4 + n\) cents.
-- If the group test passes (no faulty diodes in the batch), the entire batch is shipped. No further testing is needed.
-- If the group test fails (at least one faulty diode in the batch), you must then test each diode in the batch individually at **5 cents per diode**. This individual testing cost is added **on top of** the group test cost.
-
-#### Decision Variable and Random Outcome
-
-Let  
-
-- \(n\) = number of diodes per test group (the decision variable you can choose).  
-- \(c\) = testing cost for a group (a random variable, because it depends on whether the group contains a faulty diode).  
-- \(a\) = **average testing cost per diode** (in cents). This is an expected value, not a random quantity.
-
-#### Cost Structure
-
-| Scenario | Cost for a group of \(n\) diodes |
-|----------|----------------------------------|
-| No faulty diodes in the group | \(4 + n\) cents |
-| At least one faulty diode in the group | \((4 + n) + 5n = 4 + 6n\) cents |
-
-#### Expected Cost per Diode
-
-If \(n = 1\), you are testing each diode individually. The cost per diode is always 5 cents, so the average cost per diode is \(a = 5\) cents.
-
-For \(n > 1\), we need to compute the expected cost for a group and then divide by \(n\) to get the average cost per diode.
-
-Let \(X\) be the number of faulty diodes in a group of \(n\). Because faults occur independently with probability \(p = 0.003\), \(X\) follows a binomial distribution. The probability that the group contains **no faulty diodes** is
-
-\[
-P(\text{no faulty}) = (1 - p)^n
-\]
-
-The probability that the group contains **at least one faulty diode** is
-
-\[
-P(\text{at least one faulty}) = 1 - (1 - p)^n
-\]
-
-The expected cost for a group is therefore
-
-\[
-E[c] = (4 + n) \cdot (1 - p)^n + (4 + 6n) \cdot \left(1 - (1 - p)^n\right)
-\]
-
-The average testing cost per diode is
-
-\[
-a = \frac{E[c]}{n}
-\]
-
-This expression is a function of \(n\). The goal is to choose \(n\) (the batch size) that minimizes \(a\). (The actual optimization and solution will be developed later in the course.)
-
-#### Diagram: Decision Tree for One Group
-
-```
-                    ┌─ No faulty diodes ── Cost = 4 + n
-                    │   (probability (1-p)^n)
-Start group test ──┤
-                    │
-                    └─ At least one faulty ── Cost = 4 + 6n
-                        (probability 1 - (1-p)^n)
-```
-
-### Check Your Understanding
-
-1. **Define a discrete random variable and give an example not from the video.**  
-   <details><summary>Answer</summary> A discrete random variable takes on a finite number of distinct values. Example: the number of heads when flipping a coin three times (possible values 0, 1, 2, 3).</details>
-
-2. **Why must the probabilities of all possible outcomes of a discrete random variable sum to 1?**  
-   <details><summary>Answer</summary> Because the set of all possible outcomes is assumed to be complete; the total probability of all outcomes must account for 100% of the possibilities.</details>
-
-3. **In the diode example, what is the expected cost per diode when \(n = 2\)? (Use \(p = 0.003\).)**  
-   <details><summary>Answer</summary>  
-   \((1-p)^2 = (0.997)^2 \approx 0.994009\).  
-   Expected group cost = \((4+2)\times 0.994009 + (4+12)\times (1-0.994009) = 6\times 0.994009 + 16\times 0.005991 \approx 5.964054 + 0.095856 = 6.05991\) cents.  
-   Average per diode = \(6.05991 / 2 \approx 3.02996\) cents.  
-   (This is lower than the 5 cents per diode for individual testing, illustrating the potential benefit of batch testing.)</details>
-
-4. **If two random variables are independent, what does that imply about the probability of both taking specific values?**  
-   <details><summary>Answer</summary> The probability that both take those specific values equals the product of their individual probabilities: \(P(Y=y \text{ and } Z=z) = P(Y=y) \cdot P(Z=z)\).</details>
-## Modeling a Quality Control Problem for Diode Testing
-
-In this section you will build a discrete probability model to minimize the average testing cost per diode in a factory. The problem is to decide how many diodes to test together as a single batch. You will compute the expected cost, simplify the expression, and then find the optimal batch size.
-
-### Problem Setup
-
-You are the manager of a diode assembly line. Each diode has a 0.3% chance of being faulty (0.003 probability of fault). Diodes are independent: the condition of one diode does not affect the condition of any other. You have a testing machine that can test a batch of diodes all at once. The costs are:
-
-- Base cost to run the machine: 4 cents per batch (regardless of batch size).
-- Per‑diode testing cost: 1 cent per diode in the batch.
-- If a batch contains at least one faulty diode, you must replace every diode in that batch. Replacement costs 5 cents per diode.
-
-Let \(N\) be the number of diodes in a batch. Let \(C\) be the total testing cost for one batch (in cents). The quantity you want to minimize is the average cost per diode:
-
-\[
-A = \frac{\text{average value of } C}{N} = \frac{E[C]}{N}
-\]
-
-where \(E[C]\) is the expected value (average) of \(C\).
-
-### Step 1: Identify the Two Possible Outcomes
-
-A batch can be in one of two states:
-
-1. **No faulty diodes**: all \(N\) diodes are good.
-2. **At least one faulty diode**: the batch contains one or more faults.
-
-These two outcomes cover all possibilities. Let \(P\) be the probability that the batch has no faulty diodes. Then the probability that the batch has at least one faulty diode is \(1 - P\).
-
-### Step 2: Compute the Probability \(P\)
-
-Because each diode is independent and has a 99.7% chance of being good (0.997), the probability that all \(N\) diodes are good is:
-
-\[
-P = 0.997^N
-\]
-
-This follows from the multiplication rule for independent events: the probability that all \(N\) independent events occur is the product of their individual probabilities.
-
-### Step 3: Write the Expected Value \(E[C]\)
-
-The cost \(C\) depends on the outcome:
-
-- If the batch has no faults: cost = base cost + per‑diode testing cost = \(4 + N\) cents.
-- If the batch has at least one fault: cost = base cost + per‑diode testing cost + replacement cost for all diodes = \(4 + N + 5N = 4 + 6N\) cents.
-
-The expected value is the sum of each cost multiplied by its probability:
-
-\[
-E[C] = (4 + N) \cdot P + (4 + 6N) \cdot (1 - P)
-\]
-
-Substitute \(P = 0.997^N\):
-
-\[
-E[C] = (4 + N) \cdot 0.997^N + (4 + 6N) \cdot (1 - 0.997^N)
-\]
-
-### Step 4: Simplify the Expression
-
-Expand and combine like terms:
-
-\[
-\begin{aligned}
-E[C] &= (4 + N)0.997^N + (4 + 6N) - (4 + 6N)0.997^N \\
-&= (4 + 6N) + \left[(4 + N) - (4 + 6N)\right]0.997^N \\
-&= (4 + 6N) + (4 + N - 4 - 6N)0.997^N \\
-&= (4 + 6N) + (-5N)0.997^N \\
-&= 4 + 6N - 5N \cdot 0.997^N
-\end{aligned}
-\]
-
-### Step 5: Obtain the Average Cost Per Diode \(A\)
-
-Divide \(E[C]\) by \(N\):
-
-\[
-A(N) = \frac{4 + 6N - 5N \cdot 0.997^N}{N} = \frac{4}{N} + 6 - 5 \cdot 0.997^N
-\]
-
-Now \(A\) is a deterministic function of the batch size \(N\). Your goal is to find the integer \(N\) that minimizes \(A(N)\).
-
-### Step 6: Optimize
-
-This is a single‑variable optimization problem. You can find the minimum by taking the derivative of \(A(N)\) with respect to \(N\) (treating \(N\) as continuous) and setting it to zero, or by evaluating \(A(N)\) for small integer values. The result is:
-
-- Optimal batch size: \(N = 17\) diodes.
-- Minimum average cost: \(A(17) = 1.48\) cents per diode.
-
-### Interpretation
-
-If you test diodes in batches of 17, the average testing cost per diode is about 1.48 cents. This is lower than testing each diode individually (which would cost 1 cent per diode for testing plus the occasional replacement cost) or testing very large batches (where the replacement cost for a faulty batch becomes high). The model shows that grouping diodes into batches of 17 balances the fixed machine cost, the per‑diode testing cost, and the risk of having to replace an entire batch.
-
-### Summary of Key Concepts
-
-| Concept | Definition |
-|---------|------------|
-| Discrete probability model | A model where outcomes are countable and each outcome has a probability. |
-| Expected value \(E[X]\) | The average value of a random variable, computed as sum of (outcome × probability). |
-| Independence | Two events are independent if the occurrence of one does not affect the probability of the other. |
-| Optimization | Finding the input value that minimizes (or maximizes) a function. |
-
-### Check Your Understanding
-
-1. Why is the probability that a batch has no faulty diodes equal to \(0.997^N\) and not \(0.997 \times N\)?
-
-<details><summary>Answer</summary>Because the diodes are independent. The probability that all \(N\) are good is the product of the individual probabilities: \(0.997 \times 0.997 \times \dots\) (N times) = \(0.997^N\). Multiplying by \(N\) would be incorrect; that would represent the sum of probabilities, not the joint probability.</details>
-
-2. In the expression for \(E[C]\), why is the cost for a faulty batch \(4 + 6N\) instead of \(4 + N + 5\)?
-
-<details><summary>Answer</summary>When a batch is faulty, every diode must be replaced. Replacement costs 5 cents per diode, so for \(N\) diodes the replacement cost is \(5N\) cents. Adding the base cost (4) and the per‑diode testing cost (1 per diode, total \(N\)) gives \(4 + N + 5N = 4 + 6N\).</details>
-
-3. Suppose the probability of a faulty diode were 1% instead of 0.3%. Would you expect the optimal batch size to be larger or smaller than 17? Explain briefly.
-
-<details><summary>Answer</summary>Smaller. A higher fault probability increases the chance that a batch contains at least one fault, making large batches more risky (higher expected replacement cost). To reduce that risk, you would test smaller batches, so the optimal \(N\) would be less than 17.</details>
-
-4. What is the practical meaning of the term \(5 \cdot 0.997^N\) in the formula for \(A(N)\)?
-
-<details><summary>Answer</summary>It represents the expected savings per diode from the fact that a batch with no faults avoids the replacement cost. The term \(5 \cdot 0.997^N\) is subtracted from the baseline cost \(4/N + 6\). As \(N\) increases, \(0.997^N\) decreases, so the savings shrink, eventually causing the average cost to rise.</details>
-## Setting Up the Expected Value and Probability Calculations
-
-In this section, you will learn how to perform sensitivity analysis on the expected value model for diode testing. You will compute how changes in the estimated probability of a faulty diode affect the average cost per diode. This analysis confirms whether your optimal batch size is robust to estimation errors.
-
-### Sensitivity to Batch Size Constraints
-
-
-
-The probability that diodes actually fail affects the cost. If a diode is faulty, testing costs more than 1 cent per diode. It costs 5 cents to test each diode in a batch of 17.
-
-You can perform sensitivity analysis just as you did with optimization and dynamic systems earlier in the course. Sensitivity analysis is an integral part of mathematical modeling.
-
-Consider that the factory might only allow testing in batches of 5 or 10. You cannot always test 17 at a time. If diodes come in sets of 5, you would need to move to 15 or 20 at a time.
-
-If you sketch the cost function or plot it in Desmos or another graphing tool, you will see that the function is flat around the minimum. This flatness means you have a lot of wiggle room. Even going down to 15 diodes per batch does not increase the minimum cost by a large amount. This observation is itself a sensitivity computation. It tells you that if you do not get exactly 17 in every batch, you still have wiggle room and it will not cost much more.
-
-### Interrogating the Probability of Faulty Diodes
-
-
-
-Let Q represent the probability of a faulty diode. In the original model, Q was 0.3 percent, or 0.003. This value appears in the cost function.
-
-The average cost A can be written as:
-
-A = (4 / N) + 6 - 5 * (1 - Q)^N
-
-When Q equals 0.003, the term (1 - Q)^N equals 0.997, which matches the original model.
-
-You want to interrogate the sensitivity of the model with respect to this probability Q. The estimate that 0.3 percent of diodes are faulty is just an estimation. It is not necessarily true. You need to see how robust the model is.
-
-This is still an optimization problem. There was probability involved originally, but you used an expected value to remove that probability and arrive at a standard optimization problem, the same type you started the course with.
-
-### Computing Sensitivity of A with Respect to Q
-
-
-
-At N equal to 17, you can compute sensitivities. The sensitivity of A with respect to Q uses the formula:
-
-Sensitivity = (dA / dQ) * (Q / A)
-
-This formula gives the relative change in A for a given relative change in Q.
-
-For this model, the sensitivity is approximately 0.16. This is a very small number. For every 1 percent change in Q, there is only a 0.1 percent change in A.
-
-This is a fantastic robustness computation. Because the sensitivity number is so tiny, changing Q does not have a large effect on changing A. You have a lot of wiggle room. Even if you did not estimate the probability of 0.3 percent exactly right, the model is very insensitive or inelastic.
-
-### Why Sensitivity Matters for Real Data
-
-
-
-This value Q will always be an estimation. The best you can do is take historical data. For example, you could look at all diodes sent out last year and find that 0.2997 percent turned out to be faulty. That is where you estimate this probability.
-
-This is exactly the type of situation where sensitivity analysis is important. Maybe last year was a slightly skewed year. Perhaps you actually have far fewer faulty diodes, but there was some weird humidity in the factory that caused a few more failures than usual.
-
-What you are seeing here is an extremely insensitive model to the value of Q. This means your optimal batch size of 17 is robust even if your estimate of the fault probability is off.
-
-### Looking Ahead
-
-The next lecture in this series covers continuous probability models. This section used a discrete probability model. It came from the fact that you had discrete values of N to choose from, and there were only two probabilities at play: either every diode works or at least one is faulty. In the next lecture, you will consider when values can take on a continuum, such as when something is less than a certain value but could be anything less.
-
-### Check Your Understanding
-
-1. What does a sensitivity value of 0.16 for A with respect to Q tell you about the model?
-
-<details><summary>Answer</summary>
-A sensitivity of 0.16 means that for every 1 percent change in Q (the probability of a faulty diode), the average cost A changes by only 0.16 percent. This indicates the model is very insensitive to changes in Q, meaning the optimal batch size is robust even if the estimate of Q is slightly wrong.
-</details>
-
-2. Why is it important to perform sensitivity analysis on the probability Q in this diode testing model?
-
-<details><summary>Answer</summary>
-The probability Q is always an estimate based on historical data. Historical data can be skewed by unusual conditions, such as humidity in the factory. Sensitivity analysis tells you whether a small error in estimating Q would significantly change the optimal batch size or the average cost. In this case, the model is insensitive, so estimation errors are not a problem.
-</details>
-
-3. How does the shape of the cost function near its minimum relate to sensitivity?
-
-<details><summary>Answer</summary>
-The cost function is flat around its minimum. This flatness means that even if you cannot use exactly 17 diodes per batch (for example, if batches must be in multiples of 5), moving to 15 or 20 does not increase the cost much. This is a form of sensitivity analysis that shows the model has wiggle room.
-</details>
-
-4. Write the formula for the average cost A in terms of N and Q, and explain what each term represents.
-
-<details><summary>Answer</summary>
-A = (4 / N) + 6 - 5 * (1 - Q)^N
-
-- (4 / N): The fixed cost of testing (4 cents) divided by the batch size N.
-- 6: The base cost per diode (6 cents) if no testing is done.
-- 5 * (1 - Q)^N: The expected savings from testing, where 5 cents is saved per diode if no diode in the batch is faulty, and (1 - Q)^N is the probability that all N diodes are good.
-</details>
-## Deriving the Average Cost Function and Finding the Optimal Batch Size
-
-### The transition from dynamic systems to probability models
-
-This lecture begins the third major unit of the course: probability models. The earlier units covered optimization and dynamical systems, and those ideas carry forward into stochastic models. Probability is not a replacement for the earlier tools. Instead, probability provides a way to describe randomness, and then optimization and sensitivity analysis are used to make decisions under that randomness. This is the same pattern seen in the data fitting lecture, where optimization ideas from the beginning of the course were reused.
-
-### Probability refresher
-
-Before building the model, the video reviews the probability concepts needed for the example.
-
-#### Random variables and discrete probability distributions
-
-A random variable, denoted X, is a quantity whose value is the outcome of a random process. In this section, X follows a discrete probability distribution, meaning X can take on only a finite number of states. For example, rolling a standard die gives six possible states: 1, 2, 3, 4, 5, and 6.
-
-For each possible state, there is a probability, denoted P_i, that X equals that state. Each probability satisfies:
-
-- 0 ≤ P_i ≤ 1, where 0 means impossible and 1 means certain.
-- The sum of all probabilities equals 1: P_1 + P_2 + ... + P_N = 1.
-
-The second condition is a completeness assumption. It says that all possible outcomes have been accounted for. If a standard die is rolled, the probability of rolling a 7 is 0, so 7 is not included as a state. The list of probabilities, P_1, P_2, ..., P_N, is called the probability distribution of X.
-
-#### Expected value
-
-The mean or expected value of X, written E[X], is a weighted average of the possible states. The formula is:
-
-E[X] = P_1 * X_1 + P_2 * X_2 + ... + P_N * X_N
-
-For a fair six-sided die, each P_i is 1/6, so:
-
-E[X] = (1/6)(1) + (1/6)(2) + (1/6)(3) + (1/6)(4) + (1/6)(5) + (1/6)(6) = 3.5
-
-The expected value is 3.5 because every outcome is equally likely, so the average is the midpoint of 1 and 6.
-
-#### Independence
-
-Two random variables, Y and Z, drawn from discrete distributions are independent if the probability that Y takes on one value and Z takes on another value is the product of their individual probabilities:
-
-P(Y = i and Z = j) = P(Y = i) * P(Z = j)
-
-For example, if Y and Z are both fair six-sided dice, then:
-
-P(Y = 2 and Z = 1) = (1/6)(1/6) = 1/36
-
-The result on one die does not affect the result on the other. Independence is what allows probabilities to be multiplied in the diode model below.
-
-### The diode testing problem
-
-#### Problem setup
-
-Imagine an electronics manufacturer that produces diodes. Quality control engineers want to detect faulty diodes before shipping them. It is estimated that about 0.3 percent of all diodes are faulty, which as a probability is 0.003. The faulty diodes appear at random, so there is no way to predict which diodes are bad.
-
-Two testing strategies are available:
-
-1. Test every diode individually. This costs 5 cents per diode.
-2. Test diodes in batches. Testing a batch of n diodes costs a base price of 4 cents plus 1 cent per diode, so the cost is 4 + n cents. If the entire batch is good, the batch passes. If at least one diode in the batch is faulty, then each diode in the batch must be tested individually, adding 5 cents per diode on top of the batch test.
-
-The goal is to choose the batch size n that minimizes the average testing cost per diode. The following diagram shows the decision flow:
-
-```
-For each batch of n diodes:
-   Machine tests the whole batch (cost 4 + n cents)
-        |
-        v
-   Are all n diodes good?
-      /          \
-     yes          no
-    /              \
-Pass the batch   Test each diode individually
-(cost 4 + n)     (extra cost 5n cents)
-                 total cost 4 + n + 5n = 4 + 6n
-```
-
-#### Model variables
-
-| Variable | Meaning |
-| --- | --- |
-| n | Number of diodes in each test batch, the decision variable |
-| C | Testing cost for one group of n diodes, a random outcome |
-| A | Average testing cost in cents per diode, equal to E[C] / n |
-| Q | Probability that a single diode is faulty, initially 0.003 |
-| P | Probability that a batch of n diodes contains no faulty diodes |
-
-C is random because the cost depends on whether the batch contains a faulty diode. A is not random; it is the expected value of C divided by n.
-
-#### Cost when n = 1
-
-If n = 1, each diode is tested individually, so the average cost per diode is A = 5 cents. There is no batch of size greater than 1, so the outcome is simply the individual testing cost.
-
-#### Cost when n > 1
-
-For a batch of size n, there are two possible outcomes:
-
-- No faulty diodes in the batch. The cost is only the batch test cost: 4 + n cents.
-- At least one faulty diode in the batch. The batch test is needed first, then every diode in the batch is tested individually. The total cost is:
-
-4 + n + 5n = 4 + 6n cents
-
-The expected value of C will combine these two costs with their probabilities.
-
-#### Computing the probability that a batch is good
-
-Since 0.3 percent of diodes are faulty, the probability that one diode is good is:
-
-1 - 0.003 = 0.997
-
-So a single diode is good with probability 0.997. Because each diode is independent, the probability that all n diodes in a batch are good is the product of n individual good probabilities:
-
-P = 0.997^n
-
-The probability that at least one diode in the batch is faulty is therefore:
-
-1 - P = 1 - 0.997^n
-
-There are only two possibilities for a batch: either all diodes are good, or at least one is faulty. The two probabilities add to 1, so all possible outcomes are accounted for.
-
-#### Expected cost for a group
-
-The expected value of C is the sum of each possible cost multiplied by its probability:
-
-E[C] = (4 + n) * 0.997^n + (4 + 6n) * (1 - 0.997^n)
-
-This expression can be simplified by expanding the second term:
-
-E[C] = (4 + n) * 0.997^n + (4 + 6n) - (4 + 6n) * 0.997^n
-
-Combine the two terms that contain 0.997^n:
-
-E[C] = 4 + 6n + [(4 + n) - (4 + 6n)] * 0.997^n
-
-Since (4 + n) - (4 + 6n) = -5n, this becomes:
-
-E[C] = 4 + 6n - 5n * 0.997^n
-
-#### Average cost per diode
-
-The average testing cost per diode, A, is the expected cost per group divided by the number of diodes in the group:
-
-A = E[C] / n
-
-Substitute the simplified expected cost:
-
-A(n) = (4 + 6n - 5n * 0.997^n) / n
-
-Divide each term by n:
-
-A(n) = 4/n + 6 - 5 * 0.997^n
-
-This is the average cost function. It is now a deterministic function of the batch size n, so the randomness has been removed by taking the expected value.
-
-### Finding the optimal batch size
-
-To minimize A(n), take the derivative with respect to n and set it equal to 0. The derivative is (added context):
-
-A'(n) = -4/n^2 - 5 * ln(0.997) * 0.997^n
-
-Since ln(0.997) is negative, the second term is positive, so A'(n) increases as n grows. Setting A'(n) = 0 and solving numerically gives:
-
-n ≈ 17
-
-At n = 17, the average cost is:
-
-A(17) = 4/17 + 6 - 5 * 0.997^17 ≈ 1.48 cents per diode
-
-So the optimal policy is to organize the diodes into batches of 17. The batch machine test for 17 diodes costs 4 + 17 = 21 cents. Most batches will pass, and the average cost across all diodes, including the rare batches that need individual retesting, is about 1.48 cents per diode.
-
-### Sensitivity analysis
-
-Sensitivity analysis asks how much the optimal result changes when assumptions change. There are two important sensitivity questions for this model.
-
-#### Sensitivity to practical batch size restrictions
-
-The optimal batch size 17 may not be practical if the factory can only test batches in multiples of 5. In that case, n = 15 or n = 20 would be natural alternatives. The cost curve is fairly flat near the minimum, so choosing 15 or 20 instead of 17 does not increase the average cost by much. This gives the factory some flexibility in how batches are organized.
-
-#### Sensitivity to the fault probability Q
-
-The 0.3 percent fault rate is an estimate, so it is worth asking how sensitive A is to changes in Q. Rewrite the average cost function using Q as the faulty diode probability:
-
-A(n) = 4/n + 6 - 5 * (1 - Q)^n
-
-When Q = 0.003, 1 - Q = 0.997.
-
-The sensitivity of A with respect to Q is measured by the relative change formula:
-
-S(A, Q) = (dA/dQ) * (Q/A)
-
-This value gives the percentage change in A for a 1 percent change in Q. At n = 17:
-
-- dA/dQ = 5n * (1 - Q)^(n-1) ≈ 81.06
-- Q/A ≈ 0.003 / 1.4813 ≈ 0.002025
-- S(A, Q) ≈ 81.06 * 0.002025 ≈ 0.16
-
-A sensitivity of about 0.16 means that a 1 percent increase in Q produces only a 0.16 percent increase in A. The model is very insensitive to Q. If the true fault probability is somewhat higher or lower than 0.3 percent, the average cost per diode stays nearly the same.
-
-This insensitivity is valuable because Q is always an estimate. It might be obtained from historical data, such as the fraction of diodes that failed in previous production runs. A past year could have been unusual because of humidity or other factory conditions. The low sensitivity means the recommended batch size remains reasonable even if the estimate is not exact.
-
-### Summary
-
-The diode testing example is a discrete probability model. The process has a finite set of outcomes for each batch: either no faulty diodes, or at least one faulty diode. By taking an expected value, the random cost C was converted into a deterministic function A(n). Minimizing A(n) gave an optimal batch size of 17 and an average cost of about 1.48 cents per diode. The sensitivity analysis showed that the optimal solution is robust both to batch size restrictions and to errors in the estimated fault probability.
-
-### Check your understanding
-
-1. Why is the probability that a batch of n diodes contains no faulty diodes equal to 0.997^n?
-
-<details>
-<summary>Answer</summary>
-Each diode has probability 0.997 of being good, and the condition of each diode is independent of the others. Independent probabilities are multiplied together, so the probability that all n diodes are good is 0.997 multiplied by itself n times, which is 0.997^n.
-</details>
-
-2. Write the expected testing cost E[C] for a group of n diodes before simplifying, and then give the simplified form.
-
-<details>
-<summary>Answer</summary>
-Before simplifying:
-
-E[C] = (4 + n) * 0.997^n + (4 + 6n) * (1 - 0.997^n)
-
-Simplified:
-
-E[C] = 4 + 6n - 5n * 0.997^n
-</details>
-
-3. The sensitivity of A to Q is about 0.16. If Q increases by 1 percent, what percent change in A do you expect?
-
-<details>
-<summary>Answer</summary>
-A is expected to increase by about 0.16 percent. A 1 percent change in Q causes approximately a 0.16 percent change in A.
-</details>
-
-4. Why is it acceptable that the factory cannot test exactly 17 diodes per batch, for example if batches must be multiples of 5?
-
-<details>
-<summary>Answer</summary>
-The average cost curve is flat near the minimum, so choosing a nearby batch size such as 15 or 20 increases the average cost only slightly. The optimal solution is not sensitive to small changes in n.
-</details>
-## Sensitivity Analysis with Respect to Batch Size and Fault Probability
-
-This section covers how to analyze the sensitivity of an optimal batch testing strategy to changes in the estimated fault probability. You will learn how to compute the sensitivity of the average testing cost to changes in the fault probability and interpret the results.
+This is a course on mathematical modeling, not on dynamical systems. Therefore, you will discuss another aspect of mathematical modeling: discrete probability models. The course assumes you have some basic idea of how probabilities work from a mathematical perspective. However, this does not mean the instructor will skip introducing topics. Every piece you need will be explained, but the course will not go into full detail about certain aspects of probability theory because basic familiarity is assumed. As with everything in this class, the focus bends toward the modeling aspect. Probability here is the tool, but the goal is to do modeling.
 
 ### Review of Discrete Probability Basics
 
-Before building the model, recall three fundamental concepts from discrete probability.
+A random variable, denoted as X, is a variable whose possible values are numerical outcomes of a random phenomenon. A discrete probability distribution means that X can take on one of only finitely many states.
 
-**Random variable and discrete probability distribution.** A random variable X can take on one of only finitely many states. For example, rolling a six-sided die gives six possible states (1 through 6). Each state has a probability P_i between 0 and 1. The sum of all probabilities equals 1, meaning all possible outcomes are accounted for.
+The on-screen text at 02:20 shows the mathematical expression:
 
-**Expected value (mean).** The expected value E[X] is the weighted average of all possible outcomes:
+```
+X ∈ {x1, ..., xn}, n ≥ 1
+```
 
-E[X] = sum from i=1 to N of P_i * X_i
+This expression means:
+- X is a random variable.
+- X can take on values from the set {x1, x2, ..., xn}.
+- The set contains n possible values, where n is greater than or equal to 1.
+- Each xi represents a distinct possible outcome or state that X can assume.
 
-For a fair six-sided die, each P_i = 1/6, so E[X] = (1/6)(1+2+3+4+5+6) = 3.5.
+(Added context: In a discrete probability model, each possible value xi has an associated probability P(X = xi) that is greater than or equal to 0, and the sum of all probabilities equals 1.)
 
-**Independence.** Two random variables Y and Z are independent if the probability that Y takes value i and Z takes value j equals the product of their individual probabilities:
+### Check your understanding
 
-P(Y=i and Z=j) = P(Y=i) * P(Z=j)
+1. What is the relationship between optimization, dynamical systems, and probability models in this course?
 
-For example, rolling two independent six-sided dice: the probability of rolling a 2 on the first die and a 1 on the second die is (1/6)*(1/6) = 1/36.
+<details><summary>Answer</summary>Ideas from optimization flow into dynamical systems, and those ideas then flow into probability models. This cascading structure is a unifying theme of applied mathematics.</details>
 
-### The Diode Testing Problem
+2. What does the expression X ∈ {x1, ..., xn}, n ≥ 1 tell you about the random variable X?
 
-You work at an electronics manufacturing firm that produces diodes. Quality control engineers want to detect faulty diodes before shipping. The problem is to minimize the average testing cost per diode.
+<details><summary>Answer</summary>X is a discrete random variable that can take on one of n possible values (x1 through xn), where n is at least 1. The set of possible values is finite.</details>
 
-**Known parameters:**
-- 0.3% of diodes are faulty (probability q = 0.003)
-- 99.7% of diodes are good (probability 1 - q = 0.997)
-- Testing one diode individually costs 5 cents
-- Testing a batch of n diodes costs 4 + n cents (4 cents base plus 1 cent per diode)
-- If a batch contains any faulty diode, you must then test each diode individually at 5 cents per diode
+3. Why does the course assume basic familiarity with probability rather than teaching probability theory from scratch?
 
-**Decision variable:** n = number of diodes per test group (batch size)
+<details><summary>Answer</summary>The course focuses on mathematical modeling, not on probability theory itself. Probability is treated as a tool for modeling. The instructor will explain every piece needed but will not go into full detail about probability theory because basic familiarity is assumed.</details>
+## Review of Discrete Probability Basics
 
-**Random variable:** C = testing cost for a group (depends on whether the group contains faulty diodes)
+This section reviews the fundamental concepts of discrete probability: random variables, probability distributions, expected value, and independence. These concepts are the foundation for modeling and optimizing a diode testing problem later in the course.
 
-**Objective:** Minimize A = average testing cost per diode = E[C] / n
+### Discrete Random Variables and Probability
 
-### Computing the Expected Cost
+A **discrete random variable** is a variable that can take only a finite number of distinct values. Each possible value is called a **state**.
 
-The expected cost E[C] depends on two possible outcomes:
 
-1. The group contains no faulty diodes (probability P)
-2. The group contains at least one faulty diode (probability 1 - P)
+![The frame shows the definition of a random variable X as a set of values x1 to xn, where n is greater than 1, and the probability P(X=xi) is equal...](frames/frame_02_200s.jpg)
+*[03:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=200s) The frame shows the definition of a random variable X as a set of values x1 to xn, where n is greater than 1, and the probability P(X=xi) is equal to pi.*
 
-**Step 1: Find P, the probability that all n diodes in a batch are good.**
 
-Since each diode is independent and has a 0.997 probability of being good:
+The frame shows the definition of a random variable \(X\) as a set of values \(x_1\) to \(x_n\), where \(n > 1\), and the probability \(P(X = x_i)\) is equal to \(p_i\).
 
-P = (0.997)^n
+On-screen text:
 
-**Step 2: Write the expected value formula.**
+```
+X ∈ {x1, ..., xn}, n > 1
+P(X=xi) = pi
+```
 
-E[C] = (cost if no faults) * P + (cost if at least one fault) * (1 - P)
+For example, rolling a standard six-sided die gives six possible states: the numbers 1 through 6. Here, \(n = 6\). The random variable \(X\) is the number shown on the die after rolling.
 
-Cost if no faults = 4 + n (just the batch test)
-Cost if at least one fault = (4 + n) + 5n = 4 + 6n (batch test plus individual testing of all n diodes)
+Each probability \(p_i\) (the probability that \(X\) takes the value \(x_i\)) must satisfy:
 
-Therefore:
+- \(0 \leq p_i \leq 1\). A probability of 1 means the outcome is certain. A probability of 0 means it is impossible. Values in between (e.g., 0.5, 0.75) correspond to percentages.
 
-E[C] = (4 + n) * (0.997)^n + (4 + 6n) * (1 - (0.997)^n)
 
-**Step 3: Simplify the expression.**
+![The frame shows mathematical notation for a discrete random variable X, its probability P(X=xi)=pi, and the sum of probabilities p1+p2+...+pn=1.](frames/frame_03_240s.jpg)
+*[04:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=240s) The frame shows mathematical notation for a discrete random variable X, its probability P(X=xi)=pi, and the sum of probabilities p1+p2+...+pn=1.*
 
-E[C] = 4 + 6n - 5n * (0.997)^n
 
-**Step 4: Compute the average cost per diode.**
+The frame shows the mathematical notation for a discrete random variable \(X\) and the condition that the sum of all probabilities equals 1.
 
-A(n) = E[C] / n = (4/n) + 6 - 5 * (0.997)^n
+On-screen text:
 
-### Finding the Optimal Batch Size
+```
+X∈{x1...,xn}, n≥1
+P(X=xi) = pi
+p1+p2+...+pn=1
+```
 
-To minimize A(n), take the derivative with respect to n and set it equal to zero. The result is:
+The sum of all probabilities must equal 1. This is the **completeness of information** assumption. It means that every possible outcome the random variable can take is accounted for. If you only listed states 1 through 5 for a die, but a 6 could appear, then the information would be incomplete. The sum would be less than 1, and the model would be wrong.
 
-Optimal batch size n = 17
-Minimum average cost A = 1.48 cents per diode
+States with probability zero, such as rolling a 7 on a standard die, are not included in the set of possible states. Only states with positive probability (or potentially positive) are listed.
 
-This means you should organize diodes into batches of 17. The machine tests each batch for 21 cents (4 base plus 17 cents). Most batches pass, but when a batch fails, you pay 5 cents per diode to test all 17 individually.
+### Expected Value (Mean)
 
-### Sensitivity to Batch Size Constraints
+The **expected value** (also called the mean) of a discrete random variable \(X\) is a weighted average of its possible values, where the weights are the probabilities. It is denoted \(E(X)\).
 
-The factory may only allow batch sizes in multiples of 5 (e.g., 15 or 20). The function A(n) is flat near the minimum, so moving to n=15 or n=20 increases the average cost only slightly. This gives you flexibility in implementation.
 
-### Sensitivity to Fault Probability
+![Mathematical formulas for probability and expected value are written on a dark background.](frames/frame_04_320s.jpg)
+*[05:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=320s) Mathematical formulas for probability and expected value are written on a dark background.*
 
-The fault probability q = 0.003 is an estimate based on historical data. You need to know how sensitive the optimal solution is to changes in this estimate.
 
-**Step 1: Rewrite A in terms of q.**
+The frame shows the formula for expected value.
 
-Since (0.997)^n = (1 - q)^n:
+On-screen text:
 
-A(n) = (4/n) + 6 - 5 * (1 - q)^n
+```
+X ∈ {x₁, ..., xₙ}, n ≥ 1
+P(X=xᵢ) = pᵢ
+p₁ + p₂ + ... + pₙ = 1
+E(X) = Σᵢ₌₁ⁿ pᵢxᵢ
+```
 
-**Step 2: Compute the sensitivity of A with respect to q at n=17.**
+The formula is:
 
-The sensitivity S(A, q) is the relative change in A divided by the relative change in q:
+\[
+E(X) = \sum_{i=1}^{n} p_i x_i
+\]
 
-S(A, q) = (dA/dq) * (q/A)
+For a fair six-sided die, each outcome has probability \(p_i = \frac{1}{6}\). The expected value is:
 
-First, compute dA/dq:
+\[
+E(X) = \frac{1}{6} \times 1 + \frac{1}{6} \times 2 + \frac{1}{6} \times 3 + \frac{1}{6} \times 4 + \frac{1}{6} \times 5 + \frac{1}{6} \times 6 = 3.5
+\]
 
-dA/dq = -5 * n * (1 - q)^(n-1) * (-1) = 5n * (1 - q)^(n-1)
+Because all outcomes are equally likely, the expected value is simply the midpoint between 1 and 6. The expected value does not have to be a possible outcome.
 
-At n=17 and q=0.003:
+### Probability Distribution
 
-dA/dq = 5 * 17 * (0.997)^16
+The collection of probabilities \(p_1, p_2, \dots, p_n\) is called the **probability distribution** of the random variable \(X\).
 
-(0.997)^16 is approximately 0.953
 
-dA/dq is approximately 5 * 17 * 0.953 = 81.0
+![Mathematical equations for probability and expected value are written on a dark background.](frames/frame_05_380s.jpg)
+*[06:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=380s) Mathematical equations for probability and expected value are written on a dark background.*
 
-Now compute S(A, q):
 
-S(A, q) = 81.0 * (0.003 / 1.48) = 81.0 * 0.00203 = 0.164
+The frame adds the label "prob. distribution" to the list of probabilities.
 
-**Step 3: Interpret the sensitivity value.**
+On-screen text:
 
-S(A, q) = 0.16 means that for every 1% change in q, A changes by only 0.16%. This is a very small sensitivity, indicating the model is robust to errors in estimating the fault probability.
+```
+X∈{x1...,xn}, n>1
+P(X=xi)=pi
+p1+p2+...+pn=1
+E(X)=∑_{i=1}^{n} pixi
+p1,p2...,pn - prob. distribution
+```
 
-### Why Sensitivity Matters
+The probability distribution completely describes the behavior of the discrete random variable.
 
-The fault probability q is always an estimate. Historical data might show 0.2997% or 0.301% faulty diodes. Factory conditions (humidity, temperature) can cause temporary fluctuations. A low sensitivity value means you can trust your optimal batch size even if the true fault probability differs slightly from your estimate.
+### Independence of Random Variables
 
-### Summary of Key Results
+Two random variables are **independent** if the outcome of one does not affect the outcome of the other. For discrete random variables, independence means that the probability of both events occurring together equals the product of their individual probabilities.
 
-| Quantity | Value |
-|----------|-------|
-| Optimal batch size n | 17 |
-| Minimum average cost A | 1.48 cents per diode |
-| Sensitivity S(A, q) | 0.16 |
-| Interpretation | 1% change in q causes 0.16% change in A |
+
+![A whiteboard displays mathematical equations for probability distributions, expected value, and the probability of independent events.](frames/frame_06_480s.jpg)
+*[08:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=480s) A whiteboard displays mathematical equations for probability distributions, expected value, and the probability of independent events.*
+
+
+The frame shows the definition of independence for two random variables \(Y\) and \(Z\).
+
+On-screen text:
+
+```
+X∈{x1...,xn}, n≥1
+IP(X=xi) = Pi
+P1+P2+...+pn=1
+E(X) = Σ(i=1 to n) Pixi
+P1,P2...,Pn - prob. distribution
+Y∈{y1,y2...}, Z∈{z1,z2...}
+IP(Y=yi and Z=zj) = P(Y=yi)IP(Z=zj)
+```
+
+Let \(Y\) and \(Z\) be two discrete random variables, each with a finite set of possible states. They are independent if and only if for every possible value \(y_i\) of \(Y\) and every possible value \(z_j\) of \(Z\):
+
+\[
+P(Y = y_i \text{ and } Z = z_j) = P(Y = y_i) \times P(Z = z_j)
+\]
+
+For example, consider two independent six-sided dice. Let \(Y\) be the result of the first die and \(Z\) be the result of the second die. The probability that \(Y\) shows a 2 is \(\frac{1}{6}\). The probability that \(Z\) shows a 1 is \(\frac{1}{6}\). Because they are independent, the probability of both happening (a 2 on the first die and a 1 on the second) is \(\frac{1}{6} \times \frac{1}{6} = \frac{1}{36}\).
+
+The random variables \(Y\) and \(Z\) may have different numbers of possible states. For instance, one could be a six-sided die and the other a twelve-sided die. The independence condition still applies: the joint probability is the product of the marginal probabilities.
 
 ### Check Your Understanding
 
-1. Why is the expected value formula for E[C] written as a weighted sum of two terms?
+1.  A discrete random variable \(X\) has possible values \(x_1 = 2\) with \(p_1 = 0.3\), \(x_2 = 5\) with \(p_2 = 0.5\), and \(x_3 = 8\) with \(p_3 = 0.2\). What is the expected value \(E(X)\)?
 
-<details><summary>Answer</summary>Because there are only two possible outcomes for a batch: either it contains no faulty diodes (probability P) or it contains at least one faulty diode (probability 1-P). The expected value is the sum of each outcome's cost multiplied by its probability.</details>
+    <details><summary>Answer</summary>
+    \(E(X) = 0.3 \times 2 + 0.5 \times 5 + 0.2 \times 8 = 0.6 + 2.5 + 1.6 = 4.7\)
+    </details>
 
-2. What does a sensitivity value of 0.16 tell you about the model's robustness?
+2.  Why must the sum of the probabilities \(p_1 + p_2 + \dots + p_n\) equal 1?
 
-<details><summary>Answer</summary>It tells you the model is very robust. A 1% change in the fault probability q causes only a 0.16% change in the average cost A. Even if the true fault probability differs from the estimate, the optimal batch size still gives nearly the same average cost.</details>
+    <details><summary>Answer</summary>
+    The sum of probabilities must equal 1 because the random variable must take one of the listed values. This ensures that 100% of possible outcomes are accounted for, which is the completeness of information assumption.
+    </details>
 
-3. If the factory can only test batches in multiples of 5, why is n=15 or n=20 acceptable?
+3.  Two fair dice are rolled: one red and one blue. Let \(Y\) be the number on the red die and \(Z\) be the number on the blue die. Are \(Y\) and \(Z\) independent? What is \(P(Y = 3 \text{ and } Z = 4)\)?
 
-<details><summary>Answer</summary>The function A(n) is flat near the minimum at n=17. Moving to n=15 or n=20 increases the average cost only slightly, so the solution is insensitive to small changes in batch size.</details>
+    <details><summary>Answer</summary>
+    Yes, the dice are independent. The outcome of one die does not affect the other. \(P(Y = 3) = \frac{1}{6}\), \(P(Z = 4) = \frac{1}{6}\). Therefore \(P(Y = 3 \text{ and } Z = 4) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36}\).
+    </details>
 
-4. How does the independence assumption affect the calculation of P?
+4.  A random variable \(X\) has possible values \(\{0, 1\}\) with probabilities \(p_0 = 0.4\) and \(p_1 = 0.6\). What is the name of the collection \(\{0.4, 0.6\}\)?
 
-<details><summary>Answer</summary>Independence allows you to multiply individual probabilities. Since each diode has a 0.997 probability of being good, the probability that all n diodes are good is (0.997)^n. Without independence, you could not simply multiply these probabilities.</details>
+    <details><summary>Answer</summary>
+    The collection \(\{0.4, 0.6\}\) is the probability distribution of the random variable \(X\).
+    </details>
+## Diode Testing Problem Setup
+
+This section introduces a practical optimization problem from electronics manufacturing. You will learn how to model a quality control process using discrete probability, define random variables for testing costs, and set up the foundation for finding the optimal batch size.
+
+### The Manufacturing Scenario
+
+Imagine you work at an electronics manufacturing firm that produces diodes. Quality control engineers want to detect faulty diodes before they are shipped to customers. The problem is that testing every diode individually is expensive, but you cannot simply skip testing because faulty products damage the company's reputation.
+
+**Key facts about the production process:**
+
+- Approximately 0.3 percent of all diodes produced are faulty.
+- Faulty diodes appear completely at random in the production stream. There is no pattern that lets you predict where they will show up.
+- You have two testing options: test every diode individually, or test batches of diodes together.
+
+### Testing Costs
+
+The video defines two cost structures:
+
+**Individual testing:** Testing one diode costs 5 cents. If you test every diode individually, you pay 5 cents per diode.
+
+**Batch testing:** Testing a batch of n diodes costs 4 cents plus 1 cent for every diode in the batch. So the batch test cost is (4 + n) cents. However, the batch test only tells you whether the batch contains at least one faulty diode. It does not tell you which diode is faulty.
+
+If the batch test reveals that the batch contains one or more faulty diodes, you must then test each diode in the batch individually at 5 cents per diode. This means the total cost for a batch that fails the group test becomes (4 + n) + 5n cents, which simplifies to (4 + 6n) cents.
+
+### Defining the Variables
+
+
+![A whiteboard displays mathematical formulas for probability distribution, expected value, and an example problem defining variables for diodes...](frames/frame_09_740s.jpg)
+*[12:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=740s) A whiteboard displays mathematical formulas for probability distribution, expected value, and an example problem defining variables for diodes, testing cost, and average testing cost.*
+
+
+The video defines three key variables for this problem:
+
+- **n** = the number of diodes per test group. This is the decision variable. You get to choose this number.
+- **C** = the testing cost for a group. This is a random outcome because it depends on whether the group contains any faulty diodes.
+- **A** = the average testing cost in cents per diode. This is not random. It is an expected value.
+
+### Understanding the Random Variable C
+
+The testing cost for a group, C, depends on whether the group contains any faulty diodes.
+
+**Case 1: n = 1**
+
+If you test each diode individually, the cost is always 5 cents per diode. There is no randomness in this case. The average testing cost A equals 5 cents per diode.
+
+
+![The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem defining variables for...](frames/frame_11_840s.jpg)
+*[14:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=840s) The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem defining variables for testing cost.*
+
+
+**Case 2: n > 1**
+
+If you test in batches larger than one, the cost C has two possible values:
+
+- If the group contains no faulty diodes, the cost is C = 4 + n. You pay only for the batch test.
+- If the group contains one or more faulty diodes, the cost is C = (4 + n) + 5n. You pay for the batch test plus individual testing of every diode in the group.
+
+
+![The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem about testing costs for...](frames/frame_13_940s.jpg)
+*[15:40](https://www.youtube.com/watch?v=7c43WFHCRac&t=940s) The whiteboard shows mathematical formulas for probability distribution and expected value, along with an example problem about testing costs for diodes.*
+
+
+### The Average Testing Cost A
+
+The average testing cost A is defined as the expected value of C divided by n, the number of diodes in the group.
+
+A = E(C) / n
+
+This gives the expected cost per diode when using batches of size n. Your goal is to choose n to minimize A.
+
+### Summary of the Setup
+
+| Variable | Definition | Type |
+|----------|------------|------|
+| n | Number of diodes per test group | Decision variable (you choose) |
+| C | Testing cost for a group | Random variable |
+| A | Average testing cost in cents per diode | Expected value (not random) |
+
+**Cost structure for n = 1:**
+- A = 5 cents per diode
+
+**Cost structure for n > 1:**
+- If the group has no faulty diodes: C = 4 + n
+- If the group has at least one faulty diode: C = (4 + n) + 5n = 4 + 6n
+
+**Objective:** Choose n to minimize A = E(C) / n.
+
+### Check Your Understanding
+
+1. Why is C a random variable when n > 1, but not when n = 1?
+
+<details><summary>Answer</summary>When n = 1, you always test the single diode individually at a cost of 5 cents. There is no uncertainty. When n > 1, the cost depends on whether the batch contains any faulty diodes, which is a random event. If the batch is all good, you pay only the batch test cost. If the batch contains at least one faulty diode, you pay the batch test cost plus individual testing for every diode in the batch.</details>
+
+2. What is the total cost for testing a batch of 20 diodes if the batch contains no faulty diodes? What is the total cost if the batch contains at least one faulty diode?
+
+<details><summary>Answer</summary>If the batch contains no faulty diodes, the cost is 4 + 20 = 24 cents. If the batch contains at least one faulty diode, the cost is (4 + 20) + (5 x 20) = 24 + 100 = 124 cents.</details>
+
+3. What does the variable A represent, and why is it not a random variable?
+
+<details><summary>Answer</summary>A represents the average testing cost in cents per diode. It is not a random variable because it is defined as the expected value of C divided by n. An expected value is a single number that summarizes the long-run average outcome, not a random outcome itself.</details>
+
+4. What is the decision variable in this optimization problem, and what is the objective?
+
+<details><summary>Answer</summary>The decision variable is n, the number of diodes per test group. The objective is to choose n to minimize A, the average testing cost per diode.</details>
+## Model Construction and Expected Cost Calculation
+
+This section builds a discrete probability model for the diode testing problem.  
+You will define the random variable, compute the probability of each outcome,  
+derive the expected cost for a group, and then obtain the average cost per diode.  
+All steps follow the five‑step method for constructing a probability model:  
+(1) identify the random variable and its possible values, (2) decide to model it as a discrete probability model, (3) assign probabilities to each outcome, (4) compute the expected value, (5) interpret the result.
+
+The problem is introduced on the whiteboard at the start of this section.
+
+
+![A whiteboard displays mathematical formulas for probability distributions and an example problem about testing costs for diodes.](frames/frame_14_1020s.jpg)
+*[17:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=1020s) A whiteboard displays mathematical formulas for probability distributions and an example problem about testing costs for diodes.*
+
+```
+X ∈ {x1, ..., xn}, n > 1
+P(X = xi) = pi
+p1 + p2 + ... + pn = 1
+E(X) = Σ_{i=1}^n pi xi
+p1, p2, ..., pn - prob. distribution
+Y ∈ {y1, y2, ...}, Z ∈ {z1, z2, ...}
+P(Y = yj and Z = zj) = P(Y = yj) P(Z = zj)
+Ex: n = # of diodes per test group
+C = testing cost for a group
+A = average testing cost (cents/diode)
+• If n = 1, then A = 5
+• If n > 1, we have C = 4 + n if the group contains no faulty diodes, C = (4 + n) + 5n otherwise
+• A = (Average value of C) / n
+E(C)
+```
+
+The whiteboard shows the general definition of a discrete probability distribution and the formula for expected value.  
+It also states the specific diode testing problem:  
+- For a group of size \(n\) (number of diodes per test group), the testing cost \(C\) is a random variable.  
+- If \(n = 1\), the average cost is already known to be 5 cents per diode.  
+- For \(n > 1\), the cost depends on whether the group contains any faulty diodes.
+
+### Defining the Random Variable and Possible Outcomes
+
+For a group of \(n\) diodes (with \(n > 1\)), there are exactly two possible outcomes:
+
+| Outcome | Cost \(C\) (cents) | Probability |
+|---------|-------------------|-------------|
+| No faulty diodes in the group | \(4 + n\) | \(p\) |
+| At least one faulty diode in the group | \((4 + n) + 5n = 4 + 6n\) | \(1 - p\) |
+
+The two outcomes are **mutually exclusive** and **exhaustive**: the group either has no faults or it has at least one fault.  
+Therefore the probabilities sum to 1: \(p + (1-p) = 1\).
+
+### Computing the Probability \(p\) (No Faults)
+
+The failure rate of a single diode is given as 0.3%, which means:
+
+- Probability a diode is faulty: \(0.003\)  
+- Probability a diode is good: \(0.997\)
+
+The whiteboard shows these values at frame 19:00.
+
+
+![This frame shows a whiteboard with mathematical equations and an example problem related to probability distributions and expected value...](frames/frame_15_1140s.jpg)
+*[19:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=1140s) This frame shows a whiteboard with mathematical equations and an example problem related to probability distributions and expected value, specifically calculating the average testing cost for diodes.*
+
+```
+...
+0.003 - diodes faulty
+=> 0.997 - diode is good
+```
+
+Each diode is **independent** of the others; the condition of one diode does not affect the condition of another.  
+For independent events, the probability that all \(n\) diodes are good is the product of the individual probabilities:
+
+\[
+p = (0.997)^n
+\]
+
+This is recorded on the whiteboard at frame 20:00.
+
+
+![This frame displays mathematical formulas and definitions related to probability distribution and an example problem involving diode testing costs.](frames/frame_16_1200s.jpg)
+*[20:00](https://www.youtube.com/watch?v=7c43WFHCRac&t=1200s) This frame displays mathematical formulas and definitions related to probability distribution and an example problem involving diode testing costs.*
+
+```
+...
+=> p = (0.997)^n
+```
+
+### Expected Cost of a Group
+
+The expected value of \(C\) is the weighted average of the two possible costs:
+
+\[
+E(C) = (4 + n) \cdot p + (4 + 6n) \cdot (1 - p)
+\]
+
+Substitute \(p = (0.997)^n\):
+
+\[
+E(C) = (4 + n) \cdot (0.997)^n + (4 + 6n) \cdot \left(1 - (0.997)^n\right)
+\]
+
+The speaker then simplifies this expression.  
+First expand the second term:
+
+\[
+E(C) = (4 + n)(0.997)^n + (4 + 6n) - (4 + 6n)(0.997)^n
+\]
+
+Combine the terms that contain \((0.997)^n\):
+
+\[
+E(C) = (4 + 6n) + \left[(4 + n) - (4 + 6n)\right] (0.997)^n
+\]
+
+The bracket simplifies to \(-5n\):
+
+\[
+E(C) = (4 + 6n) - 5n \cdot (0.997)^n
+\]
+
+Thus the cleaned‑up formula is:
+
+\[
+E(C) = 4 + 6n - 5n (0.997)^n
+\]
+
+
+![A person writes the letter 'E' on a dark background, likely a whiteboard or similar surface.](frames/frame_17_1240s.jpg)
+*[20:40](https://www.youtube.com/watch?v=7c43WFHCRac&t=1240s) A person writes the letter 'E' on a dark background, likely a whiteboard or similar surface.*
+ shows the speaker writing “E” during this simplification step.
+
+### Average Cost per Diode
+
+The average cost per diode, denoted \(A\), is the expected cost per group divided by the group size \(n\):
+
+\[
+A = \frac{E(C)}{n} = \frac{4 + 6n - 5n (0.997)^n}{n}
+\]
+
+Divide each term in the numerator by \(n\):
+
+\[
+A = \frac{4}{n} + 6 - 5 (0.997)^n
+\]
+
+The final formulas are displayed on the whiteboard at frame 21:40.
+
+
+![A whiteboard shows the equations for E(C) and A, which is E(C) divided by n.](frames/frame_18_1300s.jpg)
+*[21:40](https://www.youtube.com/watch?v=7c43WFHCRac&t=1300s) A whiteboard shows the equations for E(C) and A, which is E(C) divided by n.*
+
+```
+E(C) = 4 + 6n - 5n(0.997)^n
+A = E(C)/n = 4/n + 6 - 5(0.997)^n
+```
+
+Now you have a complete expression for the average testing cost per diode as a function of the group size \(n\).  
+The next step, covered in the following section of the course, is to find the value of \(n\) that minimizes \(A\) (the optimizer).
+
+---
+
+### Check your understanding
+
+1.  Why is the probability that a group of \(n\) diodes contains no faulty diodes equal to \((0.997)^n\)?  
+    <details><summary>Answer</summary>  
+    Each diode has a 99.7% chance of being good (0.997). Because the diodes are independent, the probability that all \(n\) are good is the product of the individual probabilities: \(0.997 \times 0.997 \times \dots \times 0.997 = (0.997)^n\).  
+    </details>
+
+2.  For \(n = 10\), what is the expected cost per diode \(A\)? (Compute to three decimal places.)  
+    <details><summary>Answer</summary>  
+    \(A = \frac{4}{10} + 6 - 5(0.997)^{10}\)  
+    First, \((0.997)^{10} \approx 0.97041\).  
+    Then \(A = 0.4 + 6 - 5 \times 0.97041 = 6.4 - 4.85205 \approx 1.548\) cents per diode.  
+    </details>
+
+3.  What are the two possible values of the testing cost \(C\) for a group of \(n > 1\) diodes, and under what conditions does each occur?  
+    <details><summary>Answer</summary>  
+    - If the group contains **no faulty diodes**, the cost is \(4 + n\) cents.  
+    - If the group contains **at least one faulty diode**, the cost is \(4 + 6n\) cents.  
+    These are the only two possibilities because the group either has zero faults or one or more faults.  
+    </details>
+
+4.  Why can we use the formula \(E(C) = (4+n)p + (4+6n)(1-p)\) as the expected value?  
+    <details><summary>Answer</summary>  
+    The expected value of a discrete random variable is the sum of each outcome’s value multiplied by its probability. Here there are two outcomes, so we multiply the cost of the “no faults” outcome by its probability \(p\) and the cost of the “at least one fault” outcome by its probability \(1-p\), then add them.  
+    </details>
+## Optimization and Sensitivity Analysis
+
+You now have a deterministic function for the average cost per diode, \(A(n)\). This function is an expected value that removed the randomness from the original problem. The goal is to find the batch size \(n\) that minimizes \(A(n)\). The problem is identical in structure to the pig‑holding problem from the beginning of the lecture series: you have a single‑variable function, and you find its minimum by taking the derivative and setting it equal to zero.
+
+
+![A whiteboard shows equations for E(C) and A, and the minimum value of A at n=17.](frames/frame_19_1360s.jpg)
+*[22:40](https://www.youtube.com/watch?v=7c43WFHCRac&t=1360s) A whiteboard shows equations for E(C) and A, and the minimum value of A at n=17.*
+
+
+The whiteboard shows the cost expressions:
+
+```
+E(C) = 4 + 6n - 5n (0.997)
+A = E(C)/n = 4/n + 6 - 5(0.997)
+```
+
+(Note: the correct expression for \(E(C)\) includes the exponent \(n\) on 0.997, as shown in later frames. The video corrects this at timestamp 26:20.)
+
+The minimum of \(A\) occurs at \(n = 17\) and equals 1.48 cents per diode.
+
+
+![The whiteboard shows the equations for E(C) and A, and the minimum value of A at n=17.](frames/frame_20_1400s.jpg)
+*[23:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=1400s) The whiteboard shows the equations for E(C) and A, and the minimum value of A at n=17.*
+
+
+The same values are displayed again. The minimum means that as the manager or owner of the factory, you should organize the diodes into batches of exactly 17. Each batch is tested together: the machine costs 21 cents (4 cent base price plus 1 cent per diode for the 17 diodes), and most diodes are good. In the low‑probability event that a batch contains a faulty diode, the cost per diode increases to 5 cents because each diode in that batch must be tested individually.
+
+### Sensitivity to Batch Size
+
+The factory may not be able to produce batches of exactly 17. For example, diodes might come in sets of 5, forcing you to choose 15 or 20. You can examine the shape of \(A(n)\) around the minimum. If you plot the function in a tool like Desmos, you will see that the curve is flat near \(n = 17\). This flatness gives you “wiggle room”: moving to 15 or 20 does not increase the average cost significantly. That observation is itself a sensitivity computation: the model is not very sensitive to small deviations from the optimal batch size.
+
+
+![Mathematical equations for E(C) and A are displayed, along with the minimum value of A.](frames/frame_21_1520s.jpg)
+*[25:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=1520s) Mathematical equations for E(C) and A are displayed, along with the minimum value of A.*
+
+
+The same minimum is shown again. The flatness is a qualitative check, but the more important sensitivity analysis concerns the probability of a faulty diode. Let \(q\) be that probability. The video initially estimated \(q = 0.003\) (0.3%). The correct expression for \(A\) in terms of \(q\) is
+
+\[
+A = \frac{4}{n} + 6 - 5(1 - q)^n.
+\]
+
+
+![The whiteboard shows the equations for E(C) and A, the minimum value of A, and a new equation for A with q=0.003.](frames/frame_22_1580s.jpg)
+*[26:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=1580s) The whiteboard shows the equations for E(C) and A, the minimum value of A, and a new equation for A with q=0.003.*
+
+
+The whiteboard now shows the correct formula with the exponent:
+
+```
+A = 4/n + 6 - 5(1 - q)^n
+```
+
+If \(q = 0.003\), then \((1 - q) = 0.997\), and the formula matches the earlier numeric expression.
+
+### Sensitivity of \(A\) with Respect to \(q\)
+
+The sensitivity of \(A\) to a parameter like \(q\) is measured by the dimensionless quantity
+
+\[
+S(A, q) = \frac{dA}{dq} \cdot \frac{q}{A}.
+\]
+
+This is the relative change in \(A\) for a given relative change in \(q\). At the optimum \(n = 17\), you compute the derivative of \(A\) with respect to \(q\), multiply by \(q/A\), and obtain a value.
+
+
+![A whiteboard shows mathematical equations for E(C), A, and S(A,q) with specific values for q and n.](frames/frame_23_1640s.jpg)
+*[27:20](https://www.youtube.com/watch?v=7c43WFHCRac&t=1640s) A whiteboard shows mathematical equations for E(C), A, and S(A,q) with specific values for q and n.*
+
+
+The whiteboard shows the result:
+
+```
+At n=17: S(A,q) = dA/dq * q/A = 0.16
+```
+
+The value 0.16 is very small. It means that for every 1% change in \(q\) (the probability of a faulty diode), the average cost \(A\) changes by only about 0.16% (roughly 0.1% as stated in the video). This is a “fantastic robustness computation”: the model is extremely insensitive to the exact value of \(q\). Even if your estimate of \(q\) is off by a modest amount, the optimal batch size and the resulting cost per diode are hardly affected.
+
+### Why Sensitivity Matters
+
+The probability \(q\) is always an estimate. You might obtain it from historical data, for example, “of all the diodes we sent out last year, 0.2997% were faulty.” But last year’s data could be skewed by unusual conditions, such as humidity in the factory that temporarily increased the fault rate. Sensitivity analysis tells you how much you can trust your model’s conclusions when the inputs are uncertain. In this case, the model is very robust: the estimated \(q\) does not need to be exact.
+
+The next lecture in the series will move to continuous probability models, where the random variable can take any value within a range. For now, the discrete model has given you an optimal batch size of 17 and a highly insensitive relationship to the fault probability.
+
+### Check Your Understanding
+
+1.  What is the minimum average cost per diode and at what batch size does it occur?
+    <details><summary>Answer</summary>The minimum average cost is 1.48 cents per diode, achieved at a batch size of 17.</details>
+
+2.  Why is the sensitivity \(S(A, q)\) a useful quantity to compute?
+    <details><summary>Answer</summary>It tells you how much the output (average cost) changes relative to a change in the input parameter (fault probability). A small value (like 0.16) indicates the model is robust: even if the estimate of \(q\) is off by a few percent, the cost changes very little.</details>
+
+3.  If the factory can only test batches in multiples of 5, what batch size (15 or 20) would you choose and why?
+    <details><summary>Answer</summary>You would choose 15 or 20. Because the function \(A(n)\) is flat near the minimum, either choice will result in an average cost only slightly above 1.48 cents per diode. The exact choice depends on convenience; the sensitivity to batch size is low.</details>
+
+4.  The video states that the model is “insensitive” to \(q\). What does that mean in practical terms for the factory manager?
+    <details><summary>Answer</summary>It means the manager does not need a perfectly accurate estimate of the fault probability. Even if the true fault rate differs from 0.3%, the optimal batch size remains 17 and the average cost per diode stays close to 1.48 cents. The manager can be confident in the decision without worrying about small errors in the probability estimate.</details>
 ## Key takeaways
 
-- Discrete probability models use random variables that take finitely many states, each with a probability between 0 and 1, and all probabilities sum to 1 because of the completeness of information assumption.
-- The expected value of a discrete random variable is calculated as a weighted sum of outcomes and their probabilities.
-- Two discrete random variables are independent if the probability of both taking specific values equals the product of their individual probabilities.
-- The diode testing problem illustrates how to formulate a real world quality control problem as a discrete probability model using the five step method: define variables, assign probabilities, compute expected cost, optimize, and perform sensitivity analysis.
-- The expected testing cost per batch is derived as 4 plus 6n minus 5n times 0.997 to the n, leading to the average cost per diode function a equals 4 over n plus 6 minus 5 times 0.997 to the n.
-- The optimal batch size that minimizes average testing cost per diode is n equals 17, yielding an average cost of 1.48 cents per diode.
-- The cost function is flat near the minimum, so using batch sizes of 15 or 20 instead of 17 does not increase cost significantly.
-- Sensitivity analysis shows that a 1 percent change in the estimated fault probability causes only a 0.16 percent change in the average cost, indicating the model is robust to estimation errors.
-- This example demonstrates how probability can be used to remove randomness through expected values, reducing the problem to a deterministic optimization.
-- The five step method provides a structured approach to building, solving, and interpreting discrete probability models in real world applications.
+- Discrete probability models describe random variables that can take only a finite number of distinct values, each with an assigned probability.
+- The expected value of a discrete random variable is calculated as the weighted sum of each outcome multiplied by its probability.
+- Independence between random variables means the probability of their joint occurrence equals the product of their individual probabilities.
+- In the diode testing problem, the optimal batch size of 17 minimizes the expected average cost per diode to 1.48 cents.
+- The average cost function is flat near its minimum, so small deviations from the optimal batch size do not significantly increase cost.
+- Sensitivity analysis measures how changes in an input parameter, such as the fault probability, affect the model output.
+- The sensitivity coefficient of 0.16 for the fault probability indicates the model is very robust to estimation errors in that parameter.
+- Discrete probability models use sums over finite outcomes, while continuous probability models use integrals over intervals of outcomes.
 ## Glossary
 
 | Term | Definition |
 |---|---|
-| discrete probability distribution | A list of all possible values a discrete random variable can take together with the probability of each value, where all probabilities are between 0 and 1 and sum to 1. |
-| random variable | A variable whose possible values are numerical outcomes of a random phenomenon, often denoted by capital letters like X or C. |
-| state | One of the finitely many possible values that a discrete random variable can take. |
-| probability | A number between 0 and 1 that measures the likelihood of a specific outcome occurring, with 1 meaning certainty and 0 meaning impossibility. |
-| completeness of information assumption | The assumption that all possible states of a random variable are known and that the probabilities of those states sum to 1, accounting for every possible outcome. |
-| expected value | The long run average of a random variable, computed as the sum of each outcome multiplied by its probability. |
-| weighted sum | A sum where each term is multiplied by a weight, in this context the weight is the probability of the corresponding outcome. |
-| independence | The property of two random variables such that the probability of both taking specific values is the product of their individual probabilities, meaning the outcome of one does not affect the other. |
-| faulty diode | A diode that does not meet quality standards and must be detected before shipment, estimated to occur with a probability of 0.3 percent in the example. |
-| batch testing | A quality control procedure where multiple items are tested together as a group rather than individually, with a cost structure that may include a fixed base fee plus a per item fee. |
-| cost function | A mathematical expression that describes the total cost of testing a batch of diodes as a function of the batch size and the presence of faulty diodes. |
-| average cost | The expected cost per diode, obtained by dividing the expected testing cost of a batch by the number of diodes in that batch. |
-| decision variable | A variable that the modeler can control, in this case the batch size n, which is chosen to optimize the outcome. |
-| optimization | The process of finding the value of the decision variable that minimizes or maximizes the objective function, here minimizing the average cost per diode. |
-| derivative | A mathematical tool that measures the rate of change of a function; setting the derivative to zero helps find local minima or maxima. |
-| sensitivity analysis | The study of how the output of a model (here the average cost) changes in response to changes in input parameters (here the fault probability). |
-| relative change | A measure of change expressed as a percentage of the original value, often used in sensitivity analysis via elasticity. |
-| elasticity | A dimensionless sensitivity measure calculated as the ratio of the percentage change in the output to the percentage change in the input, here computed as 0.16 for the average cost with respect to fault probability. |
-| robustness | The property of a model being relatively insensitive to errors or variations in input parameters, meaning the output remains close to the optimum even when inputs are not perfectly accurate. |
-| five step method | A structured approach to mathematical modeling: ask the question, select the modeling approach, formulate the model, solve the model, and interpret the results. |
+| random variable | A variable whose possible values are numerical outcomes of a random phenomenon. |
+| discrete probability distribution | A list of all possible values a discrete random variable can take, together with the probability of each value. |
+| expected value | The long-run average value of a random variable, computed as the sum of each outcome multiplied by its probability. |
+| independence | Two random variables are independent if the probability that both take specific values equals the product of their individual probabilities. |
+| probability | A number between 0 and 1 that measures the likelihood of a specific event occurring. |
+| weighted sum | A sum in which each term is multiplied by a coefficient that reflects its relative importance, such as probability. |
+| batch size | The number of diodes tested together as a single group in the testing procedure. |
+| expected cost function | A mathematical expression that gives the average cost for a given decision variable, derived from the probabilities of different outcomes. |
+| optimization | The process of finding the input value that minimizes or maximizes a given objective function. |
+| sensitivity analysis | The study of how the output of a model changes in response to changes in its input parameters. |
+| sensitivity coefficient | A dimensionless number that measures the relative change in the output for a given relative change in an input parameter. |
+| robustness | The property of a model or solution to remain effective even when input parameters deviate from their assumed values. |
+| decision variable | A variable whose value can be chosen by the decision maker to influence the outcome of the model. |
+| fault probability | The probability that a single diode is defective, estimated as 0.3 percent in the problem. |
+| average cost per diode | The total expected testing cost for a batch divided by the number of diodes in that batch. |
+| deterministic function | A function that produces the same output for a given input every time, with no randomness involved. |
+| derivative | A measure of how a function changes as its input changes, used in calculus to find minima and maxima. |
+| continuous probability model | A probability model where the random variable can take any value within a continuous range, described by a probability density function. |
+| finite states | A countable set of distinct possible outcomes for a random variable, such as the numbers 1 through 6 on a die. |
+| probability distribution | The complete assignment of probabilities to all possible outcomes of a random variable. |
 ## Footnotes and deeper context
 
-1. **Independence of diodes.** The model assumes that each diode's fault status is independent of others. In practice, defects may cluster due to manufacturing batch issues, which could violate this assumption. The model's robustness should be checked against clustered defects.
-2. **Expected value derivation.** The expected cost formula E[C] = 4 + 6n - 5n(0.997)^n comes from simplifying the sum of (4+n) * (0.997)^n plus (4+n+5n) * (1 - 0.997)^n. The term 4+n+5n simplifies to 4+6n because the individual testing cost of 5n is added to the batch test cost of 4+n.
-3. **Optimization using calculus.** The derivative of the average cost function a(n) = 4/n + 6 - 5(0.997)^n is set to zero to find the critical point. Since n is integer, the optimal integer batch size is 17, but the continuous approximation gives a value near 17.2; rounding to 17 is appropriate.
-4. **Sensitivity measure elasticity.** The elasticity of a with respect to q is computed as (da/dq) * (q/a) at n=17. The result 0.16 means that a 1% increase in the fault probability q leads to only a 0.16% increase in average cost a, confirming low sensitivity.
-5. **Five step method in the video.** The video does not explicitly enumerate the five steps but follows them: step 1 is asking how to minimize testing cost, step 2 is choosing a discrete probability model, step 3 is formulating the expected cost function, step 4 is solving for n=17, and step 5 is interpreting the sensitivity results.
-6. **Cost structure assumptions.** The example uses hypothetical costs: 5 cents per individual test, 4 cents base plus 1 cent per diode for batch testing. Real world costs may differ, and additional factors like machine downtime or labor rates could affect the optimal batch size. The model should be recalibrated with actual cost data.
-7. **Continuity of n.** In the derivative step, n is treated as a continuous variable. For integer n, the optimal value is found by checking values around 17. The cost at n=17 and n=18 are nearly identical, so the model's recommendation is robust to integer rounding.
+1. **Expected value interpretation.** The expected value is not necessarily a value the random variable can actually take. For a fair six-sided die, the expected value is 3.5, which is not a possible outcome of a single roll.
+2. **Independence assumption in diode testing.** The model assumes each diode's fault status is independent of every other diode. In real manufacturing, defects can cluster due to machine wear or material batches, which would violate this assumption and require a more complex model.
+3. **Sensitivity coefficient formula.** The sensitivity coefficient S(A, q) is defined as (dA/dq) * (q/A). It expresses the percentage change in A for a one percent change in q, making it unitless and comparable across different parameters.
+4. **Optimization method used.** The lecturer found the minimum by taking the derivative of A with respect to n and setting it to zero. Because n must be an integer, the exact minimum is found by checking integer values near the continuous optimum, which in this case is 17.
+5. **Practical batch size constraints.** The lecturer notes that factories may only handle batches in multiples of 5. Because the cost function is flat near the minimum, using 15 or 20 instead of 17 increases the average cost only slightly, demonstrating practical robustness.
+6. **Distinction between discrete and continuous models.** Discrete probability models use sums over a finite set of outcomes, while continuous models use integrals over an interval. The diode problem is discrete because the batch size n is a whole number and the outcomes are two distinct events.
 ## Where to go next
 
-- **Introduction to Probability by Grinstead and Snell.** This free online textbook provides a thorough foundation in discrete probability, including expectation, independence, and applications. It covers the concepts used in the diode testing problem in greater depth.
-- **Mathematical Modeling by Mark M. Meerschaert.** This book explains the five step method in detail and applies it to many modeling scenarios, including probabilistic models. It is a canonical resource for learning how to structure and solve real world problems mathematically.
-- **Khan Academy Probability and Statistics.** A free online resource with video lessons and exercises on discrete random variables, expected value, and independence. It is useful for beginners who need to review the probability basics assumed in the course.
-- **Desmos Graphing Calculator.** An online tool that can plot the average cost function a(n) = 4/n + 6 - 5*(0.997)^n and allow you to explore the flat region around the minimum. This helps in understanding sensitivity to batch size visually.
+- **Review the five step method for mathematical modeling.** The lecturer references a five step method for building models. To deepen your understanding, consult the textbook 'A First Course in Mathematical Modeling' by Giordano, Fox, Horton, and Weir, which introduces and applies this method across many examples.
+- **Practice sensitivity analysis with other parameters.** Try computing the sensitivity of the optimal batch size n to changes in the base testing cost (4 cents) or the individual testing cost (5 cents). This will reinforce how sensitivity coefficients are calculated and interpreted.
+- **Explore continuous probability models.** The next lecture in this series covers continuous probability models. To prepare, review the concept of a probability density function and how expected values are computed using integrals. The open textbook 'Introductory Statistics' by OpenStax provides a clear introduction.
+- **Use computational tools to verify the optimization.** Plot the function A(n) = 4/n + 6 - 5*(0.997)^n in a graphing tool like Desmos or Python with Matplotlib. Verify that the minimum occurs near n=17 and observe how flat the curve is around that point.
 ---
 *Printed by yt2textbook, an open tool from Zorost AI Lab. Screenshots are frames captured from the source video; each caption links to the exact moment it appears.*

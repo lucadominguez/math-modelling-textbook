@@ -1,710 +1,727 @@
-# Euler's Method for Approximating Solutions to Continuous-Time Dynamical Systems
+# Euler's Method for Approximating Continuous Dynamical Systems
 > **Source:** [Euler's Method - Math Modelling - Lecture 20](https://www.youtube.com/watch?v=203GsVI7fpU) by Math Modelling · 19:58 · Training document generated from the video.
 **How to use this document:** read it top to bottom in place of watching the video. Screenshots appear exactly where the video depends on something visual, with links that jump to that moment. Questions at the end of each section confirm you learned the material. The glossary and footnotes add definitions and detail the video assumes you already have.
-**Who this is for:** This course is for students in a mathematical modelling or differential equations course who want to learn how to numerically approximate solutions to continuous-time dynamical systems.
+**Who this is for:** This course is for students of mathematical modelling or dynamical systems who want to learn a simple numerical method to simulate continuous-time systems on a computer.
 ## Learning objectives
 
 After working through this document you can:
 
-1. Derive Euler's method by approximating the derivative with a finite difference quotient.
-2. Explain how Euler's method converts a continuous-time dynamical system into a discrete-time system.
-3. Implement Euler's method in a for-loop to approximate solutions step by step.
-4. Analyze the trade-off between step size h and accuracy, including the accumulation of error over multiple steps.
-5. Visualize the geometric interpretation of Euler's method using tangent lines and error accumulation.
-6. Apply Euler's method to a specific dynamical system, such as the RLC circuit model, to observe a limit cycle.
-7. Perform sensitivity analysis by decreasing h to verify that observed phenomena are not numerical artifacts.
-8. Interpret the output of Euler's method in terms of phase plane plots and time series signals.
+1. Explain why continuous-time dynamical systems require approximation methods for computer implementation.
+2. Derive Euler's method from the definition of a derivative by fixing a small step size h.
+3. Write the iterative formula x((n+1)h) = x(nh) + h F(x(nh)) for a system x' = F(x).
+4. Describe how Euler's method turns a continuous-time system into a discrete-time iterative process.
+5. Analyze the trade-off between step size h and accuracy, including the cascading accumulation of error.
+6. Visualize the error accumulation using a graph of the true solution versus the Euler approximation with tangent lines.
+7. Apply Euler's method to a specific example, such as the RLC circuit model, to detect a limit cycle.
+8. Perform sensitivity analysis by decreasing h to verify whether observed phenomena are numerical artifacts or true dynamics.
 ## Prerequisites
 
-- Basic calculus, including the definition of a derivative as a limit.
-- Familiarity with differential equations and dynamical systems, at least qualitatively.
-- Understanding of discrete-time dynamical systems and update rules.
-- Basic programming concepts, especially loops and iteration.
-- Linear algebra, including vectors and vector-valued functions.
-## Introduction: From Qualitative Analysis to Computational Methods
+- Knowledge of calculus, including the definition of a derivative and limits.
+- Familiarity with ordinary differential equations (ODEs) and their notation.
+- Basic understanding of discrete-time dynamical systems and iterative updates.
+- Some experience with programming loops (for loops) and implementing algorithms.
+## Introduction and Motivation for Computational Methods
 
-In earlier lectures you studied the **theory of dynamical systems**. You began with **qualitative analysis**: drawing phase portraits and sketches to understand the long‑term behavior of a system without solving it exactly. Then you moved to **quantitative analysis** using **linearization methods**: you computed eigenvalues and eigenvectors of a linearized system near equilibrium points to determine stability and the nature of trajectories.
+In previous lectures, you studied the theory of dynamical systems. You began by drawing pictures and sketches to understand the qualitative behavior of these systems. Then you performed analysis by examining linearization methods, specifically how eigenvalues and eigenvectors can inform the dynamics of a system quantitatively. Now you will shift focus to the computational aspects of analyzing dynamical systems.
 
-Now you will shift from theory to **computational methods**. The goal is to approximate the behavior of dynamical systems using a computer, which cannot handle continuous mathematics directly. This section explains why one type of dynamical system is easy to simulate on a computer and why another type requires special approximation schemes.
 
-### Discrete‑Time Systems: Easy to Implement
 
-A **discrete‑time dynamical system** is defined by an **update rule**:
+### Discrete Time Systems Are Easy to Implement
 
-\[
-x_{n+1} = f(x_n)
-\]
+Discrete time systems are relatively easy to implement on a computer. As shown in previous videos, you can always write a discrete time system as an update. An update means that if you know the state of the system now, you can compute the state at the next time step.
 
-If you know the current state \(x_n\), you can compute the next state \(x_{n+1}\) by applying the function \(f\). This is a direct, one‑step calculation.
+To implement this in a computer, you use a looping process. The process works as follows:
 
-To simulate a discrete‑time system on a computer you use a **looping process**:
+1.  Start with the current state of the system.
+2.  Plug the current state into the update equation to compute the next state.
+3.  To go another step into the future, take the newly computed state, plug it into the equation again, and compute the state after that.
+4.  Repeat this process for as many steps as needed.
 
-1. Start with an initial state \(x_0\).
-2. For each step \(n = 0, 1, 2, \dots\):
-   - Compute \(x_{n+1} = f(x_n)\).
-   - Store or use the new state.
-   - Set \(x_n = x_{n+1}\) and repeat.
+This is a straightforward, iterative procedure that a computer can execute quickly.
 
-Because the computer can evaluate the function \(f\) exactly (as a formula or algorithm), every step is straightforward. The loop can run for as many steps as needed.
+### The Challenge with Continuous Time Systems
 
-### Continuous‑Time Systems: The Problem of Derivatives
+Continuous time dynamical systems are not as simple to implement on a computer. The core issue is that continuous time systems involve derivatives. A derivative represents an instantaneous rate of change, which is not something a computer can directly compute or store. Computers work with discrete values, not continuous functions.
 
-A **continuous‑time dynamical system** is described by a differential equation:
-
-\[
-\frac{dx}{dt} = g(x(t))
-\]
-
-The rate of change is given by a derivative, which is a limit of differences. A computer cannot store a continuous derivative or evaluate it directly for an arbitrary time interval. Instead, it works with discrete numbers at discrete times.
-
-The key difficulty: you cannot simply “put the derivative into a computer” and get the next state. You need an **approximation scheme** that replaces the continuous derivative with a discrete step. The simplest such scheme is **Euler’s method**, which you will implement in the next sections.
-
-### Comparison: Discrete vs. Continuous Implementation
-
-| Aspect | Discrete‑Time System | Continuous‑Time System |
-|--------|----------------------|------------------------|
-| Defining equation | \(x_{n+1} = f(x_n)\) (update rule) | \(\displaystyle \frac{dx}{dt} = g(x)\) (differential equation) |
-| Computer implementation | Direct loop: evaluate \(f\) at each step | Requires approximation of the derivative |
-| Exactness | The update rule is exact for the discrete dynamics | Any algorithm produces an approximate solution |
-| Complexity | Simple, no numerical error from the step itself | Introduces step‑size dependent error |
-
-### ASCII Diagram: Discrete‑Time Loop
-
-```
-Start with x0
-    |
-    v
-  +-------------------+
-  | Compute x_{n+1}   |
-  | = f(x_n)          |
-  +-------------------+
-    |
-    v
-  +-------------------+
-  | Is this the final |
-  | step?             | ---> Yes → Stop
-  +-------------------+
-    |
-    No
-    |
-    v
-  Set x_n = x_{n+1}
-  Go back to "Compute"
-```
-
-For continuous‑time systems, this simple loop does not work because you cannot directly compute \(x_{n+1}\) from \(x_n\) without an approximation.
-
-### Check Your Understanding
-
-1.  **Why is a discrete‑time dynamical system easier to simulate on a computer than a continuous‑time system?**
-
-    <details><summary>Answer</summary>
-    A discrete‑time system is defined by an update rule \(x_{n+1} = f(x_n)\) that can be evaluated directly on a computer. A continuous‑time system involves a derivative, which cannot be computed exactly by a computer; it must be approximated.
-    </details>
-
-2.  **What is the main limitation of a computer when dealing with continuous‑time dynamical systems?**
-
-    <details><summary>Answer</summary>
-    A computer cannot store or evaluate a continuous derivative. It works with discrete numbers, so it must approximate the derivative using a finite‑difference scheme (e.g., Euler’s method).
-    </details>
-
-3.  **Describe the looping process used to simulate a discrete‑time system. Mention the two steps that repeat.**
-
-    <details><summary>Answer</summary>
-    Start with an initial state \(x_0\). Then, for each step: (1) compute the next state using the update rule; (2) set the current state to the newly computed state and repeat until the desired number of steps is reached.
-    </details>
-## Derivative Approximation and the Basic Idea of Euler's Method
-
-This section explains how to approximate the solution of a continuous-time dynamical system by turning it into a discrete-time dynamical system. The method is called **Euler's method** (sometimes *forward Euler method*), named after the mathematician Leonhard Euler. It is one of the simplest numerical schemes for solving differential equations.
-
-### Continuous-Time Dynamical Systems
-
-A continuous-time dynamical system is described by a differential equation of the form
-
-\[
-x'(t) = f(x(t))
-\]
-
-Here, \(x(t)\) is a vector function of time (it could be multi-dimensional, for example, \(n\)-dimensional). The function \(f\) is also vector-valued, matching the dimension of \(x\). The prime denotes the derivative with respect to time: \(x'(t) = \frac{dx}{dt}\).
-
-The goal is to find \(x(t)\) for future times, given an initial condition \(x(0)\). Computers cannot directly handle continuous time, so we need a way to simulate the system step by step.
-
-### The Definition of the Derivative
-
-Recall from calculus: the derivative of \(x\) at time \(t\) is defined as the limit
-
-\[
-x'(t) = \lim_{h \to 0} \frac{x(t+h) - x(t)}{h}
-\]
-
-The quantity \(h\) is a small step in time. The limit says that as \(h\) becomes arbitrarily small, the difference quotient approaches the derivative exactly.
-
-### Approximating the Derivative with a Small Step
-
-If we choose a very small but nonzero \(h > 0\), the limit tells us that the quotient is close to the derivative. For a fixed small \(h\), we can write the approximation
-
-\[
-x'(t) \approx \frac{x(t+h) - x(t)}{h}
-\]
-
-The approximation becomes more accurate as \(h\) gets smaller. (We will discuss how to choose \(h\) later; the important point now is that the limit exists, so for sufficiently small \(h\) the equality is nearly exact.)
-
-### Replacing the Derivative in the Differential Equation
-
-Now substitute this approximation into the original differential equation \(x'(t) = f(x(t))\). We obtain
-
-\[
-\frac{x(t+h) - x(t)}{h} \approx f(x(t))
-\]
-
-The right-hand side is evaluated at the same moment in time \(t\). This equation relates the current state \(x(t)\) to the state one step \(h\) into the future \(x(t+h)\).
-
-### Rearranging to Get an Update Rule
-
-To solve for the future state, multiply both sides by \(h\):
-
-\[
-x(t+h) - x(t) \approx h \, f(x(t))
-\]
-
-Then add \(x(t)\) to both sides:
-
-\[
-x(t+h) \approx x(t) + h \, f(x(t))
-\]
-
-This is the core of Euler's method. It turns the continuous-time system into a **discrete-time dynamical system** (a difference equation). Starting from a known state \(x(t)\), we can compute an approximation for the state at time \(t+h\). Then we can repeat the process to step forward in time.
-
-### Why It Is Called "Forward Euler"
-
-Because we use information at the current time \(t\) to move forward to \(t+h\), the method is often called the *forward Euler method*. It is a simple, explicit scheme: the next state depends only on the current state and the derivative function \(f\).
-
-### Summary of the Euler Method Steps
-
-1. Choose a small step size \(h > 0\).
-2. At the current time \(t\), evaluate \(f(x(t))\).
-3. Compute the next state: \(x(t+h) = x(t) + h \cdot f(x(t))\).
-4. Set \(t \leftarrow t + h\) and repeat.
-
-The approximation will have errors that depend on the size of \(h\) and the behavior of \(f\). Smaller \(h\) generally gives better accuracy but requires more steps.
-
-### Check Your Understanding
-
-1. **Why does Euler's method replace the derivative with a difference quotient?**  
-   <details><summary>Answer</summary>  
-   The exact derivative is defined as a limit of that quotient. By choosing a small but nonzero \(h\), we approximate the derivative, which allows us to rewrite the differential equation as an algebraic equation that can be stepped forward in time on a computer.  
-   </details>
-
-2. **What is the approximate update equation for Euler's method?**  
-   <details><summary>Answer</summary>  
-   \(x(t+h) \approx x(t) + h \, f(x(t))\)  
-   </details>
-
-3. **Why is this method called "forward Euler"?**  
-   <details><summary>Answer</summary>  
-   It uses the current state and derivative to compute the state at a future time \(t+h\), moving forward in time.  
-   </details>
-
-4. **What does the approximation become as \(h\) approaches zero?**  
-   <details><summary>Answer</summary>  
-   As \(h \to 0\), the difference quotient approaches the exact derivative, and the Euler update becomes the exact differential equation. In practice, we cannot use \(h = 0\) because we would never move forward in time.  
-   </details>
-## The Euler Update Formula and Iterative Procedure
-
-The Euler method uses a fixed time step, denoted by `h`, to move forward in time. The value `h` represents a small, constant increment of time. The core idea is that if you know the exact state of the system at one instant, you can use the derivative at that instant to approximate the state a short time `h` later.
-
-### The Euler Update Formula
-
-The formula for a single Euler step is:
-
-`x(t + h) = x(t) + h * f(x(t), t)`
-
-Where:
-- `x(t)` is the current state at time `t`.
-- `h` is the fixed time step size.
-- `f(x(t), t)` is the derivative of `x` with respect to time, evaluated at the current state and time. This derivative tells you the instantaneous rate of change.
-- `x(t + h)` is the approximate state at the next time step.
-
-This formula is the fundamental building block. It pushes the system forward by one step of size `h`.
-
-### The Iterative Procedure
-
-You can repeat this procedure to approximate the solution over many time steps. The process starts with a known initial condition.
-
-**Step 1: The Initial Condition**
-
-You are given an initial condition. This is the exact state of the system at time `t = 0`. We denote this as `x(0)`.
-
-**Step 2: The First Euler Step**
-
-To find the approximate state at time `t = h`, you apply the Euler update formula using the initial condition:
-
-`x(h) = x(0) + h * f(x(0), 0)`
-
-This gives you an approximation for `x(h)`.
-
-**Step 3: The Second Euler Step**
-
-To find the approximate state at time `t = 2h`, you apply the formula again. This time, you use the approximation you just computed, `x(h)`, as your starting point:
-
-`x(2h) = x(h) + h * f(x(h), h)`
-
-Notice that the derivative `f` is now evaluated at the approximate state `x(h)` and the new time `t = h`.
-
-**Step 4: Repeating the Process**
-
-You can continue this process indefinitely. Each step uses the result of the previous step to compute the next one.
-
-- To get `x(3h)`, you use `x(2h)`:
-  `x(3h) = x(2h) + h * f(x(2h), 2h)`
-
-This creates a chain of approximations. Every single time you use what you were given, it approximates where you are going. Then you know where you are going, and you use that to approximate further.
-
-### The General Formula for the Nth Step
-
-This iterative process can be expressed as a general formula. If you want to go `(n + 1) * h` time units into the future, you use the state at `n * h` time units:
-
-`x((n + 1) * h) = x(n * h) + h * f(x(n * h), n * h)`
-
-This formula defines a looping procedure. You know where you start (`x(0)`). You put it into the formula to get `x(h)`. Then you put `x(h)` into the formula to get `x(2h)`. You keep going, using the output of each step as the input for the next.
-
-### The Procedure as a Loop
-
-This repeated application is a classic "for loop" in programming. The structure is:
-
-```
-Initialize:  t = 0,  x = x(0)
-For each step from 1 to N:
-    Compute the derivative:  dx = f(x, t)
-    Update the state:        x = x + h * dx
-    Advance the time:        t = t + h
-```
-
-Each iteration of the loop performs one Euler step. The loop continues until you have reached your desired final time.
-
-### Check your understanding
-
-1.  What is the purpose of the variable `h` in the Euler method?
-    <details><summary>Answer</summary> `h` is the fixed time step size. It determines how far forward in time the method moves with each iteration. A smaller `h` generally leads to a more accurate approximation but requires more steps.</details>
-
-2.  If you know `x(2h)`, how do you compute `x(3h)` using the Euler update formula?
-    <details><summary>Answer</summary> You compute `x(3h) = x(2h) + h * f(x(2h), 2h)`. You use the state at `2h` and the derivative evaluated at that state and time to step forward by `h`.</details>
-
-3.  Why is the Euler method described as an "iterative procedure"?
-    <details><summary>Answer</summary> It is iterative because the output of one step (the approximate state at the next time) becomes the input for the following step. This process is repeated, or iterated, many times to march the solution forward in time.</details>
-
-4.  In the general formula `x((n + 1) * h) = x(n * h) + h * f(x(n * h), n * h)`, what does the term `f(x(n * h), n * h)` represent?
-    <details><summary>Answer</summary> It represents the derivative of the state `x` with respect to time, evaluated at the approximate state `x(n * h)` and the time `n * h`. This is the instantaneous rate of change that is used to estimate the next state.</details>
-## Error Accumulation and the Trade-Off with Step Size
-
-Euler’s method replaces the exact derivative with an approximation. The exact derivative requires a limit, but the method uses a finite difference:
-
-\[
-\frac{dy}{dt} \approx \frac{y(t+h) - y(t)}{h}
-\]
-
-The “approximately equal” sign is the key. Because this is not the exact derivative, every step you take with Euler’s method will be off by a small amount. You will not get the exact solution to the differential equation; you will get a solution that contains a little error at each step.
-
-### How error accumulates
-
-You know exactly where you started (the initial condition). After the first step, you have a small error in approximating where the system is \(h\) time units into the future. You then take that slightly incorrect point and use it to approximate the next step, \(2h\) units into the future. This second step adds its own approximation error on top of the error already present from the first step. The pattern continues: each new step inherits the error from all previous steps and adds a new approximation error. This is a cascading error. The further you go into the future, the more error accumulates.
-
-### The trade-off with step size
-
-You clearly want the step size \(h\) to be very small so that each individual approximation is extremely accurate. However, if \(h\) is very small, the method requires many steps to advance a given distance. For example, if \(h = 1/1000\), you need to perform the Euler update 1000 times just to move one time unit forward. The course often discusses behavior as \(t\) goes to infinity; one time unit is a very short distance compared to infinity, yet even that requires a thousand iterations. A computer program could run for a very long time. If you were doing the calculations by hand, you would certainly not want to run a thousand iterations just to go one unit into the future.
-
-On the other hand, you might want \(h\) to be as large as possible so that you can cover a long time interval quickly. But if \(h\) is too large, the error at each step becomes large, and the accumulation of that error can become so severe that the results have nothing to do with the original differential equation.
-
-This is the fundamental computational trade-off in Euler’s method: a small step size gives accuracy at the cost of many steps (slow computation), while a large step size gives speed at the cost of potentially unacceptable error.
-
-### Key terms defined
-
-- **Step size \(h\)**: the fixed time interval between successive approximations in Euler’s method.
-- **Local truncation error**: the error introduced by a single step of Euler’s method. It is proportional to \(h^2\) (added context: for a smooth function, the local error is \(O(h^2)\)).
-- **Global error**: the total accumulated error after many steps. For Euler’s method, the global error is proportional to \(h\) (added context: \(O(h)\)), meaning it grows as the number of steps increases.
-
-### Check your understanding
-
-1. Why does Euler’s method introduce error at every step?
-
-<details><summary>Answer</summary>
-Euler’s method uses an approximation of the derivative (a finite difference) instead of the exact derivative, which requires a limit. This approximation is not exact, so each step produces a small error.
-</details>
-
-2. Describe how error accumulates over multiple steps.
-
-<details><summary>Answer</summary>
-After the first step, the approximated point contains a small error. That point is used as the starting point for the next step, so the second step inherits the previous error and adds its own approximation error. This cascading process continues, and the total error grows as you move further into the future.
-</details>
-
-3. What is the trade-off when choosing the step size \(h\)?
-
-<details><summary>Answer</summary>
-A small \(h\) makes each step more accurate but requires many steps to cover a given time interval, which can be computationally slow. A large \(h\) reduces the number of steps (faster computation) but increases the error per step, and the accumulated error may become so large that the results are meaningless.
-</details>
-
-4. If \(h = 0.001\), how many Euler steps are needed to advance from \(t=0\) to \(t=1\)?
-
-<details><summary>Answer</summary>
-1000 steps. Because \(1 / 0.001 = 1000\).
-</details>
-## Geometric Visualization of Error Accumulation
-
-This section builds a geometric intuition for how errors in Euler’s method grow from one step to the next. You will see why the method is only an approximation and why the error does not stay constant but instead compounds.
-
-### Setup: The Exact Solution
-
-Imagine a graph with horizontal axis `t` (time) and vertical axis `x(t)` (the state). Starting at the initial condition `(t₀, x₀)`, the exact solution of the differential equation `dx/dt = f(x)` is a smooth curve that passes through that point. The existence and uniqueness theorem guarantees that as long as `f` is continuous, a solution exists locally and can be extended. We draw this curve as a gently curving line.
-
-### The First Step: Tangent Line Approximation
-
-Euler’s method replaces the exact curve with its tangent line at the starting point. The slope of that tangent line is `f(x₀)`. We step forward by a fixed amount `h` (the step size) along the tangent line to obtain the first approximate value `x₁ = x₀ + h·f(x₀)`.
-
-In the geometric picture (exaggerated for clarity):
-
-- The tangent line touches the exact curve only at `(t₀, x₀)`.
-- After moving `h` units to the right, the vertical distance between the tangent line and the exact curve is the **local truncation error**.
-- This error arises because we are approximating a (possibly curved) function by a straight line. This is exactly the same linearization that appears in Taylor’s theorem, the stable manifold theorem, and the Hartman-Grobman theorem: approximating a nonlinear object with a linear one.
-
-### The Second Step: Double Whammy of Errors
-
-Now we must compute the next step. The tangent line we use now is **not** the tangent to the exact curve. Instead, we use the tangent to the approximation at `(t₁, x₁)`. Its slope is `f(x₁)`, where `x₁` is already an approximate value.
-
-The geometric consequence:
-
-- The exact tangent at the true point on the curve would have a different slope.
-- The approximate tangent at `(t₁, x₁)` points in a slightly wrong direction.
-- When we step forward another `h` units, we combine two sources of error:
-  1. The error carried forward from the previous step (the approximation `x₁` is not the true value).
-  2. A new error from using an incorrect slope (`f(x₁)` instead of the true slope at the true point).
-
-This is the “double whammy.”
-
-### Accumulation Pattern
-
-Each subsequent step repeats the same pattern:
-
-1. Use the current approximate value to compute the slope.
-2. Step forward along that slope.
-3. The new approximation inherits all previous errors and adds a new local error.
-
-The effect is a cascading divergence: the approximate points drift further and further from the true curve. The error does not average out; it rolls up like a snowball, as the speaker says: “every time you push that thing forward you take all of the errors that you had before and you just roll them up and you put another piece of error on top of that.”
-
-### ASCII Diagram of the Process
-
-The diagram below shows an exaggerated view of the first two steps. The exact curve is a smooth arc. The tangent lines are straight segments. The errors are the vertical gaps between the approximate points and the true curve.
-
-```
-x(t)
-^
-|               exact curve
-|              .   .
-|            .       .
-|          .           .
-|        .               .
-|      .   *               .
-|    .       *               .
-|  .           *               .
-|.               *               .
-|                  *               .
-|                     *               .
-|                        *               .
-|                           *               .
-|                              *               .
-|                                 *               .
-|                                    
-+-----------------------------------------------> t
-t₀                t₁                t₂
-
-Legend:
-  .  = exact solution
-  *  = Euler approximation points
-  --- = tangent lines (not drawn to scale)
-```
-
-- At `t₀`: the first tangent line (not shown) follows the curve exactly at the start and then diverges.
-- At `t₁`: the first approximate point `*` lies above the curve. The second tangent line (not shown) is drawn from that `*` and points further away from the curve.
-- At `t₂`: the second approximate point `*` is even farther from the true curve.
+Because you cannot directly put a derivative into a computer, you need approximation schemes. These schemes convert the continuous problem into a discrete problem that a computer can solve. Euler's method is one such approximation scheme.
 
 ### Key Concepts Defined
 
-| Term | Definition |
-|------|------------|
-| Euler’s method | A numerical algorithm that approximates the solution of an ODE by stepping forward along tangent lines. |
-| Tangent line | The straight line that best approximates a curve at a given point; its slope equals the derivative. |
-| Step size `h` | The fixed increment in `t` between successive approximations. |
-| Local truncation error | The error incurred in a single step by using a linear approximation instead of the true curve. |
-| Error accumulation | The process by which errors from previous steps are carried forward and combined with new errors, leading to a growing total error. |
-| Taylor approximation | Approximating a function by a polynomial; the linear (first‑order) Taylor approximation is the tangent line. (added context) |
-| Linearization | Replacing a nonlinear function by its linear approximation near a point. (added context) |
+- **Discrete time system**: A system where time advances in fixed, separate steps. The state is defined only at those discrete time points.
+- **Continuous time system**: A system where time flows continuously. The state is defined at every instant in time.
+- **Update**: A rule that takes the current state of a discrete time system and produces the next state.
+- **Derivative**: A measure of how a quantity changes instantaneously with respect to time. (added context: In a continuous dynamical system, the derivative describes the system's behavior at every moment, but a computer cannot evaluate an infinite number of moments.)
+- **Approximation scheme**: A method that replaces a continuous problem with a discrete problem that gives a close, but not exact, answer. (added context: Euler's method is the simplest approximation scheme for solving differential equations.)
 
 ### Check Your Understanding
 
-1. **Why is the error in the second step called a “double whammy”?**
+1.  Why are discrete time systems easier to implement on a computer than continuous time systems?
 
-<details><summary>Answer</summary>
-The second step suffers from two sources of error: (1) the error from the first step, which makes the starting point `x₁` inexact, and (2) a new error because the slope `f(x₁)` is computed from an approximate value and therefore differs from the true slope of the exact curve at that time.
-</details>
+<details><summary>Answer</summary>Discrete time systems can be written as an update rule. You can use a simple looping process where you take the current state, plug it into the equation, and get the next state. This is a straightforward, step-by-step procedure that a computer can execute. Continuous time systems involve derivatives, which are instantaneous rates of change that a computer cannot directly compute.</details>
 
-2. **In the geometric picture, what does the vertical distance between the approximate point and the exact curve represent?**
+2.  What is the fundamental problem with using a derivative in a computer program?
 
-<details><summary>Answer</summary>
-It represents the accumulated global error at that time step. It includes the local truncation errors from all previous steps plus the current step.
-</details>
+<details><summary>Answer</summary>A derivative represents an instantaneous rate of change. Computers work with discrete values and cannot directly compute or store an instantaneous rate of change. You need an approximation scheme to convert the continuous derivative into a discrete calculation.</details>
 
-3. **How does the existence and uniqueness theorem relate to the geometric visualization?**
+3.  Describe the looping process used to simulate a discrete time system on a computer.
 
-<details><summary>Answer</summary>
-The theorem guarantees that an exact solution curve exists locally (as long as `f` is continuous). Without that guarantee, there would be no “true curve” to compare the approximation against, and the geometric picture of error accumulation would have no reference.
-</details>
+<details><summary>Answer</summary>First, you start with the current state of the system. You plug that state into the update equation to compute the next state. To go further into the future, you take that newly computed state, plug it into the equation again, and compute the state after that. You repeat this process for as many steps as needed.</details>
+## Deriving Euler's Method from the Derivative Definition
 
-4. **Why is Euler’s method equivalent to a first‑order Taylor approximation?**
 
-<details><summary>Answer</summary>
-Euler’s method uses the formula `x_{n+1} = x_n + h·f(x_n)`. This is exactly the first‑order Taylor expansion of the true solution around `t_n`, truncated after the linear term. The error is the remainder of the Taylor series, which depends on the curvature of the solution.
-</details>
-## Application to the RLC Circuit Model and Detection of a Limit Cycle
+![Mathematical equations for x' = F(x) and the definition of a derivative are written on a blackboard.](frames/frame_01_200s.jpg)
+*[03:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=200s) Mathematical equations for x' = F(x) and the definition of a derivative are written on a blackboard.*
 
-### The RLC Circuit Model
 
-The RLC circuit model is a continuous-time dynamical system described by two coupled ordinary differential equations:
-
-- `x1' = x1 - x1^3 - x2`
-- `x2' = x1`
-
-The system has a single equilibrium point at `(0,0)`. An equilibrium point is a state where all derivatives are zero. At `(0,0)`, the equilibrium is unstable: small perturbations cause trajectories to spiral outward.
-
-By examining the vector field, you can see two opposing forces:
-
-- Near the origin, trajectories are pushed outward.
-- Far away from the origin, trajectories are pulled inward.
-
-This combination suggests that somewhere in between, a balance exists: a closed periodic orbit called a **limit cycle**. A limit cycle is an isolated, closed trajectory in the phase plane that represents a periodic solution. Unlike a family of nested periodic orbits (which you might see in a conservative system), a limit cycle is unique: nearby trajectories either spiral toward it or away from it.
-
-### Euler’s Method Applied to the Model
-
-Euler’s method is a numerical technique for approximating solutions of ordinary differential equations. It iterates forward in time using a fixed step size `h`. The method is simple to implement but has a trade-off:
-
-- If `h` is too large, the approximation accumulates error.
-- If `h` is too small, the computation takes too long.
-
-For the RLC circuit model, the Euler update steps are:
+We begin with a continuous time dynamical system, written as:
 
 ```
-x1_new = x1 + h * (x1 - x1^3 - x2)
-x2_new = x2 + h * x1
+x' = F(x)
 ```
 
-The speaker implemented this scheme with `h = 0.1`. By starting from an initial condition near the origin, the simulation produces a spiral outward that eventually settles onto a closed orbit. That closed orbit is the limit cycle.
+Here, `x` is an n-dimensional vector, `x = (x₁, ..., xₙ) ∈ Rⁿ`, and `F` is a vector-valued function, `F = (f₁, ..., fₙ)`. The notation `x'` means the derivative of `x` with respect to time, `dx/dt`. This system describes how the state `x` changes continuously over time.
 
-### Detecting the Limit Cycle
-
-The limit cycle appears as a “big beautiful” closed circle in the `(x1, x2)` phase plane. It is the balance point where the outward push from the unstable equilibrium and the inward pull from infinity cancel out. Trajectories get “stuck” on this ring.
-
-### Sensitivity Analysis: Checking Your Own Work
-
-Because Euler’s method can introduce numerical artifacts (features that appear only because of the step size), you must verify that the observed limit cycle is real. Perform a **sensitivity analysis**:
-
-1. Decrease the step size `h` (for example, to `0.05` or `0.01`).
-2. Run the simulation again with the same initial conditions.
-3. Compare the results.
-
-If the same periodic orbit persists with a similar shape and location, the limit cycle is a genuine dynamical phenomenon, not a numerical artifact. This is a robustness computation: you are checking your own work to ensure that the observed behavior is not caused by the numerical method.
-
-The following table summarizes the trade-offs for step size:
-
-| Step Size `h` | Advantage | Disadvantage |
-|---------------|-----------|--------------|
-| Large (e.g., 0.1) | Faster computation | Increased error, may miss fine details |
-| Small (e.g., 0.01) | Higher accuracy, fewer artifacts | Slower computation, may take too long |
-
-### Phase Plane Diagram
-
-The ASCII diagram below shows the qualitative flow in the phase plane. The equilibrium at the origin is unstable (arrows pointing outward). Far away, arrows point inward. The limit cycle is the closed curve where the two forces balance.
+To approximate this system on a computer, we recall the definition of a derivative from calculus:
 
 ```
-        x2
-        ^
-        |       / \
-        |      /   \   (limit cycle)
-        |     /     \
-        |    /       \
-        |   /         \
-        |  /           \
-        | /             \
-        |/               \
-        +-------------------> x1
-        \                /
-         \              /
-          \            /
-           \          /
-            \        /
-             \      /
-              \    /
-               \  /
-                \/
+dx/dt = lim (h→0) [x(t+h) - x(t)] / h
 ```
 
-### Check Your Understanding
+This definition says that the instantaneous rate of change of `x` at time `t` is the limit of the average rate of change over a small interval of length `h`, as `h` approaches zero.
 
-1. Why is it important to perform a sensitivity analysis on the step size `h` when using Euler’s method to detect a limit cycle?
 
-2. Describe the behavior of the RLC circuit model near the equilibrium point `(0,0)` and far away from it.
+![A whiteboard shows mathematical equations for a derivative and its approximation, including definitions for x and F.](frames/frame_02_240s.jpg)
+*[04:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=240s) A whiteboard shows mathematical equations for a derivative and its approximation, including definitions for x and F.*
 
-3. What is a limit cycle? How does it differ from a family of nested periodic orbits?
 
-<details><summary>Answer</summary>1. To ensure that the observed limit cycle is not a numerical artifact caused by a large step size. Decreasing `h` and rerunning the simulation should produce the same qualitative behavior; if the limit cycle disappears or changes drastically, it may be spurious.</details>
-<details><summary>Answer</summary>2. Near `(0,0)`, trajectories spiral outward because the equilibrium is unstable. Far away, the vector field pulls trajectories inward. This creates a region where trajectories converge to a periodic orbit, the limit cycle.</details>
-<details><summary>Answer</summary>3. A limit cycle is an isolated closed trajectory in the phase plane that represents a periodic orbit. Unlike a family of nested periodic orbits (e.g., in a conservative system), a limit cycle is unique: nearby trajectories either spiral toward it or away from it, depending on stability.</details>
-## Sensitivity Analysis and Conclusion: Verifying Numerical Results
+Now we apply this definition directly. If we fix a small positive value of `h`, then the derivative can be approximated by the quotient:
 
-In this section you will examine how the choice of step size `h` affects the accuracy and computational cost of Euler’s method, and then verify your implementation by observing a periodic orbit.
+```
+dx/dt ≈ [x(t+h) - x(t)] / h
+```
 
-### Understanding the Trade-Off: Accuracy vs. Computation Time
+This approximation becomes more accurate as `h` gets smaller. The limit definition guarantees that for sufficiently small `h`, the quotient is close to the true derivative. We do not yet specify how small `h` must be; that will be addressed later in the course.
 
-The core idea of Euler’s method is to approximate the continuous-time system by taking discrete steps of size `h`. As you make `h` smaller, the approximation becomes more accurate because each step covers a shorter interval, so the local error (the error introduced in a single step) is reduced. Over many steps, less error accumulates, and the overall trajectory stays closer to the true solution.
+We now substitute this approximation into the original differential equation. Since `x' = F(x)`, we replace the left side with the quotient:
 
-**Key claim:**  
-- Smaller `h` → more accurate solution, less accumulated error.  
-- The only drawback is that more steps are required to cover the same time span, which can increase the computation time. You may “be stuck at our computer waiting for a little bit longer” as you take shorter steps.
+```
+[x(t+h) - x(t)] / h ≈ F(x(t))
+```
+
+We write `F(x(t))` to emphasize that the function `F` is evaluated at the current state `x` at time `t`. This is the same moment in time as the left side of the equation.
+
+
+![Mathematical equations for a system of differential equations and its approximation are written on a blackboard.](frames/frame_03_300s.jpg)
+*[05:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=300s) Mathematical equations for a system of differential equations and its approximation are written on a blackboard.*
+
+
+Now we rearrange this equation to solve for the future state `x(t+h)`. Multiply both sides by `h`:
+
+```
+x(t+h) - x(t) ≈ h * F(x(t))
+```
+
+Then add `x(t)` to both sides:
+
+```
+x(t+h) ≈ x(t) + h * F(x(t))
+```
+
+This is the Euler method, also called the forward Euler method, because it steps forward in time by `h` units. The equation tells us: if we know the current state `x(t)`, we can compute an approximation of the state at time `t+h` by adding the product of the step size `h` and the derivative function `F` evaluated at the current state.
+
+The method converts the continuous time dynamical system into a discrete time dynamical system. Instead of a continuous curve, we get a sequence of points: `x(0)`, `x(h)`, `x(2h)`, `x(3h)`, and so on. Each step uses only the current state to predict the next state.
+
+The key relationship is summarized in this table:
+
+| Continuous system | Discrete approximation (Euler method) |
+|-------------------|---------------------------------------|
+| `x' = F(x)`       | `x(t+h) ≈ x(t) + h * F(x(t))`         |
+| Time is continuous | Time advances in steps of size `h`    |
+| Exact solution    | Approximate solution                  |
+
+The flow of the derivation is shown in this diagram:
+
+```
+Definition of derivative:
+  dx/dt = lim (h→0) [x(t+h) - x(t)] / h
+
+Fix small h > 0:
+  dx/dt ≈ [x(t+h) - x(t)] / h
+
+Substitute into differential equation:
+  [x(t+h) - x(t)] / h ≈ F(x(t))
+
+Rearrange:
+  x(t+h) ≈ x(t) + h * F(x(t))
+```
+
+This final equation is the Euler method. It is a simple, direct way to approximate solutions to differential equations, and it forms the foundation for more advanced numerical methods.
+
+### Check your understanding
+
+1. What is the starting point for deriving Euler's method?
+
+<details>
+<summary>Answer</summary>
+The starting point is the definition of the derivative: `dx/dt = lim (h→0) [x(t+h) - x(t)] / h`. We fix a small positive `h` and approximate the derivative by the quotient `[x(t+h) - x(t)] / h`.
+</details>
+
+2. How does Euler's method convert a continuous time system into a discrete time system?
+
+<details>
+<summary>Answer</summary>
+Euler's method replaces the continuous derivative with a finite difference quotient. This produces the recurrence `x(t+h) ≈ x(t) + h * F(x(t))`, which computes the state at the next time step `t+h` using only the current state `x(t)`. Time then advances in discrete steps of size `h`.
+</details>
+
+3. What does the term "forward" in "forward Euler method" refer to?
+
+<details>
+<summary>Answer</summary>
+The term "forward" refers to the fact that the method uses the current state `x(t)` to compute the future state `x(t+h)`, stepping forward in time by `h` units.
+</details>
+
+4. Why is the approximation `dx/dt ≈ [x(t+h) - x(t)] / h` valid?
+
+<details>
+<summary>Answer</summary>
+The approximation is valid because the definition of the derivative states that as `h` approaches zero, the quotient `[x(t+h) - x(t)] / h` approaches the derivative. For a small but nonzero `h`, the quotient is close to the derivative. The smaller `h` is, the closer the approximation.
+</details>
+## Iterative Process and the Looping Procedure
+
+The Euler method gives you a way to step forward in time by a fixed amount, called the **step size** \( h \). Once you know the state at one instant, you can approximate the state at the next instant. The key insight is that you can repeat this procedure over and over, using each new approximation as the starting point for the next step. This creates an iterative loop that generates an approximate solution over many time steps.
+
+### The Euler Step Formula
+
+Recall the core approximation derived from the definition of the derivative:
+
+\[
+x(t+h) \approx x(t) + h \, F(x(t))
+\]
+
+Here \( F(x(t)) \) is the derivative \( x' \) evaluated at time \( t \). The term \( h \, F(x(t)) \) is the estimated change in \( x \) over the interval of length \( h \). This formula is the **Euler step**.
+
+
+![A whiteboard shows mathematical equations for x' = F(x) and the approximation of dx/dt, leading to the final equation x(t+h) = x(t) + hF(x(t)).](frames/frame_04_360s.jpg)
+*[06:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=360s) A whiteboard shows mathematical equations for x' = F(x) and the approximation of dx/dt, leading to the final equation x(t+h) = x(t) + hF(x(t)).*
+
+
+The whiteboard shows the derivation:
+
+```
+x'= F(x)
+x=(x...,x) ETR
+F= (f..., f)
+dx = lim x(t+h)-x(t)
+dt h->0 h
+Fix h>0: dx ~ x(t+h)-x(t)
+dt h
+=> x+h)-x/t)~F (xe)
+=>x(t+h)=x(t)+hF(x(t))
+```
+
+(Note: The on-screen text contains minor transcription artifacts; the intended equations are \( x' = F(x) \), \( x = (x_1,\dots,x_n) \in \mathbb{R}^n \), \( F = (f_1,\dots,f_n) \), and the final Euler formula \( x(t+h) = x(t) + h F(x(t)) \).)
+
+### Starting from an Initial Condition
+
+You are given an **initial condition** at time \( t = 0 \): \( x(0) = x_0 \). This is the one point you know exactly. Apply the Euler step to move forward by \( h \):
+
+\[
+x(h) = x_0 + h \, F(x_0)
+\]
+
+
+![This frame displays mathematical equations on a whiteboard, including definitions for x', x, and F, the definition of a derivative, and a...](frames/frame_05_380s.jpg)
+*[06:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=380s) This frame displays mathematical equations on a whiteboard, including definitions for x', x, and F, the definition of a derivative, and a derivation leading to the Euler method formula.*
+
+
+The whiteboard now includes the initial condition:
+
+```
+Given X(0)=Xo
+```
+
+### Repeating the Procedure: The Iterative Loop
+
+Once you have \( x(h) \), you can treat it as the known state and apply the Euler step again to go from \( t = h \) to \( t = 2h \):
+
+\[
+x(2h) = x(h) + h \, F(x(h))
+\]
+
+
+![A whiteboard shows mathematical equations for X prime equals F of X, the definition of a derivative, and an approximation for X of T plus H.](frames/frame_06_440s.jpg)
+*[07:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=440s) A whiteboard shows mathematical equations for X prime equals F of X, the definition of a derivative, and an approximation for X of T plus H.*
+
+
+The whiteboard shows the first two iterative formulas:
+
+```
+=> x(h) = xo + h F(xo)
+=> x(2h)=x(h) +hF(x(h))
+=>X(3
+```
+
+(The third line is cut off in the screenshot but is completed in the next frame.)
+
+Continue the pattern. To go from \( t = 2h \) to \( t = 3h \):
+
+\[
+x(3h) = x(2h) + h \, F(x(2h))
+\]
+
+
+![This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small h, and the...](frames/frame_07_460s.jpg)
+*[07:40](https://www.youtube.com/watch?v=203GsVI7fpU&t=460s) This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small h, and the iterative formula for x(t+h).*
+
+
+The whiteboard now shows the full iterative sequence:
+
+```
+=> x(3h) = x(2h) + hF(x(2h))
+```
+
+In general, to move from \( t = n h \) to \( t = (n+1)h \):
+
+\[
+x((n+1)h) = x(nh) + h \, F(x(nh))
+\]
+
+Each step uses the previous approximation as input to compute the next approximation. This is a **looping procedure** (often implemented as a `for` loop in code). You start with the initial condition, compute the next value, then use that value to compute the next, and so on, for as many steps as you need.
+
+### Visualizing the Loop
+
+The following ASCII diagram shows the flow of the iterative process:
+
+```
+Start: x(0) = x0
+         |
+         v
+Compute: x(h) = x(0) + h * F(x(0))
+         |
+         v
+Compute: x(2h) = x(h) + h * F(x(h))
+         |
+         v
+Compute: x(3h) = x(2h) + h * F(x(2h))
+         |
+         v
+         ... (repeat for desired number of steps)
+```
+
+Each arrow represents one Euler step. The output of one step becomes the input for the next.
+
+### Summary of the Iterative Formulas
+
+The following table lists the first few steps and the general formula:
+
+| Step index \( n \) | Time \( t \) | Approximation formula |
+|-------------------|--------------|-----------------------|
+| 0                 | 0            | \( x(0) = x_0 \) (given) |
+| 1                 | \( h \)      | \( x(h) = x_0 + h F(x_0) \) |
+| 2                 | \( 2h \)     | \( x(2h) = x(h) + h F(x(h)) \) |
+| 3                 | \( 3h \)     | \( x(3h) = x(2h) + h F(x(2h)) \) |
+| \( n \)           | \( nh \)     | \( x(nh) = x((n-1)h) + h F(x((n-1)h)) \) |
+| \( n+1 \)         | \( (n+1)h \) | \( x((n+1)h) = x(nh) + h F(x(nh)) \) |
+
+This pattern is the core of Euler’s method: a simple, repeatable rule that turns a differential equation into a sequence of algebraic calculations.
+
+### Check your understanding
+
+1. **What is the purpose of the step size \( h \) in the iterative procedure?**  
+   <details><summary>Answer</summary>  
+   The step size \( h \) determines the time interval between successive approximations. It controls how far forward in time each Euler step moves. A smaller \( h \) generally gives a more accurate approximation but requires more steps to cover the same total time.  
+   </details>
+
+2. **Starting from \( x(0) = x_0 \), write the formula for \( x(4h) \) in terms of \( x(3h) \) and \( F \).**  
+   <details><summary>Answer</summary>  
+   \( x(4h) = x(3h) + h \, F(x(3h)) \)  
+   </details>
+
+3. **Why is this process called a “looping procedure”?**  
+   <details><summary>Answer</summary>  
+   Because the same calculation (the Euler step) is repeated over and over: you take the current approximation, apply the formula to get the next approximation, then use that new value as the current approximation for the next iteration. This repetition is naturally implemented as a loop in computer code (e.g., a `for` loop).  
+   </details>
+
+4. **If you want to approximate the solution from \( t=0 \) to \( t=10 \) with a step size \( h=0.5 \), how many Euler steps will you perform?**  
+   <details><summary>Answer</summary>  
+   Number of steps = total time / step size = \( 10 / 0.5 = 20 \) steps.  
+   </details>
+## Error Accumulation and the Trade-Off with Step Size
+
+Euler’s method replaces the exact derivative with an approximation. The exact derivative uses a limit:
+
+
+![This frame displays mathematical equations related to differential equations and numerical methods, including the definition of a derivative and...](frames/frame_08_520s.jpg)
+*[08:40](https://www.youtube.com/watch?v=203GsVI7fpU&t=520s) This frame displays mathematical equations related to differential equations and numerical methods, including the definition of a derivative and an iterative formula for approximating solutions.*
+
+
+```
+dx/dt = lim_{h→0} (x(t+h)-x(t))/h
+```
+
+In Euler’s method we fix a small positive step size \(h\) and use the approximation:
+
+\[
+\frac{dx}{dt} \approx \frac{x(t+h)-x(t)}{h}
+\]
+
+Because we drop the limit, every step introduces a small error. The approximation is not equal to the true derivative; it is only close when \(h\) is small. Each time we apply the formula
+
+\[
+x(t+h) = x(t) + h\,F(x(t))
+\]
+
+we are moving along a tangent line, not the true curve. The error at that step is the vertical distance between the true solution and the tangent line estimate.
+
+### Error Cascades Forward
+
+The error does not stay isolated. Suppose you start at the exact initial condition \(x(0)=x_0\). After one step you land at \(x(h)\), which is slightly off the true solution. At the next step you use this approximate \(x(h)\) to compute the slope \(F(x(h))\). That slope is also approximate, because it is evaluated at an incorrect point. You then step forward again, adding another approximation error to the already present error from the previous step. The process repeats.
+
+
+![This frame shows mathematical equations for Euler's method, including the definition of a derivative, its approximation, and the iterative formula...](frames/frame_09_560s.jpg)
+*[09:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=560s) This frame shows mathematical equations for Euler's method, including the definition of a derivative, its approximation, and the iterative formula for x(t+h).*
+
+
+The iterative formula
+
+```
+x(h) = x0 + hF(x0)
+x(2h) = x(h) + hF(x(h))
+x(3h) = x(2h) + hF(x(2h))
+...
+x((n+1)h) = x(nh) + hF(x(nh))
+```
+
+shows that each step depends on the result of the previous step. The error from step 1 feeds into step 2, the error from step 2 feeds into step 3, and so on. This is a cascading accumulation of error: the farther you go into the future, the more error you collect.
+
+
+![The whiteboard shows the definition of a derivative, an approximation for dx/dt, and the derivation of x(t+h) = x(t) + hF(x(t)), along with an...](frames/frame_10_600s.jpg)
+*[10:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=600s) The whiteboard shows the definition of a derivative, an approximation for dx/dt, and the derivation of x(t+h) = x(t) + hF(x(t)), along with an iterative formula for x(nh).*
+
+
+### The Trade-Off with Step Size
+
+You want \(h\) to be very small so that the tangent approximation is accurate. However, a small \(h\) means you need many steps to cover a given time interval. For example, if \(h = 0.001\), you need 1000 steps to advance just one time unit. If you are simulating far into the future, the program can run for a very long time. Doing the same computation by hand would be impractical.
+
+Conversely, you want \(h\) to be as large as possible to reduce the number of steps. But if \(h\) is too large, the per-step approximation error becomes large, and the accumulated error can grow so much that the numerical result has no relation to the true solution.
+
+
+![This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small step size h...](frames/frame_11_640s.jpg)
+*[10:40](https://www.youtube.com/watch?v=203GsVI7fpU&t=640s) This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for a small step size h, and the iterative formula for x(t+h).*
+
 
 The following table summarizes the trade-off:
 
-| Step size `h` | Accuracy | Error accumulation | Computation time |
-|---------------|----------|-------------------|------------------|
-| Large         | Lower    | Higher            | Shorter          |
-| Small         | Higher   | Lower             | Longer           |
+| Step size \(h\) | Per-step accuracy | Number of steps to reach \(t = T\) | Total accumulated error |
+|-----------------|-------------------|-----------------------------------|--------------------------|
+| Very small      | High              | Many (\(T/h\) large)              | Smaller per step, but more steps can still cause significant error |
+| Large           | Low               | Few (\(T/h\) small)               | Larger per step, fewer steps, but overall error may be huge |
 
-This sensitivity analysis shows that the step size is a parameter you must balance: you want a small enough `h` to obtain a trustworthy result, but not so small that the simulation becomes impractical.
+The key is to balance these two extremes. You must choose \(h\) small enough that the local error is acceptable, but large enough that the computation finishes in a reasonable time.
 
-### Implementing Euler’s Method with a For Loop
+### Visualizing Error Accumulation
 
-Now you will put the theory into practice. Implement Euler’s method using a simple `for` loop. The generic structure is:
+A graph helps show how the error builds. Consider the true solution \(x(t)\) as a curve. At the initial point \((t_0, x_0)\), the tangent line to the true solution is given by the slope \(F(x_0)\). Euler’s method follows that tangent line for a distance \(h\) in the \(t\) direction to obtain an estimate at \(t_0 + h\).
+
+
+![This frame shows mathematical equations for Euler's method, including the definition of a derivative, the approximation of x(t+h), and a...](frames/frame_12_720s.jpg)
+*[12:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=720s) This frame shows mathematical equations for Euler's method, including the definition of a derivative, the approximation of x(t+h), and a step-by-step calculation of x(h), x(2h), and x((n+1)h), alongside a graph of x(t) versus t.*
+
+
+The drawing on the whiteboard shows the true solution (a curved line) and the tangent line at the starting point. The estimated point lies on the tangent line, not on the curve. The vertical gap between the curve and the line is the local error of that step.
+
+
+![This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for the derivative, and the...](frames/frame_13_740s.jpg)
+*[12:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=740s) This frame shows mathematical equations for Euler's method, including the definition of a derivative, an approximation for the derivative, and the iterative formula for x(t+h), along with a graph of x(t) versus t.*
+
+
+Now, from the estimated point, Euler’s method computes a new tangent line. This new tangent line is not parallel to the tangent of the true solution at that same time, because it is evaluated at the approximate location. The second step follows this new tangent line, producing another estimate that is even farther from the true curve.
+
+
+![A whiteboard shows the Euler method for approximating solutions to differential equations, with the formula x(t+h) = x(t)+hF(x(t)) highlighted.](frames/frame_14_780s.jpg)
+*[13:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=780s) A whiteboard shows the Euler method for approximating solutions to differential equations, with the formula x(t+h) = x(t)+hF(x(t)) highlighted.*
+
+
+The process repeats: each step uses a tangent line from an approximation, not from the true solution. The error at each step is a combination of the error inherited from the previous step and the new error from the current approximation. The diagram at 13:00 and 13:40 illustrates how the gap between the approximate path and the true path widens as you move forward.
+
+
+![The whiteboard shows the Euler method for approximating solutions to ordinary differential equations, with the formula x(t+h) = x(t) + hF(x(t))...](frames/frame_15_820s.jpg)
+*[13:40](https://www.youtube.com/watch?v=203GsVI7fpU&t=820s) The whiteboard shows the Euler method for approximating solutions to ordinary differential equations, with the formula x(t+h) = x(t) + hF(x(t)) highlighted.*
+
+
+
+![This frame shows the derivation of Euler's method for solving ordinary differential equations, including the definition of the derivative and the...](frames/frame_16_840s.jpg)
+*[14:00](https://www.youtube.com/watch?v=203GsVI7fpU&t=840s) This frame shows the derivation of Euler's method for solving ordinary differential equations, including the definition of the derivative and the approximation leading to the iterative formula.*
+
+
+Below is a simplified ASCII diagram of the process:
 
 ```
-h = 0.01          # step size (choose a small value)
-T = 100           # total simulation time
-N = int(T/h)      # number of steps
-
-# initial conditions
-x1 = initial_value_1
-x2 = initial_value_2
-
-for i in range(N):
-    # compute derivatives (right-hand side of your system)
-    dx1 = f1(x1, x2)
-    dx2 = f2(x1, x2)
-    # Euler update
-    x1 = x1 + h * dx1
-    x2 = x2 + h * dx2
-    # (optional) store or plot x1, x2 at each step
+x(t)
+|
+|   true solution (curved)
+|    /
+|   / 
+|  /
+| / 
+|/   * estimated point 2 (far from true)
+|    / 
+|   / * estimated point 1 (small error)
+|  /
+| / 
+|/ * start (exact)
+|________________ t
 ```
 
-Replace `f1` and `f2` with the specific equations of your dynamical system. Run the loop and record the values of `x1` and `x2` over time.
+The first estimate is close to the true curve. The second estimate, based on the first estimate, is farther away. The error compounds.
 
-### Observing the Periodic Orbit
+### Why This Matters
 
-The system you are simulating lives in a two‑dimensional space called the **phase space**, where the axes are `x1` and `x2`. In this space, a **periodic orbit** is a closed curve that the trajectory traces repeatedly. The values of `x1` and `x2` repeat over time, meaning the system returns to the same state after a fixed period.
-
-Below is a simplified ASCII diagram of a periodic orbit (a limit cycle) in the `x1`‑`x2` plane:
-
-```
-          x2
-          ^
-          |      . . . . . . . . .
-          |    .                   .
-          |   .                     .
-          |  .                       .
-          | .                         .
-          |.                           .
-          .                            .
-          |.                           .
-          | .                         .
-          |  .                       .
-          |   .                     .
-          |    .                   .
-          |      . . . . . . . . .
-          +---------------------------> x1
-```
-
-Time is not directly shown on the axes; it is embedded in the motion of the trajectory. As you run the simulation, the point `(x1(t), x2(t))` moves along this closed curve. If you plot `x1(t)` and `x2(t)` separately against time, you will see that they converge to periodic signals that resemble sine or cosine waves.
-
-**Claim from the transcript:**  
-“If you actually plot it out what x1(t) and x2(t) look like they would converge into something some periodic signal … they would look like a sine or a cosine type thing.”
-
-### Verifying Your Numerical Results
-
-To confirm that your implementation is correct, check that the trajectory in phase space indeed forms a closed loop (or visually approaches one). You can also compute the period by detecting when the system returns to the starting state. A successful verification means your choice of `h` was small enough to capture the periodic behavior without excessive error.
+The error in Euler’s method is a direct consequence of replacing the derivative limit with a finite difference. This is essentially a first-order Taylor approximation: you are linearizing the dynamics at each step. The same linearization idea appears in many other theorems (stable manifold theorem, Hartman-Grobman theorem). Understanding the trade-off between step size and accuracy is crucial for obtaining reliable numerical results without excessive computation.
 
 ### Check Your Understanding
 
-1. **Why does a smaller step size `h` reduce the accumulated error in Euler’s method?**  
-   <details><summary>Answer</summary>  
-   A smaller `h` means each step covers a shorter interval, so the local truncation error at each step is smaller. Over many steps, these smaller errors accumulate less, resulting in a more accurate overall trajectory.  
+1. Why does the error in Euler’s method grow as you simulate further into the future?
+
+<details><summary>Answer</summary>
+Each step introduces a small local error from approximating the derivative. This error is then used as the starting point for the next step, so the error from the previous step contributes to the new step’s error. This cascading effect causes the total error to accumulate and grow as you take more steps.
+</details>
+
+2. What is the trade-off when choosing the step size \(h\)?
+
+<details><summary>Answer</summary>
+A smaller \(h\) gives a more accurate approximation per step but requires many steps to cover a given time interval, increasing computation time. A larger \(h\) reduces the number of steps but makes each step less accurate, which can cause the total error to become unacceptably large.
+</details>
+
+3. In the iterative formula \(x((n+1)h) = x(nh) + hF(x(nh))\), what is the source of the approximation error?
+
+<details><summary>Answer</summary>
+The exact derivative would require the limit \(h \to 0\). By fixing \(h\) and using a finite difference, we are approximating the derivative with a secant line. Additionally, the slope \(F(x(nh))\) is evaluated at an approximate state, not the true state, introducing further error.
+</details>
+
+4. How does the visual diagram (tangent line vs. true curve) illustrate error accumulation?
+
+<details><summary>Answer</summary>
+The diagram shows that at each step the estimated point lies on the tangent line of the previous estimate, not on the true curve. The tangent line at the approximate point differs from the tangent of the true solution at that time, so the next estimate deviates further. The vertical gap between the approximation and the true solution grows with each step.
+</details>
+## Application to an RLC Circuit Model and Sensitivity Analysis
+
+Euler’s method approximates the solution of an ordinary differential equation (ODE) by stepping forward in time using the tangent line at each point. However, each step introduces an error because the tangent is only an approximation. That error does not vanish; it is carried forward and combined with new errors at every step. The result is a cumulative error that can become large if the step size \(h\) is too large, or the computation can become very slow if \(h\) is too small. This trade-off is fundamental to all numerical ODE solvers.
+
+Despite this drawback, Euler’s method is simple to implement and often works well when the step size is chosen appropriately. In this section you will apply it to a specific dynamical system: an RLC circuit model. You will then perform a sensitivity analysis to verify that the observed behavior is not a numerical artifact.
+
+### The RLC Circuit Model
+
+The system is described by two coupled first-order ODEs:
+
+\[
+\begin{aligned}
+x_1' &= x_1 - x_1^3 - x_2 \\
+x_2' &= x_1
+\end{aligned}
+\]
+
+Here \(x_1\) and \(x_2\) are the state variables (e.g., voltage and current in the circuit). The only equilibrium point is at \((0,0)\), but it is unstable. The vector field pushes trajectories away from the origin and also pulls them inward from infinity. The result is a single closed orbit called a **limit cycle** (a periodic orbit in the phase plane). Unlike the Romeo and Juliet model, which has infinitely many nested cycles, this system has exactly one.
+
+
+![The whiteboard shows mathematical equations for differential equations and Euler's method, along with a graph illustrating the approximation of a...](frames/frame_19_980s.jpg)
+*[16:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=980s) The whiteboard shows mathematical equations for differential equations and Euler's method, along with a graph illustrating the approximation of a continuous function.*
+  
+The on‑screen text shows the general Euler method and the specific system equations:
+
+```
+x' = F(x)
+x = (x₁, ..., xₙ) ∈ ℝⁿ
+F = (f₁, ..., fₙ)
+dx/dt = lim (x(t+h) - x(t))/h
+h→0
+Fix h>0: dx/dt ≈ (x(t+h) - x(t))/h
+=> (x(t+h) - x(t))/h ≈ F(x(t))
+=> x(t+h) = x(t) + hF(x(t))
+Given X(0) = X₀
+=> x(h) = x₀ + hF(x₀)
+=> x(2h) = x(h) + hF(x(h))
+=> x(3h) = x(2h) + hF(x(2h))
+...
+=> x((n+1)h) = x(nh) + hF(x(nh))
+x₁' = x₁ - x₁³ - x₂
+x₂' = x₁
+```
+
+### Implementing Euler’s Method for the RLC Circuit
+
+To approximate the solution, you will write a simple `for` loop that repeatedly applies the Euler update formula. The step size \(h\) determines the accuracy and the number of iterations.
+
+**Step‑by‑step procedure:**
+
+1. **Choose a step size \(h\).** In the video, the instructor used \(h = 0.1\).  
+2. **Set the initial condition.** For example, start at \((x_1, x_2) = (0.5, 0.0)\) or any point that is not the equilibrium.  
+3. **Define the vector function \(F(x)\).**  
+   \[
+   F_1(x_1, x_2) = x_1 - x_1^3 - x_2, \quad F_2(x_1, x_2) = x_1
+   \]  
+4. **Loop over time steps.** At each step \(n\) (starting from \(n=0\)):
+   \[
+   x_1^{(n+1)} = x_1^{(n)} + h \cdot (x_1^{(n)} - (x_1^{(n)})^3 - x_2^{(n)})
+   \]  
+   \[
+   x_2^{(n+1)} = x_2^{(n)} + h \cdot x_1^{(n)}
+   \]  
+5. **Store or plot the trajectory** in the \((x_1, x_2)\) phase plane.
+
+
+![This frame shows mathematical equations for Euler's method and a phase portrait diagram with a spiral trajectory.](frames/frame_20_1040s.jpg)
+*[17:20](https://www.youtube.com/watch?v=203GsVI7fpU&t=1040s) This frame shows mathematical equations for Euler's method and a phase portrait diagram with a spiral trajectory.*
+  
+The screen shows the same equations with a phase portrait diagram that includes a spiral trajectory approaching a closed curve: the limit cycle.
+
+```
+x'= F(x)
+x = (x1...,xn)∈TRⁿ
+F = (f1...,fn)
+dx/dt = lim h→0 (x(t+h)-x(t))/h
+Fix h>0: dx/dt ≈ (x(t+h)-x(t))/h
+=> (x(t+h)-x(t))/h ≈ F(x(t))
+=> x(t+h) = x(t)+hF(x(t))
+Given X(0)=Xo
+=> x(h) = Xo + hF(Xo)
+=> x(2h) = x(h) + hF(x(h))
+=> x(3h) = x(2h) + hF(x(2h))
+...
+=> x((n+1)h) = x(nh) + hF(x(nh))
+x₁' = x₁ - x₁³ - x₂
+x₂' = x₁
+```
+
+
+![The whiteboard shows mathematical equations for differential equations, Euler's method, and a phase portrait diagram.](frames/frame_21_1060s.jpg)
+*[17:40](https://www.youtube.com/watch?v=203GsVI7fpU&t=1060s) The whiteboard shows mathematical equations for differential equations, Euler's method, and a phase portrait diagram.*
+  
+The same equations appear again, now with a diagram that clarifies the spiral motion and the limit cycle.
+
+### What You Should Observe
+
+If you run the Euler simulation with \(h = 0.1\) and a suitable initial condition, you will see a trajectory that spirals outward from the origin and then settles onto a closed curve. That curve is the **limit cycle**: a periodic orbit. Plotted in the \(x_1\)-\(x_2\) plane, the points repeat over time. If you instead plot \(x_1(t)\) or \(x_2(t)\) against time, they will look like periodic signals (similar to sine or cosine waves).
+
+The instructor emphasizes that the limit cycle is a real feature of the system, not a numerical artifact. To confirm this, you must perform a **sensitivity analysis**.
+
+### Sensitivity Analysis: Checking Your Own Work
+
+The goal of sensitivity analysis here is to verify that the observed limit cycle is not an illusion created by a too‑large step size. The method is simple:
+
+- **Decrease the step size \(h\).** Run the same simulation with a smaller \(h\), for example \(h = 0.05\) or \(h = 0.01\).
+- **Compare the results.** If the limit cycle still appears and its shape does not change significantly, you can be confident it is a genuine property of the model.
+- **Be aware of the cost.** Smaller \(h\) means more steps, which increases the computation time. You may have to wait longer for the simulation to finish.
+
+This is the same kind of robustness check used throughout numerical analysis: you vary the discretization parameter to see whether the solution stabilizes. The only difference is that here you are checking your own simulation for errors.
+
+### Summary of the Euler Method for the RLC Circuit
+
+| Component | Description |
+|-----------|-------------|
+| ODE system | \(x_1' = x_1 - x_1^3 - x_2\), \(x_2' = x_1\) |
+| Equilibrium | \((0,0)\) is unstable |
+| Expected behavior | Trajectories spiral out and converge to a single limit cycle |
+| Euler update | \(x_1^{(n+1)} = x_1^{(n)} + h (x_1^{(n)} - (x_1^{(n)})^3 - x_2^{(n)})\)<br>\(x_2^{(n+1)} = x_2^{(n)} + h x_1^{(n)}\) |
+| Sensitivity check | Reduce \(h\) and re-run; if the limit cycle persists, it is genuine |
+| Trade‑off | Smaller \(h\) gives more accurate results but increases runtime |
+
+**ASCII diagram of the expected phase plane:**
+
+```
+          x2
+           ^
+           |
+           |     . . . . . . . . . .
+           |    .                   .
+           |   .                     .
+           |  .                       .
+           | .                         .
+           |.                           .
+    --------*---------------------------*-------> x1
+           |.                           .
+           | .                         .
+           |  .                       .
+           |   .                     .
+           |    .                   .
+           |     . . . . . . . . . .
+           |
+```
+
+The asterisk at the center is the unstable equilibrium. The outer curve is the limit cycle. Trajectories inside the cycle spiral out, trajectories outside spiral in.
+
+### Check Your Understanding
+
+1. **Why does the error in Euler’s method accumulate as the simulation progresses?**
+
+   <details><summary>Answer</summary>
+   Each step uses the approximation of the derivative from the current point, which is already approximate. The error from the previous step is carried forward, and a new error is added at every step. This cascading effect means the total error grows with the number of steps, especially if the step size \(h\) is large.
    </details>
 
-2. **What is the main drawback of using a very small `h`?**  
-   <details><summary>Answer</summary>  
-   The number of steps increases proportionally, which increases the computation time.  
+2. **In the RLC circuit model, what is the limit cycle and why is it interesting?**
+
+   <details><summary>Answer</summary>
+   The limit cycle is a closed, periodic orbit in the phase plane. It is the only such orbit for this system. Trajectories inside the cycle spiral outward, and trajectories outside spiral inward, so the limit cycle is the “balance point” between the two opposing behaviors. The system will eventually settle into this cycle regardless of the initial condition (unless it starts exactly at the unstable equilibrium).
    </details>
 
-3. **In the phase space `(x1, x2)`, what does a periodic orbit look like?**  
-   <details><summary>Answer</summary>  
-   It appears as a closed curve (a loop). The trajectory repeats the same sequence of states indefinitely.  
+3. **How does sensitivity analysis help you trust the Euler simulation result?**
+
+   <details><summary>Answer</summary>
+   By decreasing the step size \(h\) and running the simulation again, you can see whether the observed pattern (e.g., the limit cycle) remains. If it does, the pattern is likely a real feature of the ODE, not an artifact of the numerical approximation. If the pattern changes or disappears, the original result may have been caused by a step size that was too large.
    </details>
 
-4. **How can you verify that your Euler simulation has produced a periodic orbit?**  
-   <details><summary>Answer</summary>  
-   Plot the trajectory in `(x1, x2)` space and look for a closed loop. Alternatively, plot `x1(t)` and `x2(t)` separately and check that they become periodic signals (e.g., resembling sine or cosine waves). You can also compute the time it takes for the system to return to the initial state.  
+4. **What is the trade‑off between accuracy and computation time when choosing \(h\)?**
+
+   <details><summary>Answer</summary>
+   A smaller \(h\) gives a more accurate approximation (less error per step, less cumulative error) but requires many more steps to cover the same time interval, which increases the runtime. A larger \(h\) runs faster but may produce inaccurate results or even miss important dynamics.
    </details>
 ## Key takeaways
 
-- Euler's method approximates the derivative in a continuous-time dynamical system using a finite difference quotient with a small, fixed step size h.
-- The method converts a continuous-time system into a discrete-time system by producing the update rule x(t+h) = x(t) + h f(x(t)).
-- Starting from an initial condition, Euler's method iteratively applies the update rule in a for-loop to step forward in time.
-- Each step introduces a local truncation error because the derivative is approximated, not computed exactly.
-- Errors accumulate over multiple steps, causing the approximate solution to diverge from the true solution, especially for large step sizes.
-- There is a trade-off between step size h and accuracy: smaller h reduces error but increases the number of steps and computation time.
-- Geometrically, Euler's method follows the tangent line at the current point for a distance h, landing off the true curve, and then uses the tangent of the approximated point for the next step.
-- Applying Euler's method to the RLC circuit model x1' = x1 - x1^3 - x2, x2' = x1 with h=0.1 can reveal a limit cycle, a periodic orbit in the phase plane.
-- Sensitivity analysis by decreasing h (e.g., to 0.01) and rerunning the simulation helps verify that observed phenomena like limit cycles are not numerical artifacts.
-- The output of Euler's method can be interpreted in phase plane plots (x1 vs x2) and time series signals (x1 vs t or x2 vs t) to analyze system behavior.
+- Continuous-time dynamical systems cannot be directly implemented on a computer because derivatives require a limit process, so approximation methods like Euler's method are necessary.
+- Euler's method is derived from the limit definition of a derivative by fixing a small positive step size h and replacing the derivative with a finite difference quotient.
+- The iterative formula x((n+1)h) = x(nh) + h F(x(nh)) transforms a continuous differential equation into a discrete-time update rule that can be executed in a simple for-loop.
+- Euler's method introduces a local error at each step because the finite difference is only an approximation, and these errors accumulate as the solution is marched forward in time.
+- There is a trade-off between step size h and accuracy: a smaller h reduces per-step error but increases the number of steps, while a larger h speeds up computation but risks producing meaningless results.
+- Visualizing Euler's method with tangent lines shows how the numerical solution diverges from the true solution over time due to the cascading accumulation of error.
+- Applying Euler's method to the RLC circuit model (x1' = x1 - x1^3 - x2, x2' = x1) with h = 0.1 reveals a stable limit cycle, a periodic orbit in the phase plane.
+- Sensitivity analysis by decreasing h verifies whether observed phenomena like limit cycles are true dynamics or numerical artifacts, confirming the robustness of the numerical result.
+- Euler's method is a first-order approximation, meaning its global error is proportional to h, so halving h roughly halves the overall error but doubles the computational effort.
 ## Glossary
 
 | Term | Definition |
 |---|---|
-| Continuous-time dynamical system | A system described by differential equations where the state evolves continuously with time, typically written as x' = f(x). |
-| Discrete-time dynamical system | A system described by update rules where the state is defined only at discrete time steps, typically written as x_{n+1} = g(x_n). |
-| Derivative | The instantaneous rate of change of a function, defined as the limit of (x(t+h) - x(t))/h as h approaches zero. |
-| Finite difference quotient | An approximation of the derivative using a small but nonzero h: (x(t+h) - x(t))/h. |
-| Euler's method | A numerical technique that approximates solutions to differential equations by iterating the update rule x(t+h) = x(t) + h f(x(t)). |
-| Forward Euler method | Another name for Euler's method, emphasizing that it uses the derivative at the current time to step forward to the next time. |
-| Step size h | The fixed time increment used in Euler's method between successive approximations. |
-| Initial condition | The known state of the system at the starting time, typically t=0, used to begin the iterative process. |
-| For-loop | A programming construct that repeats a block of code a specified number of times, used here to apply the Euler update repeatedly. |
-| Local truncation error | The error introduced in a single step of Euler's method due to approximating the derivative with a finite difference. |
-| Error accumulation | The process by which errors from each step compound over multiple iterations, causing the approximate solution to drift from the true solution. |
-| Tangent line | A straight line that touches a curve at a point and has the same slope as the curve at that point, used geometrically in Euler's method to approximate the next point. |
-| Phase plane | A two-dimensional plot where each axis represents one state variable of a dynamical system, used to visualize trajectories. |
-| Limit cycle | A closed, isolated periodic orbit in the phase plane that attracts or repels nearby trajectories. |
-| Periodic orbit | A trajectory that repeats itself exactly after a fixed period of time, appearing as a closed curve in the phase plane. |
-| RLC circuit model | A specific dynamical system with equations x1' = x1 - x1^3 - x2 and x2' = x1, used as an example to demonstrate limit cycles. |
-| Sensitivity analysis | The process of varying parameters (here, step size h) to check whether observed results are robust or are numerical artifacts. |
-| Numerical artifact | A feature in a computed result that arises from the numerical method itself rather than from the true behavior of the system. |
-| Time series signal | A plot of a state variable against time, showing how it evolves over the simulation. |
-| Linearization | Approximating a nonlinear function by a linear one near a point, often using the tangent line or Taylor expansion. |
+| continuous dynamical system | A system whose state evolves continuously in time, described by ordinary differential equations (ODEs) such as x' = F(x). |
+| discrete dynamical system | A system whose state is updated at discrete time steps, often written as x_{n+1} = G(x_n). |
+| derivative | The instantaneous rate of change of a function, defined as the limit of (x(t+h) - x(t))/h as h approaches zero. |
+| finite difference | An approximation of the derivative using a small but nonzero step size h, such as (x(t+h) - x(t))/h. |
+| step size h | The fixed time increment used in Euler's method; a smaller h gives a more accurate approximation but requires more steps. |
+| Euler's method (forward Euler) | A numerical technique that approximates the solution of an ODE by repeatedly applying the formula x(t+h) = x(t) + h F(x(t)). |
+| local error | The error introduced in a single Euler step, assuming the starting point is exact; it is on the order of h^2. |
+| global error | The total accumulated error after many Euler steps; it is typically on the order of h for a fixed final time. |
+| cascading error | The effect where errors from previous steps are fed into subsequent steps, causing the numerical solution to drift further from the true solution over time. |
+| tangent line approximation | Euler's method approximates the solution curve by following the tangent line at each point, which is exact only for linear functions. |
+| limit cycle | A closed, isolated periodic orbit in the phase plane of a dynamical system; nearby trajectories converge to it or diverge from it. |
+| phase plane | A two-dimensional space where each axis represents one state variable of a system, used to visualize trajectories over time. |
+| equilibrium point | A point where the derivative of the system is zero; the system remains at rest if placed there exactly. |
+| sensitivity analysis | The practice of varying a parameter (here step size h) to see how the output changes, helping to distinguish true dynamics from numerical artifacts. |
+| numerical artifact | A feature in a computed solution that is not present in the true mathematical solution, caused by approximation errors or instability. |
+| RLC circuit model | A nonlinear circuit model described by the ODEs x1' = x1 - x1^3 - x2, x2' = x1, which exhibits a limit cycle. |
+| for-loop | A programming construct that repeats a block of code a fixed number of times, used here to iterate the Euler update for each time step. |
+| approximation | A numerical value or method that is close to the exact value or solution but not exact, often due to discretization. |
+| robustness | The property of a numerical method to produce reliable results under small changes in parameters or initial conditions. |
+| periodic orbit | A trajectory that repeats itself exactly after a fixed time interval, appearing as a closed curve in the phase plane. |
 ## Footnotes and deeper context
 
-1. **Euler method accuracy order.** Euler's method is a first-order method, meaning the local truncation error is proportional to h^2, and the global error after many steps is proportional to h. This is a standard result from numerical analysis textbooks such as 'Numerical Analysis' by Burden and Faires.
-2. **Stability condition for Euler method.** For stiff differential equations, Euler's method can become unstable unless h is extremely small. A common misconception is that smaller h always improves accuracy, but for stiff systems, stability constraints may force h to be smaller than accuracy requirements alone would suggest. This is documented in 'Solving Ordinary Differential Equations I' by Hairer, Norsett, and Wanner.
-3. **RLC circuit model origin.** The specific RLC circuit model x1' = x1 - x1^3 - x2, x2' = x1 is a classic example of a system with a stable limit cycle, often used to illustrate the van der Pol oscillator behavior. It is not a literal RLC circuit but a simplified model of nonlinear oscillation.
-4. **Alternative numerical methods.** Higher-order methods like Runge-Kutta (e.g., RK4) provide better accuracy per step than Euler's method for the same h. These are standard in scientific computing and are implemented in libraries such as SciPy's 'solve_ivp' function.
-5. **Convergence of Euler method.** Under mild smoothness conditions on f, Euler's method converges to the true solution as h approaches zero. This is guaranteed by the Lax equivalence theorem for consistent and stable numerical methods, as covered in 'Finite Difference Methods for Ordinary and Partial Differential Equations' by LeVeque.
+1. **Accuracy of Euler's method.** Euler's method is a first-order numerical method. The local truncation error is O(h^2), and the global error is O(h). This means that halving h reduces the global error by roughly half, but to achieve high accuracy, very small h values are needed, which can be computationally expensive.
+2. **Stability conditions.** For stiff differential equations, Euler's method can require impractically small h to remain stable. Stiffness occurs when the solution contains components with widely different time scales. In such cases, implicit methods like backward Euler or Runge-Kutta methods are often preferred.
+3. **The RLC circuit model used.** The system x1' = x1 - x1^3 - x2, x2' = x1 is a variant of the Van der Pol oscillator, a classic nonlinear oscillator. It is not a standard linear RLC circuit but a model of a circuit with a nonlinear resistor. The limit cycle observed is a true dynamical feature, not a numerical artifact, as verified by sensitivity analysis.
+4. **Common misconception about local error.** Some beginners think that making h extremely small eliminates error entirely. While the error does decrease, it never vanishes because Euler's method uses a one-term Taylor expansion. Floating-point round-off error also becomes significant when h is extremely small (e.g., below 1e-8 in double precision).
+5. **Alternative methods.** Runge-Kutta methods, especially the fourth-order method (RK4), provide much better accuracy per step than Euler's method. Most modern software libraries (e.g., SciPy's solve_ivp, MATLAB's ode45) use adaptive step-size Runge-Kutta methods that automatically adjust h to control error.
 ## Where to go next
 
-- **Implement Euler's method in Python or MATLAB.** Write a simple for-loop script to simulate the RLC circuit model. Use the equations x1' = x1 - x1^3 - x2 and x2' = x1. Start with h=0.1 and run for 1000 steps. Plot the phase plane (x1 vs x2) and time series. Then repeat with h=0.01 to verify the limit cycle persists. This hands-on practice solidifies the concepts from the lecture.
-- **Read about higher-order methods in 'Numerical Recipes' by Press et al..** Chapter 17 of 'Numerical Recipes: The Art of Scientific Computing' covers Euler's method and introduces Runge-Kutta methods. It explains why higher-order methods reduce error without requiring extremely small step sizes, which is the natural next step after mastering Euler's method.
-- **Explore the van der Pol oscillator in the SciPy documentation.** The SciPy library's 'integrate' module includes 'solve_ivp' which implements adaptive Runge-Kutta methods. The documentation provides examples of simulating the van der Pol oscillator, a system closely related to the RLC circuit model. This shows how professional tools handle numerical integration.
-- **Study error analysis in 'Differential Equations and Their Applications' by Braun.** Chapter 6 of Braun's textbook provides a clear, example-driven explanation of local and global truncation errors for Euler's method. It includes worked problems that quantify how error grows with step size and number of steps, directly supporting the trade-off discussion in the lecture.
+- **Implement Euler's method in Python or MATLAB.** Try coding the Euler method yourself for the given RLC circuit model. Use a for-loop and plot the phase plane. Start with h = 0.1 and then reduce h to 0.01 to see the limit cycle persist. The official documentation for Python's matplotlib and numpy will help with plotting.
+- **Study higher-order methods: Runge-Kutta.** Read the chapter on Runge-Kutta methods in 'Numerical Recipes' by Press, Teukolsky, Vetterling, and Flannery (3rd edition) or 'Introduction to Numerical Analysis' by Suli and Mayers. These explain why RK4 is preferred over Euler for most applications.
+- **Explore adaptive step-size methods.** Consult the SciPy documentation for 'solve_ivp' (https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html) and compare its results with your Euler implementation. This will give you insight into how professional software handles accuracy and efficiency.
+- **Learn about numerical stability.** The concept of stability region for Euler's method is covered in 'Numerical Methods for Ordinary Differential Equations' by John C. Butcher. Understanding stability helps explain why too large h can blow up the solution even if the true solution is bounded.
 ---
 *Printed by yt2textbook, an open tool from Zorost AI Lab. Screenshots are frames captured from the source video; each caption links to the exact moment it appears.*

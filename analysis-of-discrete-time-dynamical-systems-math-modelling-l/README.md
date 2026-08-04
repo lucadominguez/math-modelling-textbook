@@ -1,502 +1,583 @@
-# Stability of Discrete-Time Dynamical Systems: Linearization and Eigenvalue Analysis
+# Discrete-Time Dynamical Systems: Stability via Eigenvalue Modulus Condition
 > **Source:** [Analysis of Discrete-Time Dynamical Systems - Math Modelling - Lecture 19](https://www.youtube.com/watch?v=6It02qpjHQ8) by Math Modelling · 08:14 · Training document generated from the video.
 **How to use this document:** read it top to bottom in place of watching the video. Screenshots appear exactly where the video depends on something visual, with links that jump to that moment. Questions at the end of each section confirm you learned the material. The glossary and footnotes add definitions and detail the video assumes you already have.
-**Who this is for:** This course is for students of mathematical modeling who have already studied continuous-time dynamical systems and want to understand the analogous theory for discrete-time systems.
+**Who this is for:** This course is for students in mathematical modeling or dynamical systems who have studied continuous-time systems and want to understand the analogous theory for discrete-time systems.
 ## Learning objectives
 
 After working through this document you can:
 
-1. Define a discrete-time dynamical system in both difference equation form (X_{n+1} = X_n + f(X_n)) and update form (X_{n+1} = g(X_n)).
-2. Identify equilibrium points of a discrete-time system using the conditions f(X*) = 0 or g(X*) = X*.
-3. Linearize a discrete-time system around an equilibrium by computing the Jacobian matrix of the update function g.
-4. State the stability condition for a discrete-time linear system: all eigenvalues of the Jacobian must have modulus less than 1.
-5. Explain why eigenvalues with modulus less than 1 cause contraction and convergence to the equilibrium.
-6. Determine instability when at least one eigenvalue has modulus greater than 1, leading to expansion and divergence.
-7. Compare the discrete-time stability condition (unit circle) with the continuous-time condition (left half-plane) and highlight the key difference.
-8. Apply the stable manifold theorem and Hartman-Grobman theorem to conclude that linear stability implies local nonlinear stability.
+1. Define discrete-time dynamical systems using difference equations and the update function G(x).
+2. Identify equilibrium conditions for discrete systems: F(x*) = 0 or G(x*) = x*.
+3. Linearize a discrete-time system around an equilibrium by computing the Jacobian matrix DG(x*).
+4. Determine stability of an equilibrium by checking if every eigenvalue of DG(x*) has modulus less than 1.
+5. Determine instability when at least one eigenvalue has modulus greater than 1.
+6. Apply the stable manifold theorem to conclude local stability or instability of the nonlinear system from the linearized system.
+7. Contrast the stability criterion for discrete systems (unit circle) with that for continuous systems (left half-plane).
+8. Explain the Hartman-Grobman theorem for discrete systems and its implication that the nonlinear system is locally homeomorphic to the linearized system.
 ## Prerequisites
 
 - Basic calculus and linear algebra, including eigenvalues and Jacobian matrices.
-- Familiarity with continuous-time dynamical systems, fixed points, and stability conditions (real part of eigenvalues less than zero).
-- Understanding of difference equations and iterative maps.
-## Introduction and Motivation for Discrete-Time Systems
+- Familiarity with continuous-time dynamical systems, fixed points, and stability concepts.
+## Introduction to Discrete-Time Dynamical Systems and Difference Equations
 
-This section introduces discrete-time dynamical systems and explains why they deserve separate attention after studying continuous-time systems. You will learn how discrete-time systems relate to continuous-time theory and how they are typically written.
+This section introduces discrete-time dynamical systems and the difference equations that describe them. You will learn how to express the change in a state variable from one time step to the next, and how this leads to an iterative formula for predicting future states.
 
-### What Are Discrete-Time Dynamical Systems?
+### From Continuous to Discrete Time
 
-In previous videos, the course focused on continuous-time dynamical systems. That focus was not because the theory applies only to continuous-time systems. In fact, every concept discussed for continuous-time systems has an analog in discrete-time systems. (Added context: A discrete-time system updates its state at distinct time steps, such as every second or every iteration, rather than continuously.)
+In previous lessons you studied continuous-time dynamical systems, where time flows continuously and the system is described by differential equations. Every concept from continuous-time theory has a direct analog in discrete-time systems. This section covers the discrete-time formulation so that you can apply the same stability analysis (via eigenvalue modulus) to systems that evolve in distinct steps.
 
-The purpose of this short lecture video is to catch up on the discrete-time concepts that might have been overlooked while walking through the general theory of dynamical systems.
+### Defining a Discrete-Time Dynamical System
 
-### How Discrete-Time Systems Are Written
+A **discrete-time dynamical system** is a system whose state changes at discrete time steps (e.g., \(n = 0, 1, 2, \dots\)). The state is represented by a **state variable** \(X\). The change in the state variable from one step to the next is written as:
 
-A discrete-time dynamical system is written as the change in some state variable X equals a function of that state variable. The standard form is:
+\[
+\Delta X = F(X)
+\]
+
+Here, \(\Delta X\) is the difference between the next state and the current state. The function \(F\) describes how the current state influences that change.
+
+### From Change to a Difference Equation
+
+Because the system evolves in discrete steps, we can expand \(\Delta X\) as:
+
+\[
+\Delta X = X(n+1) - X(n)
+\]
+
+where \(X(n)\) is the state at time step \(n\) and \(X(n+1)\) is the state at the next step. Substituting this into the definition gives:
+
+\[
+X(n+1) - X(n) = F(X(n))
+\]
+
+Rearranging yields the **difference equation** (also called an **iterative map**):
+
+\[
+X(n+1) = X(n) + F(X(n))
+\]
+
+This equation tells you: if you know the current state \(X(n)\), you can compute the next state \(X(n+1)\) by adding the change \(F(X(n))\).
+
+
+![The whiteboard displays mathematical equations for Delta X and an iterative formula for X(n+1).](frames/frame_01_60s.jpg)
+*[01:00](https://www.youtube.com/watch?v=6It02qpjHQ8&t=60s) The whiteboard displays mathematical equations for Delta X and an iterative formula for X(n+1).*
+
+
+The whiteboard at this timestamp shows the three equations above:
 
 ```
-X_{k+1} = f(X_k)
+ΔX = F(x)
+ΔX = X(n+1) - X(n)
+X(n+1) = X(n) + F(X(n))
 ```
+
+### Examples of Discrete-Time Systems
+
+Many real-world processes and algorithms are naturally discrete-time. The video mentions:
+
+- **Newton’s method** for finding roots of a function: each iteration updates an estimate using the derivative.
+- **Gradient descent** for optimization: each step moves the parameters in the direction of the negative gradient.
+- **Yeast population models**: population size at one time step determines the size at the next step (e.g., logistic map).
+
+All of these can be written in the form \(X(n+1) = X(n) + F(X(n))\).
+
+### Introducing the Map Function \(G(X)\)
+
+Often it is convenient to define a single function that directly gives the next state:
+
+\[
+G(X) = X + F(X)
+\]
+
+Then the difference equation becomes simply:
+
+\[
+X(n+1) = G(X(n))
+\]
+
+This is the **discrete-time map**. The function \(G\) takes the current state and returns the next state. This form is directly analogous to the flow map in continuous-time systems, and it will be used later to analyze stability by examining the eigenvalues of the Jacobian of \(G\).
+
+### Key Concepts Summary
+
+| Term | Definition |
+|------|------------|
+| Discrete-time dynamical system | A system where the state changes at distinct time steps. |
+| State variable \(X\) | A quantity that describes the system at a given time. |
+| Change \(\Delta X\) | The difference between the next state and the current state. |
+| Difference equation | An equation of the form \(X(n+1) = X(n) + F(X(n))\) that predicts the next state. |
+| Map function \(G(X)\) | \(G(X) = X + F(X)\), so that \(X(n+1) = G(X(n))\). |
+
+### Check your understanding
+
+1. What is the relationship between the change \(\Delta X\) and the function \(F(X)\) in a discrete-time dynamical system?
+
+<details><summary>Answer</summary>
+The change \(\Delta X\) is defined to be equal to \(F(X)\). That is, \(\Delta X = F(X)\).
+</details>
+
+2. Write the difference equation that expresses \(X(n+1)\) in terms of \(X(n)\) and \(F(X(n))\).
+
+<details><summary>Answer</summary>
+\(X(n+1) = X(n) + F(X(n))\)
+</details>
+
+3. How is the map function \(G(X)\) defined, and why is it useful?
+
+<details><summary>Answer</summary>
+\(G(X) = X + F(X)\). It is useful because it directly gives the next state: \(X(n+1) = G(X(n))\), simplifying the analysis of the system’s dynamics.
+</details>
+
+4. Name two examples of discrete-time systems mentioned in the video.
+
+<details><summary>Answer</summary>
+Newton’s method and gradient descent. (Also yeast population models.)
+</details>
+## Equilibrium Conditions and Notation
+
+In discrete-time dynamical systems, we study how a state evolves step by step. The core concept is an **equilibrium point** (also called a fixed point or steady state), where the system does not change from one time step to the next.
+
+### Defining the System
+
+We represent a discrete-time system using a **difference equation**:
+
+\[
+X_{n+1} = G(X_n)
+\]
 
 Here:
-- X is the state variable (a vector or scalar that describes the system at a given time).
-- k is the current time step (an integer index).
-- X_{k+1} is the state at the next time step.
-- f is a function that maps the current state to the next state.
+- \(X_n\) is the state at time step \(n\)
+- \(X_{n+1}\) is the state at the next time step
+- \(G\) is the **update function** that maps the current state to the next state
 
-Typically, we like to open this representation a little bit. (Added context: "Open this up" means expanding the notation to show the iterative nature more clearly.) For example, you might write:
+Alternatively, we can write the change in state as:
+
+\[
+\Delta X = X_{n+1} - X_n = F(X_n)
+\]
+
+where \(F(X_n) = G(X_n) - X_n\) is the **increment function**.
+
+### Equilibrium Condition
+
+An **equilibrium point** \(X^*\) satisfies the condition that the system remains at that point forever. This gives two equivalent definitions:
+
+1. **Using the increment function**: \(F(X^*) = 0\)  
+   (No change from one step to the next)
+
+2. **Using the update function**: \(G(X^*) = X^*\)  
+   (The next state equals the current state)
+
+Both statements mean the same thing: at an equilibrium, the state does not move.
+
+### Visualizing the Relationship
+
+The whiteboard shows these equations clearly:
+
+
+![The whiteboard displays equations for delta X, X(n+1), G(x), and the conditions for equilibrium.](frames/frame_02_160s.jpg)
+*[02:40](https://www.youtube.com/watch?v=6It02qpjHQ8&t=160s) The whiteboard displays equations for delta X, X(n+1), G(x), and the conditions for equilibrium.*
+
 
 ```
-X_1 = f(X_0)
-X_2 = f(X_1) = f(f(X_0))
-X_3 = f(X_2) = f(f(f(X_0)))
+ΔX = F(x)
+ΔX = X(n+1) - X(n)
+X(n+1) = X(n) + F(X(n))
+G(x) = X + F(x)
+Suppose X* equilibrium: F(X*) = 0
+or G(X*) = X*
 ```
 
-This shows that the system evolves by repeatedly applying the function f to the current state.
-
-### Key Concepts
-
-| Concept | Definition |
-|---------|------------|
-| Discrete-time dynamical system | A system where state updates occur at distinct, separate time steps (e.g., k = 0, 1, 2, ...) |
-| State variable X | The variable (scalar or vector) that describes the system at a given time step |
-| Update function f | The rule that maps the current state X_k to the next state X_{k+1} |
-| Continuous-time analog | Every concept from continuous-time systems (stability, equilibrium, linearization) has a corresponding version in discrete-time |
+The key insight: **F(X*) = 0** is equivalent to **G(X*) = X***. If the increment is zero, the next state equals the current state.
 
 ### Why This Matters
 
-Understanding discrete-time systems is essential because many real-world systems are inherently discrete: digital controllers, economic models, population dynamics with non-overlapping generations, and computer simulations of continuous systems. The eigenvalue analysis you will learn later applies directly to these systems.
+This notation is standard because many important algorithms fit this form:
+- **Newton's method** for finding roots
+- **Gradient descent** for optimization
+- **Euler's method** for numerical integration of differential equations
+
+All of these can be written as \(X_{n+1} = G(X_n)\), making equilibrium analysis directly applicable.
+
+### Linearization Around Equilibrium
+
+Just as with continuous systems, we can **linearize** a discrete-time system near an equilibrium point. This involves computing the **Jacobian matrix** of \(G\) evaluated at \(X^*\):
+
+\[
+J = \frac{\partial G}{\partial X}\bigg|_{X=X^*}
+\]
+
+The eigenvalues of this Jacobian determine the **stability** of the equilibrium:
+- If all eigenvalues have magnitude less than 1, the equilibrium is **stable** (attracting)
+- If any eigenvalue has magnitude greater than 1, the equilibrium is **unstable** (repelling)
+- If eigenvalues have magnitude exactly 1, the stability is **marginal** (requires further analysis)
+
+### Summary Table
+
+| Concept | Continuous System | Discrete System |
+|---------|------------------|-----------------|
+| State equation | \(\dot{x} = f(x)\) | \(X_{n+1} = G(X_n)\) |
+| Equilibrium condition | \(f(x^*) = 0\) | \(G(X^*) = X^*\) or \(F(X^*) = 0\) |
+| Linearization tool | Jacobian of \(f\) | Jacobian of \(G\) |
+| Stability criterion | Real parts of eigenvalues < 0 | Magnitudes of eigenvalues < 1 |
+
+---
 
 ### Check Your Understanding
 
-1. What is the standard form for writing a discrete-time dynamical system?
+1. **What are the two equivalent conditions for a point \(X^*\) to be an equilibrium of the discrete system \(X_{n+1} = G(X_n)\)?**
 
-<details>
-<summary>Answer</summary>
-The standard form is X_{k+1} = f(X_k), where X_k is the state at time step k, and f is the function that maps the current state to the next state.
+<details><summary>Answer</summary>
+The two equivalent conditions are:
+- \(F(X^*) = 0\) (the increment is zero)
+- \(G(X^*) = X^*\) (the update function returns the same point)
+
+Both mean the state does not change from one step to the next.
 </details>
 
-2. How does a discrete-time system differ from a continuous-time system in terms of when state updates occur?
+2. **If a discrete system has update function \(G(x) = 2x(1-x)\), find all equilibrium points.**
 
-<details>
-<summary>Answer</summary>
-A discrete-time system updates its state at distinct, separate time steps (e.g., k = 0, 1, 2, ...), while a continuous-time system updates its state continuously over time.
+<details><summary>Answer</summary>
+Set \(G(x^*) = x^*\):
+\(2x^*(1-x^*) = x^*\)
+\(2x^* - 2x^{*2} = x^*\)
+\(x^* - 2x^{*2} = 0\)
+\(x^*(1 - 2x^*) = 0\)
+
+So the equilibria are \(x^* = 0\) and \(x^* = 0.5\).
 </details>
 
-3. True or False: The theory of continuous-time dynamical systems has no relationship to discrete-time systems.
+3. **Why is the condition \(F(X^*) = 0\) equivalent to \(G(X^*) = X^*\)?**
 
-<details>
-<summary>Answer</summary>
-False. Every concept discussed for continuous-time systems has an analog in discrete-time systems.
+<details><summary>Answer</summary>
+Because \(F(X) = G(X) - X\). If \(F(X^*) = 0\), then \(G(X^*) - X^* = 0\), so \(G(X^*) = X^*\). Conversely, if \(G(X^*) = X^*\), then \(F(X^*) = X^* - X^* = 0\). They are algebraically identical statements.
 </details>
 
-4. What does the notation X_{k+1} represent in a discrete-time system?
+4. **What is the stability criterion for a discrete-time equilibrium, and how does it differ from the continuous-time criterion?**
 
-<details>
-<summary>Answer</summary>
-X_{k+1} represents the state of the system at the next time step (one step after the current time step k).
+<details><summary>Answer</summary>
+For discrete-time systems, an equilibrium is stable if all eigenvalues of the Jacobian of \(G\) have magnitude less than 1. For continuous-time systems, stability requires all eigenvalues of the Jacobian of \(f\) have negative real parts. The difference arises because discrete updates multiply by the Jacobian each step, while continuous dynamics involve exponential growth/decay.
 </details>
-## Difference Equations and Equilibrium Definitions
+## Linearization and Stability Condition (Modulus Less Than 1)
 
-This section introduces difference equations as a way to model discrete-time dynamical systems and defines what it means for a point to be an equilibrium (or fixed point) of such a system.
 
-### From Change to Difference Equations
+![Mathematical equations for linearization, including definitions for \(\Delta X\), \(G(x)\), and the linearized form \(X(n+1)=DG(x_*)X(n)\).](frames/frame_04_220s.jpg)
+*[03:40](https://www.youtube.com/watch?v=6It02qpjHQ8&t=220s) Mathematical equations for linearization, including definitions for \(\Delta X\), \(G(x)\), and the linearized form \(X(n+1)=DG(x_*)X(n)\).*
 
-In a discrete-time dynamical system, the change from one step to the next is given by the function F. Specifically, if X is the current state, then the change is F(X). This change is the difference between the next state and the current state.
 
-The relationship is:
+### Linearizing the System
 
-X_next minus X_current equals F(X_current)
+To analyze stability near an equilibrium point, we must first linearize the nonlinear system. Linearization means computing the Jacobian matrix of the function \(G(x)\) at the equilibrium point \(x_*\).
 
-This is a difference equation. It tells you that if you know the current state X_current, then you can compute the next state X_next by adding the change F(X_current) to the current state.
+Recall the original system definitions from the whiteboard:
 
-X_next equals X_current plus F(X_current)
+- \(\Delta X = F(x)\) represents the change in state
+- \(\Delta X = X(n+1) - X(n)\) is the discrete difference
+- \(X(n+1) = X(n) + F(X(n))\) is the update equation
+- \(G(x) = X + F(x)\) is the function that maps current state to next state
 
-(Added context: A difference equation is a discrete analog of a differential equation. Instead of describing a continuous rate of change, it describes the change from one discrete time step to the next.)
+An equilibrium point \(x_*\) satisfies either:
+- \(F(x_*) = 0\) (no change in state)
+- or equivalently \(G(x_*) = x_*\) (state maps to itself)
 
-### Examples of Difference Equations
-
-Two common examples of systems that use difference equations are:
-
-1.  Newton's method: An iterative algorithm for finding roots of a function.
-2.  Gradient descent: An optimization algorithm that iteratively moves toward a minimum of a function.
-
-These are both iterative processes where the next value depends on the current value plus some computed change.
-
-Another example, which you have seen in this course, is modeling yeast populations. In such a model, the population size at the next time step depends on the current population size plus a change term (often representing growth or decay).
-
-### Defining G(X) and the Equilibrium Condition
-
-To analyze the system, we can define a new function G. G of X is equal to X plus F of X.
-
-G(X) equals X plus F(X)
-
-This function G directly gives the next state from the current state. So the difference equation can be rewritten as:
-
-X_next equals G(X_current)
-
-Now, we can analyze this discrete-time system using a process similar to what we have done with continuous dynamical systems. That process is linearization around a fixed point or an equilibrium.
-
-### What is an Equilibrium?
-
-Let X star (written as X*) be an equilibrium point. For a discrete-time system, an equilibrium has two equivalent definitions:
-
-1.  F of X star is equal to zero. This means there is no change from one step to the next.
-2.  G of X star is equal to X star. This means the next state is the same as the current state.
-
-These two definitions are two different interpretations of the same condition.
-
-If F of X star is zero, then the change is zero. This directly implies that what you are doing next (X_next) is the same as what you are doing now (X_current). Therefore, the system stays at X star once it reaches that point.
-
-### Summary of Key Concepts
-
-| Concept | Definition | Mathematical Expression |
-| :--- | :--- | :--- |
-| Difference Equation | A rule that gives the next state based on the current state. | X_next equals X_current plus F(X_current) |
-| Change Function F | The function that computes the change from one step to the next. | F(X_current) equals X_next minus X_current |
-| Next-State Function G | The function that directly gives the next state. | G(X) equals X plus F(X) |
-| Equilibrium X* | A state where the system does not change from one step to the next. | F(X*) equals 0, or equivalently, G(X*) equals X* |
-
-### Check your understanding
-
-1.  What is the relationship between the change function F and the next-state function G?
-
-    <details>
-    <summary>Answer</summary>
-    G(X) equals X plus F(X). G gives the next state directly, while F gives the change from the current state to the next state.
-    </details>
-
-2.  A population model is given by X_next equals 2 times X_current. What is the change function F(X)?
-
-    <details>
-    <summary>Answer</summary>
-    Since X_next equals X_current plus F(X_current), we have 2X equals X plus F(X). Therefore, F(X) equals X.
-    </details>
-
-3.  For the same model, X_next equals 2X, is X equals 0 an equilibrium? Explain.
-
-    <details>
-    <summary>Answer</summary>
-    Yes. At X equals 0, the next state is 2 times 0 equals 0. So the state does not change. This satisfies the equilibrium condition G(0) equals 0.
-    </details>
-
-4.  State the two equivalent conditions for a point X* to be an equilibrium of a discrete-time dynamical system.
-
-    <details>
-    <summary>Answer</summary>
-    The two conditions are: (1) F(X*) equals 0, and (2) G(X*) equals X*.
-    </details>
-## Linearization Around an Equilibrium
-
-This section explains how to linearize a discrete-time dynamical system around an equilibrium point. The process is analogous to linearization in continuous-time systems, but it is applied to an update equation rather than a differential equation.
-
-### The Equilibrium Condition in a Difference Equation
-
-A discrete-time dynamical system is often written as an update equation:
+To linearize, we compute the Jacobian matrix \(DG(x_*)\) of \(G\) evaluated at the equilibrium. This gives us the linearized dynamical system:
 
 \[
-x_{k+1} = f(x_k)
+X(n+1) = DG(x_*) X(n)
 \]
 
-Here, \(x_k\) is the state at time step \(k\), and \(f\) is a function that maps the current state to the next state. (Added context: This is called a "difference equation" because it describes how the state changes from one discrete time step to the next.)
+This is now a completely linear dynamical system. The Jacobian matrix \(DG(x_*)\) is a matrix of partial derivatives (added context: each entry \((i,j)\) is \(\frac{\partial G_i}{\partial x_j}\) evaluated at \(x_*\)).
 
-An **equilibrium point** (also called a steady state or fixed point) is a state \(x^*\) such that if the system starts at \(x^*\), it stays there forever. Mathematically, this means:
+
+![A whiteboard shows mathematical equations for linearization and stability, including definitions for ΔX, G(x), and conditions for equilibrium and...](frames/frame_05_260s.jpg)
+*[04:20](https://www.youtube.com/watch?v=6It02qpjHQ8&t=260s) A whiteboard shows mathematical equations for linearization and stability, including definitions for ΔX, G(x), and conditions for equilibrium and stability.*
+
+
+### Stability Condition: Eigenvalue Modulus Less Than 1
+
+For this linearized system, all dynamics are determined by the eigenvalues of the matrix \(DG(x_*)\). This is analogous to results from continuous-time systems.
+
+**The stability condition is:** The equilibrium point \(x_*\) is stable if every eigenvalue of \(DG(x_*)\) has modulus less than 1.
+
+The term "modulus" refers to the absolute value of a complex number. Some eigenvalues may be complex conjugates of each other. For a complex eigenvalue \(\lambda = a + bi\) (where \(a\) is the real part and \(b\) is the imaginary part), the modulus is:
 
 \[
-x^* = f(x^*)
+|\lambda| = \sqrt{a^2 + b^2}
 \]
 
-If you are currently at the equilibrium, you will stay at the equilibrium. This is the same condition as saying that the state does not change from one step to the next. These two views (the definition of equilibrium and the condition \(x^* = f(x^*)\)) are equivalent.
-
-### Why the Update Equation Notation is Standard
-
-The update equation form \(x_{k+1} = f(x_k)\) is the standard notation you will encounter in many numerical methods. Examples include:
-
-- **Newton's method** for finding roots of a function.
-- **Gradient descent** for optimization.
-- **Euler's method** for numerically solving differential equations (explained in a later video).
-
-All of these methods are expressed as update equations, making the linearization technique broadly applicable.
-
-### Linearizing the Update Equation
-
-Just as we linearized continuous-time dynamics by taking the Jacobian matrix about the steady state, we can do the same for discrete-time dynamics.
-
-The linearization of the update equation \(x_{k+1} = f(x_k)\) around an equilibrium point \(x^*\) is:
-
-\[
-x_{k+1} - x^* \approx A (x_k - x^*)
-\]
-
-where \(A\) is the **Jacobian matrix** of \(f\) evaluated at \(x^*\). The Jacobian matrix contains all first-order partial derivatives of \(f\) with respect to the state variables. (Added context: For a system with \(n\) state variables, \(A\) is an \(n \times n\) matrix.)
-
-The linearized system describes how small deviations from the equilibrium evolve over time. The stability of the original nonlinear system near the equilibrium is determined by the eigenvalues of \(A\).
-
-### Summary of the Linearization Process
-
-1. Identify the equilibrium point \(x^*\) by solving \(x^* = f(x^*)\).
-2. Compute the Jacobian matrix \(A = \frac{\partial f}{\partial x}\) evaluated at \(x = x^*\).
-3. The linearized dynamics are given by \(x_{k+1} - x^* = A (x_k - x^*)\).
-
-### Check your understanding
-
-1.  What is the condition for a point \(x^*\) to be an equilibrium of the discrete-time system \(x_{k+1} = f(x_k)\)?
-
-    <details>
-    <summary>Answer</summary>
-    The condition is \(x^* = f(x^*)\). If the system starts at \(x^*\), it stays at \(x^*\).
-    </details>
-
-2.  Name two numerical methods that are commonly written as update equations of the form \(x_{k+1} = f(x_k)\).
-
-    <details>
-    <summary>Answer</summary>
-    Newton's method and gradient descent. (Euler's method is also mentioned in the transcript.)
-    </details>
-
-3.  What matrix is used to linearize the update equation \(x_{k+1} = f(x_k)\) around an equilibrium point?
-
-    <details>
-    <summary>Answer</summary>
-    The Jacobian matrix of \(f\) evaluated at the equilibrium point.
-    </details>
-## Stability Condition: Eigenvalues with Modulus Less Than One
-
-After linearizing the system around an equilibrium point, you obtain a linear dynamical system. The linearization process means you compute the Jacobian matrix of the function g at the equilibrium point x star. The resulting updating scheme is governed entirely by this Jacobian matrix, denoted dg(x star). This is a completely linear dynamical system.
-
-The stability of this linearized system follows results similar to those in continuous time. All of the dynamics are determined by the eigenvalues of the matrix dg. Specifically, the system is stable if every eigenvalue of dg(x star) has a modulus less than 1.
-
-### Eigenvalue Modulus and the Unit Circle
-
-The modulus of an eigenvalue refers to its absolute value in the complex plane. Because eigenvalues can be complex conjugates of each other, you must consider the full complex number. The modulus of a complex number is the Euclidean norm: the square root of (real part squared plus imaginary part squared). This modulus must be smaller than 1 for every eigenvalue.
-
-The condition "modulus less than 1" means that all eigenvalues lie inside the unit circle in the complex plane. The unit circle is the set of all complex numbers with modulus exactly 1.
+This is the Euclidean norm of the complex number. The condition \(|\lambda| < 1\) means every eigenvalue lies inside the unit circle in the complex plane.
 
 ### Why This Condition Works
 
-When every eigenvalue has modulus less than 1, the Jacobian matrix dg(x star) becomes a contraction. A contraction is a mapping that reduces distances between points with each application. In this context, after each iteration n, the state vector contracts toward the equilibrium point. This contraction property ensures that the original equilibrium point is stable.
+The Jacobian matrix \(DG(x_*)\) becomes what is called a contraction. A contraction means that after each iteration (each time step \(n\)), the state is contracting toward the equilibrium point. When all eigenvalues have modulus less than 1, repeated multiplication by the Jacobian matrix shrinks any initial perturbation, causing the system to converge to the equilibrium.
 
-### Summary of the Stability Condition
+### Summary Table
 
-| Component | Description |
-|-----------|-------------|
-| System type | Linearized discrete-time dynamical system |
-| Governing matrix | Jacobian matrix dg(x star) evaluated at equilibrium x star |
-| Stability condition | Every eigenvalue of dg(x star) has modulus less than 1 |
-| Modulus definition | sqrt(real part^2 + imaginary part^2) for complex eigenvalues |
-| Geometric interpretation | All eigenvalues lie inside the unit circle in the complex plane |
-| Underlying mechanism | The Jacobian matrix acts as a contraction, reducing distance to equilibrium each iteration |
-
-### Check your understanding
-
-1. What is the modulus of a complex eigenvalue with real part 0.5 and imaginary part 0.5?
-
-<details><summary>Answer</summary>
-The modulus is sqrt(0.5^2 + 0.5^2) = sqrt(0.25 + 0.25) = sqrt(0.5) approximately 0.707. Since 0.707 is less than 1, this eigenvalue satisfies the stability condition.
-</details>
-
-2. If a Jacobian matrix has eigenvalues 0.9, -0.8, and 1.1, is the equilibrium point stable?
-
-<details><summary>Answer</summary>
-No. The eigenvalue 1.1 has modulus 1.1, which is greater than 1. For stability, every eigenvalue must have modulus less than 1. The presence of any eigenvalue with modulus greater than or equal to 1 means the system is not stable.
-</details>
-
-3. What does it mean for a Jacobian matrix to be a contraction in the context of discrete-time dynamical systems?
-
-<details><summary>Answer</summary>
-A contraction means that with each iteration of the system, the distance between the current state and the equilibrium point decreases. When the Jacobian matrix has all eigenvalues with modulus less than 1, the mapping it defines shrinks distances, causing the state to converge toward the equilibrium point over successive time steps.
-</details>
-
-4. Why must you consider the modulus of complex eigenvalues rather than just the real part?
-
-<details><summary>Answer</summary>
-Complex eigenvalues can have real parts that are less than 1 but imaginary parts that cause the overall modulus to exceed 1. For example, an eigenvalue with real part 0 and imaginary part 1.1 has modulus 1.1, which violates the stability condition even though the real part is less than 1. The modulus captures the full magnitude of the eigenvalue in the complex plane, which determines the contraction or expansion behavior of the system.
-</details>
-## Instability Condition: At Least One Eigenvalue with Modulus Greater Than One
-
-  
-At this point in the analysis, you have already established the stability condition for a discrete-time dynamical system. The stable manifold theorem, which you learned for continuous dynamics, applies identically to discrete-time dynamics. If the linearized discrete system is a contraction, meaning it pulls points closer together, then the fully nonlinear system also behaves as a contraction locally. The word "locally" is critical because the linearization comes from a Taylor expansion around the equilibrium point. That Taylor expansion is only accurate near the equilibrium, so the contraction guarantee only holds for starting points sufficiently close to that equilibrium.
-
-The stability result is: if you start close to the equilibrium, you converge to it when the Jacobian matrix, denoted as dg(x*), has all eigenvalues with modulus less than 1. Here, "modulus" means the absolute value for real eigenvalues, or the magnitude (distance from the origin in the complex plane) for complex eigenvalues. The Jacobian matrix dg(x*) is the matrix of first partial derivatives of the system function g evaluated at the equilibrium point x*.
-
-### The Instability Condition
-
-You can reverse the stability logic to obtain an instability condition. The system is unstable if there exists at least one eigenvalue of the matrix dg(x*) with modulus greater than 1. The phrase "at least one" is essential: even a single eigenvalue outside the unit circle is sufficient to declare the system unstable. The unit circle is the set of all complex numbers with modulus exactly 1. Eigenvalues with modulus less than 1 lie inside the unit circle, eigenvalues with modulus greater than 1 lie outside it.
-
-| Condition on eigenvalues of dg(x*) | System behavior |
-|------------------------------------|-----------------|
-| All eigenvalues have modulus < 1 | Locally asymptotically stable (contraction) |
-| At least one eigenvalue has modulus > 1 | Unstable (expansion in at least one direction) |
-| All eigenvalues have modulus ≤ 1, at least one has modulus = 1 | Marginal case, requires further analysis (added context) |
-
-### Why One Eigenvalue Outside the Unit Circle Causes Instability
-
-The reason is straightforward when you consider what happens when you take successive powers of that eigenvalue. For a linear system, the state at step n is computed by applying the matrix dg(x*) repeatedly, n times. If an eigenvalue λ has modulus greater than 1, then λ^n grows without bound as n increases. The magnitude of λ^n is |λ|^n, and since |λ| > 1, this quantity tends to infinity as n goes to infinity.
-
-That single expanding eigenvalue means that at least one dimension of the state space is expanding. Even if all other eigenvalues are contracting (modulus less than 1), the expanding direction dominates. Starting from any initial condition that has a nonzero component along that expanding eigenvector, the trajectory will move away from the equilibrium. The system is therefore unstable.
-
-```
-State space diagram (added context):
-
-        Unit circle (|λ| = 1)
-        ┌─────────────────┐
-        │                 │
-        │   Stable region │   Unstable region
-        │   (|λ| < 1)     │   (|λ| > 1)
-        │                 │
-        │    ● λ = 0.5    │    ● λ = 1.2
-        │                 │
-        └─────────────────┘
-        All eigenvalues   At least one eigenvalue
-        inside circle     outside circle
-        → stable          → unstable
-```
-
-The practical consequence is that you do not need to check every eigenvalue for stability. You only need to find one eigenvalue with modulus greater than 1 to conclude the system is unstable. Conversely, to prove stability, you must verify that every eigenvalue has modulus less than 1.
-
-### Check your understanding
-
-1. **Question:** A discrete-time system has a Jacobian matrix dg(x*) with eigenvalues 0.8, 0.5, and 1.1. Is the system stable or unstable at x*?
-
-<details><summary>Answer</summary>
-Unstable. The eigenvalue 1.1 has modulus greater than 1, so at least one eigenvalue lies outside the unit circle. The system is unstable even though the other two eigenvalues are contracting.
-
-</details>
-
-2. **Question:** What does the phrase "at least one eigenvalue with modulus greater than 1" mean for the behavior of successive powers of that eigenvalue?
-
-<details><summary>Answer</summary>
-If an eigenvalue λ has |λ| > 1, then |λ|^n grows without bound as n increases. The successive powers λ^n become larger in magnitude, which means the state component along that eigenvector expands over time, driving the trajectory away from the equilibrium.
-
-</details>
-
-3. **Question:** Why is the instability condition only valid locally for a nonlinear system?
-
-<details><summary>Answer</summary>
-The Jacobian matrix dg(x*) comes from a Taylor expansion of the nonlinear function g around the equilibrium x*. The Taylor expansion is only an accurate approximation near x*. Therefore, the eigenvalue analysis guarantees instability only for initial conditions sufficiently close to the equilibrium. Far from the equilibrium, nonlinear effects may dominate and the linear prediction may not hold.
-
-</details>
-
-4. **Question:** If a Jacobian matrix has eigenvalues 0.9, 0.9, and 0.9, is the system stable?
-
-<details><summary>Answer</summary>
-Yes. All three eigenvalues have modulus 0.9, which is less than 1. Every eigenvalue lies inside the unit circle, so the system is locally asymptotically stable. Starting close to the equilibrium, the trajectory converges to it.
-
-</details>
-## Comparison with Continuous-Time Systems and Key Theorems
-
-The analysis of discrete-time nonlinear systems follows the same fundamental process as continuous-time dynamical systems. In both cases, the stability of a nonlinear system near an equilibrium point is determined by analyzing the eigenvalues of the linearized system's matrix.
-
-### The Core Principle: Linearization Carries Over
-
-If the linearized system is stable, then the nonlinear system is also stable near the equilibrium point. Conversely, if the linearized system has an unstable direction (meaning at least one eigenvalue indicates instability), that instability carries over to the nonlinear system. If you start close to the equilibrium point in an unstable direction, you will be pushed away from it.
-
-This principle is formalized by two key theorems that apply to both continuous-time and discrete-time systems.
-
-### The Stable Manifold Theorem
-
-The stable manifold theorem tells you the same thing for discrete-time systems as it does for continuous-time systems: if you have stability for the linear system, then it carries over to stability for the nonlinear system. This means that near the equilibrium point, the set of points that approach the equilibrium (the stable manifold) has the same dimension and structure as the stable subspace of the linearized system.
-
-### The Critical Difference: Stability Region
-
-The only thing you must be very careful about is that the meaning of "stable eigenvalues" is slightly different between the two types of systems. This is typically the thing that messes people up the most.
-
-| System Type | Stability Condition | Region in Complex Plane |
-|-------------|---------------------|-------------------------|
-| Continuous-time | Real part of eigenvalue is less than zero | Left half of the complex plane |
-| Discrete-time | Magnitude of eigenvalue is less than one | Inside the unit circle in the complex plane |
-
-For continuous-time systems, stability requires that all eigenvalues have a real part less than zero. This places them in the left half of the complex plane.
-
-For discrete-time systems, stability requires that all eigenvalues have a magnitude less than one. This places them inside the unit circle in the complex plane.
-
-If you can remember this single difference, everything else about the analysis is the same.
-
-### The Hartman-Grobman Theorem
-
-The Hartman-Grobman theorem also applies to discrete-time systems. It tells you that if you zoom in closer and closer to an equilibrium value for a nonlinear difference equation, the system looks more and more like the linearized system.
-
-Specifically, the nonlinear system near the equilibrium point is homeomorphic to the linearized system. A homeomorphism is a continuous, invertible mapping with a continuous inverse (added context: it preserves the topological structure but can bend or deform the shape). This means the nonlinear system might be bent or deformed a little bit compared to the linear system, but it has the same basic structure. The trajectories near the equilibrium point are topologically equivalent to those of the linearized system.
-
-### Summary of Key Concepts
-
-1.  Both continuous-time and discrete-time nonlinear systems are analyzed by linearizing around an equilibrium point.
-2.  The stable manifold theorem guarantees that linear stability implies nonlinear stability.
-3.  The Hartman-Grobman theorem guarantees that the nonlinear system is topologically equivalent to the linear system near the equilibrium point.
-4.  The only difference is the stability region: eigenvalues must be inside the unit circle for discrete-time systems, not in the left half-plane as for continuous-time systems.
+| Concept | Definition | Condition for Stability |
+|---------|------------|------------------------|
+| Linearization | Computing Jacobian \(DG(x_*)\) at equilibrium | Required for local analysis |
+| Eigenvalue modulus | \(\sqrt{(\text{real part})^2 + (\text{imaginary part})^2}\) | Must be less than 1 |
+| Contraction | State shrinks toward equilibrium each iteration | Guaranteed when all eigenvalues have modulus < 1 |
+| Unit circle | Circle of radius 1 in complex plane | All eigenvalues must lie inside |
 
 ### Check Your Understanding
 
-1.  What is the stability condition for a discrete-time linear system?
+1. What is the mathematical condition for stability of a discrete-time dynamical system at an equilibrium point?
 
 <details><summary>Answer</summary>
-All eigenvalues must have a magnitude less than one (they must lie inside the unit circle in the complex plane).
+Every eigenvalue of the Jacobian matrix \(DG(x_*)\) must have modulus less than 1. That is, \(|\lambda| < 1\) for all eigenvalues \(\lambda\).
 </details>
 
-2.  How does the stability condition for discrete-time systems differ from that for continuous-time systems?
+2. How do you compute the modulus of a complex eigenvalue \(\lambda = 3 + 4i\)?
 
 <details><summary>Answer</summary>
-For continuous-time systems, eigenvalues must have a real part less than zero (they must lie in the left half of the complex plane). For discrete-time systems, eigenvalues must have a magnitude less than one (they must lie inside the unit circle).
+The modulus is \(\sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5\). Since 5 is greater than 1, this eigenvalue would indicate instability.
 </details>
 
-3.  What does the Hartman-Grobman theorem tell us about the relationship between a nonlinear system and its linearization near an equilibrium point?
+3. Why does the condition \(|\lambda| < 1\) ensure stability in the linearized system?
 
 <details><summary>Answer</summary>
-It tells us that the nonlinear system is homeomorphic to the linearized system near the equilibrium point. This means they have the same basic topological structure, even if the nonlinear system is slightly bent or deformed.
+When all eigenvalues have modulus less than 1, the Jacobian matrix acts as a contraction. Each iteration multiplies the state by the Jacobian, and because all eigenvalues are inside the unit circle, repeated multiplication shrinks any perturbation toward zero, causing convergence to the equilibrium.
 </details>
 
-4.  If a linearized discrete-time system has one eigenvalue with magnitude 1.2 and all others with magnitude less than 1, what can you conclude about the nonlinear system near the equilibrium point?
+4. What is the relationship between the functions \(F(x)\) and \(G(x)\) in the linearization process?
 
 <details><summary>Answer</summary>
-The nonlinear system will be unstable near the equilibrium point. The eigenvalue with magnitude greater than 1 indicates an unstable direction, and this instability carries over from the linear system to the nonlinear system. Starting close to the equilibrium point in that direction will push you away from it.
+\(G(x) = x + F(x)\). The function \(F\) represents the change in state, while \(G\) maps the current state to the next state. At equilibrium, both \(F(x_*) = 0\) and \(G(x_*) = x_*\) hold. The Jacobian of \(G\) is used for linearization because the update equation is \(X(n+1) = G(X(n))\).
+</details>
+## Instability Condition and the Stable Manifold Theorem
+
+In the previous part of the video you learned that when all eigenvalues of the linearized matrix have modulus less than 1, the discrete-time system is locally stable. Now we examine the opposite case: instability. The same linearization approach tells you when small perturbations grow instead of shrink.
+
+### Linearization Recap
+
+For a discrete-time dynamical system defined by
+
+\[
+X(n+1) = G(X(n))
+\]
+
+an equilibrium point \(X^*\) satisfies \(G(X^*) = X^*\) (or equivalently \(F(X^*) = 0\) if you write the system as \(\Delta X = F(X)\)). To study behavior near \(X^*\), you linearize:
+
+\[
+X(n+1) = DG(X^*) \, X(n)
+\]
+
+where \(DG(X^*)\) is the Jacobian matrix of \(G\) evaluated at \(X^*\). The eigenvalues of this matrix determine the local dynamics.
+
+
+![The whiteboard displays equations for linearization, equilibrium, and conditions for stability and instability based on eigenvalues.](frames/frame_06_380s.jpg)
+*[06:20](https://www.youtube.com/watch?v=6It02qpjHQ8&t=380s) The whiteboard displays equations for linearization, equilibrium, and conditions for stability and instability based on eigenvalues.*
+
+
+The whiteboard shows the full set of equations:
+
+```
+ΔX = F(x)
+ΔX = X(n+1) - X(n)
+↳ X(n+1) = X(n) + F(x(n))
+G(x) = X + F(x)
+Suppose X* equilibrium: F(x*) = 0
+or G(x*) = X*
+Linearize:
+X(n+1) = DG(x*) X(n)
+Stable: every eig. of DG(x*)
+has modulus < 1
+: ∃ at least one eig. of
+DG(x*) with modulus > 1
+```
+
+### Stable Manifold Theorem for Discrete Time
+
+The stable manifold theorem, which you may have seen for continuous dynamics, applies equally to discrete-time systems. It states:
+
+> If the linearized system is a contraction (all eigenvalues have modulus less than 1), then the fully nonlinear system is locally a contraction near the equilibrium.
+
+The word “local” comes from the Taylor expansion used in linearization: the approximation is accurate only close to \(X^*\). So if you start sufficiently near \(X^*\), the nonlinear dynamics will converge to \(X^*\) when the linearized Jacobian has all eigenvalues with modulus less than 1.
+
+### Instability Condition
+
+Now consider the opposite scenario. The system is **unstable** if there exists **at least one** eigenvalue of \(DG(X^*)\) with modulus greater than 1. Even a single expanding direction is enough to cause instability.
+
+Why does one eigenvalue with modulus > 1 cause instability? When you take successive powers of that eigenvalue (as you do when iterating the linearized map), its magnitude grows without bound. That means in at least one dimension the map is expanding. Any initial perturbation along that eigenvector will be amplified, driving the trajectory away from the equilibrium.
+
+The table below summarizes the two conditions:
+
+| Condition | Eigenvalue Moduli | Local Behavior |
+|-----------|-------------------|----------------|
+| Stable    | All eigenvalues have modulus < 1 | Contraction: nearby points converge to equilibrium |
+| Unstable  | At least one eigenvalue has modulus > 1 | Expansion: nearby points diverge from equilibrium |
+
+Note: If an eigenvalue has modulus exactly equal to 1, the linearization is inconclusive; higher-order terms determine stability. This case is not covered in this section.
+
+### Visualizing the Unit Circle
+
+The unit circle in the complex plane is the boundary between stability and instability. Eigenvalues inside the circle (modulus < 1) are contracting; eigenvalues outside (modulus > 1) are expanding.
+
+```
+          Im
+          ^
+          |   (outside: unstable)
+          |    x
+          |   / \
+          |  /   \
+          | /     \
+          |/       \
+   <------+---------> Re
+          |\       /
+          | \     /
+          |  \   /
+          |   \ /
+          |    x
+          |   (inside: stable)
+          v
+```
+
+### Check Your Understanding
+
+1. **Question:** What is the instability condition for a discrete-time dynamical system near an equilibrium point \(X^*\)?
+
+<details><summary>Answer</summary>
+The system is unstable if the Jacobian matrix \(DG(X^*)\) has at least one eigenvalue with modulus greater than 1.
+</details>
+
+2. **Question:** Why does a single eigenvalue with modulus > 1 cause instability, even if all other eigenvalues are stable?
+
+<details><summary>Answer</summary>
+When you iterate the linearized map, that eigenvalue is raised to successive powers. Its magnitude grows without bound, so any perturbation along its eigenvector expands. This expansion dominates the dynamics in that direction, driving the trajectory away from the equilibrium.
+</details>
+
+3. **Question:** How does the stable manifold theorem for discrete-time dynamics relate to the linearized system?
+
+<details><summary>Answer</summary>
+The theorem states that if the linearized system is a contraction (all eigenvalues have modulus < 1), then the fully nonlinear system is locally a contraction near the equilibrium. “Locally” means the result holds only for initial conditions sufficiently close to \(X^*\), because the linearization is a Taylor approximation valid only in a small neighborhood.
+</details>
+
+4. **Question:** In the whiteboard screenshot, what two conditions are listed for the eigenvalues of \(DG(x^*)\)?
+
+<details><summary>Answer</summary>
+Stable: every eigenvalue has modulus < 1. Unstable: there exists at least one eigenvalue with modulus > 1.
+</details>
+## Comparison with Continuous Systems and the Hartman-Grobman Theorem
+
+This section connects the stability analysis of discrete-time dynamical systems to the more familiar continuous-time case. It introduces the Hartman-Grobman theorem and highlights the single critical difference between the two settings.
+
+### Stability: Carrying Instability from Linear to Nonlinear Systems
+
+When a linearized system has an unstable direction (an eigenvector associated with an eigenvalue whose modulus is greater than 1), the nonlinear system also exhibits instability in that region. If you start a trajectory close to an equilibrium point in an unstable direction, the dynamics push that trajectory away from the equilibrium.
+
+
+![This frame shows mathematical equations for linearizing a system, defining stable and unstable conditions based on the modulus of eigenvalues.](frames/frame_07_400s.jpg)
+*[06:40](https://www.youtube.com/watch?v=6It02qpjHQ8&t=400s) This frame shows mathematical equations for linearizing a system, defining stable and unstable conditions based on the modulus of eigenvalues.*
+
+
+The process for determining stability is the same as for continuous-time systems. In both cases, the analysis reduces to examining the eigenvalues of a matrix. Specifically, you linearize the system around an equilibrium point to obtain a Jacobian matrix. The stability of the linearized system determines the stability of the original nonlinear system near that equilibrium.
+
+The stable manifold theorem supports this claim. If the linear system is stable (all trajectories converge to the equilibrium), then the nonlinear system is stable near that equilibrium as well.
+
+### The Critical Difference: The Stability Region
+
+The single critical difference between discrete and continuous systems is the location of the stability region in the complex plane.
+
+| System Type | Stability Condition | Region in Complex Plane |
+|-------------|---------------------|-------------------------|
+| Continuous-time | All eigenvalues have real part less than 0 (Re(lambda) < 0) | Left half of the complex plane |
+| Discrete-time | All eigenvalues have a modulus less than 1 (|lambda| < 1) | Inside the unit circle centered at the origin |
+
+
+![The whiteboard shows equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on the modulus...](frames/frame_08_460s.jpg)
+*[07:40](https://www.youtube.com/watch?v=6It02qpjHQ8&t=460s) The whiteboard shows equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on the modulus of eigenvalues.*
+
+
+For discrete-time systems, every eigenvalue of the linearized Jacobian matrix DG(X*) must have a modulus (absolute value) less than 1 for stability. If at least one eigenvalue has a modulus greater than 1, the system is unstable.
+
+For continuous-time systems, every eigenvalue must have a real part less than 0. This places them in the left half of the complex plane.
+
+This difference in stability region is the most common source of confusion when moving between continuous and discrete-time systems. If you remember this distinction, the rest of the analysis follows the same structure.
+
+### The Hartman-Grobman Theorem
+
+The Hartman-Grobman theorem applies to discrete-time systems in the same way it applies to continuous-time systems. The theorem states that near a hyperbolic equilibrium point (one where no eigenvalue has a modulus exactly equal to 1), the nonlinear system is topologically conjugate to its linearization.
+
+Topological conjugacy means there exists a homeomorphism (a continuous, invertible mapping with a continuous inverse) that transforms trajectories of the nonlinear system into trajectories of the linearized system. As you zoom in closer and closer to the equilibrium point of a nonlinear difference equation, the system looks more and more like the linearized system. The nonlinear system may be slightly bent or deformed compared to the linear version, but it has the same basic structure. The mapping between the two systems is homeomorphic.
+
+### Check your understanding
+
+1.  For a discrete-time dynamical system, what condition must the eigenvalues of the linearized Jacobian matrix satisfy for the system to be stable at an equilibrium point?
+
+<details>
+<summary>Answer</summary>
+Every eigenvalue must have a modulus (absolute value) less than 1.
+</details>
+
+2.  What is the key difference between the stability condition for discrete-time systems and the stability condition for continuous-time systems?
+
+<details>
+<summary>Answer</summary>
+Discrete-time systems require eigenvalues inside the unit circle (modulus less than 1) in the complex plane. Continuous-time systems require eigenvalues in the left half-plane (real part less than 0).
+</details>
+
+3.  According to the Hartman-Grobman theorem, what is the relationship between a nonlinear discrete-time system and its linearization near a hyperbolic equilibrium point?
+
+<details>
+<summary>Answer</summary>
+The nonlinear system is topologically conjugate to its linearization. There exists a homeomorphism that maps trajectories of the nonlinear system to trajectories of the linearized system. The nonlinear system has the same basic structure but may be slightly bent or deformed.
+</details>
+
+4.  If a linearized discrete-time system is stable, what does the stable manifold theorem tell you about the original nonlinear system?
+
+<details>
+<summary>Answer</summary>
+The stable manifold theorem states that stability of the linear system carries over to stability of the nonlinear system near the equilibrium point. If the linear system is stable, the nonlinear system is also stable near that equilibrium.
 </details>
 ## Key takeaways
 
-- A discrete-time dynamical system can be written as a difference equation X_{n+1} = X_n + f(X_n) or as an update equation X_{n+1} = g(X_n).
-- An equilibrium point X* satisfies f(X*) = 0 (no change) or equivalently g(X*) = X* (stays at the same point).
-- Linearization around an equilibrium is performed by computing the Jacobian matrix of the update function g at X*.
-- The linearized system is X_{n+1} = dg(X*) X_n, and its dynamics are determined by the eigenvalues of dg(X*).
-- For stability, every eigenvalue of dg(X*) must have modulus (absolute value) less than 1.
-- If at least one eigenvalue has modulus greater than 1, the linear system has an expanding direction and the equilibrium is unstable.
-- The stable manifold theorem guarantees that linear stability (all eigenvalues inside the unit circle) implies local nonlinear stability.
-- The Hartman-Grobman theorem states that near a hyperbolic equilibrium, the nonlinear system is homeomorphic to its linearization.
-- The discrete-time stability condition (eigenvalues inside the unit circle) differs from the continuous-time condition (eigenvalues in the left half-plane, real part less than 0).
-- A common mistake is confusing the two stability regions; always check whether the system is discrete or continuous.
+- Discrete-time dynamical systems are modeled by difference equations of the form X(n+1) = X(n) + F(X(n)), where the update function G(x) = x + F(x) defines the next state from the current state.
+- An equilibrium point x* satisfies F(x*) = 0, meaning no change occurs between steps, which is equivalent to G(x*) = x*, meaning the system stays at that point.
+- To analyze stability near an equilibrium, linearize the system by computing the Jacobian matrix DG(x*) of the update function G at the equilibrium.
+- The linearized system is X(n+1) = DG(x*) X(n), and its behavior is determined entirely by the eigenvalues of DG(x*).
+- An equilibrium is stable if every eigenvalue of DG(x*) has modulus (absolute value) less than 1, because the linear system is a contraction that shrinks perturbations to zero.
+- An equilibrium is unstable if at least one eigenvalue of DG(x*) has modulus greater than 1, because that eigenvalue creates an expanding direction that pushes perturbations away.
+- The stable manifold theorem guarantees that stability or instability of the linearized system carries over to local stability or instability of the original nonlinear system.
+- The Hartman-Grobman theorem for discrete systems states that near an equilibrium, the nonlinear system is homeomorphic to its linearization, so linear analysis accurately describes local behavior.
+- The key difference from continuous systems is the stability criterion: discrete systems require eigenvalues inside the unit circle (modulus less than 1), while continuous systems require eigenvalues in the left half-plane (real part less than 0).
+- Examples of discrete-time systems include Newton's method, gradient descent, and yeast population models, all of which can be analyzed using the same eigenvalue-based stability framework.
 ## Glossary
 
 | Term | Definition |
 |---|---|
-| discrete-time dynamical system | A system where the state evolves at discrete time steps, typically described by a difference equation X_{n+1} = g(X_n). |
-| difference equation | An equation that relates the value of a variable at one time step to its value at the next time step. |
-| update equation | Another name for the difference equation, emphasizing the rule that computes the next state from the current state. |
-| equilibrium point | A state X* such that the system remains at X* if started there; for discrete systems, g(X*) = X* or f(X*) = 0. |
-| fixed point | Synonym for equilibrium point in discrete-time systems. |
-| Jacobian matrix | A matrix of all first-order partial derivatives of a vector-valued function; used for linearization. |
-| linearization | Approximating a nonlinear system near an equilibrium by a linear system using the Jacobian matrix. |
-| eigenvalue | A scalar λ such that for a matrix A, A v = λ v for some nonzero vector v; determines the behavior of linear systems. |
-| modulus | The absolute value or magnitude of a complex number, computed as sqrt(real^2 + imaginary^2). |
-| unit circle | The set of complex numbers with modulus equal to 1; the boundary of the stability region for discrete-time systems. |
-| contraction | A mapping that reduces distances; in linear discrete systems, all eigenvalues with modulus less than 1 cause contraction toward zero. |
-| expansion | A mapping that increases distances; an eigenvalue with modulus greater than 1 leads to expansion away from the equilibrium. |
-| stable manifold theorem | A theorem stating that if a linearization is a contraction (all eigenvalues inside unit circle), then the nonlinear system is locally stable near the equilibrium. |
-| Hartman-Grobman theorem | A theorem stating that near a hyperbolic equilibrium (no eigenvalue on the unit circle), the nonlinear system is topologically conjugate to its linearization. |
-| homeomorphism | A continuous bijection with a continuous inverse; used in the Hartman-Grobman theorem to describe the equivalence of dynamics. |
-| local stability | Stability that holds only for initial conditions sufficiently close to the equilibrium. |
-| instability | A property where small perturbations from equilibrium grow over time, causing the system to move away. |
-| continuous-time dynamical system | A system where the state evolves continuously in time, typically described by a differential equation dx/dt = f(x). |
-| left half-plane | The set of complex numbers with negative real part; the stability region for continuous-time linear systems. |
-| hyperbolic equilibrium | An equilibrium where the linearization has no eigenvalues on the imaginary axis (continuous) or on the unit circle (discrete). |
+| discrete-time dynamical system | A system where the state evolves in distinct steps, modeled by a difference equation X(n+1) = G(X(n)), where n is an integer time index. |
+| difference equation | An equation that relates the value of a variable at one time step to its value at the next time step, such as X(n+1) = X(n) + F(X(n)). |
+| update function G(x) | A function that maps the current state x to the next state, defined as G(x) = x + F(x) for a system with change function F. |
+| equilibrium point | A state x* where the system does not change over time, satisfying F(x*) = 0 or equivalently G(x*) = x*. |
+| linearization | The process of approximating a nonlinear system near an equilibrium by a linear system, typically using a Taylor expansion and computing the Jacobian matrix. |
+| Jacobian matrix | A matrix of all first-order partial derivatives of a vector-valued function. For the update function G, DG(x*) is the Jacobian evaluated at the equilibrium x*. |
+| eigenvalue | A scalar lambda such that for a matrix A, there exists a nonzero vector v satisfying A v = lambda v. Eigenvalues determine the behavior of linear systems. |
+| modulus | The absolute value or magnitude of a complex number, computed as the square root of the sum of the squares of its real and imaginary parts. |
+| unit circle | The set of all complex numbers with modulus equal to 1. For discrete system stability, all eigenvalues must lie inside this circle (modulus less than 1). |
+| contraction | A linear map that reduces distances between points with each iteration, occurring when all eigenvalues have modulus less than 1. |
+| stable manifold theorem | A theorem stating that if the linearization of a system at an equilibrium is a contraction (all eigenvalues inside the unit circle), then the nonlinear system is locally stable near that equilibrium. |
+| Hartman-Grobman theorem | A theorem stating that near a hyperbolic equilibrium (no eigenvalues on the unit circle), the nonlinear system is topologically conjugate to its linearization, meaning local dynamics are equivalent up to a continuous deformation. |
+| homeomorphic | A relationship between two spaces where there exists a continuous bijection with a continuous inverse, indicating they have the same topological structure. |
+| left half-plane | The set of complex numbers with negative real part. This is the stability region for continuous-time systems, contrasting with the unit circle for discrete systems. |
+| Newton's method | An iterative root-finding algorithm that can be expressed as a discrete-time dynamical system X(n+1) = X(n) - f(X(n))/f'(X(n)). |
+| gradient descent | An optimization algorithm that iteratively moves in the direction of the negative gradient, modeled as a discrete-time system X(n+1) = X(n) - alpha * gradient(f)(X(n)). |
+| Taylor expansion | A mathematical approximation of a function near a point using its derivatives, used in linearization to approximate G(x) near x* as G(x*) + DG(x*)(x - x*). |
+| complex conjugate | A pair of complex numbers a + bi and a - bi. Eigenvalues of real matrices often appear as complex conjugate pairs. |
+| Euclidean norm | The standard distance metric in Euclidean space, computed as the square root of the sum of squared components. For a complex number, it is the same as the modulus. |
+| hyperbolic equilibrium | An equilibrium point where the Jacobian matrix has no eigenvalues on the unit circle (for discrete systems) or on the imaginary axis (for continuous systems). |
 ## Footnotes and deeper context
 
-1. **Common misconception: modulus vs. real part.** A frequent error is applying the continuous-time condition (real part less than 0) to discrete-time systems. For discrete systems, the condition is on the modulus, not the real part. An eigenvalue with real part negative but modulus greater than 1 would be unstable in discrete time.
-2. **Jacobian of g, not f.** When linearizing a discrete system written as X_{n+1} = g(X_n), the Jacobian is taken of g, not of f. If the system is given as X_{n+1} = X_n + f(X_n), then dg = I + df, where I is the identity matrix.
-3. **Strict inequality and marginal stability.** The stability condition requires all eigenvalues to have modulus strictly less than 1. If any eigenvalue has modulus exactly 1, the linear analysis is inconclusive; the system may be marginally stable, and nonlinear terms determine the outcome.
-4. **Hyperbolicity requirement for Hartman-Grobman.** The Hartman-Grobman theorem applies only when the equilibrium is hyperbolic, meaning no eigenvalue lies on the unit circle. If eigenvalues are on the unit circle, the linearization does not fully capture the local dynamics.
-5. **Stable manifold theorem for discrete systems.** The stable manifold theorem for discrete maps guarantees that the local stable manifold of a hyperbolic equilibrium has the same dimension as the stable eigenspace of the linearization. This is the discrete analog of the continuous-time theorem.
-6. **Complex eigenvalues and oscillations.** Complex eigenvalues with modulus less than 1 produce spiral convergence toward the equilibrium, with oscillations determined by the imaginary part. The modulus still controls the contraction rate.
+1. **Stable manifold theorem scope.** The stable manifold theorem for discrete systems applies only to hyperbolic equilibria, where no eigenvalue of DG(x*) has modulus exactly 1. If any eigenvalue lies on the unit circle, linearization alone cannot determine stability, and higher-order analysis is required.
+2. **Hartman-Grobman theorem requirement.** The Hartman-Grobman theorem for discrete systems also requires the equilibrium to be hyperbolic. If eigenvalues have modulus exactly 1, the linear and nonlinear systems may not be topologically conjugate, and local behavior can differ significantly.
+3. **Modulus versus magnitude.** The term modulus is used interchangeably with absolute value or magnitude for complex numbers. For a real eigenvalue, the modulus is simply its absolute value. For a complex eigenvalue a + bi, the modulus is sqrt(a^2 + b^2).
+4. **Common misconception about instability.** A common mistake is to think that if all eigenvalues have modulus less than or equal to 1, the system is stable. However, if any eigenvalue has modulus exactly 1, the system is not hyperbolic, and stability cannot be determined from linearization alone. The system may be stable, unstable, or exhibit more complex behavior like oscillations.
+5. **Continuous versus discrete stability regions.** The stability region for continuous systems is the open left half-plane (real part less than 0), while for discrete systems it is the open unit disk (modulus less than 1). These are fundamentally different geometric regions, and confusing them is a common error.
+6. **Jacobian of G versus Jacobian of F.** When linearizing a discrete system, the Jacobian is computed for the update function G(x) = x + F(x), not for F alone. This means DG(x*) = I + DF(x*), where I is the identity matrix. The eigenvalues of DG(x*) determine stability, not those of DF(x*).
 ## Where to go next
 
-- **Strogatz, 'Nonlinear Dynamics and Chaos' (2nd edition).** Chapters on discrete maps and linearization provide clear explanations and examples. The book is a canonical resource for both continuous and discrete dynamical systems.
-- **Hirsch, Smale, and Devaney, 'Differential Equations, Dynamical Systems, and an Introduction to Chaos' (3rd edition).** Covers the stable manifold theorem and Hartman-Grobman theorem for both continuous and discrete systems with rigorous proofs. Recommended for deeper theoretical understanding.
-- **MATLAB or Octave documentation for 'eig' function.** To compute eigenvalues of a Jacobian matrix numerically, use the eig function. Official documentation explains how to interpret complex eigenvalues and compute their modulus.
+- **Read Strogatz's Nonlinear Dynamics and Chaos, Chapter 10.** This textbook provides a clear, intuitive introduction to discrete-time dynamical systems, including logistic maps, bifurcations, and stability analysis. It is a canonical resource for understanding the concepts in this course.
+- **Explore the MATLAB or Python Control Systems Library documentation.** These tools allow you to compute eigenvalues of Jacobian matrices and simulate discrete-time systems numerically. The documentation for 'damp' in MATLAB or 'control.damp' in Python shows how to compute eigenvalues and check stability conditions.
+- **Review the Hartman-Grobman theorem in Hirsch, Smale, and Devaney's Differential Equations, Dynamical Systems, and an Introduction to Chaos.** This book offers a rigorous treatment of the theorem for both continuous and discrete systems, including proofs and examples. It is a standard reference for advanced study.
+- **Practice with the logistic map X(n+1) = r X(n) (1 - X(n)).** This classic discrete system demonstrates stability, bifurcations, and chaos. Compute its fixed points, linearize, and check the eigenvalue condition for different values of r to see how stability changes.
 ---
 *Printed by yt2textbook, an open tool from Zorost AI Lab. Screenshots are frames captured from the source video; each caption links to the exact moment it appears.*
