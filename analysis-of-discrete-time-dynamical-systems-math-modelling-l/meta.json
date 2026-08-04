@@ -10,52 +10,46 @@
    "file": "frames/frame_01_60s.jpg",
    "ts": 60.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard displays three equations related to numerical methods, including Delta X equals F of X, Delta X equals X of n plus one minus X of n, and X of n plus one equals X of n plus F of X of n."
+   "caption": "The whiteboard shows mathematical equations for delta X and X(n+1)."
   },
   {
    "file": "frames/frame_02_160s.jpg",
    "ts": 160.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard displays equations for delta X, X(n+1), G(x), and the conditions for equilibrium."
+   "caption": "The whiteboard displays equations for delta X, X(n+1), G(x), and conditions for equilibrium."
   },
   {
-   "file": "frames/frame_03_180s.jpg",
-   "ts": 180.0,
-   "kind": "whiteboard",
-   "caption": "The whiteboard shows mathematical equations for equilibrium, including \u0394X = F(x) and G(x) = X + F(x)."
-  },
-  {
-   "file": "frames/frame_04_220s.jpg",
+   "file": "frames/frame_03_220s.jpg",
    "ts": 220.0,
    "kind": "whiteboard",
-   "caption": "Mathematical equations for linearization and equilibrium are written on a whiteboard."
+   "caption": "Mathematical equations for linearization and equilibrium are written on a whiteboard, including \u0394X = F(x) and X(n+1) = DG(x\u2080)x(n)."
   },
   {
-   "file": "frames/frame_05_260s.jpg",
+   "file": "frames/frame_04_260s.jpg",
    "ts": 260.0,
    "kind": "whiteboard",
-   "caption": "This frame displays mathematical equations and definitions related to linearization and stability of systems, including expressions for \u0394X, G(x), and conditions for stability."
+   "caption": "The whiteboard displays mathematical equations for linearization, including definitions for \u0394X, G(x), and conditions for equilibrium, along with the stability criterion for DG(x*)."
   },
   {
-   "file": "frames/frame_06_380s.jpg",
+   "file": "frames/frame_05_380s.jpg",
    "ts": 380.0,
    "kind": "whiteboard",
    "caption": "The whiteboard shows equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on eigenvalues."
   },
   {
-   "file": "frames/frame_07_400s.jpg",
+   "file": "frames/frame_06_400s.jpg",
    "ts": 400.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows equations for linearizing a system, defining stable and unstable conditions based on eigenvalues."
+   "caption": "This frame shows mathematical equations for linearizing a system, defining stable and unstable conditions based on the modulus of eigenvalues."
   },
   {
-   "file": "frames/frame_08_460s.jpg",
+   "file": "frames/frame_07_460s.jpg",
    "ts": 460.0,
    "kind": "whiteboard",
-   "caption": "This whiteboard displays mathematical equations for linearization, including definitions for delta X, G(x), equilibrium conditions, and stability criteria based on the modulus of eigenvalues."
+   "caption": "The whiteboard displays equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on the modulus of eigenvalues."
   }
  ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 03:16"
+ "generated": "2026-08-04 03:42"
 }
