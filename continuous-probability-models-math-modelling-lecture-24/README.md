@@ -1,817 +1,994 @@
 # Continuous Probability Models and the Exponential Distribution in Mathematical Modeling
 > **Source:** [Continuous Probability Models - Math Modelling - Lecture 24](https://www.youtube.com/watch?v=0qi6s-injSo) by Math Modelling · 27:13 · Training document generated from the video.
 **How to use this document:** read it top to bottom in place of watching the video. Screenshots appear exactly where the video depends on something visual, with links that jump to that moment. Questions at the end of each section confirm you learned the material. The glossary and footnotes add definitions and detail the video assumes you already have.
-**Who this is for:** This course is for students or professionals who want to learn how to use continuous probability models, especially the exponential distribution, to analyze real-world waiting time and arrival processes.
+**Who this is for:** Students of mathematical modeling who have completed a course in calculus and are familiar with discrete probability.
 ## Learning objectives
 
 After working through this document you can:
 
-1. Define continuous probability distribution function and density function.
-2. Compute probabilities for continuous random variables using integration of the density function.
-3. Calculate the expected value of a continuous random variable.
-4. Describe the exponential distribution, its density and distribution functions, and its interpretation as a waiting time model.
-5. Derive and interpret the lack of memory property of the exponential distribution.
-6. Model a real-world problem (radioactive decay with a locking counter) using the exponential distribution.
-7. Apply the strong law of large numbers to estimate an unknown decay rate from observed data.
-8. Perform sensitivity analysis on a model parameter and interpret the result in context.
+1. Define the probability distribution function $F(x) = P(X \leq x)$ and the probability density function $f(x) = F'(x)$ for a continuous random variable $X$.
+2. Compute the probability that a continuous random variable lies in an interval $[a, b]$ using the integral $P(a \leq X \leq b) = \int_{a}^{b} f(x) \, dx$.
+3. Calculate the expected value of a continuous random variable using $E[X] = \int_{-\infty}^{\infty} x f(x) \, dx$.
+4. Identify the exponential distribution by its distribution function $F(t) = 1 - e^{-\lambda t}$ and its density function $f(t) = \lambda e^{-\lambda t}$ for $\lambda > 0$.
+5. Derive and interpret the lack of memory property of the exponential distribution: $P(X > s + t \mid X > s) = P(X > t)$.
+6. Apply the exponential distribution to model waiting times in a radioactive decay problem with a known lockout time $a$.
+7. Use the Strong Law of Large Numbers to derive an estimator for the decay rate $\lambda$ from observed data: $\lambda \approx \frac{n}{T_n - n a}$.
+8. Analyze the sensitivity of the estimated decay rate to the lockout time using the derivative $\frac{d\lambda}{da} = \lambda^2$ and interpret the product $\lambda a$.
 ## Prerequisites
 
-- Basic calculus: integration and differentiation
-- Basic probability: random variables, discrete probability models, expected value
+- Calculus I and II, including integration and the Fundamental Theorem of Calculus
+- Basic discrete probability, including random variables, probability mass functions, and expected value
+- Familiarity with the concept of a limit and the Riemann sum
 ## Introduction to Continuous Probability Models
 
-This section shifts from discrete probability models, where a random variable takes only a finite or countable number of values (e.g., the outcome of rolling a six-sided die), to continuous probability models. In a continuous model, the random variable can take any value over an interval or the entire real line (e.g., time, length, temperature). We will define the two fundamental functions used to describe continuous random variables: the probability distribution function and the probability density function.
+In the previous lecture, we introduced probability models and stochastic processes as tools for building mathematical models of real-world phenomena. We focused on **discrete probability models**, where a random variable can take on only a countable set of values. For example, rolling a standard six-sided die yields exactly six possible outcomes: 1, 2, 3, 4, 5, or 6. The sample space is finite, and each outcome has a probability assigned to it.
 
+Now we shift to **continuous probability models**, where the random variable can take on any value within an interval or continuum of real numbers. Examples include the time until a radioactive particle decays, the exact height of a randomly selected adult, or the time between arrivals at a service counter. In these cases, the set of possible outcomes is uncountably infinite.
 
-![A whiteboard shows two equations for probability and functions: F(x)=TP(X<=x) and f(x)=F'(x).](frames/frame_01_100s.jpg)
-*[01:40](https://www.youtube.com/watch?v=0qi6s-injSo&t=100s) A whiteboard shows two equations for probability and functions: F(x)=TP(X<=x) and f(x)=F'(x).*
+### The Probability Distribution Function
 
+The central concept for continuous models is the **probability distribution function**. For a continuous random variable $X$, the probability distribution function is typically described by one of two related functions:
 
-At this point, the video displays a whiteboard with the following equations:
+1. **Probability density function (PDF)**, denoted $f(x)$: This function describes the relative likelihood of $X$ taking a value near $x$. The probability that $X$ falls in an interval $[a, b]$ is given by the integral:
 
-```
-F(x)=TP(X<=x)
-f(x)=F'(x)
-```
+$$
+P(a \leq X \leq b) = \int_{a}^{b} f(x) \, dx \tag{1}
+$$
 
-The equation `F(x)=TP(X<=x)` defines the **probability distribution function** (also called the cumulative distribution function, CDF). Here `X` is a continuous random variable, and `x` is a specific real number. The notation `P(X <= x)` (the video uses `TP` as a shorthand for probability) means the probability that the random variable `X` is less than or equal to `x`. Thus `F(x)` gives the probability that the random variable lies at or below the value `x`.
+2. **Cumulative distribution function (CDF)**, denoted $F(x)$: This gives the probability that $X$ is less than or equal to a specific value $x$:
 
-The second equation, `f(x)=F'(x)`, defines the **probability density function** (PDF), denoted by `f(x)`. The density function is the derivative of the distribution function. Intuitively, `f(x)` describes how probability is concentrated near each point `x`. For a continuous random variable, the probability of any single exact value is zero; instead, probability is measured over intervals.
+$$
+F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t) \, dt \tag{2}
+$$
 
+The PDF must satisfy two properties for any valid continuous probability model:
 
-![The whiteboard displays mathematical formulas for distribution, density, and probability calculations.](frames/frame_02_200s.jpg)
-*[03:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=200s) The whiteboard displays mathematical formulas for distribution, density, and probability calculations.*
+- $f(x) \geq 0$ for all $x \in \mathbb{R}$
+- $\int_{-\infty}^{\infty} f(x) \, dx = 1$
 
+(added context: The second property ensures that the total probability over all possible outcomes equals 1, which is a fundamental requirement of any probability model.)
 
-The whiteboard now shows the complete set of relationships:
+### Key Difference from Discrete Models
 
-```
-F(x)=P(X<=x)   (distribution)
-f(x)=F'(x)     (density)
-P(a<=X<=b)=F(b)-F(a) = ∫ f(x)dx
-```
+In discrete models, we assign probabilities directly to individual outcomes (e.g., $P(X = 3) = \frac{1}{6}$). In continuous models, the probability of any single exact value is zero because the integral over a single point is zero:
 
-The bottom line gives the key formula for computing probabilities over an interval. For a continuous random variable `X`, the probability that `X` lies between `a` and `b` (inclusive) is:
+$$
+P(X = c) = \int_{c}^{c} f(x) \, dx = 0
+$$
 
-```
-P(a <= X <= b) = F(b) - F(a) = ∫_a^b f(x) dx
-```
+Instead, we always work with intervals. This is why we use the density function: it tells us how probability is spread across the continuum, not concentrated at points.
 
-The first equality, `F(b) - F(a)`, follows from the definition of the distribution function: `F(b)` includes all probability up to `b`, and subtracting `F(a)` removes the probability below `a`. The second equality, the integral from `a` to `b` of `f(x) dx`, is a direct consequence of the Fundamental Theorem of Calculus, since `F` is the antiderivative of `f`. In practice, you are often given the density function `f(x)`, and you must integrate it over the desired interval to find probabilities. This makes continuous probability models closely tied to integration techniques.
+### Relationship Between PDF and CDF
 
-(Added context: The density function must satisfy two properties: (1) `f(x) >= 0` for all `x`, and (2) the total area under the density curve equals 1, i.e., `∫_{-∞}^{∞} f(x) dx = 1`. These ensure that probabilities are non‑negative and sum to 1.)
+The two functions are linked by differentiation and integration:
+
+$$
+f(x) = \frac{d}{dx} F(x) \tag{3}
+$$
+
+This relationship is fundamental: if you know the CDF, you can recover the PDF by taking the derivative, and if you know the PDF, you can find the CDF by integrating.
+
+### Why Continuous Models Matter
+
+Continuous probability models are essential in mathematical modeling because many real-world quantities are naturally continuous. For example:
+
+- Waiting times (time until a bus arrives)
+- Physical measurements (length, weight, temperature)
+- Financial returns (percentage changes in stock prices)
+- Biological processes (time until a cell divides)
+
+The exponential distribution, which we will study in the next sections, is one of the most important continuous models because it describes the time between events in a Poisson process.
+
+### Summary of Key Concepts
+
+| Concept | Discrete Model | Continuous Model |
+|---------|----------------|------------------|
+| Random variable values | Countable set (e.g., integers) | Uncountable continuum (e.g., real numbers) |
+| Probability of a single value | Can be positive | Always zero |
+| Probability of an interval | Sum of individual probabilities | Integral of the PDF |
+| Primary function | Probability mass function (PMF) | Probability density function (PDF) |
+| Example | Rolling a die | Time until decay |
 
 ### Check your understanding
 
-1. **What is the difference between a discrete random variable and a continuous random variable?**  
+1. **Question**: Why is the probability of a continuous random variable taking any single exact value equal to zero?
+
+<details>
+<summary>Answer</summary>
+Because the probability is computed as an integral of the PDF over a single point, which is $\int_{c}^{c} f(x) \, dx = 0$. The area under a curve at a single point has zero width, hence zero area.
+
+</details>
+
+2. **Question**: If the CDF of a continuous random variable is $F(x) = 1 - e^{-2x}$ for $x \geq 0$, what is the PDF $f(x)$?
+
+<details>
+<summary>Answer</summary>
+Using the relationship $f(x) = \frac{d}{dx} F(x)$, we compute:
+
+$$
+f(x) = \frac{d}{dx} \left( 1 - e^{-2x} \right) = 2e^{-2x}
+$$
+
+for $x \geq 0$, and $f(x) = 0$ for $x < 0$.
+
+</details>
+
+3. **Question**: What are the two essential properties that any valid probability density function must satisfy?
+
+<details>
+<summary>Answer</summary>
+(1) $f(x) \geq 0$ for all $x \in \mathbb{R}$, meaning the density is never negative.
+
+(2) $\int_{-\infty}^{\infty} f(x) \, dx = 1$, meaning the total probability over the entire sample space equals 1.
+
+</details>
+
+4. **Question**: In a discrete model, we might say $P(X = 2) = 0.3$. Why can we never make such a statement in a continuous model?
+
+<details>
+<summary>Answer</summary>
+In a continuous model, the probability of any single point is always zero because the PDF integrates to zero over a zero-width interval. Instead, we must express probabilities over intervals, such as $P(1.5 \leq X \leq 2.5)$, which would be computed as $\int_{1.5}^{2.5} f(x) \, dx$.
+
+</details>
+## Probability Distribution and Density Functions
+
+In this section you will learn how probabilities are assigned to continuous random variables using two fundamental functions: the **probability distribution function** (also called the cumulative distribution function, or CDF) and the **probability density function** (PDF). You will also see how to compute probabilities over intervals and the expected value of a continuous random variable.
+
+---
+
+### Continuous Random Variables and the Distribution Function
+
+A **continuous random variable** $X$ can take any value within a continuum (e.g., any real number). For example, $X$ could equal $\pi$, $e$, $10$, or any other point on the real line. Unlike discrete random variables, the probability that $X$ equals a single exact value is zero; instead, we work with probabilities over intervals.
+
+We define the **probability distribution function** $F(x)$ as the probability that $X$ is less than or equal to a specific number $x$:
+
+$$
+F(x) = P(X \leq x)
+$$
+
+This function is also called the cumulative distribution function (CDF). It gives the total probability accumulated up to the value $x$.
+
+
+![Mathematical equations for F(x) and f(x) are written on a whiteboard.](frames/frame_01_100s.jpg)
+*[01:40](https://www.youtube.com/watch?v=0qi6s-injSo&t=100s) Mathematical equations for F(x) and f(x) are written on a whiteboard.*
+  
+At timestamp 01:40 the whiteboard shows:
+
+$$
+F(x) = P(X \leq x)
+$$
+
+---
+
+### The Density Function
+
+The **density function** $f(x)$ is defined as the derivative of the distribution function:
+
+$$
+f(x) = F'(x)
+$$
+
+The density function describes how probability is distributed across the values of $X$. It is not a probability itself (it can be greater than 1), but the area under $f(x)$ over an interval gives the probability for that interval.
+
+  
+The whiteboard also shows:
+
+$$
+f(x) = F'(x)
+$$
+
+---
+
+### Relating Distribution and Density: Probability Over an Interval
+
+The fundamental theorem of calculus connects the distribution function and the density function. For any interval $[a, b]$, the probability that $X$ lies between $a$ and $b$ is:
+
+$$
+P(a \leq X \leq b) = F(b) - F(a) = \int_{a}^{b} f(x) \, dx
+$$
+
+This is because $F(b)$ gives the probability that $X \leq b$, and subtracting $F(a)$ removes the probability that $X \leq a$, leaving only the probability for the interval.
+
+
+![The whiteboard displays mathematical formulas for distribution, density, and probability, including an integral.](frames/frame_02_200s.jpg)
+*[03:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=200s) The whiteboard displays mathematical formulas for distribution, density, and probability, including an integral.*
+  
+At timestamp 03:20 the whiteboard displays:
+
+$$
+F(x) = P(X \leq x) \quad \text{(distribution)}
+$$
+$$
+f(x) = F'(x) \quad \text{(density)}
+$$
+$$
+P(a \leq X \leq b) = F(b) - F(a) = \int f(x) \, dx
+$$
+
+In practice, you are often given the density function $f(x)$. To compute any probability, you perform an integration. This is why probability with continuous random variables is deeply connected to integration (and later to measure theory).
+
+---
+
+### Expected Value of a Continuous Random Variable
+
+The **expected value** (or mean) of a continuous random variable $X$ with density $f(x)$ is defined as an integral over the entire range of possible values:
+
+$$
+E[X] = \int_{-\infty}^{\infty} x \, f(x) \, dx
+$$
+
+If $X$ is restricted to positive values only (e.g., for an exponential distribution), the integral runs from $0$ to $\infty$:
+
+$$
+E[X] = \int_{0}^{\infty} x \, f(x) \, dx
+$$
+
+The expected value can be thought of as an infinite sum of the product $x \cdot f(x)$ over all possible $x$, weighted by the density.
+
+---
+
+### Summary of Key Relationships
+
+| Concept | Notation | Definition |
+|---------|----------|------------|
+| Distribution function (CDF) | $F(x)$ | $F(x) = P(X \leq x)$ |
+| Density function (PDF) | $f(x)$ | $f(x) = F'(x)$ |
+| Probability over interval | $P(a \leq X \leq b)$ | $F(b) - F(a) = \int_a^b f(x) \, dx$ |
+| Expected value | $E[X]$ | $\int_{-\infty}^{\infty} x f(x) \, dx$ |
+
+---
+
+### Check Your Understanding
+
+1. **Question:** If $F(x)$ is the distribution function of a continuous random variable $X$, what is the relationship between $F(x)$ and the density function $f(x)$?  
    <details><summary>Answer</summary>  
-   A discrete random variable can take only a finite or countable set of values (e.g., 1, 2, 3, 4, 5, 6 from a die roll). A continuous random variable can take any value within an interval or along the real line (e.g., time, distance, temperature).  
+   The density function is the derivative of the distribution function: $f(x) = F'(x)$. Conversely, $F(x) = \int_{-\infty}^{x} f(t) \, dt$.
    </details>
 
-2. **If `F(x)` is the probability distribution function of a continuous random variable, how do you obtain the density function `f(x)`?**  
+2. **Question:** A continuous random variable $X$ has density $f(x) = 2x$ for $0 \leq x \leq 1$, and $0$ elsewhere. Use the fundamental theorem of calculus to find $P(0.2 \leq X \leq 0.5)$.  
    <details><summary>Answer</summary>  
-   The density function is the derivative of the distribution function: `f(x) = F'(x)`.  
+   $P(0.2 \leq X \leq 0.5) = \int_{0.2}^{0.5} 2x \, dx = \left[ x^2 \right]_{0.2}^{0.5} = (0.5)^2 - (0.2)^2 = 0.25 - 0.04 = 0.21$.
    </details>
 
-3. **Write the expression for the probability that a continuous random variable `X` lies between `a` and `b` in terms of the distribution function `F` and in terms of the density function `f`.**  
+3. **Question:** Why is the probability that a continuous random variable equals a specific value (e.g., $P(X = 3)$) always zero?  
    <details><summary>Answer</summary>  
-   `P(a <= X <= b) = F(b) - F(a) = ∫_a^b f(x) dx`.  
+   For a continuous random variable, the probability is given by the area under the density curve. The area under a single point (a line of zero width) is zero. Therefore $P(X = a) = \int_a^a f(x) \, dx = 0$ for any $a$.
    </details>
-## Expected Value and the Exponential Distribution
 
-The expected value of a continuous random variable is the long-run average of its outcomes. For a continuous random variable \(X\) with probability density function \(f(x)\), the expected value is defined as an integral that multiplies each possible value \(x\) by its density and sums over all values.
+4. **Question:** Write the integral expression for the expected value of a continuous random variable $X$ whose density is $f(x)$ and whose support is all real numbers.  
+   <details><summary>Answer</summary>  
+   $E[X] = \int_{-\infty}^{\infty} x \, f(x) \, dx$.
+   </details>
+## Expected Value for Continuous Random Variables
 
-### Expected Value for Continuous Random Variables
+In this section, you will learn how to compute the expected value for a continuous random variable and understand why the formula takes the form of an integral.
 
-The formula for expected value is:
+### The Expected Value Formula
 
-\[
-E(X) = \int_{-\infty}^{\infty} x \, f(x) \, dx
-\]
+For a continuous random variable $X$ with probability density function $f(x)$, the expected value (also called the mean) is defined as:
 
-If the random variable is restricted to positive values only (for example, waiting times), the bounds change to \(0\) to \(\infty\). The same idea applies: you integrate over the domain where the variable can exist.
+$$E(X) = \int_{-\infty}^{\infty} x f(x) \, dx \tag{1}$$
+
+This formula appears on the whiteboard at timestamp 04:00, alongside the other fundamental relationships for continuous random variables:
+
+- Distribution function: $F(x) = P(X \leq x)$
+- Density function: $f(x) = F'(x)$
+- Probability: $P(a \leq X \leq b) = F(b) - F(a) = \int_{a}^{b} f(x) \, dx$
 
 
 ![The whiteboard displays formulas for distribution, density, probability, and expected value.](frames/frame_03_240s.jpg)
 *[04:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=240s) The whiteboard displays formulas for distribution, density, probability, and expected value.*
 
 
-The whiteboard shows the key relationships:
+### Why the Integral Has Flexible Bounds
 
+The formula in equation (1) uses integration bounds from $-\infty$ to $\infty$ because these represent the entire possible range of values for a continuous random variable. However, nothing in the derivation requires these specific bounds. You can replace them with any appropriate bounds for your specific problem.
+
+For example, if you are working with a random variable that only takes values between 0 and 10, you would write:
+
+$$E(X) = \int_{0}^{10} x f(x) \, dx$$
+
+The choice of bounds makes no difference to the underlying concept. The key point remains: you multiply the density function $f(x)$ by $x$ and integrate over the domain of the random variable.
+
+### Where the Integral Formula Comes From
+
+The integral representation for expected value arises from a fundamental connection between discrete and continuous probability. You can understand this by considering the limit of discrete probability events as the number of events approaches infinity.
+
+Think about dividing the domain of the random variable into many small pieces. In discrete probability, the expected value is a sum:
+
+$$E(X) = \sum_{i} x_i P(X = x_i)$$
+
+As you divide the domain into more and more pieces, this sum converges to an integral through a Riemann sum. This is the same basic idea you learned in calculus: a sum of many small pieces becomes an integral in the limit.
+
+The progression works as follows:
+
+```mermaid
+flowchart LR
+    A[Discrete Random Variable] --> B[Sum of x_i * P(X = x_i)]
+    B --> C[Divide domain into more pieces]
+    C --> D[Riemann sum approximation]
+    D --> E[Take limit as pieces go to infinity]
+    E --> F[Integral: ∫ x f(x) dx]
 ```
-F(x)=P(X≤x) (distribution)
-f(x)=F'(x) (density)
-P(a≤X≤b)=F(b)-F(a) = ∫ f(x)dx
-E(X)= ∫ xf(x)dx
-```
 
-The integral representation comes from a Riemann sum. Imagine dividing the domain into many small intervals. In each interval, approximate the probability as \(f(x) \Delta x\) and multiply by the value \(x\). As the number of intervals increases, the sum converges to the integral. Think of integrals as continuous sums.
+This convergence is why you should always think of the expected value formula as an integral. The integral representation is not arbitrary; it emerges naturally from the discrete case through the limiting process of calculus.
 
-### The Exponential Distribution
+### Key Concepts Summary
 
-The exponential distribution is a specific probability density function used to model waiting times. Let the random variable \(T\) represent time. The density function is:
+| Concept | Definition | Formula |
+|---------|------------|---------|
+| Expected value | The long-run average value of a random variable | $E(X) = \int_{-\infty}^{\infty} x f(x) \, dx$ |
+| Bounds | Can be adjusted to match the domain of the random variable | Replace $-\infty$ to $\infty$ with specific values |
+| Origin | Comes from the limit of discrete sums through Riemann sums | Sum $\rightarrow$ Integral as pieces $\rightarrow \infty$ |
 
-\[
-f(t) = \lambda e^{-\lambda t} \quad \text{for } t \geq 0
-\]
+### Check Your Understanding
 
-Here \(\lambda\) (lambda) is a rate parameter, and \(\lambda > 0\). The larger \(\lambda\) is, the faster the density function decays to zero. The smaller \(\lambda\) is, the slower it decays.
+1. What is the general formula for the expected value of a continuous random variable $X$ with density function $f(x)$?
 
-**Interpretation:** The exponential distribution describes the time until an event occurs. For example, if customers arrive at a store at an average rate of one per hour, the probability that a customer arrives in the next minute depends on how long you have already waited. The longer you wait, the higher the probability that the event will happen soon.
+<details><summary>Answer</summary>
+$E(X) = \int_{-\infty}^{\infty} x f(x) \, dx$
+</details>
+
+2. If a random variable only takes values between 0 and 5, how would you modify the expected value formula?
+
+<details><summary>Answer</summary>
+$E(X) = \int_{0}^{5} x f(x) \, dx$
+</details>
+
+3. How does the expected value formula for continuous random variables relate to the discrete case?
+
+<details><summary>Answer</summary>
+The continuous formula comes from taking the limit of discrete sums as the number of probability events approaches infinity. The sum $\sum x_i P(X = x_i)$ becomes the integral $\int x f(x) \, dx$ through a Riemann sum convergence.
+</details>
+
+4. What two components are multiplied together inside the expected value integral?
+
+<details><summary>Answer</summary>
+The value $x$ (the random variable's value) is multiplied by the density function $f(x)$.
+</details>
+## The Exponential Distribution and Its Lack of Memory Property
+
+This section introduces the **exponential distribution**, a continuous probability distribution used to model waiting times. We will define its probability density function (PDF) and cumulative distribution function (CDF), then derive its unique **lack of memory** property.
+
+### General probability definitions (review)
+
+Before focusing on the exponential distribution, recall the fundamental definitions of a continuous random variable. These are shown on the whiteboard at the start of this section.
 
 
 ![A person writes mathematical formulas on a blackboard, including definitions for distribution, density, and expected value.](frames/frame_04_320s.jpg)
 *[05:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=320s) A person writes mathematical formulas on a blackboard, including definitions for distribution, density, and expected value.*
 
 
-The same formulas for distribution, density, probability, and expected value are repeated on the board. The exponential density is now introduced with \(t\) as the variable.
+- **Cumulative distribution function (CDF)**: $F(x) = P(X \le x)$ gives the probability that the random variable $X$ is less than or equal to $x$.
+- **Probability density function (PDF)**: $f(x) = F'(x)$ is the derivative of the CDF. The PDF itself is not a probability; probabilities are obtained by integrating the PDF over an interval.
+- **Probability over an interval**: $P(a \le X \le b) = F(b) - F(a) = \int_a^b f(x)\,dx$.
+- **Expected value** (mean): $E(X) = \int_{-\infty}^{\infty} x f(x)\,dx$.
 
-### Computing Probabilities with the Exponential Distribution
+These formulas are the foundation for all continuous probability models.
 
-To find the probability that the waiting time falls between two values \(a\) and \(b\) (with \(0 \leq a < b\)), use the integral:
+### The exponential distribution
 
-\[
-P(a \leq T \leq b) = \int_{a}^{b} \lambda e^{-\lambda t} \, dt
-\]
-
-This integral can be evaluated directly or by using the cumulative distribution function \(F(t) = 1 - e^{-\lambda t}\).
-
-### Conditional Probability (Introduction)
-
-The video then introduces conditional probability: the probability of an event \(A\) happening given that event \(B\) has already occurred. This concept is important for understanding the memoryless property of the exponential distribution, which will be covered later.
-
----
-
-### Check your understanding
-
-1. **What is the formula for the expected value of a continuous random variable \(X\) with density \(f(x)\)?**
-
-<details><summary>Answer</summary>
-\(E(X) = \int_{-\infty}^{\infty} x f(x) \, dx\). If the domain is restricted, change the bounds accordingly.
-</details>
-
-2. **In the exponential distribution \(f(t) = \lambda e^{-\lambda t}\), what does the parameter \(\lambda\) represent, and how does its value affect the shape of the density?**
-
-<details><summary>Answer</summary>
-\(\lambda\) is the rate parameter. A larger \(\lambda\) makes the density decay faster (shorter expected waiting time). A smaller \(\lambda\) makes the density decay slower (longer expected waiting time).
-</details>
-
-3. **Write the integral you would use to compute the probability that an exponentially distributed waiting time \(T\) (with rate \(\lambda\)) is between 1 and 3 hours.**
-
-<details><summary>Answer</summary>
-\(P(1 \leq T \leq 3) = \int_{1}^{3} \lambda e^{-\lambda t} \, dt\).
-</details>
-
-4. **How does the integral for expected value relate to a Riemann sum?**
-
-<details><summary>Answer</summary>
-The integral is the limit of a sum: divide the domain into small intervals of width \(\Delta x\), approximate the probability in each interval as \(f(x)\Delta x\), multiply by \(x\), and sum. As \(\Delta x \to 0\), the sum becomes the integral \(\int x f(x) dx\).
-</details>
-## Lack of Memory Property
-
-The exponential distribution has a unique property called the **lack of memory property**. This property is unique to the exponential distribution and distributions that are similar to it. It describes a situation where the probability of waiting additional time does not depend on how long you have already waited.
+The exponential distribution is defined by a single parameter $\lambda > 0$, called the **rate parameter**. Its CDF and PDF, as shown on the board at timestamp 07:00, are:
 
 
 ![A whiteboard shows several mathematical formulas related to probability distributions, including definitions for F(x), f(x), P(a ≤ X ≤ b), E(X)...](frames/frame_05_420s.jpg)
-*[07:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=420s) A whiteboard shows several mathematical formulas related to probability distributions, including definitions for F(x), f(x), P(a ≤ X ≤ b), E(X), and an example of F(t) and f(t) for an exponential distribution.*
+*[07:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=420s) A whiteboard shows several mathematical formulas related to probability distributions, including definitions for F(x), f(x), P(a ≤ X ≤ b), E(X), and an example of F(t) and f(t).*
 
 
-Before we examine the lack of memory property, we need to recall the formula for conditional probability. The conditional probability of event A given that event B has occurred is:
+$$
+F(t) = 1 - e^{-\lambda t}, \quad \lambda > 0
+$$
+$$
+\Rightarrow f(t) = \lambda e^{-\lambda t}
+$$
 
-P(A|B) = P(A and B) / P(B)
+Here $t$ typically represents time. The PDF $f(t)$ is positive for $t \ge 0$ and zero for $t < 0$.
 
-This formula gives an explicit likelihood. It tells you how to estimate the probability that event A will happen if you already know that event B happened.
+**Interpretation of $\lambda$**: The rate parameter controls how quickly the probability of the event decays. A larger $\lambda$ makes the PDF decline faster, meaning the event is more likely to occur soon. A smaller $\lambda$ makes the decline slower, meaning the waiting time tends to be longer. For example, if customers arrive at a store with an average rate of one per hour, then $\lambda = 1$ (per hour). After 55 minutes without a customer, the probability that a customer will arrive in the next few minutes is higher than if a customer had just arrived.
+
+**Computing probabilities**: Using the CDF, any interval probability can be computed easily. For example, the probability that a customer arrives between 1 hour and 2 hours is:
+
+$$
+P(1 < X < 2) = F(2) - F(1) = (1 - e^{-2\lambda}) - (1 - e^{-\lambda}) = e^{-\lambda} - e^{-2\lambda}.
+$$
+
+The same result can be obtained by integrating the PDF: $\int_1^2 \lambda e^{-\lambda t}\,dt$.
+
+### Conditional probability and the lack of memory property
+
+The exponential distribution has a remarkable property: it is **memoryless**. This means that the probability of waiting an additional $t$ time units, given that you have already waited $s$ units, is exactly the same as the probability of waiting $t$ units from the start. The past waiting time is irrelevant.
+
+To understand this, we need the definition of conditional probability:
+
+$$
+P(A \mid B) = \frac{P(A \text{ and } B)}{P(B)}.
+$$
 
 
-![A whiteboard displays several probability and statistics formulas, including definitions for distribution, density, expected value, and...](frames/frame_06_500s.jpg)
-*[08:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=500s) A whiteboard displays several probability and statistics formulas, including definitions for distribution, density, expected value, and conditional probability.*
+![A whiteboard displays several probability and statistics formulas, including distribution, density, expected value, and conditional probability...](frames/frame_06_500s.jpg)
+*[08:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=500s) A whiteboard displays several probability and statistics formulas, including distribution, density, expected value, and conditional probability, with a title "Lack of memory" at the top right.*
 
 
-Now let us apply this conditional probability formula to the exponential distribution. We want to find the probability that X is greater than s plus t, given that X is greater than s. We write this as:
+The whiteboard introduces the **lack of memory** property. For a random variable $X$ following an exponential distribution, we consider the event $A = \{X > s+t\}$ and $B = \{X > s\}$, with $s, t \ge 0$. The conditional probability is:
 
-P(X > s + t | X > s)
+$$
+P(X > s+t \mid X > s) = \frac{P(X > s+t \text{ and } X > s)}{P(X > s)}.
+$$
 
-Using the conditional probability formula, this becomes:
+Because $s+t > s$, the event $\{X > s+t\}$ is a subset of $\{X > s\}$, so the intersection is simply $\{X > s+t\}$. Thus:
 
-P(X > s + t | X > s) = P(X > s + t and X > s) / P(X > s)
+$$
+P(X > s+t \mid X > s) = \frac{P(X > s+t)}{P(X > s)}.
+$$
 
-If s is positive, then the event "X > s + t and X > s" is the same as the event "X > s + t". This is because if X is greater than s plus t, it is automatically greater than s. So the numerator simplifies to P(X > s + t). The denominator is P(X > s). Therefore:
+Now, the survival function (the probability of exceeding a given time) for the exponential distribution is:
 
-P(X > s + t | X > s) = P(X > s + t) / P(X > s)
+$$
+P(X > t) = 1 - F(t) = e^{-\lambda t}.
+$$
+
+Substituting:
+
+$$
+P(X > s+t \mid X > s) = \frac{e^{-\lambda (s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = P(X > t).
+$$
 
 
 ![This frame shows several probability and statistics formulas written on a whiteboard, including definitions for distribution, density, expected...](frames/frame_07_540s.jpg)
-*[09:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=540s) This frame shows several probability and statistics formulas written on a whiteboard, including definitions for distribution, density, expected value, and conditional probability, as well as a formula related to the "lack of memory" property.*
+*[09:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=540s) This frame shows several probability and statistics formulas written on a whiteboard, including definitions for distribution, density, expected value, and conditional probability, as well as the "lack of memory" property.*
 
 
-Now we can compute these probabilities using the exponential distribution. For an exponential random variable X with rate parameter lambda (λ), the probability that X is greater than some value a is:
 
-P(X > a) = e^(-λa)
-
-Applying this to our formula:
-
-P(X > s + t | X > s) = e^(-λ(s + t)) / e^(-λs)
+![A whiteboard shows probability formulas including distribution, density, expected value, and the lack of memory property.](frames/frame_08_600s.jpg)
+*[10:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=600s) A whiteboard shows probability formulas including distribution, density, expected value, and the lack of memory property.*
 
 
-![This frame displays various probability and calculus formulas, including distribution, density, expected value, and the 'lack of memory' property...](frames/frame_08_600s.jpg)
-*[10:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=600s) This frame displays various probability and calculus formulas, including distribution, density, expected value, and the 'lack of memory' property, written on a blackboard.*
+The derivation shows that the conditional probability reduces to $e^{-\lambda t}$, which is exactly the unconditional probability of waiting more than $t$ time units. No matter how long you have already waited ($s$), the probability of waiting another $t$ units is the same as if you had just started.
 
+**Meaning**: The exponential distribution has no memory of the past. This is unique among continuous distributions (the geometric distribution is its discrete analog). It implies that the remaining waiting time is always identically distributed, regardless of the elapsed time. For example, if you have been waiting for a bus for 10 minutes, the probability that the bus will arrive in the next 5 minutes is the same as the probability that it would arrive in 5 minutes when you first arrived at the stop. The speaker compares this to a dog that forgets it just went for a walk: it is always ready for the next one.
 
-We can simplify this expression. Dividing e^(-λ(s + t)) by e^(-λs) gives:
-
-e^(-λ(s + t)) / e^(-λs) = e^(-λs - λt + λs) = e^(-λt)
-
-And e^(-λt) is exactly equal to P(X > t). So we have:
-
-P(X > s + t | X > s) = e^(-λt) = P(X > t)
-
-What does this result actually mean? It means that if we have already waited s units of time, and we want to know the probability of something happening t more units into the future, that probability is the same as restarting and asking what happens in t units from now. The past waiting time s does not affect the future probability. The distribution "forgets" that you have already waited.
-
-This property is called the **lack of memory property** (also known as the memoryless property). (Added context: This property is unique to the exponential distribution among continuous distributions. The geometric distribution has a similar property for discrete random variables.)
+This property makes the exponential distribution a natural choice for modeling processes where events occur independently and at a constant average rate, such as radioactive decay, customer arrivals, or failure times of components without wear.
 
 ### Check your understanding
 
-1. What is the formula for the lack of memory property of the exponential distribution?
+1. **Question**: For an exponential distribution with $\lambda = 0.5$, what is $P(X > 3)$?  
+   <details><summary>Answer</summary>
+   $P(X > 3) = e^{-0.5 \cdot 3} = e^{-1.5} \approx 0.2231$.
+   </details>
 
-<details><summary>Answer</summary>
-P(X > s + t | X > s) = P(X > t). This means the probability of waiting additional time t does not depend on how long you have already waited s.
-</details>
+2. **Question**: Verify the lack of memory property for $s = 2$ and $t = 1$ with $\lambda = 0.5$. Compute $P(X > 3 \mid X > 2)$ and $P(X > 1)$ directly.  
+   <details><summary>Answer</summary>
+   $P(X > 3) = e^{-0.5 \cdot 3} = e^{-1.5} \approx 0.2231$; $P(X > 2) = e^{-1} \approx 0.3679$; the conditional probability is $0.2231 / 0.3679 \approx 0.6065$. $P(X > 1) = e^{-0.5} \approx 0.6065$. They match.
+   </details>
 
-2. If an exponential random variable has rate parameter λ = 0.5, and you have already waited 3 units, what is the probability that you will wait at least 2 more units?
+3. **Question**: Why is the memoryless property important for modeling radioactive decay?  
+   <details><summary>Answer</summary>
+   Radioactive decay is a process where the probability of a nucleus decaying in a given time interval is constant, independent of how long it has existed. The exponential distribution models this because the remaining lifetime of a nucleus does not depend on its age: it has no memory.
+   </details>
+## Modeling Radioactive Decay with a Lockout Time
 
-<details><summary>Answer</summary>
-Using the lack of memory property, P(X > 3 + 2 | X > 3) = P(X > 2) = e^(-0.5 * 2) = e^(-1) ≈ 0.3679.
-</details>
+### The Problem: Real Counters Need Adjustment
 
-3. Why is the numerator P(X > s + t and X > s) simplified to just P(X > s + t)?
+A Geiger counter does not record every radioactive decay instantly. When a decay event occurs, the counter enters a "lockout" period during which it cannot detect any additional decays. For the counter in this example, the lockout time is $3 \times 10^{-9}$ seconds (3 nanoseconds). This is a very small time interval, but during it, many decays could be missed depending on the material's decay rate.
 
-<details><summary>Answer</summary>
-If X is greater than s + t, it is automatically greater than s. So the event "X > s + t and X > s" is the same as the event "X > s + t". The intersection of the two conditions is just the stricter condition.
-</details>
-
-4. True or False: The lack of memory property applies to all continuous probability distributions.
-
-<details><summary>Answer</summary>
-False. The lack of memory property is unique to the exponential distribution (and distributions that are similar to it, such as the geometric distribution for discrete random variables). Most continuous distributions do not have this property.
-</details>
-## Modeling Example: Radioactive Decay Setup
-
-This section builds on the memoryless property of the exponential distribution and applies it to a real-world modeling problem: measuring radioactive decay with a counter that has a brief lockout period.
-
-### The Memoryless Property (Recap)
-
-The exponential distribution has a unique property called **memorylessness**. This means that the probability of an event occurring in the next interval of time does not depend on how long you have already waited. The past is irrelevant; only the future time window matters. In the speaker’s words: “It doesn’t matter how long I waited. All that matters is how far you go in the future now. The past doesn’t matter. There is no memory in this thing.” This property is essential for modeling events that occur randomly and independently over time.
-
-### Introducing the Radioactive Decay Example
-
-We now apply continuous probability models to a practical problem: measuring the decay rate of a radioactive material using a counter.
-
-
-![The word 'Ex:' is written on a black background, indicating an example is about to be presented.](frames/frame_09_680s.jpg)
-*[11:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=680s) The word 'Ex:' is written on a black background, indicating an example is about to be presented.*
-
-
-The whiteboard shows the word “Ex:”, indicating the start of an example.
-
-The counter registers each radioactive decay, but after registering one decay, it **locks** for a very short period of time: \(3 \times 10^{-9}\) seconds (3 nanoseconds). During this lockout, the counter cannot record any other decay. Therefore, some decays may be missed if they occur during the lockout. The goal is to adjust the recorded data to account for these lost events.
+The core question is: How should the data from the counter be adjusted to account for decays that were lost during the lockout time?
 
 ### Defining the Variables
 
 
-![The whiteboard shows an example of lambda as a decay rate per second.](frames/frame_10_720s.jpg)
-*[12:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=720s) The whiteboard shows an example of lambda as a decay rate per second.*
+![The whiteboard displays an example of lambda as a decay rate per second.](frames/frame_09_720s.jpg)
+*[12:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=720s) The whiteboard displays an example of lambda as a decay rate per second.*
 
 
-The whiteboard introduces the decay rate:
+Begin by defining the fundamental quantities:
 
-```
-Ex: λ = decay rate (per second)
-```
+- $\lambda$ = the decay rate of the radioactive material, measured in decays per second.
+- $T_n$ = the time of the $n^{th}$ observation (the time when the counter records a decay).
 
-- **λ** (lambda) is the true decay rate of the material, measured in decays per second. This is the unknown quantity we want to estimate.
-
-Next, we define the times at which the counter records a decay:
+The lockout time (let us call it $a$) creates a constraint on the observations.
 
 
-![A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn.](frames/frame_11_800s.jpg)
-*[13:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=800s) A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn.*
+![A whiteboard shows an example of decay rate, time of nth observation, and an inequality involving T_n and T_{n-1}.](frames/frame_10_800s.jpg)
+*[13:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=800s) A whiteboard shows an example of decay rate, time of nth observation, and an inequality involving T_n and T_{n-1}.*
 
 
-The whiteboard shows:
+Because the counter locks for $3 \times 10^{-9}$ seconds after each recorded decay, the time between consecutive recorded observations must be at least this long:
 
-```
-Ex: λ= decay rate (per second)
-Tn= time of nth observation
-> Tn-Tn-1 ≥ 3×10-9
-Set Xn=
-```
+$$T_n - T_{n-1} \geq 3 \times 10^{-9} \quad \text{with probability 1}$$
 
-- **Tₙ** = the time (in seconds) of the n‑th recorded observation (i.e., the moment the counter registers a decay).
-- Because the counter locks for \(3 \times 10^{-9}\) seconds after each recorded decay, the time between consecutive recorded decays must be at least that lockout period. This gives the inequality:
+This inequality holds with certainty (probability 1) because it is a physical property of the counter's operation, not a probabilistic statement.
 
-\[
-T_n - T_{n-1} \ge 3 \times 10^{-9}
-\]
+### Introducing the Waiting Time Variable
 
-The inequality holds with probability 1 (it is a physical constraint, not a probabilistic one).
+To work with a known probability distribution, define a new variable for the time between observations:
 
-### Introducing the Inter‑Observation Time
+$$X_n = T_n - T_{n-1}$$
 
-The speaker then defines a new variable to represent the time between recorded observations:
+$X_n$ represents the total elapsed time between consecutive recorded decays.
 
-> “Let’s set \(x_n\) to be the time between these observations.”
+### Why $X_n$ Is Not Exponentially Distributed
 
-This variable is the interval from one recorded decay to the next. However, the whiteboard at the next timestamp shows a different expression:
+The exponential distribution has the property that the longer you wait, the higher the probability that an event occurs. However, $X_n$ has a minimum value of $3 \times 10^{-9}$ seconds with certainty. This violates the exponential distribution's assumption that the waiting time can be arbitrarily close to zero.
+
+Therefore, $X_n$ cannot be modeled directly with an exponential distribution.
+
+### Decomposing the Waiting Time
 
 
-![A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn.](frames/frame_12_860s.jpg)
-*[14:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=860s) A whiteboard shows an example of decay rate, time of nth observation, and a formula for Xn.*
+![The whiteboard shows an example of a decay rate problem, defining lambda, T_n, and X_n.](frames/frame_11_860s.jpg)
+*[14:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=860s) The whiteboard shows an example of a decay rate problem, defining lambda, T_n, and X_n.*
 
 
-The whiteboard now displays:
+To model the process correctly, decompose $X_n$ into two parts:
 
-```
-Ex: λ= decay rate (per second)
-T_n = time of n^th observation
-=> T_n - T_{n-1} ≥ 3 × 10^{-9}
-Set X_n = T_n
-```
+$$X_n = a + Y_n$$
 
-**Note:** The on‑screen text says “Set \(X_n = T_n\)”, but the speaker’s verbal definition describes \(X_n\) as the time *between* observations. The intended definition is likely \(X_n = T_n - T_{n-1}\) (the inter‑observation time). The whiteboard may have been incomplete or the video cut off before the subtraction was written. In this course, we will follow the speaker’s verbal definition: \(X_n\) is the time between recorded decays.
+Where:
 
-### Why This Is Not an Exponential Distribution
+- $a = 3 \times 10^{-9}$ seconds (the lockout time, a constant)
+- $Y_n$ = the additional waiting time beyond the lockout period, measured in seconds
 
-If the counter had no lockout, the times between decays (the true inter‑arrival times) would follow an exponential distribution with rate λ. The exponential distribution has the property that the longer you wait, the higher the probability that an event will occur. However, because of the lockout, the recorded inter‑observation times \(X_n\) have a **lower bound** of \(3 \times 10^{-9}\) seconds. They are always at least that value, with probability 1. This violates the exponential distribution’s support (which starts at 0) and its memoryless property. Therefore, \(X_n\) is **not** exponentially distributed. We must adjust the model to account for the lockout.
+$Y_n$ represents how many extra seconds you must wait after the lockout ends before another decay is recorded.
 
-### Summary of Key Concepts
+### Modeling $Y_n$ with an Exponential Distribution
 
-| Concept | Definition |
-|---------|------------|
-| Memoryless property | The future probability of an event does not depend on past waiting time. |
-| Decay rate λ | True number of decays per second in the material. |
-| Tₙ | Time of the n‑th recorded observation. |
-| Lockout period | \(3 \times 10^{-9}\) seconds; the counter cannot record during this interval. |
-| Xₙ | Time between recorded observations (speaker’s definition). |
-| Lower bound | \(X_n \ge 3 \times 10^{-9}\) with probability 1, so Xₙ is not exponential. |
+The additional waiting time $Y_n$ **can** be modeled with an exponential distribution. This is because $Y_n$ has no minimum positive value and satisfies the properties of a memoryless waiting time.
 
-### Check Your Understanding
+The exponential distribution for $Y_n$ uses the same decay parameter $\lambda$:
 
-1. **What is the memoryless property of the exponential distribution?**  
-   <details><summary>Answer</summary> The probability that an event occurs in the next time interval does not depend on how long you have already waited. The past is forgotten.</details>
+$$Y_n \sim \text{Exponential}(\lambda)$$
 
-2. **Why is the inequality \(T_n - T_{n-1} \ge 3 \times 10^{-9}\) always true?**  
-   <details><summary>Answer</summary> Because the counter locks for exactly \(3 \times 10^{-9}\) seconds after each recorded decay, so no decay can be recorded during that interval. Therefore, the time between recorded observations must be at least that lockout period.</details>
+The probability density function is:
 
-3. **Why does the lockout prevent the recorded inter‑observation times from following an exponential distribution?**  
-   <details><summary>Answer</summary> An exponential distribution has support from 0 to infinity and is memoryless. The lockout forces a minimum positive waiting time (\(3 \times 10^{-9}\) seconds) with probability 1, which violates the exponential’s support and its memoryless property.</details>
+$$f_{Y_n}(y) = \lambda e^{-\lambda y}, \quad y \geq 0$$
 
-4. **What is the purpose of defining \(X_n\) in this example?**  
-   <details><summary>Answer</summary> \(X_n\) represents the time between recorded observations. By studying its distribution, we can later adjust the recorded data to estimate the true decay rate λ, accounting for decays missed during the lockout.</details>
-## Modeling the Waiting Time and Expected Value
+**Important intuition**: When the decay rate $\lambda$ is very high, the time between decays is very short. This means $Y_n$ will tend to be very small, because after the lockout ends, another decay arrives quickly.
 
-In this section you will model the waiting time between successive observations of a radioactive decay event. You will compute the expected (average) waiting time and then use the strong law of large numbers to connect that theoretical average to the sample average you can compute from real data.
+### Computing the Expected Waiting Time
 
-### Setting up the variables
+To understand the average behavior of the counter, compute the expected value of $X_n$.
 
-Recall the physical setup: you observe the time of each decay event. Let:
+The expectation operator distributes over sums:
 
-- λ = decay rate (per second). A larger λ means decays happen more frequently.
-- Tₙ = time of the n‑th observation (in seconds).
-- Xₙ = Tₙ: Tₙ₋₁, the waiting time between the (n-1)-th and n‑th observations.
+$$E[X_n] = E[a + Y_n]$$
 
-Because of a hardware locking time, the waiting time can never be shorter than a fixed constant a = 3 × 10⁻⁹ seconds. Therefore:
+The expected value of a constant is the constant itself:
 
-Xₙ = a + Yₙ
+$$E[a] = a$$
 
-where Yₙ is the additional time you must wait beyond the locking time. Yₙ is modeled by an exponential distribution with parameter λ > 0.
+The expected value of an exponentially distributed random variable with rate $\lambda$ is:
 
-
-![A whiteboard shows mathematical equations defining lambda as decay rate, Tn as time of nth observation, and Xn and Yn as related variables, with...](frames/frame_13_960s.jpg)
-*[16:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=960s) A whiteboard shows mathematical equations defining lambda as decay rate, Tn as time of nth observation, and Xn and Yn as related variables, with Yn modeled by an exponential distribution.*
-
-
-The whiteboard at this frame shows the definitions:
-
-```
-Ex: λ= decay rate (per second)
-Tn= time of nth observation
-=> Tn-Tn-1 ≥ 3×10-9
-Set Xn=Tn-Tn-1
-a=3×10-9
-=> Xn= a + Yn
-Yn is modelled by an exp. dist. w λ>0
-E(Xn)=
-```
-
-The exponential distribution is a continuous probability model often used for waiting times. Its probability density function (PDF) is:
-
-f(t) = λ e^{-λ t}   for t ≥ 0
-
-The expected value (mean) of an exponential random variable is 1/λ. You will verify this below.
-
-### Computing the expected waiting time
-
-The expected value of Xₙ is:
-
-E(Xₙ) = E(a + Yₙ) = a + E(Yₙ)
-
-because the expectation of a constant is the constant itself.
-
-Now compute E(Yₙ). For an exponential distribution with rate λ, the mean is given by the integral:
-
-E(Yₙ) = ∫₀^∞ t · λ e^{-λ t} dt
-
-
-![A whiteboard shows mathematical equations defining variables like decay rate, time of observation, and an exponential distribution, with a person...](frames/frame_14_1020s.jpg)
-*[17:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1020s) A whiteboard shows mathematical equations defining variables like decay rate, time of observation, and an exponential distribution, with a person writing on it.*
-
-
-The whiteboard shows this integral:
-
-```
-E(Yn) = ∫_0^∞ t λ e^{-λt} dt
-```
-
-Evaluating this integral (using integration by parts or recalling the known result) gives:
-
-E(Yₙ) = 1/λ
+$$E[Y_n] = \frac{1}{\lambda}$$
 
 Therefore:
 
-E(Xₙ) = a + 1/λ
+$$E[X_n] = a + \frac{1}{\lambda}$$
 
+Or, substituting the lockout time:
 
-![A whiteboard shows an example problem calculating the expected value of Xn, which is a + 1/λ.](frames/frame_15_1080s.jpg)
-*[18:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1080s) A whiteboard shows an example problem calculating the expected value of Xn, which is a + 1/λ.*
+$$E[X_n] = 3 \times 10^{-9} + \frac{1}{\lambda}$$
 
+This means the average time between recorded decays is the lockout time plus the average additional waiting time for a decay to occur.
 
-The whiteboard now shows the completed calculation:
+### Summary of the Model Structure
 
+```mermaid
+flowchart LR
+    A["Actual decay events<br/>(Poisson process, rate λ)"] --> B["Counter records some events"]
+    A --> C["Counter locks for a = 3×10⁻⁹ s<br/>after each recorded event"]
+    C --> D["Missed decays during lockout"]
+    B --> E["Recorded observations<br/>T₁, T₂, T₃, ..."]
+    E --> F["Waiting times Xₙ = Tₙ − Tₙ₋₁"]
+    F --> G["Xₙ = a + Yₙ"]
+    G --> H["Yₙ ~ Exponential(λ)"]
+    H --> I["E[Xₙ] = a + 1/λ"]
 ```
-E(Yn)= ∫_0^∞ tλe^(-λt)dt = 1/λ
-=>E(Xn)=a+ 1/λ
-Strong law
-```
 
-### Interpreting the result
+### Key Takeaways
 
-If the decay rate λ is very high, then 1/λ is very small, so the expected waiting time is only slightly larger than the locking time a. If λ is low, the expected waiting time is much larger than a.
+| Concept | Statement |
+|---|---|
+| Lockout time $a$ | Constant $3 \times 10^{-9}$ seconds |
+| Constraint on $X_n$ | $X_n \geq a$ with probability 1 |
+| Direct exponential model | Not possible for $X_n$ due to minimum value |
+| Decomposition approach | $X_n = a + Y_n$ separates constant from random part |
+| Distribution of $Y_n$ | Exponential with rate $\lambda$ |
+| Expected waiting time | $E[X_n] = a + \frac{1}{\lambda}$ |
 
-### Using the strong law of large numbers
+This decomposition allows you to use the well-understood properties of the exponential distribution while still accounting for the physical constraints of the measurement device.
 
-In practice you do not know λ. You only have a sequence of observed waiting times X₁, X₂, …, Xₙ. The strong law of large numbers tells you that as the number of observations grows, the sample average converges to the true expected value.
+### Check Your Understanding
+
+1. Why can $X_n$ not be modeled directly with an exponential distribution?
+
+<details><summary>Answer</summary>
+The exponential distribution allows waiting times arbitrarily close to zero, but $X_n$ has a strict lower bound of $3 \times 10^{-9}$ seconds. This constraint violates the assumptions of the exponential distribution.</details>
+
+2. What does $Y_n$ represent in the decomposition $X_n = a + Y_n$?
+
+<details><summary>Answer</summary>
+$Y_n$ represents the additional waiting time beyond the lockout period. It is the number of seconds you must wait after the lockout ends until another decay is recorded by the counter.</details>
+
+3. If $\lambda = 10^9$ decays per second, what is the expected waiting time between recorded observations?
+
+<details><summary>Answer</summary>
+$E[X_n] = a + \frac{1}{\lambda} = 3 \times 10^{-9} + \frac{1}{10^9} = 3 \times 10^{-9} + 1 \times 10^{-9} = 4 \times 10^{-9}$ seconds.</details>
+
+4. How does the lockout time affect the estimate of $\lambda$ from observed data?
+
+<details><summary>Answer</summary>
+If you naively used the observed waiting times $X_n$ to estimate $\lambda$ without removing the lockout time $a$, you would underestimate the true decay rate. The observed times are systematically longer than the actual waiting times between real decays, so the adjustment $X_n - a$ is necessary before applying standard exponential distribution estimators.</details>
+## Estimating the Decay Rate Using the Strong Law of Large Numbers
 
 
-![A whiteboard shows mathematical equations for decay rate, time of observation, and the strong law of large numbers.](frames/frame_16_1140s.jpg)
+![A whiteboard shows mathematical equations defining decay rate, time of observation, and a variable Xn modeled by an exponential distribution.](frames/frame_12_960s.jpg)
+*[16:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=960s) A whiteboard shows mathematical equations defining decay rate, time of observation, and a variable Xn modeled by an exponential distribution.*
+
+
+In this section, we use the expected value of the waiting time to estimate the unknown decay rate $\lambda$. Recall the setup from the previous section:
+
+- $\lambda$ is the decay rate, measured in per second.
+- $T_n$ is the time of the $n$-th observation.
+- The gap between observations satisfies $T_n - T_{n-1} \geq 3 \times 10^{-9}$ seconds.
+- We define $X_n = T_n - T_{n-1}$ as the waiting time between the $(n-1)$-th and $n$-th observations.
+- We set $a = 3 \times 10^{-9}$ seconds, the minimum possible gap.
+- We model $X_n = a + Y_n$, where $Y_n$ follows an exponential distribution with rate $\lambda > 0$.
+
+The exponential distribution models the random extra time beyond the minimum gap. Its probability density function is:
+
+$$
+f_{Y_n}(t) = \lambda e^{-\lambda t}, \quad t \geq 0
+$$
+
+### Computing the Expected Value of $Y_n$
+
+The expected value of $Y_n$ is:
+
+$$
+E(Y_n) = \int_{0}^{\infty} t \lambda e^{-\lambda t} \, dt
+$$
+
+The lower bound is $0$ because time starts when the clock starts, and the upper bound is $\infty$ because the waiting time can be arbitrarily long. This is a valid subdomain of the real numbers. The integral evaluates to:
+
+$$
+E(Y_n) = \frac{1}{\lambda}
+$$
+
+This is a standard result for the exponential distribution. (Added context: the mean of an exponential distribution with rate $\lambda$ is always $1/\lambda$.)
+
+### Expected Value of $X_n$
+
+Since $X_n = a + Y_n$, linearity of expectation gives:
+
+$$
+E(X_n) = a + E(Y_n) = a + \frac{1}{\lambda}
+$$
+
+Substituting $a = 3 \times 10^{-9}$:
+
+$$
+E(X_n) = 3 \times 10^{-9} + \frac{1}{\lambda}
+$$
+
+This tells us the average waiting time between observations, but we still do not know $\lambda$. The only data we have are the observed times $T_1, T_2, \ldots, T_n$.
+
+### The Strong Law of Large Numbers
+
+
+![A whiteboard shows an example problem calculating the expected value of Xn, which is a + 1/λ, with a note about the strong law.](frames/frame_14_1080s.jpg)
+*[18:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1080s) A whiteboard shows an example problem calculating the expected value of Xn, which is a + 1/λ, with a note about the strong law.*
+
+
+The strong law of large numbers states that if we have a sequence of independent random variables that all share the same mean, then the sample average converges to that common mean as the number of observations goes to infinity.
+
+In our context, all $X_n$ have the same mean $E(X_n)$. Therefore:
+
+$$
+\lim_{n \to \infty} \frac{X_1 + X_2 + \cdots + X_n}{n} = E(X_n)
+$$
+
+This is a powerful result because it connects what we can observe (the average of the waiting times) to the theoretical mean.
+
+### The Telescoping Sum Trick
+
+
+![A whiteboard shows mathematical equations for decay rate, time of observation, and the strong law of large numbers.](frames/frame_15_1140s.jpg)
 *[19:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1140s) A whiteboard shows mathematical equations for decay rate, time of observation, and the strong law of large numbers.*
 
 
-The whiteboard states:
+Now we apply a key simplification to the numerator $X_1 + X_2 + \cdots + X_n$. Recall that $X_n = T_n - T_{n-1}$. Therefore:
 
-```
-Strong law of large numbers:
-lim_{n→∞} (X_1 + X_2 + ... + X_n)/n = E(X_n)
-```
+$$
+X_1 + X_2 + \cdots + X_n = (T_1 - T_0) + (T_2 - T_1) + \cdots + (T_n - T_{n-1})
+$$
 
-In this context:
+We set $T_0 = 0$, which is the moment we start the clock. Expanding the sum:
 
-lim_{n→∞} (X₁ + X₂ + … + Xₙ) / n = a + 1/λ
+$$
+(T_1 - 0) + (T_2 - T_1) + (T_3 - T_2) + \cdots + (T_n - T_{n-1})
+$$
 
-This gives you a way to estimate λ. If you compute the sample average of many waiting times, you can set that average equal to a + 1/λ and solve for λ.
+Every intermediate term cancels: $T_1$ appears once as positive and once as negative, $T_2$ appears once as positive and once as negative, and so on. The only terms that survive are $T_0$ (which is $0$) and $T_n$. Thus:
 
-### Summary of key concepts
+$$
+X_1 + X_2 + \cdots + X_n = T_n
+$$
 
-| Concept | Definition | Formula |
-|---------|------------|---------|
-| Locking time a | Minimum possible waiting time between observations | a = 3 × 10⁻⁹ s |
-| Exponential distribution | Continuous probability model for Yₙ | Yₙ ~ Exp(λ) |
-| Expected value of exponential | Mean of Exp(λ) | E(Yₙ) = 1/λ |
-| Expected waiting time | Mean of Xₙ = a + Yₙ | E(Xₙ) = a + 1/λ |
-| Strong law of large numbers | Sample average converges to expected value | (∑ Xᵢ)/n → E(Xₙ) as n→∞ |
+This is called a telescoping sum because the terms collapse like a telescope.
 
-### Check your understanding
+### Estimating $\lambda$
 
-1. **Why is the waiting time Xₙ always at least a?**  
-   <details><summary>Answer</summary>  
-   Because the hardware has a locking time of a = 3 × 10⁻⁹ seconds. No two observations can be closer together than this fixed minimum.  
-   </details>
+Substituting the telescoping result into the strong law:
 
-2. **If the decay rate λ is 10⁶ per second, what is the expected waiting time E(Xₙ)?**  
-   <details><summary>Answer</summary>  
-   E(Xₙ) = a + 1/λ = 3 × 10⁻⁹ + 1/10⁶ = 3 × 10⁻⁹ + 10⁻⁶ = 1.003 × 10⁻⁶ seconds (approximately 1.003 μs).  
-   </details>
+$$
+\lim_{n \to \infty} \frac{T_n}{n} = E(X_n) = a + \frac{1}{\lambda}
+$$
 
-3. **How can you estimate λ from a set of observed waiting times?**  
-   <details><summary>Answer</summary>  
-   Compute the sample average of the waiting times. By the strong law of large numbers, this average is approximately a + 1/λ. Solve for λ: λ ≈ 1 / (sample average: a).  
-   </details>
+For large but finite $n$, we have the approximation:
 
-4. **What does the integral ∫₀^∞ t λ e^{-λ t} dt represent?**  
-   <details><summary>Answer</summary>  
-   It is the definition of the expected value (mean) of the exponential random variable Yₙ. Evaluating it gives 1/λ.  
-   </details>
-## Estimating the Decay Rate
+$$
+\frac{T_n}{n} \approx a + \frac{1}{\lambda}
+$$
 
-In this section, we derive a practical formula for estimating the decay rate lambda (λ) of a radioactive material, even when we cannot record observations during a "locking time" after each detection.
+The squiggly line $\approx$ means this holds only in the limit; for finite $n$ it is an approximation that improves as $n$ grows.
 
-### The Problem: Locking Time
+Now solve for $\lambda$. Subtract $a$ from both sides:
 
-When a Geiger counter detects a radioactive decay, it becomes temporarily unable to record new events. This period is called the locking time. In our model, the locking time is a constant value `a = 3 × 10⁻⁹` seconds (3 nanoseconds).
+$$
+\frac{T_n}{n} - a \approx \frac{1}{\lambda}
+$$
 
+Take the reciprocal:
 
-![This frame shows a whiteboard with mathematical equations and definitions related to decay rate, observations, and the strong law of large numbers.](frames/frame_17_1220s.jpg)
-*[20:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=1220s) This frame shows a whiteboard with mathematical equations and definitions related to decay rate, observations, and the strong law of large numbers.*
+$$
+\lambda \approx \frac{1}{\frac{T_n}{n} - a}
+$$
 
+Simplify the denominator:
 
-### Defining the Variables
+$$
+\lambda \approx \frac{n}{T_n - n a}
+$$
 
-Let us define the key variables:
+This is the estimator for the decay rate. It uses only the time of the $n$-th observation $T_n$, the number of observations $n$, and the known minimum gap $a = 3 \times 10^{-9}$ seconds.
 
-- **λ (lambda)**: The decay rate of the radioactive material, measured in decays per second. This is the unknown parameter we want to estimate.
-- **Tn**: The time of the nth observation (the nth detected decay).
-- **Tn - Tn-1**: The time between the (n-1)th and nth observations. This interval is always at least `a` seconds long because of the locking time.
-- **Xn**: The time interval between consecutive observations. We set `Xn = Tn - Tn-1`.
-- **a**: The locking time, `a = 3 × 10⁻⁹` seconds.
-- **Yn**: The actual time the detector was "live" and waiting for the next decay. This is the time beyond the locking time.
+### Summary of the Estimation Procedure
 
-Because the detector is locked for `a` seconds after each detection, the total time between observations is the locking time plus the waiting time for the next decay. Therefore:
+| Quantity | Symbol | Value or Formula |
+|----------|--------|------------------|
+| Minimum gap | $a$ | $3 \times 10^{-9}$ seconds |
+| Waiting time | $X_n$ | $T_n - T_{n-1}$ |
+| Random extra time | $Y_n$ | $X_n - a$, exponential with rate $\lambda$ |
+| Expected extra time | $E(Y_n)$ | $1/\lambda$ |
+| Expected waiting time | $E(X_n)$ | $a + 1/\lambda$ |
+| Telescoping sum | $\sum_{i=1}^{n} X_i$ | $T_n$ |
+| Strong law result | $\lim_{n \to \infty} T_n / n$ | $a + 1/\lambda$ |
+| Decay rate estimator | $\hat{\lambda}$ | $n / (T_n - n a)$ |
 
-`Xn = a + Yn`
+### Why This Works
 
-The waiting time `Yn` is modeled by an exponential distribution with rate parameter λ > 0. This is a standard assumption for the time between independent random events occurring at a constant average rate.
-
-### Expected Value of the Interval
-
-The expected value (mean) of an exponentially distributed random variable with rate λ is `1/λ`. (Added context: This is a known property of the exponential distribution.)
-
-The expected value of `Xn` is:
-
-`E(Xn) = a + E(Yn)`
-
-`E(Yn) = ∫₀^∞ t λ e^(-λt) dt = 1/λ`
-
-Therefore:
-
-`E(Xn) = a + 1/λ`
-
-### Applying the Strong Law of Large Numbers
-
-The Strong Law of Large Numbers states that as the sample size `n` approaches infinity, the average of the observed values converges to the expected value. (Added context: This is a fundamental theorem in probability.)
-
-For our sequence of intervals `X₁, X₂, ..., Xn`, the law gives us:
-
-`lim (X₁ + X₂ + ... + Xn) / n = E(Xn) = a + 1/λ`
-`n→∞`
-
-### The Telescoping Sum
-
-Now we simplify the sum of the intervals. Notice that:
-
-`X₁ + X₂ + ... + Xn = (T₁ - T₀) + (T₂ - T₁) + ... + (Tn - Tn-1)`
-
-This is a telescoping sum. All intermediate terms cancel out. We set `T₀ = 0` (the time we start the clock). The sum simplifies to:
-
-`X₁ + X₂ + ... + Xn = Tn`
-
-Therefore, the Strong Law of Large Numbers tells us:
-
-`lim Tn / n = a + 1/λ`
-`n→∞`
-
-### Estimating the Decay Rate
-
-For a large but finite `n`, we can use the approximation:
-
-`Tn / n ≈ a + 1/λ`
-
-
-![A whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers.](frames/frame_18_1280s.jpg)
-*[21:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=1280s) A whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers.*
-
-
-We can rearrange this equation to solve for λ. First, isolate `1/λ`:
-
-`1/λ ≈ Tn / n - a`
-
-`1/λ ≈ (Tn - na) / n`
-
-Now, take the reciprocal to solve for λ:
-
-`λ ≈ n / (Tn - na)`
-
-This is our estimator for the decay rate. The squiggly lines (≈) remind us that this is an approximation that becomes exact only as `n` approaches infinity.
-
-### What This Means
-
-This formula is powerful because it accounts for the locking time `a`. Even if the material decays extremely fast and many decays occur during the locking period (which we cannot observe), our model still allows us to estimate the true decay rate. We only need to know:
-
-1. The total time `Tn` of the nth observation.
-2. The number of observations `n`.
-3. The locking time `a`.
-
-The formula `λ ≈ n / (Tn - na)` gives us a way to compute the decay rate from observable data, despite the limitations of the measurement equipment.
+The strong law guarantees convergence in the limit. For finite $n$, the estimate is approximate. The larger $n$ is, the closer $\frac{T_n}{n}$ gets to $a + \frac{1}{\lambda}$, and therefore the more accurate our estimate of $\lambda$ becomes. This method requires no prior knowledge of $\lambda$; it uses only observable quantities: the observation times and the count.
 
 ### Check Your Understanding
 
-1. What does the variable `Yn` represent in the model `Xn = a + Yn`?
+1. Why is the lower bound of the integral for $E(Y_n)$ equal to $0$ rather than $-\infty$?
 
 <details><summary>Answer</summary>
-`Yn` represents the actual time the detector was "live" and waiting for the next decay, beyond the locking time. It is modeled by an exponential distribution with rate λ.
+The lower bound is $0$ because time starts when the clock starts. The waiting time $Y_n$ cannot be negative, so the domain of the exponential distribution is restricted to $[0, \infty)$. This is a valid subdomain of the real numbers; the integral still represents the full expected value because the probability density is zero for $t < 0$.
 </details>
 
-2. Why does the sum `X₁ + X₂ + ... + Xn` simplify to just `Tn`?
+2. Show that $X_1 + X_2 + \cdots + X_n = T_n$ using the definition $X_n = T_n - T_{n-1}$.
 
 <details><summary>Answer</summary>
-Because the sum is a telescoping sum: `(T₁ - T₀) + (T₂ - T₁) + ... + (Tn - Tn-1)`. All intermediate terms cancel, leaving only `Tn - T₀`. Since we set `T₀ = 0`, the sum equals `Tn`.
+Write out the sum: $(T_1 - T_0) + (T_2 - T_1) + \cdots + (T_n - T_{n-1})$. With $T_0 = 0$, every $T_i$ for $1 \leq i \leq n-1$ appears once with a positive sign and once with a negative sign, so they cancel. The remaining terms are $T_0 = 0$ and $T_n$, giving $T_n$.
 </details>
 
-3. If you observe 1000 decays and the 1000th decay occurs at time `Tn = 0.005` seconds, with a locking time `a = 3 × 10⁻⁹` seconds, what is your estimate of λ?
+3. If $T_{1000} = 0.05$ seconds and $a = 3 \times 10^{-9}$ seconds, estimate $\lambda$.
 
 <details><summary>Answer</summary>
-Using the formula `λ ≈ n / (Tn - na)`:
-`λ ≈ 1000 / (0.005 - (1000 × 3 × 10⁻⁹))`
-`λ ≈ 1000 / (0.005 - 0.000003)`
-`λ ≈ 1000 / 0.004997`
-`λ ≈ 200,120` decays per second (approximately).
+Using $\hat{\lambda} = n / (T_n - n a)$, we have $n = 1000$, $T_n = 0.05$, and $n a = 1000 \times 3 \times 10^{-9} = 3 \times 10^{-6}$. So $\hat{\lambda} = 1000 / (0.05 - 0.000003) \approx 1000 / 0.049997 \approx 20001.2$ per second.
 </details>
 
-4. What does the Strong Law of Large Numbers guarantee in this context?
+4. Why does the estimate improve as $n$ increases?
 
 <details><summary>Answer</summary>
-It guarantees that as the number of observations `n` goes to infinity, the average of the observed intervals `(X₁ + X₂ + ... + Xn)/n` converges to the expected value `E(Xn) = a + 1/λ`. This is why our approximation `Tn/n ≈ a + 1/λ` becomes exact in the limit.
+The strong law of large numbers guarantees that $\frac{T_n}{n}$ converges to $a + \frac{1}{\lambda}$ as $n \to \infty$. For finite $n$, the sample average deviates from the true mean due to random fluctuation. As $n$ grows, this fluctuation diminishes, so the approximation $\frac{T_n}{n} \approx a + \frac{1}{\lambda}$ becomes more accurate, and therefore the estimate of $\lambda$ becomes more reliable.
 </details>
-## Sensitivity Analysis and Conclusion
+## Sensitivity Analysis of the Estimated Decay Rate
 
-### Recap of the Model
+This section examines how sensitive our estimate of the decay rate $\lambda$ is to the locking time $a$, the minimum time between observations imposed by the measurement equipment.
 
-In the previous section, you modeled the time between successive observations of radioactive decay. The detector has a dead time (lock time) of `a = 3 × 10⁻⁹` seconds after each detection. The observed interval `X_n = T_n - T_{n-1}` is therefore the sum of the fixed lock time `a` and a random waiting time `Y_n` that follows an exponential distribution with decay rate `λ` (the expected number of decays per second). The expected value of `X_n` is `a + 1/λ`. By the strong law of large numbers, the average of many observed intervals converges to this expectation. Because the sum of the intervals equals the total observation time `T_n`, you derived the approximation:
+### Review of the Estimation Framework
 
-```
-λ ≈ n / (T_n - n a)
-```
+Before performing sensitivity analysis, recall the estimation framework developed earlier. We model the time between observations as:
 
-where `n` is the number of observed decays and `T_n` is the time of the `n`-th observation.
+$$X_n = T_n - T_{n-1}$$
 
+where $T_n$ is the time of the $n$th observation. The locking time $a = 3 \times 10^{-9}$ seconds imposes a minimum gap between observations, so:
 
-![The whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers.](frames/frame_19_1320s.jpg)
-*[22:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1320s) The whiteboard shows mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers.*
+$$X_n = a + Y_n$$
 
+where $Y_n$ follows an exponential distribution with rate $\lambda > 0$ (the decay rate we want to estimate).
 
-The whiteboard at this point shows the full derivation:
+The expected value of $X_n$ is:
 
-```
-Ex: λ= decay rate (per second)
-T_n = time of nᵗʰ observation
-=> T_n - T_{n-1} ≥ 3×10⁻⁹
-Set X_n = T_n - T_{n-1}
-a = 3×10⁻⁹
-=> X_n = a + Y_n
-Y_n is modelled by an exp. dist. w λ > 0
-E(X_n) = a + E(Y_n)
-E(Y_n) = ∫₀^∞ tλe⁻ᵗ dt = 1/λ
-=> E(X_n) = a + 1/λ
-Strong law of large numbers:
-lim_{n→∞} (X₁ + X₂ + ... + X_n)/n = E(X_n) = a + 1/λ
-Note: X₁ + X₂ + ... + X_n = (T₁ - T₀) + (T₂ - T₁) + ... + (T_n - T_{n-1}) = T_n
-=> T_n/n ≈ a + 1/λ => λ ≈ n/(T_n - na)
-```
+$$E(X_n) = a + E(Y_n) = a + \frac{1}{\lambda}$$
 
-This approximation is powerful: it lets you estimate the decay rate even though the detector is blind for a short time after each event.
+By the Strong Law of Large Numbers, as $n \to \infty$:
 
-### Sensitivity to Finite Sample Size
+$$\lim_{n \to \infty} \frac{X_1 + X_2 + \cdots + X_n}{n} = E(X_n) = a + \frac{1}{\lambda}$$
 
-The strong law of large numbers holds only in the limit as `n → ∞`. In practice, you have a finite number of observations. The approximation `λ ≈ n/(T_n - na)` therefore incurs error because the sample average has not yet converged to the true expectation. You must collect many observations before the estimate becomes reliable. This is the first source of “wiggle room” or error in the model. Be careful: the limit is an idealization; real data always has some residual uncertainty.
+The telescoping sum $X_1 + X_2 + \cdots + X_n = T_n$ gives us the approximation:
 
-### Sensitivity to the Locking Time
+$$\frac{T_n}{n} \approx a + \frac{1}{\lambda}$$
 
-The lock time `a` is a very small number (`3 × 10⁻⁹` seconds), but it may be slightly inaccurate. How sensitive is the estimated decay rate `λ` to a small change in `a`? To answer this, treat `λ` as a function of `a` using the approximation:
+Solving for $\lambda$:
 
-```
-λ(a) ≈ n / (T_n - n a)
-```
+$$\lambda \approx \frac{n}{T_n - na}$$
 
-Differentiate with respect to `a` (assuming `n` and `T_n` are fixed by the data):
-
-```
-dλ/da = n² / (T_n - n a)² = λ²
-```
+This is our estimator for the decay rate.
 
 
-![This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time of observation, and the strong law of large...](frames/frame_20_1440s.jpg)
-*[24:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1440s) This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time of observation, and the strong law of large numbers.*
+![A whiteboard shows mathematical equations for calculating decay rate and expected values, including the Strong Law of Large Numbers.](frames/frame_16_1280s.jpg)
+*[21:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=1280s) A whiteboard shows mathematical equations for calculating decay rate and expected values, including the Strong Law of Large Numbers.*
 
 
-The whiteboard now shows the derivative:
+### Sources of Sensitivity
 
-```
-dλ/da = λ² => S(λ)
-```
+The speaker identifies two important sources of sensitivity in this estimation:
 
-The sensitivity `S(λ, a)` is defined as the product of the derivative and the ratio of the parameter to the function (a common dimensionless sensitivity measure):
+**1. Finite Sample Size.** The Strong Law of Large Numbers only holds in the limit as $n \to \infty$. In practice, we must work with a finite number of observations $n$. The approximation $\frac{T_n}{n} \approx a + \frac{1}{\lambda}$ becomes more accurate as $n$ increases, but for small $n$, the estimate may be unreliable. You must be careful when applying this approximation with limited data.
 
-```
-S(λ, a) = (dλ/da) * (a/λ) = λ² * (a/λ) = λ a
-```
+**2. Locking Time Sensitivity.** The locking time $a$ is a very small number ($3 \times 10^{-9}$ seconds), but even small inaccuracies in $a$ can affect the estimate. We need to understand how sensitive $\lambda$ is to changes in $a$.
 
 
-![This whiteboard shows mathematical equations related to decay rate, time of observation, and the strong law of large numbers, with a speaker...](frames/frame_21_1480s.jpg)
-*[24:40](https://www.youtube.com/watch?v=0qi6s-injSo&t=1480s) This whiteboard shows mathematical equations related to decay rate, time of observation, and the strong law of large numbers, with a speaker pointing to an equation.*
+![A whiteboard shows an example problem defining lambda as decay rate, Tn as time of nth observation, and setting Xn = Tn - Tn-1, with a = 3x10^-9...](frames/frame_17_1320s.jpg)
+*[22:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1320s) A whiteboard shows an example problem defining lambda as decay rate, Tn as time of nth observation, and setting Xn = Tn - Tn-1, with a = 3x10^-9, leading to Xn = a + Yn, where Yn is modeled by an exponential distribution.*
 
 
-The whiteboard confirms:
+### Computing Sensitivity to Locking Time
 
-```
-dλ/da = λ² => S(λ,a) = λ²(a/λ) = λa
-```
+To quantify the sensitivity of $\lambda$ with respect to $a$, we compute the derivative $\frac{d\lambda}{da}$. Starting from the estimation equation:
 
-### Interpretation of the Sensitivity `λ a`
+$$\lambda \approx \frac{n}{T_n - na}$$
 
-The product `λ a` has a concrete meaning: it is the expected number of decays that occur during a single lock period. Because `λ` is the decay rate (decays per second) and `a` is the lock time in seconds, `λ a` gives the average number of decays that would happen while the detector is blind.
+We can derive the sensitivity. The speaker presents the result:
 
-| Value of `λ a` | Implication for sensitivity |
-|----------------|----------------------------|
-| Very small (e.g., `λ` small or `a` small) | Few decays are missed during the lock. The estimate is relatively insensitive to errors in `a`. |
-| Very large (e.g., `λ` large or `a` large) | Many decays are missed during each lock. The estimate becomes highly sensitive to the exact value of `a`. |
+$$\frac{d\lambda}{da} = \lambda^2$$
 
-In other words, the sensitivity is a measure of how much information you lose every time the system locks. If you can make the lock time `a` very short, you lose very little information and the estimate is robust. If the lock time is longer, you potentially miss many decays, and the estimate depends more strongly on the precise value of `a`.
+This derivative tells us how much $\lambda$ changes for a small change in $a$.
 
-### Conclusion
 
-Despite the dead time, you can still estimate the decay rate `λ` using the exponential distribution and the strong law of large numbers. The sensitivity analysis reveals that the quality of the estimate depends on the product `λ a`. When `λ a` is small, the estimate is reliable; when it is large, you must be cautious because missing many decays introduces uncertainty. This example illustrates how continuous probability models, combined with careful sensitivity analysis, allow you to extract meaningful information from real-world measurement systems.
+![This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time observation, and the strong law of large...](frames/frame_18_1440s.jpg)
+*[24:00](https://www.youtube.com/watch?v=0qi6s-injSo&t=1440s) This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time observation, and the strong law of large numbers.*
 
-In the next video, the course will move to statistics and the normal distribution (the bell curve), building on the intuition and techniques developed here.
 
-### Check your understanding
+### The Sensitivity Metric $S(\lambda, a)$
 
-1. **Why is the strong law of large numbers important for the decay rate estimate?**  
-   <details><summary>Answer</summary>  
-   The strong law of large numbers guarantees that the sample average of the observed intervals converges to the true expected value `a + 1/λ` as the number of observations goes to infinity. This justifies the approximation `λ ≈ n/(T_n - na)` and tells you that with enough data the estimate becomes accurate. However, because the law only holds in the limit, you need a large number of observations to reduce the error.
-   </details>
+The sensitivity metric $S(\lambda, a)$ is defined as:
 
-2. **Derive the sensitivity `S(λ, a) = λ a` starting from the approximation `λ ≈ n/(T_n - na)`.**  
-   <details><summary>Answer</summary>  
-   Differentiate `λ = n (T_n - n a)^{-1}` with respect to `a`:  
-   `dλ/da = n * (-1) * (T_n - n a)^{-2} * (-n) = n² / (T_n - n a)² = λ²`.  
-   The dimensionless sensitivity is `S = (dλ/da) * (a/λ) = λ² * (a/λ) = λ a`.
-   </details>
+$$S(\lambda, a) = \frac{d\lambda}{da} \cdot \frac{a}{\lambda} = \lambda^2 \cdot \frac{a}{\lambda} = \lambda a$$
 
-3. **What does a large value of `λ a` tell you about the reliability of the decay rate estimate?**  
-   <details><summary>Answer</summary>  
-   A large `λ a` means that many decays are expected to occur during each lock period. The detector misses a significant fraction of events, so the estimate of `λ` becomes very sensitive to the exact value of the lock time `a`. Small errors in `a` can lead to large errors in the estimated decay rate. The estimate is less reliable in this regime.
-   </details>
+This dimensionless quantity represents the proportional change in $\lambda$ for a proportional change in $a$.
 
-4. **In the radioactive decay example, what is the numerical value of the lock time `a`?**  
-   <details><summary>Answer</summary>  
-   The lock time is `a = 3 × 10⁻⁹` seconds (3 nanoseconds).
-   </details>
+
+![A whiteboard shows equations for decay rate, time of observation, and the strong law of large numbers, with a speaker pointing to a specific equation.](frames/frame_19_1480s.jpg)
+*[24:40](https://www.youtube.com/watch?v=0qi6s-injSo&t=1480s) A whiteboard shows equations for decay rate, time of observation, and the strong law of large numbers, with a speaker pointing to a specific equation.*
+
+
+### Interpreting the Sensitivity
+
+The product $\lambda a$ has a concrete physical interpretation: it represents the expected number of decays that occur during the locking period $a$.
+
+**Why this interpretation matters:**
+
+- If $\lambda$ is very large (rapid decay), then $\lambda a$ is large. Many decays happen while the system is locked, and you miss substantial information. The estimate becomes more sensitive to the exact value of $a$ because you are losing more data.
+
+- If $\lambda$ is very small (slow decay), then $\lambda a$ is small. Few decays happen during the locking period, so you lose little information. The estimate is relatively insensitive to $a$.
+
+- If $a$ is very small (short locking time), then $\lambda a$ is small. You lose very little information, and the sensitivity is low.
+
+
+![This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time observations, and the strong law of large...](frames/frame_20_1520s.jpg)
+*[25:20](https://www.youtube.com/watch?v=0qi6s-injSo&t=1520s) This frame shows a whiteboard with mathematical equations and definitions related to decay rate, time observations, and the strong law of large numbers.*
+
+
+### Practical Implications
+
+The sensitivity analysis reveals that your ability to estimate $\lambda$ depends on how much information you lose during each locking period. The key insights are:
+
+1. **Drive down $a$ when possible.** If you can reduce the locking time, you lose less information and obtain a more reliable estimate.
+
+2. **Account for $\lambda$ itself.** If the decay rate is high, you are more sensitive to the locking time because more decays occur during the lockout period.
+
+3. **The symbolic result is more important than the numeric value.** The expression $S(\lambda, a) = \lambda a$ provides a clear conceptual understanding: sensitivity equals the expected number of missed decays per observation.
+
+### Summary
+
+Despite the locking time that prevents continuous observation, we can still estimate the decay rate $\lambda$ using the exponential distribution model. The sensitivity analysis shows that the quality of this estimate depends on the product $\lambda a$, which quantifies how much information is lost during each lockout period. This demonstrates the power of continuous probability models: they allow us to account for measurement limitations and still extract meaningful parameter estimates.
+
+---
+
+### Check Your Understanding
+
+1. **What does the sensitivity metric $S(\lambda, a) = \lambda a$ represent physically?**
+
+<details>
+<summary>Answer</summary>
+It represents the expected number of decays that occur during the locking period $a$. If $\lambda$ is the decay rate (decays per second) and $a$ is the lockout time (seconds), then $\lambda a$ gives the expected count of decays that happen while the system cannot record observations.
+</details>
+
+2. **Why is the Strong Law of Large Numbers a source of sensitivity in this estimation?**
+
+<details>
+<summary>Answer</summary>
+The Strong Law of Large Numbers only guarantees convergence in the limit as $n \to \infty$. In practice, we use a finite number of observations $n$, so the approximation $\frac{T_n}{n} \approx a + \frac{1}{\lambda}$ may not be accurate. The estimate becomes more reliable as $n$ increases, but with small sample sizes, there is significant uncertainty.
+</details>
+
+3. **If $\lambda = 10^6$ decays per second and $a = 3 \times 10^{-9}$ seconds, what is the sensitivity $S(\lambda, a)$? What does this tell you about the reliability of the estimate?**
+
+<details>
+<summary>Answer</summary>
+$S(\lambda, a) = \lambda a = (10^6)(3 \times 10^{-9}) = 0.003$. This is a small value, meaning the estimate is relatively insensitive to the locking time. Only about 0.3% of a decay is expected during the lockout period, so very little information is lost. The estimate should be reliable with respect to uncertainty in $a$.
+</details>
+
+4. **How would the sensitivity change if the decay rate were $\lambda = 10^9$ decays per second with the same locking time $a = 3 \times 10^{-9}$?**
+
+<details>
+<summary>Answer</summary>
+$S(\lambda, a) = (10^9)(3 \times 10^{-9}) = 3$. This means approximately 3 decays are expected during each lockout period. The estimate is much more sensitive to $a$ because substantial information is being lost. Small errors in the assumed locking time would significantly affect the estimated decay rate.
+</details>
 ## Key takeaways
 
-- Continuous random variables take values on a continuum and are described by a probability distribution function F(x) and a density function f(x) = dF/dx.
-- Probabilities for intervals are computed by integrating the density function over that interval.
-- The expected value of a continuous random variable is the integral of x times its density over the entire sample space.
-- The exponential distribution with rate λ has density f(t) = λ e^{-λt} and distribution F(t) = 1 - e^{-λt}, and it models waiting times for events that occur at a constant average rate.
-- The exponential distribution is the only continuous distribution with the lack of memory property: P(X > s+t | X > s) = P(X > t).
-- In the radioactive decay example, the observed waiting time between detections is the sum of a fixed lock time a and an exponentially distributed random variable Y.
-- The strong law of large numbers allows the average of observed waiting times to approximate the expected value, leading to an estimator for the decay rate λ ≈ n / (T_n - n a).
-- Sensitivity analysis shows that the estimated decay rate is most sensitive when the product λ a (expected number of missed decays during a lock) is large.
-- The exponential distribution is widely applicable to waiting time and arrival processes, including queueing and reliability theory.
+- Continuous random variables take values on a continuum, and their probabilities are described by a probability distribution function $F(x) = P(X \leq x)$ and a probability density function $f(x) = F'(x)$.
+- The probability that a continuous random variable lies in an interval $[a, b]$ is computed by integrating its density: $P(a \leq X \leq b) = \int_{a}^{b} f(x) \, dx$.
+- The expected value of a continuous random variable is $E[X] = \int_{-\infty}^{\infty} x f(x) \, dx$, which generalizes the discrete sum to an integral.
+- The exponential distribution models waiting times and has distribution function $F(t) = 1 - e^{-\lambda t}$ and density $f(t) = \lambda e^{-\lambda t}$ for rate $\lambda > 0$.
+- The exponential distribution is the only continuous distribution with the lack of memory property: $P(X > s + t \mid X > s) = P(X > t)$.
+- In the radioactive decay model, the observed waiting time $X_n$ equals the lockout time $a$ plus an exponential waiting time $Y_n$, so $E[X_n] = a + 1/\lambda$.
+- The Strong Law of Large Numbers allows estimation of the decay rate as $\lambda \approx n / (T_n - n a)$, where $T_n$ is the time of the $n$th observation.
+- The sensitivity of the estimated decay rate to the lockout time is $d\lambda/da = \lambda^2$, and the product $\lambda a$ represents the expected number of decays missed during a single lockout period.
+- A large value of $\lambda a$ means many decays are missed, making the estimate more sensitive to the lockout time.
+- The exponential distribution is widely used to model arrival and waiting processes in fields ranging from queueing theory to radioactive decay.
 ## Glossary
 
 | Term | Definition |
 |---|---|
-| continuous random variable | A random variable that can take any value within a continuous range, such as time or distance. |
-| probability distribution function | For a continuous random variable X, the function F(x) = P(X ≤ x), which gives the cumulative probability up to x. |
-| density function | The derivative of the probability distribution function, denoted f(x), such that the probability of an interval [a,b] is the integral of f(x) from a to b. |
-| expected value (mean) | The long-run average of a random variable, computed as the integral of x times the density function over the sample space. |
-| exponential distribution | A continuous probability distribution with rate parameter λ > 0, density f(t) = λ e^{-λt} for t ≥ 0, used to model the time until an event occurs at a constant average rate. |
-| rate parameter (λ) | A positive constant that determines the average number of events per unit time; the mean waiting time is 1/λ. |
-| lack of memory property | The property that the remaining waiting time for an event does not depend on how long one has already waited; formally, P(X > s+t | X > s) = P(X > t), unique to the exponential distribution among continuous distributions. |
-| conditional probability | The probability of an event A occurring given that another event B has already occurred, written P(A|B) = P(A ∩ B) / P(B). |
-| strong law of large numbers | A theorem stating that the sample average of independent and identically distributed random variables converges almost surely to the expected value as the number of observations goes to infinity. |
-| telescoping sum | A sum where intermediate terms cancel, leaving only the first and last term; here, the sum of the observed waiting times X_1 + ... + X_n equals T_n because T_0 = 0. |
-| estimator | A formula or rule for estimating an unknown population parameter from sample data, such as λ̂ = n / (T_n - n a). |
-| sensitivity analysis | The study of how the output of a model (e.g., an estimated parameter) changes in response to changes in input parameters. |
-| locking time (a) | The fixed period during which a counter is unable to record new events after detecting one, here 3×10^{-9} seconds. |
-| decay rate | The average number of radioactive decays per second, denoted λ. |
-| Poisson process | A stochastic process that models the occurrence of random events at a constant average rate, where the interarrival times are exponentially distributed. |
-| Riemann sum | A method of approximating an integral by summing the areas of rectangles, used to motivate the transition from discrete sums to integrals. |
-| measure theory | A branch of mathematics that provides a rigorous foundation for probability and integration, mentioned in the transcript as a deeper topic. |
-| sample space | The set of all possible outcomes of a random experiment; for a continuous random variable it is often the real line or an interval. |
-| convergence (in probability or almost surely) | The idea that a sequence of random variables approaches a limit as the number of trials increases; the strong law uses almost sure convergence. |
-| sensitivity measure (S) | A dimensionless quantity defined as λ a, representing the expected number of decays that occur during a single lock period. |
+| Continuous random variable | A random variable that can take any value in a continuous range, such as all real numbers or all positive real numbers. |
+| Probability distribution function | A function $F(x) = P(X \leq x)$ that gives the probability that a random variable $X$ is less than or equal to a value $x$. |
+| Probability density function | A function $f(x) = F'(x)$ whose integral over an interval gives the probability that the random variable falls in that interval. |
+| Expected value | The long-run average value of a random variable, computed as $E[X] = \int_{-\infty}^{\infty} x f(x) \, dx$ for continuous variables. |
+| Exponential distribution | A continuous probability distribution with density $f(t) = \lambda e^{-\lambda t}$ for $t \geq 0$, used to model waiting times between events in a Poisson process. |
+| Rate parameter $\lambda$ | A positive constant that controls the speed of decay in the exponential distribution; larger $\lambda$ means events occur more frequently. |
+| Lack of memory property | The property that $P(X > s + t \mid X > s) = P(X > t)$, meaning the remaining waiting time does not depend on how long you have already waited. |
+| Lockout time | A fixed period during which a measurement device cannot record new events, such as the $a = 3 \times 10^{-9}$ seconds in the radioactive decay counter. |
+| Strong Law of Large Numbers | A theorem stating that the sample average of independent, identically distributed random variables converges to their expected value as the sample size goes to infinity. |
+| Telescoping sum | A sum where intermediate terms cancel, leaving only the first and last terms; here $X_1 + \cdots + X_n = T_n$ because $T_0 = 0$. |
+| Sensitivity analysis | The study of how changes in an input parameter affect the output of a model, often quantified by a derivative. |
+| Derivative $d\lambda/da$ | The rate of change of the estimated decay rate $\lambda$ with respect to the lockout time $a$, equal to $\lambda^2$ in this model. |
+| Product $\lambda a$ | The expected number of decays that occur during a single lockout period, used as a sensitivity measure. |
+| Riemann sum | A method for approximating an integral by summing the areas of rectangles; the limit of Riemann sums gives the exact integral. |
+| Fundamental Theorem of Calculus | A theorem linking differentiation and integration, stating that $\int_{a}^{b} f(x) \, dx = F(b) - F(a)$ where $F'(x) = f(x)$. |
+| Conditional probability | The probability of an event $A$ given that event $B$ has occurred, written $P(A \mid B) = P(A \cap B) / P(B)$. |
+| Poisson process | A stochastic process where events occur independently at a constant average rate; the times between events follow an exponential distribution. |
+| Decay rate | The average number of radioactive decays per unit time, denoted by $\lambda$ in the exponential model. |
+| Convergence in the limit | A sequence approaches a fixed value as the number of terms goes to infinity; the Strong Law of Large Numbers guarantees this for sample means. |
+| Measure theory | A branch of mathematics that generalizes the concepts of length, area, and volume, providing a rigorous foundation for probability and integration. |
 ## Footnotes and deeper context
 
-1. **Lack of memory property uniqueness.** Among continuous distributions, the exponential distribution is the only one with the lack of memory property. Among discrete distributions, the geometric distribution shares this property. This is a fundamental result in probability theory and is often used to characterize the exponential distribution.
-2. **Strong law of large numbers convergence.** The strong law of large numbers (SLLN) states that the sample average converges almost surely to the expected value. This is stronger than the weak law, which gives convergence in probability. In practice, for a finite sample the approximation is only approximate, and the rate of convergence is governed by the variance.
-3. **Derivative of λ with respect to a.** From the estimator λ ≈ n / (T_n - n a), treating T_n as fixed, differentiating gives dλ/da = n * n / (T_n - n a)^2 = λ^2. The sensitivity measure S = (dλ/da)*(a/λ) = λ a, which the video correctly interprets as the expected number of decays during a lock period.
-4. **Exponential distribution and Poisson process.** The exponential distribution is the interarrival time distribution of a Poisson process. This connection is standard: if events occur according to a Poisson process with rate λ, then the waiting times between events are i.i.d. exponential(λ). The video’s radioactive decay example implicitly assumes such a process.
-5. **Telescoping sum assumption T0 = 0.** The telescoping sum argument relies on defining T_0 = 0, which is the start of the experiment. This is a natural choice and is standard in such models. The sum of X_i from i=1 to n equals T_n exactly under this definition.
-6. **Common misconception about exponential rate.** A higher λ means events occur more frequently, so the average waiting time 1/λ is smaller. The density decays faster as λ increases, which is consistent with shorter waiting times.
+1. **Exponential distribution uniqueness.** The exponential distribution is the only continuous distribution with the lack of memory property. The geometric distribution is its discrete analog and also has this property.
+2. **Strong Law of Large Numbers conditions.** The Strong Law of Large Numbers requires that the random variables be independent and identically distributed with a finite expected value. In practice, convergence is asymptotic, so estimates improve with more observations.
+3. **Lockout time model assumption.** The model assumes that the additional waiting time $Y_n$ after the lockout is exactly exponential. This is valid if the underlying decay process is a Poisson process, which is a standard model for radioactive decay.
+4. **Derivative sensitivity interpretation.** The derivative $d\lambda/da = \lambda^2$ implies that the sensitivity grows quadratically with the decay rate. A small error in $a$ has a larger effect on the estimated $\lambda$ when $\lambda$ is large.
+5. **Telescoping sum detail.** The telescoping sum works because $X_n = T_n - T_{n-1}$ and $T_0 = 0$, so $\sum_{i=1}^{n} X_i = T_n - T_0 = T_n$. This holds exactly, not just approximately.
+6. **Expected value of exponential.** The expected value of an exponential random variable with rate $\lambda$ is $1/\lambda$. This can be derived by integration by parts: $E[Y] = \int_{0}^{\infty} t \lambda e^{-\lambda t} dt = 1/\lambda$.
+7. **Common misconception about density.** The probability density function $f(x)$ is not a probability; it can be greater than 1. Only the integral of $f(x)$ over an interval gives a probability. For example, $f(x) = 2$ on $[0, 0.5]$ is a valid density.
+8. **Practical estimation caveat.** The estimator $\lambda \approx n / (T_n - n a)$ is valid only when $T_n > n a$, which holds because each waiting time is at least $a$. If $T_n$ is close to $n a$, the estimate becomes unstable.
 ## Where to go next
 
-- **Introduction to Probability Models by Sheldon M. Ross.** This classic textbook covers the exponential distribution, Poisson processes, and the lack of memory property in depth. It is a standard reference for mathematical modeling with probability.
-- **Khan Academy videos on exponential distribution and Poisson processes.** Free online resources that provide step-by-step explanations and practice problems, suitable for building intuition before diving into theory.
-- **MIT OpenCourseWare: 6.041 Probabilistic Systems Analysis and Applied Probability.** Lecture notes and problem sets that include continuous probability, exponential distribution, and applications like queueing and reliability. A rigorous yet accessible resource.
-- **Official documentation for statistical software (R, Python SciPy) on exponential distribution.** For hands-on practice, the documentation for R’s dexp, pexp, rexp functions or Python’s scipy.stats.expon provides exact definitions and usage examples for simulation and estimation.
+- **Read about the Poisson process and exponential distribution.** For a deeper understanding of the connection between the exponential distribution and event arrivals, study the Poisson process in any standard probability textbook such as 'Introduction to Probability' by Bertsekas and Tsitsiklis.
+- **Explore the Strong Law of Large Numbers.** The Strong Law of Large Numbers is a fundamental theorem in probability. See 'Probability and Statistics for Engineers and Scientists' by Walpole et al. for applications and proofs.
+- **Try a radioactive decay simulation.** Use Python or R to simulate a Poisson process with a lockout time. Compare the estimated $\lambda$ from the formula $n / (T_n - n a)$ to the true value to see convergence as $n$ increases.
+- **Study sensitivity analysis in mathematical models.** For more on sensitivity analysis, including derivative-based methods, see 'Mathematical Modeling' by Mark M. Meerschaert, which covers modeling with differential equations and probability.
 ---
 *Printed by yt2textbook, an open tool from Zorost AI Lab. Screenshots are frames captured from the source video; each caption links to the exact moment it appears.*
