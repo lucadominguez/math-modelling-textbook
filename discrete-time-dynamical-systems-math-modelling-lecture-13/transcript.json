@@ -1,0 +1,1257 @@
+{
+ "video_id": "wnYe8KK4qJg",
+ "title": "Discrete-Time Dynamical Systems - Math Modelling - Lecture 13",
+ "channel": "Math Modelling",
+ "duration_s": 1598,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back."
+  },
+  {
+   "start": 2.9,
+   "text": " Now in the previous few lectures we talked about continuous time dynamical systems."
+  },
+  {
+   "start": 8.74,
+   "text": " In this lecture I want to transition ourselves into discrete time dynamical systems."
+  },
+  {
+   "start": 14.26,
+   "text": " Now these dynamical systems are sometimes called difference equation and the discrete"
+  },
+  {
+   "start": 19.3,
+   "text": " aspect of time in this case represents hopping from one instance to the next as opposed"
+  },
+  {
+   "start": 26.060000000000002,
+   "text": " to the continuous time formulation where you think about flowing from one moment to"
+  },
+  {
+   "start": 31.28,
+   "text": " the next."
+  },
+  {
+   "start": 32.78,
+   "text": " Now it turns out that discrete time models can be very appropriate for modeling a number"
+  },
+  {
+   "start": 38.0,
+   "text": " of scenarios in particular places where we are only observing the data at discrete time"
+  },
+  {
+   "start": 43.46000000000001,
+   "text": " intervals."
+  },
+  {
+   "start": 44.46000000000001,
+   "text": " This might be something like day to day, week to week, month, season to season, year to"
+  },
+  {
+   "start": 50.44,
+   "text": " year, anywhere where there's a gap between your sampling of your population or whatever"
+  },
+  {
+   "start": 57.239999999999995,
+   "text": " it is that you're trying to model."
+  },
+  {
+   "start": 59.8,
+   "text": " So in this lecture what I would like to do is present to you some of the basics just"
+  },
+  {
+   "start": 63.72,
+   "text": " so that you can get your head around what a discrete dynamical system does and maybe"
+  },
+  {
+   "start": 68.62,
+   "text": " how we can interpret them."
+  },
+  {
+   "start": 70.88,
+   "text": " Now just like we did with continuous time dynamical systems we are going to think of a state"
+  },
+  {
+   "start": 78.04,
+   "text": " space."
+  },
+  {
+   "start": 79.04,
+   "text": " I'll call this s and this could be an n-dimensional state space."
+  },
+  {
+   "start": 85.66000000000001,
+   "text": " So elements in here might look like x1 all the way up to xn."
+  },
+  {
+   "start": 91.56,
+   "text": " Now the typical state space that we've seen as we've worked through some examples here"
+  },
+  {
+   "start": 96.30000000000001,
+   "text": " are places where all of our elements are positive."
+  },
+  {
+   "start": 99.36000000000001,
+   "text": " That typically is the state space that one works with when you have things like populations"
+  },
+  {
+   "start": 104.16000000000001,
+   "text": " right."
+  },
+  {
+   "start": 105.16,
+   "text": " So population makes no sense."
+  },
+  {
+   "start": 108.47999999999999,
+   "text": " And we consider different equations that look like this."
+  },
+  {
+   "start": 112.64,
+   "text": " So instead of having a time derivative on one side we have the change in the first variable"
+  },
+  {
+   "start": 120.03999999999999,
+   "text": " from one moment to the next is given by some function of all of the variables."
+  },
+  {
+   "start": 128.84,
+   "text": " And similarly the change in the second variable from one time to the next is given by a function"
+  },
+  {
+   "start": 136.52,
+   "text": " of the variables again."
+  },
+  {
+   "start": 138.28,
+   "text": " And you can repeat this idea all the way down to the last variable here."
+  },
+  {
+   "start": 143.8,
+   "text": " Now if you want you can go back and compare this to what we did with continuous time systems"
+  },
+  {
+   "start": 150.0,
+   "text": " where in one sense what we were doing was letting this interval that you're taking changes"
+  },
+  {
+   "start": 155.12,
+   "text": " over shrink down to zero."
+  },
+  {
+   "start": 157.56,
+   "text": " It's in the same way that we define the derivative by letting the time interval go to zero, t plus"
+  },
+  {
+   "start": 163.24,
+   "text": " h and t, for example."
+  },
+  {
+   "start": 165.84,
+   "text": " Well in this case we're keeping these things discrete."
+  },
+  {
+   "start": 168.52,
+   "text": " You have a discrete change."
+  },
+  {
+   "start": 170.56,
+   "text": " That's what my delta represents in order to move from one time to the next."
+  },
+  {
+   "start": 178.48000000000002,
+   "text": " Now typically we write this in vector notation."
+  },
+  {
+   "start": 181.48000000000002,
+   "text": " We don't like to have to keep writing all of these equations."
+  },
+  {
+   "start": 185.04,
+   "text": " We like to write it as just delta x is equal to, let's call it capital f of x, f would"
+  },
+  {
+   "start": 192.79999999999998,
+   "text": " be your vector of all of your functions, f1, f2, f3 all the way to fn, delta x, that is"
+  },
+  {
+   "start": 200.79999999999998,
+   "text": " just the change of each one of these things."
+  },
+  {
+   "start": 204.23999999999998,
+   "text": " And what this really represents is your value at your next time step minus your current"
+  },
+  {
+   "start": 214.6,
+   "text": " time step."
+  },
+  {
+   "start": 215.6,
+   "text": " So in this case your units of time are scaled to be natural numbers."
+  },
+  {
+   "start": 220.96,
+   "text": " So that's my n here, right?"
+  },
+  {
+   "start": 223.2,
+   "text": " The current instance or the nth instance of time and then the next instance of time, okay?"
+  },
+  {
+   "start": 229.4,
+   "text": " So you could be walking by seconds, by days, by weeks, whatever it happens to be."
+  },
+  {
+   "start": 235.35999999999999,
+   "text": " All you're saying here is you're letting these things be indexed by the natural numbers."
+  },
+  {
+   "start": 242.6,
+   "text": " Now one thing that you can see about this formulation right here is that it can be arranged"
+  },
+  {
+   "start": 249.51999999999998,
+   "text": " to tell you if you know what's happening now, you can find out what will happen next."
+  },
+  {
+   "start": 254.84,
+   "text": " Because if you have this change delta x, if you use this, this tells me, okay, what's"
+  },
+  {
+   "start": 261.6,
+   "text": " happening next is going to be what is happening right now plus the change, right?"
+  },
+  {
+   "start": 272.68,
+   "text": " So if you look at this on the right hand side, everything is a function of what is currently"
+  },
+  {
+   "start": 277.40000000000003,
+   "text": " taking place."
+  },
+  {
+   "start": 279.28000000000003,
+   "text": " This is just like Newton iteration, right?"
+  },
+  {
+   "start": 282.52000000000004,
+   "text": " So Newton iteration we saw that we have our current value and then an update."
+  },
+  {
+   "start": 287.92,
+   "text": " That's the same thing that's happening here and it tells us where we are going next."
+  },
+  {
+   "start": 293.52000000000004,
+   "text": " So in fact, you can always think of Newton iteration as an example of a discrete dynamical"
+  },
+  {
+   "start": 299.48,
+   "text": " system."
+  },
+  {
+   "start": 301.56,
+   "text": " Now on top of this, you need an initial condition, just like differential equations."
+  },
+  {
+   "start": 309.0,
+   "text": " So initial conditions come in exactly the same form as they would for differential equations"
+  },
+  {
+   "start": 316.92,
+   "text": " and that means that you need to know what happens at the start."
+  },
+  {
+   "start": 321.84000000000003,
+   "text": " You need to say at zero and equal to zero."
+  },
+  {
+   "start": 325.04,
+   "text": " So when you start counting time, how does the system become initialized?"
+  },
+  {
+   "start": 330.32,
+   "text": " So again, if this is representing, for example, your Newton method, this is your guess at"
+  },
+  {
+   "start": 335.36,
+   "text": " your root and then you might be updating it according to some discrete dynamical system."
+  },
+  {
+   "start": 342.0,
+   "text": " Now let's talk about something that we have seen already pretty extensively when it comes"
+  },
+  {
+   "start": 347.28,
+   "text": " to differential equations and that is steady states."
+  },
+  {
+   "start": 355.16,
+   "text": " Steady states."
+  },
+  {
+   "start": 357.16,
+   "text": " Now we saw with continuous time differential equations that steady states represent values"
+  },
+  {
+   "start": 365.56,
+   "text": " of the state variables x for which there is no change taking place in the system."
+  },
+  {
+   "start": 371.96,
+   "text": " Now in this case, for discrete dynamical systems, it's actually a little easier to understand"
+  },
+  {
+   "start": 377.56,
+   "text": " what steady states would be because all along the left hand side of our equation here"
+  },
+  {
+   "start": 384.88,
+   "text": " is the change in the system."
+  },
+  {
+   "start": 387.56,
+   "text": " So if there is no change in your system, that tells you that this delta x is equal to zero."
+  },
+  {
+   "start": 396.56,
+   "text": " Delta x1 is zero, delta x2 is zero, all the way down to delta x and is zero."
+  },
+  {
+   "start": 401.72,
+   "text": " That means from one time step to the next, nothing is changing."
+  },
+  {
+   "start": 406.56,
+   "text": " Whenever I'm observing today, we'll be the same as tomorrow, we'll be the same as the"
+  },
+  {
+   "start": 411.04,
+   "text": " next day and so on and so forth."
+  },
+  {
+   "start": 414.40000000000003,
+   "text": " And that means that you are solving for roots of this function f that describes the"
+  },
+  {
+   "start": 423.74,
+   "text": " change."
+  },
+  {
+   "start": 425.24,
+   "text": " So taking this equal to zero sets this whole side equal to zero which gives me, you know,"
+  },
+  {
+   "start": 430.44000000000005,
+   "text": " whatever I isolate for the right hand side, this thing."
+  },
+  {
+   "start": 433.92,
+   "text": " So one thing that you might think about is if you have seen a discrete dynamical system"
+  },
+  {
+   "start": 439.12,
+   "text": " before, you typically see it written in this form."
+  },
+  {
+   "start": 442.52,
+   "text": " The next state is a function of the current state."
+  },
+  {
+   "start": 446.56,
+   "text": " The reason I'm writing it in this form is because it's a little bit easier for you to"
+  },
+  {
+   "start": 451.21999999999997,
+   "text": " think about steady states, at least in my opinion, right?"
+  },
+  {
+   "start": 454.52,
+   "text": " It is much easier to think about changing from one state to the next than it might be from"
+  },
+  {
+   "start": 459.68,
+   "text": " updating one state to the next."
+  },
+  {
+   "start": 461.2,
+   "text": " So we're going to sort of go back and forth between these two ways of looking at things,"
+  },
+  {
+   "start": 465.44,
+   "text": " but what I want you to notice is that steady states make a lot more sense when you have it"
+  },
+  {
+   "start": 469.88,
+   "text": " in this formulation."
+  },
+  {
+   "start": 473.52,
+   "text": " Okay."
+  },
+  {
+   "start": 474.52,
+   "text": " Now the last thing that we can think about is what's called stability."
+  },
+  {
+   "start": 480.92,
+   "text": " So we would say, so let's say let x0 in s be a steady state, okay?"
+  },
+  {
+   "start": 491.48,
+   "text": " So let's imagine we have a steady state."
+  },
+  {
+   "start": 496.28000000000003,
+   "text": " This means that f of x0 is equal to zero, right?"
+  },
+  {
+   "start": 502.12,
+   "text": " I found a root of my, my update or my change function, f."
+  },
+  {
+   "start": 507.92,
+   "text": " Then I would say that, so then, x0 is stable, if for all initial conditions close to x0,"
+  },
+  {
+   "start": 528.64,
+   "text": " so close to x0, xn, the sequence generated by these updates converges to x0, okay?"
+  },
+  {
+   "start": 539.56,
+   "text": " So I'm purposely being a little bit vague here, right?"
+  },
+  {
+   "start": 542.3199999999999,
+   "text": " I'm saying close, I'm not telling you how close."
+  },
+  {
+   "start": 545.04,
+   "text": " Unfortunately, that system dependent, right?"
+  },
+  {
+   "start": 547.56,
+   "text": " If you spent a lot of time with Newton iteration and you did it on a bunch of different examples,"
+  },
+  {
+   "start": 553.2,
+   "text": " you probably saw that things vary from function to function that you're trying to find the"
+  },
+  {
+   "start": 558.48,
+   "text": " roots of, right?"
+  },
+  {
+   "start": 560.12,
+   "text": " It depends on how complicated that function is, that will tell you how good of an initial"
+  },
+  {
+   "start": 565.5600000000001,
+   "text": " guess you have to have, okay?"
+  },
+  {
+   "start": 568.12,
+   "text": " Now all that the stability criterion is really saying is that there is a potential, right?"
+  },
+  {
+   "start": 573.88,
+   "text": " As long as you start close enough, as long as your guess is good enough, you're going"
+  },
+  {
+   "start": 578.6800000000001,
+   "text": " to get there."
+  },
+  {
+   "start": 580.16,
+   "text": " That's how you should think about this, okay?"
+  },
+  {
+   "start": 582.0,
+   "text": " So it's not telling you how close you need to be, but it says that there is a possibility."
+  },
+  {
+   "start": 586.12,
+   "text": " If you are close enough, you're going to fall into that."
+  },
+  {
+   "start": 589.24,
+   "text": " And again, always think about this in the context of Newton iteration, right?"
+  },
+  {
+   "start": 593.52,
+   "text": " At least initially, because that might be the best way to really intuit what's going"
+  },
+  {
+   "start": 598.24,
+   "text": " on here."
+  },
+  {
+   "start": 599.5600000000001,
+   "text": " Now, beyond something like Newton iteration, there are examples that you probably are familiar"
+  },
+  {
+   "start": 608.28,
+   "text": " with when it comes to discrete dynamical systems."
+  },
+  {
+   "start": 613.6,
+   "text": " Something that really has a discrete update rule can be formulated as a discrete dynamical"
+  },
+  {
+   "start": 618.76,
+   "text": " system."
+  },
+  {
+   "start": 620.08,
+   "text": " Now one that you probably know is the Fibonacci numbers."
+  },
+  {
+   "start": 624.84,
+   "text": " Let's let f of n equal to the nth Fibonacci number."
+  },
+  {
+   "start": 632.16,
+   "text": " Okay, then what you know about the Fibonacci numbers are that you can take the previous two"
+  },
+  {
+   "start": 653.7199999999999,
+   "text": " F of n and F of n minus one, you can add them together to get the next Fibonacci number."
+  },
+  {
+   "start": 661.72,
+   "text": " We also know that F of zero is zero and F of one is one, right?"
+  },
+  {
+   "start": 668.96,
+   "text": " You've done this probably before, right?"
+  },
+  {
+   "start": 671.0400000000001,
+   "text": " So the first two elements of the Fibonacci numbers are zero and one."
+  },
+  {
+   "start": 676.12,
+   "text": " Add those together, you get the next element."
+  },
+  {
+   "start": 678.48,
+   "text": " That's going to give you one again when you add these two things together."
+  },
+  {
+   "start": 683.44,
+   "text": " Then you take the previous two and add them together, so one plus one that gives you two."
+  },
+  {
+   "start": 688.04,
+   "text": " Then you take the previous two and add them together, you get two plus one that gives you"
+  },
+  {
+   "start": 691.48,
+   "text": " three and five and eight and so on and so forth."
+  },
+  {
+   "start": 697.0,
+   "text": " So in some sense this is already a discrete dynamical system."
+  },
+  {
+   "start": 700.68,
+   "text": " It has an update rule just like Newton's method."
+  },
+  {
+   "start": 704.04,
+   "text": " What I'd like to do is I'd like to write it in the form that I have right here."
+  },
+  {
+   "start": 708.56,
+   "text": " So how can I reformulate this thing to make it into my maybe more familiar form or make"
+  },
+  {
+   "start": 714.04,
+   "text": " it conform to what I have already on the board?"
+  },
+  {
+   "start": 717.9599999999999,
+   "text": " Well here's what I could do."
+  },
+  {
+   "start": 720.68,
+   "text": " I could set x one of n, right?"
+  },
+  {
+   "start": 726.16,
+   "text": " So the first variable equal to the previous Fibonacci number."
+  },
+  {
+   "start": 731.8399999999999,
+   "text": " And I could set x two of n equal to the current Fibonacci number, okay?"
+  },
+  {
+   "start": 741.0799999999999,
+   "text": " So what does this actually mean for me?"
+  },
+  {
+   "start": 743.72,
+   "text": " Well it tells me that the next x one of n, that is going to be."
+  },
+  {
+   "start": 749.44,
+   "text": " So if I put n plus one in here, I get F of n, which is just x two, right?"
+  },
+  {
+   "start": 754.4,
+   "text": " I want to write everything in terms of x two and x one, right?"
+  },
+  {
+   "start": 759.24,
+   "text": " I want to do away with the F's here."
+  },
+  {
+   "start": 760.88,
+   "text": " I want to write it in this nice system form that I have."
+  },
+  {
+   "start": 764.8000000000001,
+   "text": " Similarly, if I did the next x two value,"
+  },
+  {
+   "start": 772.48,
+   "text": " that would put an n plus one in here, that would put an n plus one in here."
+  },
+  {
+   "start": 777.5600000000001,
+   "text": " But using the Fibonacci recurrence relation, I've got, this would be x two of n plus x one"
+  },
+  {
+   "start": 788.52,
+   "text": " of n, right?"
+  },
+  {
+   "start": 789.52,
+   "text": " There's x one right there, there's x two right there."
+  },
+  {
+   "start": 793.12,
+   "text": " So I have a new way of writing the Fibonacci sequence in terms of"
+  },
+  {
+   "start": 801.96,
+   "text": " this discrete dynamical system that sort of conforms to my set up that I had over here."
+  },
+  {
+   "start": 808.2,
+   "text": " Now, the other thing that we could do is we could actually write it in terms of"
+  },
+  {
+   "start": 813.64,
+   "text": " this delta notation as well, right?"
+  },
+  {
+   "start": 816.1600000000001,
+   "text": " So all you need to do is subtract x one from both sides here."
+  },
+  {
+   "start": 821.0400000000001,
+   "text": " So in this case, you would get delta x one, let's say of n."
+  },
+  {
+   "start": 826.0,
+   "text": " So this is x one of n plus one minus x one of n."
+  },
+  {
+   "start": 831.72,
+   "text": " This would be x two of n minus x one of n, right?"
+  },
+  {
+   "start": 836.6,
+   "text": " The way that I got the delta here is I subtracted x one of n from both sides of the equal sign"
+  },
+  {
+   "start": 843.0400000000001,
+   "text": " to preserve the equality."
+  },
+  {
+   "start": 845.24,
+   "text": " Similarly, I can subtract x two from both sides of this piece right here,"
+  },
+  {
+   "start": 852.64,
+   "text": " and now I get x one."
+  },
+  {
+   "start": 856.48,
+   "text": " So that tells me the change in x one comes from the difference between x two and x one"
+  },
+  {
+   "start": 863.08,
+   "text": " at your current step."
+  },
+  {
+   "start": 864.48,
+   "text": " The change in x two is just equal to whatever your value of x one wants."
+  },
+  {
+   "start": 871.4,
+   "text": " The other piece of this is your initial conditions, right?"
+  },
+  {
+   "start": 875.16,
+   "text": " So you can actually use these initial conditions right here, and let's see how they feed in."
+  },
+  {
+   "start": 882.8000000000001,
+   "text": " I actually get that x one of zero is equal to zero, and x two of zero is equal to one."
+  },
+  {
+   "start": 894.64,
+   "text": " But if you wanted to make up your own Fibonacci sequence,"
+  },
+  {
+   "start": 898.96,
+   "text": " you could just start with any values that aren't zero and one, right?"
+  },
+  {
+   "start": 903.24,
+   "text": " Maybe you wanted to start with five and ten or negative two and three, right?"
+  },
+  {
+   "start": 909.48,
+   "text": " Those are perfectly valid."
+  },
+  {
+   "start": 910.76,
+   "text": " Those are just different initial conditions that completely fit into this framework."
+  },
+  {
+   "start": 915.2,
+   "text": " The only thing that you need to do is potentially use this update rule or use this change rule,"
+  },
+  {
+   "start": 920.52,
+   "text": " and that will generate out a sequence for you according to the same rules that Fibonacci abides by."
+  },
+  {
+   "start": 929.52,
+   "text": " Okay, so according to my calculations, now you've got at least two discrete dynamical systems"
+  },
+  {
+   "start": 934.8000000000001,
+   "text": " that you can sort of get your head around and you can sort of chew on a little bit."
+  },
+  {
+   "start": 939.8000000000001,
+   "text": " You've got Newton updates or Newton's method in both one dimension and in multiple dimensions, right?"
+  },
+  {
+   "start": 946.2400000000001,
+   "text": " They're both examples of discrete dynamical systems and the Fibonacci numbers."
+  },
+  {
+   "start": 952.36,
+   "text": " Let's do another example that's going to become useful as we progress through the rest of this lecture series."
+  },
+  {
+   "start": 961.24,
+   "text": " So let's take a look at a very, very simple version of this,"
+  },
+  {
+   "start": 965.52,
+   "text": " and I want you to really see what's going on here."
+  },
+  {
+   "start": 970.8,
+   "text": " So let's consider a two-dimensional system, X1 and X2,"
+  },
+  {
+   "start": 976.5600000000001,
+   "text": " and consider a very, very simple system."
+  },
+  {
+   "start": 984.28,
+   "text": " The change in X, again written as vector notation, to abide by what I have right here,"
+  },
+  {
+   "start": 989.72,
+   "text": " is equal to minus lambda of X, okay?"
+  },
+  {
+   "start": 995.28,
+   "text": " And in this case, lambda is a positive number."
+  },
+  {
+   "start": 998.6,
+   "text": " So it says if you want to change X, well, the way you're going to change it is by changing it appropriately"
+  },
+  {
+   "start": 1005.72,
+   "text": " according to negative lambda times your current state."
+  },
+  {
+   "start": 1009.72,
+   "text": " So the question is, what happens, right?"
+  },
+  {
+   "start": 1013.28,
+   "text": " How can we analyze this system?"
+  },
+  {
+   "start": 1015.6800000000001,
+   "text": " Well, the first thing we can see is that the steady state here,"
+  },
+  {
+   "start": 1022.2800000000001,
+   "text": " well, in our case, we have F of X is equal to minus lambda X."
+  },
+  {
+   "start": 1028.92,
+   "text": " That's the right hand side, right, abiding by this notation right here."
+  },
+  {
+   "start": 1035.3200000000002,
+   "text": " And F of X is equal to zero."
+  },
+  {
+   "start": 1040.4,
+   "text": " Well, that's only going to happen if X is equal to zero."
+  },
+  {
+   "start": 1044.24,
+   "text": " All right, so if we're at the origin in the two-dimensional plane when X1 and X2 are both equal to zero."
+  },
+  {
+   "start": 1050.96,
+   "text": " So we can ask ourselves, is this stable, right?"
+  },
+  {
+   "start": 1054.24,
+   "text": " Is it possible that if we start this iteration scheme, this update, close to zero,"
+  },
+  {
+   "start": 1061.64,
+   "text": " are we going to fall into zero or something we're going to happen?"
+  },
+  {
+   "start": 1066.68,
+   "text": " Well, let's write this."
+  },
+  {
+   "start": 1068.88,
+   "text": " So let's expand our change and write it as an update, okay?"
+  },
+  {
+   "start": 1074.5200000000002,
+   "text": " So now our system becomes X1 of N plus 1 is equal to, so I take the X1 onto the other side"
+  },
+  {
+   "start": 1083.16,
+   "text": " and I get 1 minus lambda times X1 of N."
+  },
+  {
+   "start": 1089.8000000000002,
+   "text": " Similarly, X2 of N plus 1 is equal to 1 minus lambda X2 of N, right?"
+  },
+  {
+   "start": 1098.32,
+   "text": " So you can see that they've completely decoupled."
+  },
+  {
+   "start": 1100.3999999999999,
+   "text": " If I want to understand one, I can just, sorry, if I want to understand both,"
+  },
+  {
+   "start": 1105.76,
+   "text": " I can just analyze one at a time."
+  },
+  {
+   "start": 1107.2,
+   "text": " I can tell you what will happen for both of them if I just understand one of them."
+  },
+  {
+   "start": 1111.6399999999999,
+   "text": " Okay, so let's look at this."
+  },
+  {
+   "start": 1114.1599999999999,
+   "text": " If I have an initial condition, then X1 of 1, my next iterate, right?"
+  },
+  {
+   "start": 1122.32,
+   "text": " So N is equal to zero, that gives me my initial condition."
+  },
+  {
+   "start": 1126.08,
+   "text": " The next piece is taking N equal to zero here."
+  },
+  {
+   "start": 1129.24,
+   "text": " This is just one minus lambda times what I started with."
+  },
+  {
+   "start": 1135.9199999999998,
+   "text": " Similarly, if I want to do this to get X2, sorry, the second iterate of X1, pardon me."
+  },
+  {
+   "start": 1148.0,
+   "text": " Well, this would be taking N equal to 1 in here, N equal to 1 gives me X1, which I know"
+  },
+  {
+   "start": 1154.96,
+   "text": " can be written in terms of X0, X1 of 0."
+  },
+  {
+   "start": 1160.1200000000001,
+   "text": " So in this case, I get 1 minus lambda squared, 1 coming from this X1 of 1 and 1 coming from"
+  },
+  {
+   "start": 1168.44,
+   "text": " the original recurrence relation, and then times X1 of 0."
+  },
+  {
+   "start": 1173.92,
+   "text": " And it doesn't take too much thinking to recognize that in general, all you are going"
+  },
+  {
+   "start": 1181.28,
+   "text": " to do is keep multiplying in a power of this 1 minus lambda every time you take an iteration."
+  },
+  {
+   "start": 1192.2,
+   "text": " So we're going to ask ourselves, what happens, what is the limit as N goes to infinity?"
+  },
+  {
+   "start": 1198.24,
+   "text": " Because that's exactly what we wanted to look at right here, right?"
+  },
+  {
+   "start": 1201.12,
+   "text": " So this was again, this was a limit as N goes to infinity in this case."
+  },
+  {
+   "start": 1205.96,
+   "text": " So the sequence that's generated by doing this iteration scheme, does it fall into zero"
+  },
+  {
+   "start": 1211.24,
+   "text": " or not?"
+  },
+  {
+   "start": 1213.64,
+   "text": " Well, first of all, we know that the limit as N goes to infinity of 1 minus lambda to the N,"
+  },
+  {
+   "start": 1224.48,
+   "text": " well, in our case, this thing is going to be zero if and only if minus 1 is less than"
+  },
+  {
+   "start": 1232.04,
+   "text": " 1 minus lambda, which is less than 1, which is the same as saying 0 is less than lambda,"
+  },
+  {
+   "start": 1240.32,
+   "text": " which is less than 2."
+  },
+  {
+   "start": 1243.04,
+   "text": " Okay, so basically, you have to be exponentiating something that's between minus 1 and 1, that's"
+  },
+  {
+   "start": 1248.36,
+   "text": " this condition right here, and whenever I swap things around and isolate for lambda in"
+  },
+  {
+   "start": 1255.32,
+   "text": " the middle, that's the same as saying lambda is between 0 and 2."
+  },
+  {
+   "start": 1260.32,
+   "text": " So let's take a look at what this says."
+  },
+  {
+   "start": 1262.52,
+   "text": " This says that if lambda is between 0 and 2, then any initial condition, no matter what"
+  },
+  {
+   "start": 1269.88,
+   "text": " it is, doesn't even have to start close to the origin."
+  },
+  {
+   "start": 1273.0,
+   "text": " Any initial condition leads to a sequence that when you start taking successive iterates"
+  },
+  {
+   "start": 1278.8400000000001,
+   "text": " in this system, this 1 minus lambda, the N, is converging to 0, it's getting very, very"
+  },
+  {
+   "start": 1284.3600000000001,
+   "text": " small."
+  },
+  {
+   "start": 1285.6000000000001,
+   "text": " And since this solution is the same, so similarly, you have x2 of N is 1 minus lambda"
+  },
+  {
+   "start": 1292.48,
+   "text": " to the N, x2 of 0, both of these things are going to converge to 0."
+  },
+  {
+   "start": 1299.44,
+   "text": " So this tells me that x equals 0 is stable, it doesn't matter where you start, you are"
+  },
+  {
+   "start": 1308.96,
+   "text": " always going to go into 0 when lambda is between 0 and 2."
+  },
+  {
+   "start": 1316.16,
+   "text": " Now you can turn that on its head as well, right?"
+  },
+  {
+   "start": 1319.04,
+   "text": " You could say what if lambda is bigger than 2, right?"
+  },
+  {
+   "start": 1322.24,
+   "text": " So I made the assumption that lambda is bigger than 0, so what happens if I go outside of"
+  },
+  {
+   "start": 1326.96,
+   "text": " that region?"
+  },
+  {
+   "start": 1327.96,
+   "text": " Well, lambda is bigger than 2, 1 minus lambda is a number which is an absolute value larger"
+  },
+  {
+   "start": 1335.64,
+   "text": " than 1, which when we take numbers that are bigger than 1 and we take exponentials of them,"
+  },
+  {
+   "start": 1341.8,
+   "text": " they blow up."
+  },
+  {
+   "start": 1342.8,
+   "text": " Right?"
+  },
+  {
+   "start": 1343.8,
+   "text": " So for example, if you take minus 2 to some power, it's going to be minus 2 for minus 8,"
+  },
+  {
+   "start": 1352.16,
+   "text": " 16, minus 32, 64, right?"
+  },
+  {
+   "start": 1356.0400000000002,
+   "text": " So that's blowing way, way, way up."
+  },
+  {
+   "start": 1359.0800000000002,
+   "text": " So in this case, x equal to 0 would not be stable because nobody is going to settle into"
+  },
+  {
+   "start": 1364.3600000000001,
+   "text": " x equal to 0, no higher, how close you start."
+  },
+  {
+   "start": 1367.3200000000002,
+   "text": " You could pick x1 and x2 extremely small, think about the smallest number you could"
+  },
+  {
+   "start": 1372.28,
+   "text": " ever think of."
+  },
+  {
+   "start": 1373.96,
+   "text": " You could start x1 and x2 there, as long as it's not 0, you could start at that and eventually"
+  },
+  {
+   "start": 1380.6000000000001,
+   "text": " if lambda is bigger than 2, these things are going to blow up."
+  },
+  {
+   "start": 1384.6000000000001,
+   "text": " You're always getting pushed away from x equal to 0."
+  },
+  {
+   "start": 1389.7600000000002,
+   "text": " So then you can actually think about what happens at some of the edge cases."
+  },
+  {
+   "start": 1395.96,
+   "text": " Well lambda equal to 2, this gives me that x1 of n is equal to minus 1 to the n, x1"
+  },
+  {
+   "start": 1406.96,
+   "text": " of 0, and x2 of n is equal to minus 1 to the n, x2 of 0."
+  },
+  {
+   "start": 1415.8,
+   "text": " In this case, you never do anything, all you do is flip back and forth between plus and"
+  },
+  {
+   "start": 1420.88,
+   "text": " minus numbers."
+  },
+  {
+   "start": 1422.52,
+   "text": " You don't get closer, you don't get further away."
+  },
+  {
+   "start": 1426.0,
+   "text": " All you do is flip back and forth, nothing exciting."
+  },
+  {
+   "start": 1430.4,
+   "text": " So in this case, you don't really have stability, right, because you never actually converge"
+  },
+  {
+   "start": 1435.52,
+   "text": " into your equilibrium point, but you also don't have sort of instability, right, you're"
+  },
+  {
+   "start": 1440.16,
+   "text": " never getting pushed away from it either."
+  },
+  {
+   "start": 1442.56,
+   "text": " So this is one of those sort of weird intermediary spots where all you do is just kind of flip back"
+  },
+  {
+   "start": 1448.12,
+   "text": " and forth."
+  },
+  {
+   "start": 1449.12,
+   "text": " Plus 1 minus 1, plus 1 minus 1, plus 1 minus 1, and so on and so forth."
+  },
+  {
+   "start": 1454.08,
+   "text": " Now the other thing I want you to notice is that if lambda is between 0 and 1, then"
+  },
+  {
+   "start": 1463.42,
+   "text": " 1 minus lambda is positive."
+  },
+  {
+   "start": 1467.3000000000002,
+   "text": " Now why is that interesting?"
+  },
+  {
+   "start": 1469.14,
+   "text": " Well, that means that each successive iterate is multiplying a positive number."
+  },
+  {
+   "start": 1473.3400000000001,
+   "text": " So you never change the sign of your initial condition."
+  },
+  {
+   "start": 1478.0800000000002,
+   "text": " If you started with a positive value, you always get a positive value and convergent to 0."
+  },
+  {
+   "start": 1484.3400000000001,
+   "text": " If you started with a negative value, you stayed negative and you convergent to 0 up from"
+  },
+  {
+   "start": 1488.18,
+   "text": " the left."
+  },
+  {
+   "start": 1490.38,
+   "text": " But if you are between 1 and 2, this would give you that 1 minus lambda is less than 0."
+  },
+  {
+   "start": 1501.46,
+   "text": " So now you're still converging to 0, you're still in the stable regime, right, you're still"
+  },
+  {
+   "start": 1507.0600000000002,
+   "text": " in my stable regime, but you're flipping back and forth, right, whenever x1 was, then"
+  },
+  {
+   "start": 1513.3400000000001,
+   "text": " you go to a smaller value and absolute value, but negative."
+  },
+  {
+   "start": 1516.7,
+   "text": " You flip to the other side of 0, then you flip to the other side."
+  },
+  {
+   "start": 1519.42,
+   "text": " And you are slowly sort of tinkering and falling into 0, but you're doing it by hopping"
+  },
+  {
+   "start": 1525.46,
+   "text": " back and forth over that equilibrium point."
+  },
+  {
+   "start": 1533.0600000000002,
+   "text": " And of course, the last case that I left down here is if lambda is equal to 1, lambda"
+  },
+  {
+   "start": 1537.3400000000001,
+   "text": " is equal to 1."
+  },
+  {
+   "start": 1538.3400000000001,
+   "text": " I mean, nothing really that interesting happens because this is 0."
+  },
+  {
+   "start": 1542.5,
+   "text": " And so you fall into the equilibrium in one step, right, whatever your initial condition"
+  },
+  {
+   "start": 1548.3,
+   "text": " was, your next point is 0, you're gone."
+  },
+  {
+   "start": 1553.74,
+   "text": " Okay, so this is a little bit of a rough quick introduction to discrete time dynamical"
+  },
+  {
+   "start": 1560.62,
+   "text": " systems."
+  },
+  {
+   "start": 1561.78,
+   "text": " Over the next few lectures, we're going to get our hands a little dirtier with these things."
+  },
+  {
+   "start": 1566.1399999999999,
+   "text": " And then once we feel a little bit more comfortable analyzing and interpreting discrete"
+  },
+  {
+   "start": 1572.26,
+   "text": " time dynamical systems, maybe through graphical methods, through some sort of rougher methods,"
+  },
+  {
+   "start": 1577.1000000000001,
+   "text": " then we're going to zoom out a little bit and look at dynamical systems as a whole"
+  },
+  {
+   "start": 1580.94,
+   "text": " and look at some of the analytical methods that we have, these pencil and paper ways of"
+  },
+  {
+   "start": 1585.9800000000002,
+   "text": " trying to determine things like what are the equilibrium points, what is the stability"
+  },
+  {
+   "start": 1590.42,
+   "text": " of these equilibrium points, how do solutions behave, but first we're going to get some intuition,"
+  },
+  {
+   "start": 1595.7,
+   "text": " we're going to do a lot of graphical stuff."
+  },
+  {
+   "start": 1597.66,
+   "text": " I'll see you in the next lecture."
+  }
+ ]
+}

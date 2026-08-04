@@ -1,0 +1,1629 @@
+{
+ "video_id": "SY6NvKj0fRM",
+ "title": "Constrained Modelling and Shadow Pricing - Math Modelling - Lecture 7",
+ "channel": "Math Modelling",
+ "duration_s": 1937,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello, everyone, and welcome back."
+  },
+  {
+   "start": 2.44,
+   "text": " Now, in the previous video, I introduced you"
+  },
+  {
+   "start": 5.0,
+   "text": " to Lagrange multipliers."
+  },
+  {
+   "start": 6.76,
+   "text": " And in particular, what we saw in that video"
+  },
+  {
+   "start": 8.92,
+   "text": " is that we now have a way of finding optimum solutions"
+  },
+  {
+   "start": 12.64,
+   "text": " to constrained optimization problems."
+  },
+  {
+   "start": 15.6,
+   "text": " These constraints can be quite complicated."
+  },
+  {
+   "start": 17.84,
+   "text": " They could be even nonlinear."
+  },
+  {
+   "start": 19.72,
+   "text": " But what we really saw is that it all comes down"
+  },
+  {
+   "start": 22.64,
+   "text": " to finding solutions to these Lagrange multiplier equations."
+  },
+  {
+   "start": 27.240000000000002,
+   "text": " Now, what I did in the previous video"
+  },
+  {
+   "start": 29.32,
+   "text": " was all kinds of theoretical examples"
+  },
+  {
+   "start": 32.96,
+   "text": " that sort of illustrate the method."
+  },
+  {
+   "start": 35.36,
+   "text": " What I would like to do in this video"
+  },
+  {
+   "start": 37.08,
+   "text": " is I'd like to go back to my television example"
+  },
+  {
+   "start": 40.72,
+   "text": " from two videos ago, but add in constraints"
+  },
+  {
+   "start": 44.32,
+   "text": " to apply the Lagrange multipliers to it."
+  },
+  {
+   "start": 48.28,
+   "text": " OK, so let me remind you that in that example,"
+  },
+  {
+   "start": 53.32,
+   "text": " I was seeking to optimize a profit function."
+  },
+  {
+   "start": 58.04,
+   "text": " I'll call it capital P. Nothing about the problem"
+  },
+  {
+   "start": 61.76,
+   "text": " is going to change."
+  },
+  {
+   "start": 63.16,
+   "text": " We're going to use the same profit model."
+  },
+  {
+   "start": 65.88,
+   "text": " So remember, S is the number of 19-inch TV sets"
+  },
+  {
+   "start": 69.44,
+   "text": " that we produce."
+  },
+  {
+   "start": 70.6,
+   "text": " T is the number of 21-inch TV sets that we produce."
+  },
+  {
+   "start": 74.75999999999999,
+   "text": " And we had this kind of ugly looking equation,"
+  },
+  {
+   "start": 78.2,
+   "text": " but we could work with it."
+  },
+  {
+   "start": 80.16,
+   "text": " It's only quadratic in S and T,"
+  },
+  {
+   "start": 84.8,
+   "text": " so minus 0.003T times S, plus 399 minus 0.004S,"
+  },
+  {
+   "start": 101.72,
+   "text": " minus 0.01T all times T, and then"
+  },
+  {
+   "start": 105.88,
+   "text": " the subtracting off the production cost of this thing"
+  },
+  {
+   "start": 108.92,
+   "text": " was $400,000 as a base cost, and then"
+  },
+  {
+   "start": 116.32000000000001,
+   "text": " plus the production prices of each one of the units."
+  },
+  {
+   "start": 120.72,
+   "text": " So 225T."
+  },
+  {
+   "start": 124.12,
+   "text": " OK, so that's going to be the equation"
+  },
+  {
+   "start": 125.48,
+   "text": " we're going to work with for the rest of the day."
+  },
+  {
+   "start": 127.32000000000001,
+   "text": " Now we already optimized this thing over S and T"
+  },
+  {
+   "start": 131.0,
+   "text": " being positive."
+  },
+  {
+   "start": 132.04,
+   "text": " We saw that all it took was finding the gradient"
+  },
+  {
+   "start": 135.16,
+   "text": " and setting the gradient equal to 0."
+  },
+  {
+   "start": 137.44,
+   "text": " Now what I'd like to do is I'd like to add some constraints."
+  },
+  {
+   "start": 141.4,
+   "text": " So the first constraint that we have is the obvious one."
+  },
+  {
+   "start": 146.2,
+   "text": " We obviously need to be producing a positive number"
+  },
+  {
+   "start": 150.28,
+   "text": " of each set, which just wouldn't make sense"
+  },
+  {
+   "start": 152.92,
+   "text": " if I told you to produce negative 21 of the 21-inch televisions."
+  },
+  {
+   "start": 158.48,
+   "text": " So that's a sort of natural constraint here,"
+  },
+  {
+   "start": 161.44,
+   "text": " but let's think about some other ones."
+  },
+  {
+   "start": 163.72,
+   "text": " Let's imagine that we have a production capacity."
+  },
+  {
+   "start": 166.64000000000001,
+   "text": " So for example, maybe the factory that the company owns"
+  },
+  {
+   "start": 170.92000000000002,
+   "text": " has only enough material to produce at most 5,000 of the 19-inch sets"
+  },
+  {
+   "start": 180.68,
+   "text": " and 8,000 of the 21-inch sets."
+  },
+  {
+   "start": 186.16000000000003,
+   "text": " This is a pretty natural assumption, right?"
+  },
+  {
+   "start": 188.32000000000002,
+   "text": " Because this tells us that this is completely dependent"
+  },
+  {
+   "start": 192.08,
+   "text": " on the amount of material that we can get our hands"
+  },
+  {
+   "start": 194.72000000000003,
+   "text": " on to build these things."
+  },
+  {
+   "start": 195.52,
+   "text": " I can't just build infinitely many."
+  },
+  {
+   "start": 197.76000000000002,
+   "text": " I need to talk to suppliers, and I need"
+  },
+  {
+   "start": 199.44,
+   "text": " to make sure I can secure the right material"
+  },
+  {
+   "start": 202.8,
+   "text": " to produce these things."
+  },
+  {
+   "start": 204.8,
+   "text": " Now on top of that, let's make this a little more interesting,"
+  },
+  {
+   "start": 207.24,
+   "text": " because now this is just a little square in the Cartesian plane."
+  },
+  {
+   "start": 212.64000000000001,
+   "text": " Let's put another piece on this."
+  },
+  {
+   "start": 214.12,
+   "text": " Let's imagine that our television sets,"
+  },
+  {
+   "start": 217.24,
+   "text": " they have an internal circuit board."
+  },
+  {
+   "start": 219.68,
+   "text": " It's the same internal circuit board for both television sets"
+  },
+  {
+   "start": 224.04,
+   "text": " and they come from one company that produces these circuit boards."
+  },
+  {
+   "start": 228.84,
+   "text": " And in particular, the company says, all right,"
+  },
+  {
+   "start": 231.6,
+   "text": " we can give you circuit boards, but we can give you"
+  },
+  {
+   "start": 234.48,
+   "text": " only 10,000 of those circuit boards per year."
+  },
+  {
+   "start": 238.2,
+   "text": " That means that no matter how many of my each of each TV"
+  },
+  {
+   "start": 243.23999999999998,
+   "text": " that I put together, since they're using the same circuit boards,"
+  },
+  {
+   "start": 248.04,
+   "text": " I can only build a maximum of 10,000 circuit boards,"
+  },
+  {
+   "start": 254.76,
+   "text": " sorry, televisions per year, of both kinds."
+  },
+  {
+   "start": 258.24,
+   "text": " So that gives me five constraints."
+  },
+  {
+   "start": 261.56,
+   "text": " S and T being greater than or equal to zero,"
+  },
+  {
+   "start": 263.96,
+   "text": " the production capacity limited by the material for the 19-inch,"
+  },
+  {
+   "start": 268.2,
+   "text": " production capacity limit for the 21-inch,"
+  },
+  {
+   "start": 271.12,
+   "text": " and then this circuit board capacity as well."
+  },
+  {
+   "start": 276.0,
+   "text": " So this actually defines my feasible region."
+  },
+  {
+   "start": 282.04,
+   "text": " Feasible region."
+  },
+  {
+   "start": 286.36,
+   "text": " And so now what I can do is I can look at these things as constraints on my system."
+  },
+  {
+   "start": 293.16,
+   "text": " Now, what we saw in the previous example with the Lagrange multipliers"
+  },
+  {
+   "start": 298.28,
+   "text": " is the first thing I'm going to need to do"
+  },
+  {
+   "start": 300.8,
+   "text": " is find a gradient of my function P, right?"
+  },
+  {
+   "start": 306.2,
+   "text": " This is the thing that I would like to optimize."
+  },
+  {
+   "start": 308.68,
+   "text": " On this case, we already computed the gradient two videos ago,"
+  },
+  {
+   "start": 313.04,
+   "text": " so maybe you want to recall from there,"
+  },
+  {
+   "start": 315.44,
+   "text": " but it's 144 minus 0.02s minus 0.007T."
+  },
+  {
+   "start": 326.32,
+   "text": " That's the first component of this gradient."
+  },
+  {
+   "start": 328.8,
+   "text": " The second component is 174 minus 0.007s minus 0.02t."
+  },
+  {
+   "start": 341.32,
+   "text": " Okay, nothing too fancy."
+  },
+  {
+   "start": 343.08000000000004,
+   "text": " Remember, just computing these gradients."
+  },
+  {
+   "start": 345.12,
+   "text": " The first component is the partial derivative with respect to s of my profit function."
+  },
+  {
+   "start": 350.44,
+   "text": " The second component is the partial derivative with respect to T."
+  },
+  {
+   "start": 356.72,
+   "text": " Now, what we're going to do is look at these constraints as well."
+  },
+  {
+   "start": 361.56,
+   "text": " So let's look at the first boundary of the constraint,"
+  },
+  {
+   "start": 364.56,
+   "text": " the most interesting one, right?"
+  },
+  {
+   "start": 366.36,
+   "text": " So the one where things are tied together."
+  },
+  {
+   "start": 369.24,
+   "text": " So let's define this constraint function,"
+  },
+  {
+   "start": 372.08000000000004,
+   "text": " g of s comma T, and let's just call it s plus T."
+  },
+  {
+   "start": 378.0,
+   "text": " And of course, the constraint is this line."
+  },
+  {
+   "start": 383.12,
+   "text": " Okay, so what we're going to do is we're going to fix ourselves to that line,"
+  },
+  {
+   "start": 389.56,
+   "text": " and we are going to optimize this function subject to that constraint."
+  },
+  {
+   "start": 396.48,
+   "text": " Now, the nice thing about this is the gradient is super easy."
+  },
+  {
+   "start": 404.04,
+   "text": " The gradient, the derivative of this thing with respect to s is one,"
+  },
+  {
+   "start": 406.96,
+   "text": " the gradient with respect to this, sorry,"
+  },
+  {
+   "start": 409.16,
+   "text": " the partial derivative with respect to T is one."
+  },
+  {
+   "start": 412.36,
+   "text": " Okay, that's great, right?"
+  },
+  {
+   "start": 413.40000000000003,
+   "text": " That makes my life super, super simple."
+  },
+  {
+   "start": 416.16,
+   "text": " Because that tells me that my Lagrange multiplier equation."
+  },
+  {
+   "start": 420.96000000000004,
+   "text": " Remember, this is gradient of P is equal to lambda times the gradient of G."
+  },
+  {
+   "start": 428.2,
+   "text": " Well, this thing becomes a nice simple linear equation."
+  },
+  {
+   "start": 433.44,
+   "text": " So it's 144 minus 0.0 to s minus 0.070T."
+  },
+  {
+   "start": 440.92,
+   "text": " And this is equal to lambda."
+  },
+  {
+   "start": 442.68,
+   "text": " That's lambda times one."
+  },
+  {
+   "start": 445.32,
+   "text": " Similarly, 174 minus 0.007s minus 0.02T."
+  },
+  {
+   "start": 455.04,
+   "text": " Again, just equal to lambda."
+  },
+  {
+   "start": 457.92,
+   "text": " And remember the geometric interpretation of these things, right?"
+  },
+  {
+   "start": 461.16,
+   "text": " The gradient of P points in the direction of steepest increase for the function P, right?"
+  },
+  {
+   "start": 468.20000000000005,
+   "text": " So if you want to maximize profit,"
+  },
+  {
+   "start": 469.64,
+   "text": " you got to follow that gradient."
+  },
+  {
+   "start": 472.4,
+   "text": " Now, similarly, the gradient of G runs perpendicular or thogonal"
+  },
+  {
+   "start": 478.36,
+   "text": " if we put it in math speak to the level set given by this constraint right here."
+  },
+  {
+   "start": 484.71999999999997,
+   "text": " So let's put it in a little box so we can really highlight it."
+  },
+  {
+   "start": 488.71999999999997,
+   "text": " Now, the goal here is to find when these things are parallel."
+  },
+  {
+   "start": 493.03999999999996,
+   "text": " That's what the Lagrange multiplier equation is telling us, right?"
+  },
+  {
+   "start": 497.36,
+   "text": " And when these things are parallel,"
+  },
+  {
+   "start": 499.32,
+   "text": " it says the only way you can increase the profit"
+  },
+  {
+   "start": 502.44,
+   "text": " is by moving off of the level curve, right?"
+  },
+  {
+   "start": 505.52,
+   "text": " Because the level curve points in an orthogonal direction."
+  },
+  {
+   "start": 509.44,
+   "text": " So the gradient points in an orthogonal direction to the level curve"
+  },
+  {
+   "start": 513.04,
+   "text": " the only way you can increase P is by moving off of it, okay?"
+  },
+  {
+   "start": 517.88,
+   "text": " So keep that geometric intuition in the back of your mind."
+  },
+  {
+   "start": 521.3199999999999,
+   "text": " Just in case you start getting lost in the mathematics of all of this."
+  },
+  {
+   "start": 526.72,
+   "text": " Okay, now also we have some more information."
+  },
+  {
+   "start": 532.08,
+   "text": " We have that we are stuck on this constraint line"
+  },
+  {
+   "start": 537.24,
+   "text": " which tells us that T is equal to 10,000 minus S."
+  },
+  {
+   "start": 546.12,
+   "text": " Okay, so what that means is that this can be fed back into my Lagrange multiplier equations."
+  },
+  {
+   "start": 554.48,
+   "text": " And that originally had one, two, three unknowns, S, T, and Lambda."
+  },
+  {
+   "start": 560.24,
+   "text": " Now, I only have two unknowns because I have a way of tying T into S."
+  },
+  {
+   "start": 566.76,
+   "text": " So that means that you can go ahead and solve this thing, right?"
+  },
+  {
+   "start": 569.0,
+   "text": " Put T into that and solve for S and Lambda."
+  },
+  {
+   "start": 572.96,
+   "text": " Once you have a solution for S and Lambda,"
+  },
+  {
+   "start": 575.72,
+   "text": " you get a solution for T as well by putting it into this equation."
+  },
+  {
+   "start": 579.84,
+   "text": " All right, so I'm going to let you have that fun."
+  },
+  {
+   "start": 581.76,
+   "text": " And I'm going to tell you what the answer is here."
+  },
+  {
+   "start": 584.84,
+   "text": " In fact, we're going to get S is equal to, let's say it's 50,000 over 13,"
+  },
+  {
+   "start": 596.36,
+   "text": " which in this case is about 3,846."
+  },
+  {
+   "start": 605.32,
+   "text": " You similarly get T is equal to 80,000 over 13,"
+  },
+  {
+   "start": 615.0400000000001,
+   "text": " which is given by 6,154."
+  },
+  {
+   "start": 620.24,
+   "text": " Notice that these two things do, in fact, add up to 10,000, which is my constraint."
+  },
+  {
+   "start": 625.6,
+   "text": " And also, you get that Lambda is equal to 24."
+  },
+  {
+   "start": 631.12,
+   "text": " So you are pointing in exactly the same direction as the gradient of G in this case,"
+  },
+  {
+   "start": 637.6,
+   "text": " because Lambda is positive."
+  },
+  {
+   "start": 639.28,
+   "text": " Remember, keep that geometric intuition in the back of your mind."
+  },
+  {
+   "start": 644.44,
+   "text": " Now, at these two values, my profit is $532,300 and $8."
+  },
+  {
+   "start": 659.4,
+   "text": " So the question is, are we done?"
+  },
+  {
+   "start": 664.64,
+   "text": " Well, no, because we need to check all of the other constraints, right?"
+  },
+  {
+   "start": 670.72,
+   "text": " So the only thing that I've done so far is looked at one possible constraint."
+  },
+  {
+   "start": 676.24,
+   "text": " And we saw that the maximum along that constraint is given by a production capacity of 3,846 of the 19-inch TVs,"
+  },
+  {
+   "start": 685.5600000000001,
+   "text": " 6,154 of the 21-inch TVs."
+  },
+  {
+   "start": 691.0000000000001,
+   "text": " Now, what we need to do first is check if this is even a maximum over that line, right?"
+  },
+  {
+   "start": 698.6,
+   "text": " Because this is a one-dimensional object, we need to check the endpoints."
+  },
+  {
+   "start": 701.5200000000001,
+   "text": " The same you would do with a single variable optimization problem."
+  },
+  {
+   "start": 706.2,
+   "text": " So that's what I would like to do next, right?"
+  },
+  {
+   "start": 708.5200000000001,
+   "text": " So I can't even move on to the next constraint yet,"
+  },
+  {
+   "start": 711.4000000000001,
+   "text": " because there's still a few more checks to do."
+  },
+  {
+   "start": 714.36,
+   "text": " So the endpoints of G of ST equal to 10,000,"
+  },
+  {
+   "start": 725.5600000000001,
+   "text": " while these endpoints, first of all, one of them is given by, let's say, ST equal to,"
+  },
+  {
+   "start": 734.96,
+   "text": " so the first one is going to be 5,000, 5,000."
+  },
+  {
+   "start": 742.5600000000001,
+   "text": " And where is that coming from?"
+  },
+  {
+   "start": 744.2800000000001,
+   "text": " It's meeting this constraint right here."
+  },
+  {
+   "start": 748.2,
+   "text": " And so since S has to be fixed at 5,000,"
+  },
+  {
+   "start": 751.9200000000001,
+   "text": " then T also has to be fixed at 5,000, so they sum up to 10,000."
+  },
+  {
+   "start": 758.44,
+   "text": " Similarly, the other end point here is when T hits the other extreme, when you have 8,000,"
+  },
+  {
+   "start": 768.04,
+   "text": " so that whatever these things sum to 10,000, so along that line,"
+  },
+  {
+   "start": 774.24,
+   "text": " you are checking this point."
+  },
+  {
+   "start": 778.04,
+   "text": " Now, you can easily take these numbers and put them into your profit function,"
+  },
+  {
+   "start": 783.12,
+   "text": " and you can show that this profit here, which is on the middle of the line somewhere,"
+  },
+  {
+   "start": 789.28,
+   "text": " it's sort of on the interior of the line, returns a larger profit."
+  },
+  {
+   "start": 793.7199999999999,
+   "text": " So these things are not going to maximize the profit."
+  },
+  {
+   "start": 797.32,
+   "text": " The maximum of the profit along this line, subject to every other constraint,"
+  },
+  {
+   "start": 803.0400000000001,
+   "text": " is 532,308 dollars."
+  },
+  {
+   "start": 809.6,
+   "text": " Now, are we done?"
+  },
+  {
+   "start": 812.2800000000001,
+   "text": " No, right?"
+  },
+  {
+   "start": 813.36,
+   "text": " So we still have to be careful."
+  },
+  {
+   "start": 815.2800000000001,
+   "text": " Now, there are two other main constraints that we need to work with."
+  },
+  {
+   "start": 819.6800000000001,
+   "text": " Technically, there are four, although we've checked many of these in the previous example,"
+  },
+  {
+   "start": 824.88,
+   "text": " setting 1 at s t equal to 0."
+  },
+  {
+   "start": 828.4,
+   "text": " So four more constraints to check."
+  },
+  {
+   "start": 835.72,
+   "text": " To check."
+  },
+  {
+   "start": 838.72,
+   "text": " I will enumerate them here."
+  },
+  {
+   "start": 840.8,
+   "text": " First of all, s is equal to 0, 2, t is equal to 0, 3, s is equal to 5,000."
+  },
+  {
+   "start": 852.8000000000001,
+   "text": " And four, t is equal to 8,000."
+  },
+  {
+   "start": 856.4000000000001,
+   "text": " So we are fixing ourselves along each one of these constraints, and we are repeating"
+  },
+  {
+   "start": 863.8800000000001,
+   "text": " the problem."
+  },
+  {
+   "start": 864.8800000000001,
+   "text": " Now, fortunately, the first two here, like I just said, are relatively easy to handle."
+  },
+  {
+   "start": 871.2800000000001,
+   "text": " You just put s equal to 0 into this equation, and now you've got a single variable optimization"
+  },
+  {
+   "start": 877.32,
+   "text": " problem."
+  },
+  {
+   "start": 879.32,
+   "text": " And that's going to be between for t between 0 and 8,000, all right?"
+  },
+  {
+   "start": 885.0,
+   "text": " That's coming from this and this right here."
+  },
+  {
+   "start": 889.96,
+   "text": " The ones that are going to be a little bit more tricky are s equal to 5,000, t equal"
+  },
+  {
+   "start": 895.0400000000001,
+   "text": " to 8,000."
+  },
+  {
+   "start": 896.0400000000001,
+   "text": " You're going to need to put those values into this equation right here, and then you're"
+  },
+  {
+   "start": 902.44,
+   "text": " going to do another single variable optimization problem."
+  },
+  {
+   "start": 905.4,
+   "text": " Now again, in all four of these cases, the reason I'm not writing them on the board"
+  },
+  {
+   "start": 909.28,
+   "text": " is because they turn into just standard single variable optimization."
+  },
+  {
+   "start": 913.76,
+   "text": " The only case that actually requires Lagrange multipliers is the constraint that I've worked"
+  },
+  {
+   "start": 919.92,
+   "text": " out for you here because it's non-trivial."
+  },
+  {
+   "start": 922.6,
+   "text": " You have s and t working together in a non-trivial way, right?"
+  },
+  {
+   "start": 926.76,
+   "text": " You're not just going along some line that's perpendicular or parallel to the horizontal"
+  },
+  {
+   "start": 932.36,
+   "text": " axis."
+  },
+  {
+   "start": 933.76,
+   "text": " Now if I sketch this out for you for a moment, what you can see is that if this is 5,000,"
+  },
+  {
+   "start": 943.6,
+   "text": " if this is 10,000, in this case, you have these n points, sorry, this would be 8,000, pardon"
+  },
+  {
+   "start": 954.28,
+   "text": " me, sorry, this is the constraint in t."
+  },
+  {
+   "start": 958.5600000000001,
+   "text": " You have one n point right here, let's say this is 5,000, 5,000."
+  },
+  {
+   "start": 970.6,
+   "text": " And you have another n point, which might be somewhere around right here."
+  },
+  {
+   "start": 977.6800000000001,
+   "text": " This is 2,000, 8,000."
+  },
+  {
+   "start": 984.28,
+   "text": " The line that we just optimized over, this is s plus t equal to 10,000."
+  },
+  {
+   "start": 991.4,
+   "text": " That's what we did all of this work over."
+  },
+  {
+   "start": 994.6,
+   "text": " The line t is equal to 8,000 is this line right here, from here to here."
+  },
+  {
+   "start": 1001.1999999999999,
+   "text": " So that means an s is between 0 and 2,000, it's just this little strip."
+  },
+  {
+   "start": 1006.44,
+   "text": " Same thing, the line s is equal to 5,000, I think I drew this over a little bit too far,"
+  },
+  {
+   "start": 1013.5600000000001,
+   "text": " is this line right here."
+  },
+  {
+   "start": 1016.24,
+   "text": " So that means that everything in here, including the boundaries, is my feasible region."
+  },
+  {
+   "start": 1026.44,
+   "text": " So that's exactly what this is."
+  },
+  {
+   "start": 1028.64,
+   "text": " Everything that's shaded here is a possible value."
+  },
+  {
+   "start": 1032.84,
+   "text": " Now, in the previous example, two videos ago, we already figured out when the gradient"
+  },
+  {
+   "start": 1038.3999999999999,
+   "text": " of p is equal to 0."
+  },
+  {
+   "start": 1040.6799999999998,
+   "text": " And we already saw that that takes place outside of the feasible region, right?"
+  },
+  {
+   "start": 1045.3999999999999,
+   "text": " So it's outside of the production capacities that I have put on this thing."
+  },
+  {
+   "start": 1049.8,
+   "text": " So that means that there's no maximum or minimum inside of this feasible region, says"
+  },
+  {
+   "start": 1056.28,
+   "text": " that all of the action is happening somewhere on the boundaries."
+  },
+  {
+   "start": 1059.44,
+   "text": " And so now what I do is I systematically check each boundary, and you can do that, you"
+  },
+  {
+   "start": 1066.04,
+   "text": " can find that the maximum is this one that I've just identified."
+  },
+  {
+   "start": 1070.68,
+   "text": " So it's somewhere around maybe right here on my figure, right?"
+  },
+  {
+   "start": 1078.24,
+   "text": " So everything's not drawn to scale, but the point is this is the max."
+  },
+  {
+   "start": 1082.8,
+   "text": " This is the optimum to this problem."
+  },
+  {
+   "start": 1086.72,
+   "text": " All right, like any expert in mathematical modeling, which is what we are becoming through"
+  },
+  {
+   "start": 1091.52,
+   "text": " this class, the first thing that we should do once we complete these problems is perform"
+  },
+  {
+   "start": 1096.72,
+   "text": " a sensitivity analysis."
+  },
+  {
+   "start": 1099.1200000000001,
+   "text": " Now you can do this on any number of variables that are used throughout this television problem."
+  },
+  {
+   "start": 1105.6000000000001,
+   "text": " I want to highlight a very interesting one that you could do this for."
+  },
+  {
+   "start": 1110.32,
+   "text": " For example, you can do this on the constraints."
+  },
+  {
+   "start": 1114.2,
+   "text": " So for example, let's consider the constraint g of s, t equal to s plus t equal to some constant"
+  },
+  {
+   "start": 1128.16,
+   "text": " c. So in this case, c stands for constraint."
+  },
+  {
+   "start": 1131.8,
+   "text": " Now we just did the problem with c equal to 10,000."
+  },
+  {
+   "start": 1137.0800000000002,
+   "text": " Now what I would like to know is what is the sensitivity of my solution with respect to"
+  },
+  {
+   "start": 1143.0,
+   "text": " this constraint."
+  },
+  {
+   "start": 1144.0,
+   "text": " So for example, if the company that's providing me with these circuit boards could maybe produce"
+  },
+  {
+   "start": 1151.6,
+   "text": " a couple more of these circuit boards, is this going to help me?"
+  },
+  {
+   "start": 1157.04,
+   "text": " Is it going to cost me money?"
+  },
+  {
+   "start": 1158.36,
+   "text": " What's going to happen?"
+  },
+  {
+   "start": 1159.36,
+   "text": " Is it going to be a huge increase in profit or is it going to be a tiny increase in profit?"
+  },
+  {
+   "start": 1163.8,
+   "text": " This is eventually going to lead to what's called shadow pricing."
+  },
+  {
+   "start": 1167.8,
+   "text": " But before we get there, let's keep working through the same example."
+  },
+  {
+   "start": 1172.36,
+   "text": " So again, we want to solve delta, our navel p is equal to lambda, navel g."
+  },
+  {
+   "start": 1178.8799999999999,
+   "text": " So this is again our Lagrange multiplier equation."
+  },
+  {
+   "start": 1182.76,
+   "text": " And in this case, we get the same thing."
+  },
+  {
+   "start": 1186.9199999999998,
+   "text": " The only difference is that we have s plus t is equal to c."
+  },
+  {
+   "start": 1192.28,
+   "text": " This tells us that t is equal to c minus s."
+  },
+  {
+   "start": 1196.08,
+   "text": " So all of our solutions are going to now depend on c."
+  },
+  {
+   "start": 1199.76,
+   "text": " If you look back at what we did at the beginning of the lecture, c was equal to 10,000."
+  },
+  {
+   "start": 1204.48,
+   "text": " This was an easy linear algebra problem to solve."
+  },
+  {
+   "start": 1207.72,
+   "text": " Same thing here."
+  },
+  {
+   "start": 1209.28,
+   "text": " You can get a solution, in this case it's going to be 13 c minus 30,000 divided by 26."
+  },
+  {
+   "start": 1222.16,
+   "text": " And then t in this case is going to be 13 c plus 30,000 divided by 26."
+  },
+  {
+   "start": 1237.0400000000002,
+   "text": " And lambda, a little bit of an uglier formula, it's 3 times 106,000 minus 9 c."
+  },
+  {
+   "start": 1249.64,
+   "text": " And again, over 2,000 in this case."
+  },
+  {
+   "start": 1254.24,
+   "text": " So all linear functions of c, right?"
+  },
+  {
+   "start": 1258.16,
+   "text": " So it's not really that bad."
+  },
+  {
+   "start": 1260.2800000000002,
+   "text": " And again, the only thing that I'm doing to arrive at these is I'm taking my gradient"
+  },
+  {
+   "start": 1265.24,
+   "text": " of p, which was computed already, setting it equal to lambda times 11, right?"
+  },
+  {
+   "start": 1271.1200000000001,
+   "text": " That's the gradient of g."
+  },
+  {
+   "start": 1273.2,
+   "text": " The only difference is I have this arbitrary value of c in here, right?"
+  },
+  {
+   "start": 1278.1200000000001,
+   "text": " I'm just repeating everything I did in the previous section."
+  },
+  {
+   "start": 1281.96,
+   "text": " Now, if c is around 10,000, we would expect that if I vary c, maybe 10,000, 1, 10,000, 10,000,"
+  },
+  {
+   "start": 1291.3600000000001,
+   "text": " 9,990 sort of in this neighborhood of 10,000, that the maximum production, the optimal profit"
+  },
+  {
+   "start": 1299.1200000000001,
+   "text": " is just going to kind of move around with it, right?"
+  },
+  {
+   "start": 1302.4,
+   "text": " So it's going to be tracked by exactly these values of c, t, and lambda."
+  },
+  {
+   "start": 1308.92,
+   "text": " So let's check out the sensitivity of these things."
+  },
+  {
+   "start": 1312.72,
+   "text": " Now the first thing I want you to note is that the derivative of this with respect to c"
+  },
+  {
+   "start": 1319.2800000000002,
+   "text": " is just a nice, easy one half, 13 over 26."
+  },
+  {
+   "start": 1324.6000000000001,
+   "text": " And luckily for me, same thing for the derivative with respect to t."
+  },
+  {
+   "start": 1331.88,
+   "text": " So this is good for me, right?"
+  },
+  {
+   "start": 1333.6000000000001,
+   "text": " Because this means that I've got a really simple computation right in front of me."
+  },
+  {
+   "start": 1337.8400000000001,
+   "text": " I can compute some sensitivities."
+  },
+  {
+   "start": 1340.24,
+   "text": " So sensitivities."
+  },
+  {
+   "start": 1342.24,
+   "text": " Now, let's start with the sensitivity of s with respect to c."
+  },
+  {
+   "start": 1349.88,
+   "text": " And of course, we're going to do this at c is equal to 10,000."
+  },
+  {
+   "start": 1353.5200000000002,
+   "text": " That was the one where we computed the answer."
+  },
+  {
+   "start": 1355.64,
+   "text": " We want to know what the sensitivity with respect to this constraint that we computed it to"
+  },
+  {
+   "start": 1360.4,
+   "text": " be 10,000 is going to be."
+  },
+  {
+   "start": 1362.4,
+   "text": " Well, in this case, it's going to be the derivative of s with respect to c."
+  },
+  {
+   "start": 1367.16,
+   "text": " That's one half always."
+  },
+  {
+   "start": 1370.0,
+   "text": " And then times the value of c, which is 10,000, divided by that optimal production level"
+  },
+  {
+   "start": 1379.44,
+   "text": " at c equal to 10,000."
+  },
+  {
+   "start": 1381.0800000000002,
+   "text": " Remember, this was 3,846."
+  },
+  {
+   "start": 1387.6000000000001,
+   "text": " But this leaves me with 1.3."
+  },
+  {
+   "start": 1392.4,
+   "text": " Now let me compute the sensitivity of t with respect to c as well."
+  },
+  {
+   "start": 1399.68,
+   "text": " Again, one half c is 10,000."
+  },
+  {
+   "start": 1403.8400000000001,
+   "text": " And in this case, my optimal production was 6,154."
+  },
+  {
+   "start": 1409.3200000000002,
+   "text": " In this case here, I've got 0.8."
+  },
+  {
+   "start": 1414.44,
+   "text": " So essentially, what this tells me is that these things aren't really all that sensitive,"
+  },
+  {
+   "start": 1418.76,
+   "text": " right?"
+  },
+  {
+   "start": 1419.76,
+   "text": " A 1% change in c."
+  },
+  {
+   "start": 1420.76,
+   "text": " Remember, a 1% change of 10,000, that's about 10 units, right?"
+  },
+  {
+   "start": 1424.64,
+   "text": " So if the company sets back, comes back and says, I can actually produce 10 more than"
+  },
+  {
+   "start": 1430.76,
+   "text": " the 10,000 that you were interested in, well, the optimal number that you should be"
+  },
+  {
+   "start": 1436.48,
+   "text": " producing is only about 1.3% more of the 19-inch TVs."
+  },
+  {
+   "start": 1441.64,
+   "text": " Okay, so again, this is around 30 TVs."
+  },
+  {
+   "start": 1446.2800000000002,
+   "text": " Same thing for 6,000 here, we're about 1% more, so about 60 more TVs."
+  },
+  {
+   "start": 1454.96,
+   "text": " So we can do the same thing by computing these derivatives for the price as well."
+  },
+  {
+   "start": 1463.76,
+   "text": " So what I want you to notice is that if I take, let's see."
+  },
+  {
+   "start": 1470.72,
+   "text": " If I take these optimal production levels, and I put them in for the profit equation,"
+  },
+  {
+   "start": 1477.76,
+   "text": " so was the equation that I had across the top of the board at the beginning."
+  },
+  {
+   "start": 1482.08,
+   "text": " Well, first of all, before I go ahead and compute this, let's take a look."
+  },
+  {
+   "start": 1485.96,
+   "text": " I can actually use some properties of derivatives to figure out how to do this."
+  },
+  {
+   "start": 1490.3600000000001,
+   "text": " This is going to be the partial derivative of p with respect to s times the derivative"
+  },
+  {
+   "start": 1495.58,
+   "text": " of s with respect to c, that's a chain rule application, plus the partial derivative"
+  },
+  {
+   "start": 1501.9399999999998,
+   "text": " of p with respect to t times the derivative of t with respect to c, plus then the actual"
+  },
+  {
+   "start": 1515.3,
+   "text": " partial derivative of p with respect to c."
+  },
+  {
+   "start": 1520.9399999999998,
+   "text": " But let's take a look."
+  },
+  {
+   "start": 1522.1799999999998,
+   "text": " Let's interrogate this."
+  },
+  {
+   "start": 1523.78,
+   "text": " First of all, p does not depend on c at all."
+  },
+  {
+   "start": 1527.82,
+   "text": " c comes in from the constraint, so that is zero."
+  },
+  {
+   "start": 1530.34,
+   "text": " There is no variation in the profit explicitly for when you vary c."
+  },
+  {
+   "start": 1537.82,
+   "text": " This tells you that all of the variation in the profit happens implicitly."
+  },
+  {
+   "start": 1542.7,
+   "text": " It happens as a function of s, and it happens as a function of t."
+  },
+  {
+   "start": 1549.46,
+   "text": " Now, in this case, you can go ahead and compute all of these things, and I'm going to ruin"
+  },
+  {
+   "start": 1557.54,
+   "text": " the surprise."
+  },
+  {
+   "start": 1558.54,
+   "text": " I'm going to tell you that this is equal to 24."
+  },
+  {
+   "start": 1562.94,
+   "text": " Now most numbers are arbitrary, but this 24 is not completely arbitrary in this case."
+  },
+  {
+   "start": 1569.38,
+   "text": " We've seen this 24 actually come up before."
+  },
+  {
+   "start": 1574.14,
+   "text": " You might have to go back in your notes and remind yourself where the 24 came from, but"
+  },
+  {
+   "start": 1578.26,
+   "text": " I'll tell you, this was the Lagrange multiplier."
+  },
+  {
+   "start": 1584.3799999999999,
+   "text": " This was the lambda value."
+  },
+  {
+   "start": 1589.58,
+   "text": " Now before we keep going deeper on why this is the Lagrange multiplier, let's just proceed"
+  },
+  {
+   "start": 1596.46,
+   "text": " for a second."
+  },
+  {
+   "start": 1597.46,
+   "text": " Let's actually just compute some sensitivities like we said we were going to do."
+  },
+  {
+   "start": 1602.06,
+   "text": " In this case, I've got the sensitivity of the profit with respect to c, and of course,"
+  },
+  {
+   "start": 1606.9,
+   "text": " I'm going to evaluate this at 10,000, c equal to 10,000."
+  },
+  {
+   "start": 1611.9,
+   "text": " My derivative is 24 in this case, and c value, 10,000 divided by my optimal profit, 532308."
+  },
+  {
+   "start": 1628.7,
+   "text": " And in this case, we're somewhere around 0.45, right?"
+  },
+  {
+   "start": 1634.1000000000001,
+   "text": " So my optimal profit is not really that sensitive to changing around these constraints, right?"
+  },
+  {
+   "start": 1639.9800000000002,
+   "text": " I'm losing out on about half a percentage of profit if you do a 1% change in this constraint"
+  },
+  {
+   "start": 1648.38,
+   "text": " c."
+  },
+  {
+   "start": 1650.38,
+   "text": " Okay, so the question is where did this come from, right?"
+  },
+  {
+   "start": 1657.2600000000002,
+   "text": " It may be to get that number, you had to do a ton of work, right?"
+  },
+  {
+   "start": 1661.7,
+   "text": " You had to take some partial derivatives, put in some numbers, and it was a really big"
+  },
+  {
+   "start": 1666.26,
+   "text": " complicated task."
+  },
+  {
+   "start": 1668.14,
+   "text": " I will ruin the surprise for you."
+  },
+  {
+   "start": 1669.3400000000001,
+   "text": " I did not do that."
+  },
+  {
+   "start": 1670.74,
+   "text": " I knew that this was going to be the Lagrange multiplier."
+  },
+  {
+   "start": 1673.8600000000001,
+   "text": " Now how is it that I knew that this thing was going to be the Lagrange multiplier?"
+  },
+  {
+   "start": 1678.3400000000001,
+   "text": " Well, first of all, we think about that geometric intuition."
+  },
+  {
+   "start": 1682.18,
+   "text": " So first of all, this points in the direction of steepest increase for the profit function"
+  },
+  {
+   "start": 1688.58,
+   "text": " p, while the gradient runs perpendicular to the level sets of the function g."
+  },
+  {
+   "start": 1698.4199999999998,
+   "text": " Okay, so if this is my function g, so it's just a line, nothing fancy."
+  },
+  {
+   "start": 1706.6599999999999,
+   "text": " And in this case, it's equal to c."
+  },
+  {
+   "start": 1709.5,
+   "text": " What happens if I change the value of c?"
+  },
+  {
+   "start": 1712.8999999999999,
+   "text": " All it does is moves upward."
+  },
+  {
+   "start": 1716.18,
+   "text": " So it takes that whole line and moves up like this, and you might get another parallel line."
+  },
+  {
+   "start": 1723.6200000000001,
+   "text": " Now notice that that's moving in a perpendicular direction, right?"
+  },
+  {
+   "start": 1729.14,
+   "text": " And this is also from my Lagrange multiplier equation, the same direction that I'm moving"
+  },
+  {
+   "start": 1735.6200000000001,
+   "text": " in if I want to increase my profit."
+  },
+  {
+   "start": 1738.66,
+   "text": " So what does this actually say?"
+  },
+  {
+   "start": 1743.02,
+   "text": " This says, for every one unit that I change c, my profit changes by 24 units."
+  },
+  {
+   "start": 1756.3400000000001,
+   "text": " That is exactly what this relationship is telling me."
+  },
+  {
+   "start": 1760.0600000000002,
+   "text": " And the way that I know that that's true is because if this is the gradient of g, it,"
+  },
+  {
+   "start": 1766.94,
+   "text": " from this equation is 1 over lambda times the gradient of p."
+  },
+  {
+   "start": 1772.5800000000002,
+   "text": " Each unit gradient of g is moving c."
+  },
+  {
+   "start": 1776.9,
+   "text": " Every time I move by one unit in the direction of the gradient of g, that is the same as moving"
+  },
+  {
+   "start": 1782.5800000000002,
+   "text": " by lambda units in the gradient of p."
+  },
+  {
+   "start": 1787.94,
+   "text": " Okay, so how can this possibly help you?"
+  },
+  {
+   "start": 1790.94,
+   "text": " How can this information be used and extrapolated beyond just the mathematics, right?"
+  },
+  {
+   "start": 1797.06,
+   "text": " So first thing is, this immediately makes my computations easier."
+  },
+  {
+   "start": 1801.54,
+   "text": " This is something that is always universally true for these problems."
+  },
+  {
+   "start": 1805.5,
+   "text": " You can try and prove it on your own."
+  },
+  {
+   "start": 1808.9,
+   "text": " But this leads to what's called a shadow price in the model."
+  },
+  {
+   "start": 1814.14,
+   "text": " Only what this is telling you is that if the microchip or the motherboard, the circuit"
+  },
+  {
+   "start": 1819.98,
+   "text": " board company comes back to you and says, we can produce one more unit of the circuit boards"
+  },
+  {
+   "start": 1826.8600000000001,
+   "text": " which you like us to do it."
+  },
+  {
+   "start": 1828.98,
+   "text": " Well, what this says is that for every one unit changed on the number of circuit boards"
+  },
+  {
+   "start": 1835.46,
+   "text": " that can be produced, you gain $24 in profit."
+  },
+  {
+   "start": 1841.8600000000001,
+   "text": " Now, that means that if the company comes back and says, I can produce another circuit"
+  },
+  {
+   "start": 1847.14,
+   "text": " board for you, would you like me to?"
+  },
+  {
+   "start": 1849.18,
+   "text": " Then what I do is I go back to the company, I figure out if it's going to cost me less"
+  },
+  {
+   "start": 1853.3000000000002,
+   "text": " than $24 to produce another television."
+  },
+  {
+   "start": 1858.2600000000002,
+   "text": " If yes, then I'm going to make money on this."
+  },
+  {
+   "start": 1862.94,
+   "text": " If the answer is no, then I don't want to bring in more circuit boards because it's going"
+  },
+  {
+   "start": 1868.46,
+   "text": " to end up costing me money."
+  },
+  {
+   "start": 1870.98,
+   "text": " That is the concept of a shadow price."
+  },
+  {
+   "start": 1875.94,
+   "text": " In this case, we have an implicit dependence on the number of units that can be produced"
+  },
+  {
+   "start": 1882.18,
+   "text": " maximally and it tells us how much our profit is going to increase for each one unit increase"
+  },
+  {
+   "start": 1892.46,
+   "text": " in that production."
+  },
+  {
+   "start": 1893.78,
+   "text": " Again, $24 for every new TV that's produced."
+  },
+  {
+   "start": 1901.3,
+   "text": " That's when I go back into myself and say, is it going to cost me more than $24 to produce"
+  },
+  {
+   "start": 1906.18,
+   "text": " one of these TVs because if that's the case, then this is going to cost me money and it's"
+  },
+  {
+   "start": 1912.58,
+   "text": " not worth doing."
+  },
+  {
+   "start": 1913.58,
+   "text": " But if it only cost me $23 to produce another TV, then of course, I want to say yes to this"
+  },
+  {
+   "start": 1920.5,
+   "text": " because I'm making a dollar profit."
+  },
+  {
+   "start": 1924.78,
+   "text": " In the next video, we're going to come back and we're going to look at, again, looking"
+  },
+  {
+   "start": 1928.82,
+   "text": " at Newton's method and how it can again help us to solve some of these optimization problems"
+  },
+  {
+   "start": 1935.3,
+   "text": " in higher dimensions."
+  }
+ ]
+}

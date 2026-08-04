@@ -1,0 +1,641 @@
+{
+ "video_id": "203GsVI7fpU",
+ "title": "Euler's Method - Math Modelling - Lecture 20",
+ "channel": "Math Modelling",
+ "duration_s": 1198,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back. Now a lot of what we've been talking about over the past few"
+  },
+  {
+   "start": 5.76,
+   "text": " lectures is the theory of dynamical systems. So we started with you know drawing out pictures"
+  },
+  {
+   "start": 12.72,
+   "text": " and sketches and trying to understand qualitatively what's happening with these systems and then"
+  },
+  {
+   "start": 19.2,
+   "text": " we got under the hood with a little bit of analysis. We showed these linearization methods how"
+  },
+  {
+   "start": 24.16,
+   "text": " eigenvalues and eigenvectors can help you to inform the dynamics of the system quantitatively."
+  },
+  {
+   "start": 31.76,
+   "text": " Now what I would like to do is start discussing a few computational aspects to analyzing dynamical"
+  },
+  {
+   "start": 38.56,
+   "text": " systems. Now what I would like to start with is by emphasizing to you that discrete time systems"
+  },
+  {
+   "start": 45.28,
+   "text": " are relatively easy to implement on a computer because as we saw in the previous video and many"
+  },
+  {
+   "start": 51.04,
+   "text": " more before that that you can always write discrete time systems as an update. That means if you"
+  },
+  {
+   "start": 57.839999999999996,
+   "text": " know what's happening now you can get what's happening next. Now if you think about how you would"
+  },
+  {
+   "start": 63.36,
+   "text": " implement this in a computer this would be something like a looping process. If I know what's"
+  },
+  {
+   "start": 69.75999999999999,
+   "text": " happening now I can put it into the equation and get what's happening next. Then if I want to"
+  },
+  {
+   "start": 74.88,
+   "text": " go another step into the future I take what I know is happening next I put it in and then I go"
+  },
+  {
+   "start": 80.48,
+   "text": " another step forward into the future. Now here's the issue. Things aren't as simple when it comes to"
+  },
+  {
+   "start": 88.56,
+   "text": " continuous time dynamical systems. So in that case we have derivatives which are not something that"
+  },
+  {
+   "start": 94.80000000000001,
+   "text": " we can easily just put into a computer and that means that we need some approximation schemes."
+  },
+  {
+   "start": 101.76,
+   "text": " Now we're going to talk about one of the basic approximation schemes that goes all the way back to"
+  },
+  {
+   "start": 107.52,
+   "text": " one of our favorite mathematicians, Euler. This in fact is called Euler's method is a very very simple"
+  },
+  {
+   "start": 114.72,
+   "text": " method for approximating solutions to differential equations and the way it does it is it turns a"
+  },
+  {
+   "start": 121.36,
+   "text": " continuous time dynamical system into a discrete time dynamical system. Okay so here's the basic"
+  },
+  {
+   "start": 130.0,
+   "text": " idea. Here's what I have. I have a continuous time dynamical system x prime is equal to f of x"
+  },
+  {
+   "start": 138.4,
+   "text": " and this case you know x could be some multi-dimensional function and similarly f is going to be a"
+  },
+  {
+   "start": 147.28,
+   "text": " multi-dimensional vector valued function. Okay let's imagine they are they are n-dimensional."
+  },
+  {
+   "start": 153.04,
+   "text": " Now what we would like to do is figure out a way to implement this on the computer. So what we"
+  },
+  {
+   "start": 165.6,
+   "text": " can start by doing is we can remember the definition of a derivative. The derivative by definition"
+  },
+  {
+   "start": 173.35999999999999,
+   "text": " is the limit as h goes to zero of x of t plus h minus x of t divided by h. All right this is"
+  },
+  {
+   "start": 186.56,
+   "text": " what you learned in calculus class. We are actually going to use this in order to turn this system"
+  },
+  {
+   "start": 194.88,
+   "text": " into an approximate difference equation. Now the way that we're going to do that is we're going to"
+  },
+  {
+   "start": 199.52,
+   "text": " pick a very very small h. So if this limit exists the smaller h is the closer I'm getting to"
+  },
+  {
+   "start": 206.56,
+   "text": " a quality in this equation. That's what the limit means. It means that as I approach I am approaching"
+  },
+  {
+   "start": 212.8,
+   "text": " into whatever this limit happens to be. So let's pick a small h greater than zero. So fix"
+  },
+  {
+   "start": 221.68,
+   "text": " h greater than zero. Well that tells me that my derivative now is approximately this little"
+  },
+  {
+   "start": 233.12,
+   "text": " quotient here. Now be careful this is approximate and I did not specify how big or small h has to"
+  },
+  {
+   "start": 241.68,
+   "text": " be. We'll talk about that in a moment but for now you know if I pick some h at least small enough"
+  },
+  {
+   "start": 248.0,
+   "text": " this this limit tells me if it gets small enough then this is exactly true. So I should be able"
+  },
+  {
+   "start": 253.84,
+   "text": " to approximate this quotient. Now this means that I can replace the derivative right here in my"
+  },
+  {
+   "start": 261.68,
+   "text": " differential equation. So now I get this quotient is approximately equal to the derivative which is"
+  },
+  {
+   "start": 275.6,
+   "text": " just this function f and I'm going to put of t in here just to emphasize this is all taking place"
+  },
+  {
+   "start": 281.68,
+   "text": " the same moment in time. Okay so what can we do with this? We'll take a look at what's happening"
+  },
+  {
+   "start": 290.64000000000004,
+   "text": " here. It says that for for a very very small h I can approximate the derivative by this quotient"
+  },
+  {
+   "start": 297.04,
+   "text": " here which I know the derivative is equal to this function. But look at this is at the same moment"
+  },
+  {
+   "start": 302.72,
+   "text": " of time right here. This is exactly h units of time into the future. So think about this in"
+  },
+  {
+   "start": 311.12,
+   "text": " terms of a discrete dynamical system. I know what's happening currently. Then I can rearrange this"
+  },
+  {
+   "start": 318.32000000000005,
+   "text": " equation to know what's going to happen next. Right so if I take this equation and I open it up"
+  },
+  {
+   "start": 324.88,
+   "text": " what's going to happen next is I'm going to just make this equality now just just for the sake of"
+  },
+  {
+   "start": 334.64,
+   "text": " simplifying the presentation. Bring the h up I have x of t plus h f of x of t. This right here"
+  },
+  {
+   "start": 346.8,
+   "text": " is called the Euler method sometimes called the forward Euler method because we are going forward in time"
+  },
+  {
+   "start": 355.84000000000003,
+   "text": " right. H is pushing us a little step forward in time. It's saying if I know exactly what's"
+  },
+  {
+   "start": 362.64000000000004,
+   "text": " happening at one instant in time I can push myself forward to the next instant in time. Now you can"
+  },
+  {
+   "start": 371.6,
+   "text": " actually repeat this procedure right. So let's imagine you're given an initial condition."
+  },
+  {
+   "start": 381.6,
+   "text": " Okay so we actually do know what happens at one point in time and that's when t is equal to zero."
+  },
+  {
+   "start": 388.88,
+   "text": " Well then through this Euler step that would tell me that x of h so going h time units into the"
+  },
+  {
+   "start": 397.92,
+   "text": " future is x of zero plus h f of x of zero t is equal to zero in this case. Now I'm pushing myself"
+  },
+  {
+   "start": 412.24,
+   "text": " forward by some little time unit. This would also give me if I wanted to push forward again by another"
+  },
+  {
+   "start": 420.8,
+   "text": " unit of h I'd say x of two h right so h plus h this is equal to whatever happened previously"
+  },
+  {
+   "start": 430.8,
+   "text": " plus this derivative component. All right so I took let's use a different color. I took this"
+  },
+  {
+   "start": 441.2,
+   "text": " information and I put it on to the right side here. All right that means that I could keep going"
+  },
+  {
+   "start": 448.16,
+   "text": " I could go three h's into the future and this would be whatever I was doing at two h into this"
+  },
+  {
+   "start": 456.0,
+   "text": " right hand side and then manipulating that in order to get what's going on in the future."
+  },
+  {
+   "start": 463.92,
+   "text": " Right so you can see every single time I use what I was given it approximates where I'm going"
+  },
+  {
+   "start": 469.76000000000005,
+   "text": " then I know where I'm going I use it to approximate further then I use that to approximate further"
+  },
+  {
+   "start": 476.16,
+   "text": " and you can keep going so that if I want to go say n plus 1 times h units into the future this"
+  },
+  {
+   "start": 487.28000000000003,
+   "text": " is just knowing what I did n units in the future and then putting it into this equation."
+  },
+  {
+   "start": 497.68,
+   "text": " Okay so that gives me a way of basically creating a looping procedure right I know where I start"
+  },
+  {
+   "start": 505.68,
+   "text": " I put it in and then I put that in and then I put that in and I keep going this is a for looping"
+  },
+  {
+   "start": 511.36,
+   "text": " procedure that you're doing they can be implemented very quickly and very efficiently on a computer"
+  },
+  {
+   "start": 517.52,
+   "text": " but there's one thing that I really really want you to keep in mind the key here is that right there"
+  },
+  {
+   "start": 525.52,
+   "text": " approximately equal this is not the exact derivative the exact derivative requires a limit"
+  },
+  {
+   "start": 532.88,
+   "text": " that means that this is going to be off by just a little bit and it means that every time you"
+  },
+  {
+   "start": 538.16,
+   "text": " implement this thing you are going to have a little bit of error it's not going to be the exact"
+  },
+  {
+   "start": 543.6800000000001,
+   "text": " solution to the differential equation it's going to give you a little error but now think about"
+  },
+  {
+   "start": 550.72,
+   "text": " what happens you sort of cascade the error forward right so I know exactly where I started"
+  },
+  {
+   "start": 557.68,
+   "text": " but now I have a little bit of error in approximating where I am h units in the future"
+  },
+  {
+   "start": 563.44,
+   "text": " then I put that little bit of error in and I approximate two h units in the in the future so I have"
+  },
+  {
+   "start": 568.96,
+   "text": " error from the previous step plus error from the approximation then I take the error from that step"
+  },
+  {
+   "start": 576.16,
+   "text": " and I get another error from the approximation so you can see that there's sort of a cascading"
+  },
+  {
+   "start": 583.0400000000001,
+   "text": " error here the further I go into the future the more error is being accumulated right so this is"
+  },
+  {
+   "start": 591.12,
+   "text": " the computational trade-off that happens clearly I want h to be very very small so that this is"
+  },
+  {
+   "start": 598.0,
+   "text": " extremely accurate but if h is really really small then it takes forever to get anywhere right"
+  },
+  {
+   "start": 605.28,
+   "text": " imagine h is one over a thousand that means I need to do this process a thousand times to just go"
+  },
+  {
+   "start": 612.3199999999999,
+   "text": " one time unit into the future everything we've spoken about so far talks about t going to infinity"
+  },
+  {
+   "start": 619.04,
+   "text": " one is a very far off units from infinity which means that you know this this computer program could"
+  },
+  {
+   "start": 625.92,
+   "text": " be potentially running for a very very long time or you could also do this by hand except you"
+  },
+  {
+   "start": 631.44,
+   "text": " probably don't want to run a thousand iterations of this by hand in order to just go one unit in the"
+  },
+  {
+   "start": 636.72,
+   "text": " future so this is the trade-off that happens here clearly we want h to be as big as we possibly"
+  },
+  {
+   "start": 643.5200000000001,
+   "text": " can get it but if h is too big then at every stage here we're just accumulating too much error and"
+  },
+  {
+   "start": 652.6400000000001,
+   "text": " we might be you know returning results that have nothing to do with the original equation"
+  },
+  {
+   "start": 658.32,
+   "text": " now there's a really nice way of visualizing how the error actually accumulates in this thing"
+  },
+  {
+   "start": 668.16,
+   "text": " okay so imagine this is t and let's say this is x of t okay so I'm going to draw it as a one"
+  },
+  {
+   "start": 673.2,
+   "text": " dimensional function but it doesn't really matter how you think of this and okay so let's imagine"
+  },
+  {
+   "start": 680.24,
+   "text": " we start right here at x naught okay so this is my initial value and we know from say existence"
+  },
+  {
+   "start": 691.92,
+   "text": " uniqueness theorems that this thing has a solution as long as f is you know continuous"
+  },
+  {
+   "start": 698.08,
+   "text": " then it locally at least can be extended into a solution so let's imagine my solution looks like"
+  },
+  {
+   "start": 702.32,
+   "text": " this okay so I kind of just made it up now what is this process actually doing well this is"
+  },
+  {
+   "start": 719.2,
+   "text": " f of x is the tangent it's the equation of the slope of the tangent through the specific point"
+  },
+  {
+   "start": 726.96,
+   "text": " in particular this is the equation of the tangent at h units in the future so I'm going to really"
+  },
+  {
+   "start": 734.56,
+   "text": " exaggerate up my my picture okay so imagine h is way up here okay so I mean the picture maybe"
+  },
+  {
+   "start": 742.0,
+   "text": " is really really zoomed in well what's happening I have a tangent line that goes through this point"
+  },
+  {
+   "start": 750.0,
+   "text": " it's tangent to the original solution it goes up h units in the future and it gives me that"
+  },
+  {
+   "start": 762.0,
+   "text": " value right there so you know by my super exaggerated picture you can see exactly the how this error"
+  },
+  {
+   "start": 771.6,
+   "text": " has accumulated already I am approximating this thing with a line even though it's a very very"
+  },
+  {
+   "start": 778.4,
+   "text": " curvy function right so again it's Taylor right it's the Taylor approximation coming in again"
+  },
+  {
+   "start": 784.72,
+   "text": " everything is always Taylor it's the same linearization process that lies at the heart of the"
+  },
+  {
+   "start": 789.76,
+   "text": " stable manifold theorem heart and growth in theorem it's always the same thing just approximating"
+  },
+  {
+   "start": 794.64,
+   "text": " things with lines then in this case maybe what I would do well this is telling me to now move"
+  },
+  {
+   "start": 804.5600000000001,
+   "text": " in the direction of the tangent but the tangent to my approximation now not to the exact value"
+  },
+  {
+   "start": 814.1600000000001,
+   "text": " so maybe that tangent so the original tangent would be somewhere right along here maybe this"
+  },
+  {
+   "start": 820.24,
+   "text": " tangent gives me something that looks like this and I move forward to the two h units right so"
+  },
+  {
+   "start": 829.6,
+   "text": " I've got an error right here and I've got an error right here and now imagine my tangent"
+  },
+  {
+   "start": 842.24,
+   "text": " gives me something way over here right so this is the basic process that Newton is doing"
+  },
+  {
+   "start": 851.6,
+   "text": " says I know where he started I'm going to approximate it with a tangent and push you forward"
+  },
+  {
+   "start": 855.9200000000001,
+   "text": " but now you are approximating an tangent from an approximation so you got a double whammy of errors"
+  },
+  {
+   "start": 864.96,
+   "text": " and you push yourself forward and maybe you've widened the gap here and again double whammy of errors"
+  },
+  {
+   "start": 871.6800000000001,
+   "text": " you used an approximate value to push yourself forward plus you approximate the tangent which"
+  },
+  {
+   "start": 879.12,
+   "text": " cascades you into a larger error and let's imagine that the next piece is way over here"
+  },
+  {
+   "start": 889.6,
+   "text": " okay so again this is just a badly exaggerated picture here but it's really illustrating what's"
+  },
+  {
+   "start": 897.92,
+   "text": " it play because every time you push that thing forward you take all of the errors that you had"
+  },
+  {
+   "start": 908.4,
+   "text": " before and you just roll them up and you put another piece of error on top of that okay so I really"
+  },
+  {
+   "start": 917.76,
+   "text": " really want you to to sort of understand how this works where you have this for looping process that"
+  },
+  {
+   "start": 925.84,
+   "text": " is very very simple very easy to implement but it comes at a cost right it can accumulate error of"
+  },
+  {
+   "start": 933.44,
+   "text": " H is too large or it can take too long if H is too small nonetheless it works quite well"
+  },
+  {
+   "start": 941.6,
+   "text": " so for example if you go back to my RLC circuit that I presented to you a few lectures ago"
+  },
+  {
+   "start": 953.36,
+   "text": " so you might remember this by x1 prime is equal to x1 minus x1 cubed minus x2 and x2 prime is"
+  },
+  {
+   "start": 967.28,
+   "text": " equal to in this case it was x1 in this case you have instability of the only equilibrium point"
+  },
+  {
+   "start": 975.6,
+   "text": " at 0 0 but you can also examine the vector field and see that eventually everything is sort of"
+  },
+  {
+   "start": 983.28,
+   "text": " pushing you in so that means you're getting pushed out from the middle getting sucked in from"
+  },
+  {
+   "start": 988.4,
+   "text": " infinity so the question is what happens in between while you can implement a nice little new"
+  },
+  {
+   "start": 995.44,
+   "text": " or sorry a nice little oil or scheme using this basic process and you can actually find that this"
+  },
+  {
+   "start": 1003.2,
+   "text": " is what's happening so if this is your x1 x2 plane you are actually spiraling out"
+  },
+  {
+   "start": 1016.4,
+   "text": " and there is something that catches you and that thing that catches you is a big beautiful what"
+  },
+  {
+   "start": 1025.84,
+   "text": " we call limit cycle it is a periodic orbit it's a closed circle in your phase plane it's similar"
+  },
+  {
+   "start": 1034.9599999999998,
+   "text": " to what we saw with the Romeo and Juliet model except with Romeo and Juliet we saw infinitely many"
+  },
+  {
+   "start": 1040.32,
+   "text": " of them they're all nested inside of each other in this case there's one there is exactly one"
+  },
+  {
+   "start": 1046.6399999999999,
+   "text": " limit cycle and it you can think of it as the balance point I said everybody's pulling you in"
+  },
+  {
+   "start": 1052.0,
+   "text": " from way out and you're getting pushed out from inside there is this little ring of balance that"
+  },
+  {
+   "start": 1059.2,
+   "text": " exists that you sort of get stuck on okay and in this case you can find this thing by implementing"
+  },
+  {
+   "start": 1068.64,
+   "text": " the oil or process right here so I believe I implemented this with h is equal to 0.1"
+  },
+  {
+   "start": 1075.84,
+   "text": " but on top of this we get a sensitivity analysis that we can perform right so if we find"
+  },
+  {
+   "start": 1081.68,
+   "text": " some you know the existence of maybe one of these periodic orbits with a certain value of"
+  },
+  {
+   "start": 1087.28,
+   "text": " h we want to see if it's actually there if it's just a weird numerical artifact right maybe I'm"
+  },
+  {
+   "start": 1092.8,
+   "text": " jumping way too much and I'm sort of creating something that didn't actually exist well then what"
+  },
+  {
+   "start": 1098.4,
+   "text": " you would do is you would decrease the value of h and you would you would run it again and see if"
+  },
+  {
+   "start": 1103.6000000000001,
+   "text": " you still observe that phenomenon right so again it's a robustness computation it's a sensitivity"
+  },
+  {
+   "start": 1109.28,
+   "text": " computation same things we've been doing over and over except the difference here is now we're doing"
+  },
+  {
+   "start": 1115.28,
+   "text": " it to check our own work right we we think or we saw the existence of one of these periodic orbits"
+  },
+  {
+   "start": 1121.68,
+   "text": " these limit cycles but we want to be sure that we're actually doing this properly so we have to use"
+  },
+  {
+   "start": 1127.84,
+   "text": " smaller and smaller values of h which makes this more and more accurate which means less and less"
+  },
+  {
+   "start": 1133.04,
+   "text": " error accumulates the only difference areas or the only drawback to doing this is it could take us"
+  },
+  {
+   "start": 1139.28,
+   "text": " a longer time right so we could be stuck at our computer waiting for a little bit longer to really"
+  },
+  {
+   "start": 1144.8799999999999,
+   "text": " push forward through this other method because we're taking shorter steps as we go through"
+  },
+  {
+   "start": 1150.32,
+   "text": " so what I would love for you to do is try and implement this try and implement the Euler"
+  },
+  {
+   "start": 1154.8799999999999,
+   "text": " method yourself using a simple little for loop on this thing and see if you can see that periodic"
+  },
+  {
+   "start": 1160.3999999999999,
+   "text": " orbit remember this is an x1 x2 space that means that the values of x1 and x2 are repeating over and"
+  },
+  {
+   "start": 1166.48,
+   "text": " over time is embedded underneath or sort of inside of this it's just indicated by the motion of my"
+  },
+  {
+   "start": 1172.96,
+   "text": " arrows here if you actually plot it out what x1 of t and x2 of t look like they would converge up"
+  },
+  {
+   "start": 1180.24,
+   "text": " into something some periodic signal you know something they would look like a sign or a cosine type"
+  },
+  {
+   "start": 1185.76,
+   "text": " thing so let me know if you're able to do it I would love to see some some nice results and"
+  },
+  {
+   "start": 1192.72,
+   "text": " I'll see you in the next lecture for a little bit of an introduction to data science"
+  }
+ ]
+}

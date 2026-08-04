@@ -1,0 +1,12 @@
+{
+ "video_id": "IglP4Zjhefw",
+ "title": "Fitting Nonlinear Models with LASSO Regression - Math Modelling - Lecture 22",
+ "channel": "Math Modelling",
+ "duration_s": 1036,
+ "url": "https://youtu.be/IglP4Zjhefw",
+ "transcript_source": "whisper-local",
+ "frames": [],
+ "doc_model": "deepseek/deepseek-v4-flash",
+ "vision_model": "google/gemini-2.5-flash",
+ "generated": "2026-08-04 00:43"
+}

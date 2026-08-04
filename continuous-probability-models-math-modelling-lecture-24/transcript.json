@@ -1,0 +1,869 @@
+{
+ "video_id": "0qi6s-injSo",
+ "title": "Continuous Probability Models - Math Modelling - Lecture 24",
+ "channel": "Math Modelling",
+ "duration_s": 1633,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back. Now, in the previous lecture, we started our discussion"
+  },
+  {
+   "start": 5.36,
+   "text": " of probability models and how we can use probability and stochastic processes to build mathematical"
+  },
+  {
+   "start": 12.64,
+   "text": " models of the real world. Now, in the previous section or in the previous lecture, we discussed"
+  },
+  {
+   "start": 18.56,
+   "text": " discrete probability models. That's when your random variable can only take on a discrete"
+  },
+  {
+   "start": 25.28,
+   "text": " number of items in this case. So again, the example was say rolling a dice, right? There's"
+  },
+  {
+   "start": 33.04,
+   "text": " only six possibilities, the numbers one through six that come up on a standard six-sided die."
+  },
+  {
+   "start": 39.120000000000005,
+   "text": " Well, in this lecture, we would like to discuss continuous probability models."
+  },
+  {
+   "start": 45.52,
+   "text": " And let's start with the idea of a probability distribution function. So in this case,"
+  },
+  {
+   "start": 52.88,
+   "text": " we will write the probability associated to a continuous random variable being less than or"
+  },
+  {
+   "start": 63.040000000000006,
+   "text": " equal to some number as a function f of x. So in this case, x capital x is my random variable."
+  },
+  {
+   "start": 72.48,
+   "text": " It can take on a continuum of values. So it could take on pi, it could take on e, it could take on"
+  },
+  {
+   "start": 78.24,
+   "text": " 10, you know, anything along the, say, the real line. And we are saying that the probability that"
+  },
+  {
+   "start": 84.8,
+   "text": " this is less than some number, three, five, seven, whatever that number is, is given by some function"
+  },
+  {
+   "start": 91.6,
+   "text": " f of x. We call this function a probability distribution function. Now, on top of that,"
+  },
+  {
+   "start": 101.44,
+   "text": " we typically denote little f of x to be the derivative of this probability distribution function."
+  },
+  {
+   "start": 108.48,
+   "text": " And we call this thing the density function. Okay, so this is density, this is distribution."
+  },
+  {
+   "start": 123.28000000000002,
+   "text": " Now, there's an important piece to be made here because this might be actually a difficult"
+  },
+  {
+   "start": 130.16000000000003,
+   "text": " thing to have. Typically, what you're given in practice is the density function. And so what"
+  },
+  {
+   "start": 136.64000000000001,
+   "text": " that means is that we can use the fundamental theorem of calculus to determine when you are"
+  },
+  {
+   "start": 143.36,
+   "text": " continuous random variable lies inside of an interval. Okay, so in this case, if x is between"
+  },
+  {
+   "start": 151.28000000000003,
+   "text": " a and b, this is going to be f of b, the probability that you're less than or equal to b minus"
+  },
+  {
+   "start": 160.56,
+   "text": " the probability that you are less than or equal to a, right? So this is everything less than b,"
+  },
+  {
+   "start": 167.51999999999998,
+   "text": " but get rid of everything less than a. The fundamental theorem of calculus relates these two things"
+  },
+  {
+   "start": 175.51999999999998,
+   "text": " and says that this is the same as integrating from a to b of little f of x dx."
+  },
+  {
+   "start": 182.64,
+   "text": " Okay, so this is what I mean. Typically, we get things like a density function,"
+  },
+  {
+   "start": 187.92000000000002,
+   "text": " this little f of x that says if we want to calculate any of these probabilities,"
+  },
+  {
+   "start": 192.32000000000002,
+   "text": " it's just an integration problem, right? So if you've done a lot of"
+  },
+  {
+   "start": 197.20000000000002,
+   "text": " probability in the past, you'll know that it is very much entangled with integration. And especially"
+  },
+  {
+   "start": 203.92000000000002,
+   "text": " if you've gone further, you'll notice that it slowly gets tangled into measure theory, which again"
+  },
+  {
+   "start": 209.84000000000003,
+   "text": " is very intimately related to how we think about integration."
+  },
+  {
+   "start": 214.07999999999998,
+   "text": " All right, so next piece of this, we have to ask ourselves, what is the expected value when you"
+  },
+  {
+   "start": 222.07999999999998,
+   "text": " have these continuous random variables? Well, in this case, this little f of x describes our"
+  },
+  {
+   "start": 230.48,
+   "text": " probabilities that are coming out of this thing. We are going to take basically an infinite sum of"
+  },
+  {
+   "start": 239.04,
+   "text": " f of x times x integrated over the whole space. Now, in this case, I'm making the assumption"
+  },
+  {
+   "start": 245.92,
+   "text": " that my continuous random variable, capital X, can take on values anywhere on the real line,"
+  },
+  {
+   "start": 251.35999999999999,
+   "text": " but if it's maybe restricted to just positive value, so from zero to infinity, that would just"
+  },
+  {
+   "start": 256.96,
+   "text": " change these bounds of integration. Okay, so nothing really is specific to the fact that I'm"
+  },
+  {
+   "start": 262.15999999999997,
+   "text": " integrating from minus infinity to infinity. You can put your own bounds on this thing. It makes no"
+  },
+  {
+   "start": 267.76,
+   "text": " real difference to the presentation. But the point here is that again, you get this density"
+  },
+  {
+   "start": 275.12,
+   "text": " function multiplied by x. And where this really comes from is you can think about the limit of"
+  },
+  {
+   "start": 281.68,
+   "text": " discrete probability events going to infinity. So you can think about a sum turning into an integral"
+  },
+  {
+   "start": 288.71999999999997,
+   "text": " through a Riemann sum. It's the same basic idea, right? If you divide up the domain into more and"
+  },
+  {
+   "start": 295.2,
+   "text": " more pieces, that thing slowly becomes or it converges into an integral the way you learn"
+  },
+  {
+   "start": 300.0,
+   "text": " and basic calculus. That's where we get this integral representation. You should always think of"
+  },
+  {
+   "start": 305.36,
+   "text": " integrals as just like continuous sums. Okay, so in my case, again, I said I'm not going to do a"
+  },
+  {
+   "start": 313.52,
+   "text": " complete general introduction to all things probability. I would like to focus on a specific"
+  },
+  {
+   "start": 321.76000000000005,
+   "text": " probability density function. Okay, now I would like to focus on, now I'm going to use T as my"
+  },
+  {
+   "start": 329.68,
+   "text": " independent variable, typically because this corresponds to time. And I'm going to look at"
+  },
+  {
+   "start": 337.36,
+   "text": " situations that look like this. So this is telling me that the probability of an event happening"
+  },
+  {
+   "start": 345.44,
+   "text": " is given by this function where I have a rate parameter lambda, which is greater than zero. Now,"
+  },
+  {
+   "start": 353.28,
+   "text": " what first thing before we explain what this means, the bigger lambda is, the faster this goes to zero."
+  },
+  {
+   "start": 359.68,
+   "text": " Okay, the smaller lambda is, the slower this goes to zero. So what does that probability typically"
+  },
+  {
+   "start": 369.2,
+   "text": " represent? It represents waiting for something, waiting for an event to happen. Says the longer you"
+  },
+  {
+   "start": 376.24,
+   "text": " wait, the higher the probability that that event is going to happen. Sometimes people put this in"
+  },
+  {
+   "start": 381.36,
+   "text": " terms of arrivals. So maybe you're working at a store. You are, you know, it's been a while since"
+  },
+  {
+   "start": 387.52,
+   "text": " a customer came in, but on average one comes in every hour. Well, if it's at 55 minutes, then the"
+  },
+  {
+   "start": 393.2,
+   "text": " probability that a customer will come in, you know, it's probably much higher than if a customer just"
+  },
+  {
+   "start": 398.0,
+   "text": " walked in the door. That's what this is trying to explain to us. Then the next thing that we can see"
+  },
+  {
+   "start": 403.84,
+   "text": " is that the density function associated to this is going to be lambda e to the lambda t."
+  },
+  {
+   "start": 411.28,
+   "text": " And we have the fact that we can easily sort of compute all of these probabilities of anything,"
+  },
+  {
+   "start": 419.84,
+   "text": " so we could say, you know, what's the probability that customers come, you know, in two hours,"
+  },
+  {
+   "start": 426.72,
+   "text": " but no less than one hour. Well, we can just compute these things using this beautiful formula"
+  },
+  {
+   "start": 432.56,
+   "text": " right here. Now, let's actually talk about one important aspect of this. And to do that,"
+  },
+  {
+   "start": 440.8,
+   "text": " I'm going to go back to the theory for a moment. Okay. So I want to talk about a conditional"
+  },
+  {
+   "start": 445.6,
+   "text": " probability. Okay. So let's say the probability of an event a happening given that be already"
+  },
+  {
+   "start": 453.76,
+   "text": " happened. Okay. This is going to be the probability that both of them happen. So an intersection of"
+  },
+  {
+   "start": 465.03999999999996,
+   "text": " these divided by the probability that be happens. Okay. So this gives me an explicit likelihood"
+  },
+  {
+   "start": 475.84,
+   "text": " saying that how can I estimate if a is going to happen or what's the probability a will happen."
+  },
+  {
+   "start": 482.0,
+   "text": " If I already know that be happened, right. Well, the interesting thing about the exponential"
+  },
+  {
+   "start": 489.28,
+   "text": " distribution is that it has what's called a lack of memory. Okay. So let's take a look at this."
+  },
+  {
+   "start": 496.32,
+   "text": " Let's call this the lack of memory. And this is unique to the exponential distribution or"
+  },
+  {
+   "start": 505.04,
+   "text": " distributions that are similar to it. So this would say that the probability that x is greater than"
+  },
+  {
+   "start": 511.36,
+   "text": " s plus t given x is greater than s. Well, let's write this out using the formula to start with here."
+  },
+  {
+   "start": 521.2,
+   "text": " This is the probability that x is bigger than x plus t. That's the end, right. If s is positive,"
+  },
+  {
+   "start": 530.24,
+   "text": " then the end here is waiting s plus t. And this is just waiting s. Then divided by the probability"
+  },
+  {
+   "start": 539.12,
+   "text": " that x, sorry, capital x is greater than s. So probability of waiting s plus t time units"
+  },
+  {
+   "start": 548.5600000000001,
+   "text": " divided by the probability of just waiting s units. Well, in this case, we can just compute these"
+  },
+  {
+   "start": 556.88,
+   "text": " probabilities. And this is going to give me e to the minus lambda s plus t divided by e to the"
+  },
+  {
+   "start": 567.2,
+   "text": " minus lambda s, which you can see is going to be taken away here. And I get e to the minus lambda"
+  },
+  {
+   "start": 577.2,
+   "text": " times t, which is just equal to the probability that x is greater than t."
+  },
+  {
+   "start": 587.44,
+   "text": " So what does this actually mean? It means that if we've already waited s units,"
+  },
+  {
+   "start": 594.24,
+   "text": " okay. And then we want to know what the probability of something happening, t more units into the"
+  },
+  {
+   "start": 600.24,
+   "text": " future does. Well, that's just the same as restarting and saying what happens in t units from now."
+  },
+  {
+   "start": 607.52,
+   "text": " It means that it doesn't matter how long I waited. All that matters is how far you go in the future"
+  },
+  {
+   "start": 613.9200000000001,
+   "text": " now. The past doesn't matter. There is no memory in this thing, okay. We forget that we waited that"
+  },
+  {
+   "start": 620.4,
+   "text": " long. It's like a dog waiting for something, right. It doesn't matter that I just went for a walk."
+  },
+  {
+   "start": 625.12,
+   "text": " What are we going for the next one, right? That's what this is saying. Okay, now that we have an idea"
+  },
+  {
+   "start": 631.68,
+   "text": " of continuous probability distributions, let's take a look at a math modeling example, okay."
+  },
+  {
+   "start": 639.04,
+   "text": " So I want to use an example of radioactive decay. And in particular, a type one encounter"
+  },
+  {
+   "start": 648.32,
+   "text": " is going to be used to measure the radioactive decay in a sample of a fishnable material, okay."
+  },
+  {
+   "start": 656.1600000000001,
+   "text": " So I'm being purposely vague here, but all right, decays occur at random and at an unknown rate."
+  },
+  {
+   "start": 666.72,
+   "text": " And the purpose of the counter is to measure the decay rate, all right. So each radioactive decay"
+  },
+  {
+   "start": 673.52,
+   "text": " locks the counter for a period of 3 times 10 to the minus 9 seconds, okay. So that's how long"
+  },
+  {
+   "start": 679.6,
+   "text": " the counter takes to register a decay in this thing. It's a very, very small amount of time, but"
+  },
+  {
+   "start": 688.0,
+   "text": " during this locking, we can't record any other decay. So it's possible that we miss"
+  },
+  {
+   "start": 693.92,
+   "text": " lots of decays in this little tiny timeframe depending on the material. So the question is, you know,"
+  },
+  {
+   "start": 700.5600000000001,
+   "text": " how should the data received from the counter be adjusted to account for any lost information?"
+  },
+  {
+   "start": 707.2800000000001,
+   "text": " Okay, so a slightly more complicated example than maybe we're used to, but this is a really,"
+  },
+  {
+   "start": 712.6400000000001,
+   "text": " really fun one. So what I want to do is I want to let lambda equal to the decay rate, so decay"
+  },
+  {
+   "start": 720.32,
+   "text": " rate of the material, and this is going to be per second. Then what I would like to do"
+  },
+  {
+   "start": 730.8000000000001,
+   "text": " is like to be Tn equal to the time of the nth observation."
+  },
+  {
+   "start": 740.4,
+   "text": " And in this case, the observation of a decay by the machine. Now, the first thing is the"
+  },
+  {
+   "start": 755.36,
+   "text": " locking that we have to account for, right. So the first thing that we know here is that Tn minus"
+  },
+  {
+   "start": 760.6400000000001,
+   "text": " minus 1 is greater than or equal to 3 times 10 to the minus 9. Why? Because the system locks"
+  },
+  {
+   "start": 771.2,
+   "text": " for this period of time, 3 times 10 to the minus 9 seconds. So it means that nothing can be"
+  },
+  {
+   "start": 776.6400000000001,
+   "text": " recorded inside of there. So if we are just looking at observations out of this system,"
+  },
+  {
+   "start": 783.0400000000001,
+   "text": " that means that the time between these things is guaranteed to be at least this tiny, tiny,"
+  },
+  {
+   "start": 787.6800000000001,
+   "text": " tiny length of time. Okay. So we are going to model this thing as a continuous probability model,"
+  },
+  {
+   "start": 795.2800000000001,
+   "text": " but we are not there yet. We need to introduce some intermediary variables. Okay. So the first thing"
+  },
+  {
+   "start": 804.1600000000001,
+   "text": " is that let's define, let's set xn to be the time between these observations. Okay. So this"
+  },
+  {
+   "start": 817.44,
+   "text": " is now moving me from these observations that are taken. So the first observation, the second"
+  },
+  {
+   "start": 824.0,
+   "text": " observation, the third observation, and what I'm doing now is measuring the interval of time that"
+  },
+  {
+   "start": 828.32,
+   "text": " comes between these things. I would like to find a sort of probability distribution that describes"
+  },
+  {
+   "start": 834.1600000000001,
+   "text": " how often these things come through. But again, this is not an exponential distribution. Remember,"
+  },
+  {
+   "start": 841.6800000000001,
+   "text": " the exponential distribution says sort of the longer I wait, the higher probability that an"
+  },
+  {
+   "start": 848.0000000000001,
+   "text": " event is going to take place. But this thing is, it is greater than or equal to 3.10 to the minus"
+  },
+  {
+   "start": 859.1200000000001,
+   "text": " 9 with probability 1. Right. And that comes from the locking. So this thing is not an exponential"
+  },
+  {
+   "start": 865.9200000000001,
+   "text": " distribution because of this locking time. So here's what I would like to do. Okay. I'm going"
+  },
+  {
+   "start": 871.6,
+   "text": " to also set a to be the locking time. And then I'm going to set the waiting time xn to be the"
+  },
+  {
+   "start": 882.1600000000001,
+   "text": " locking time plus this observation time. Okay. So in this case, yn is the additional number of"
+  },
+  {
+   "start": 892.96,
+   "text": " seconds that you need to wait until you see another decay. Okay. So locking time and then the"
+  },
+  {
+   "start": 900.24,
+   "text": " additional time that you need to wait. And in this case, yn is modeled, well, is modeled"
+  },
+  {
+   "start": 912.5600000000001,
+   "text": " by an exponential distribution with this parameter, this decay parameter to be lambda greater than zero."
+  },
+  {
+   "start": 928.32,
+   "text": " Right. So again, if the decay rate is very, very high, that means that you have very, very quick"
+  },
+  {
+   "start": 934.72,
+   "text": " succession of observations. And that means that yn should be expected to be very, very small."
+  },
+  {
+   "start": 940.96,
+   "text": " Okay. So next thing I would like to do is I'd like to compute the average waiting time. Okay."
+  },
+  {
+   "start": 949.0400000000001,
+   "text": " So the expected value of the waiting time between observations. Okay. So I want to know how long"
+  },
+  {
+   "start": 958.24,
+   "text": " I should be expecting to wait here. Well, this thing is going to be my expectation distributes"
+  },
+  {
+   "start": 967.6,
+   "text": " over sums. The expectation of a constant is just that constant, right, because this is not a random"
+  },
+  {
+   "start": 973.76,
+   "text": " variable. It's always equal to a. So I expect every single waiting time to be the locking time"
+  },
+  {
+   "start": 980.96,
+   "text": " plus however long I should be expecting, yn. Now, yn is modeled by an exponential distribution."
+  },
+  {
+   "start": 993.2800000000001,
+   "text": " So I can actually compute it. My exponential distribution, it's average or it's expected value."
+  },
+  {
+   "start": 1003.12,
+   "text": " In this case, it's going to be zero to infinity. That comes from the fact that my time starts at zero"
+  },
+  {
+   "start": 1009.36,
+   "text": " and it can go as long as you want. So this is what I was talking about on the previous board."
+  },
+  {
+   "start": 1015.2800000000001,
+   "text": " Whenever your bounds of integration are sort of relative to the problem. I know that I use minus"
+  },
+  {
+   "start": 1019.2,
+   "text": " infinity to infinity previously, but you can use any sort of subdomain of the real numbers"
+  },
+  {
+   "start": 1024.48,
+   "text": " still the same basic premise. And then t and then times e lambda e to the minus lambda t dt,"
+  },
+  {
+   "start": 1037.2,
+   "text": " which in this case is equal to one over lambda. Okay. So that means that I can put all"
+  },
+  {
+   "start": 1048.88,
+   "text": " of this together and I get that my expected waiting time is equal to while the locking time plus"
+  },
+  {
+   "start": 1062.0800000000002,
+   "text": " one over lambda. Okay. So the question is what can I actually do with this? How can this help me"
+  },
+  {
+   "start": 1070.4,
+   "text": " to maybe estimate my decay rate? Again, I don't know what the decay rate is. The only thing that I've"
+  },
+  {
+   "start": 1076.32,
+   "text": " access to in this whole problem is the t ends when I make these observations. Okay. Well, I would like"
+  },
+  {
+   "start": 1085.36,
+   "text": " you to recall maybe the strong law of large numbers. Okay. So the strong law of large numbers"
+  },
+  {
+   "start": 1101.2800000000002,
+   "text": " says that if I have a bunch of random variables, all of which have the same mean,"
+  },
+  {
+   "start": 1108.3200000000002,
+   "text": " then the average of all of those random variables is going to be the average that it's going to be"
+  },
+  {
+   "start": 1116.72,
+   "text": " their expected value, the mean that they all share in common. Let me actually write this down"
+  },
+  {
+   "start": 1121.52,
+   "text": " properly in this context. Okay. All of these waiting times, if I average out all of the waiting"
+  },
+  {
+   "start": 1131.44,
+   "text": " times and I let the number of observations go to infinity, then in this case, this thing is going"
+  },
+  {
+   "start": 1141.28,
+   "text": " to be equal to the expected value of all of these x ends. So in this case, it's equal to a plus"
+  },
+  {
+   "start": 1154.0,
+   "text": " one over lambda. But I want to show you a little trick here, right? So if you look at that"
+  },
+  {
+   "start": 1160.24,
+   "text": " denominator here, well, this thing is actually a telescoping sum. So note that x1 plus x2 all the"
+  },
+  {
+   "start": 1175.1999999999998,
+   "text": " way up to xn. Well, look at what the definition of these things are. This is going to be t1 minus t0"
+  },
+  {
+   "start": 1184.0,
+   "text": " and then plus, so t0 is equal to 0, right? That is when I start the clock and then"
+  },
+  {
+   "start": 1194.3999999999999,
+   "text": " t2 minus t1. Okay, so t1's cancel, this is equal to 0 plus all the way up, tn minus tn minus 1."
+  },
+  {
+   "start": 1205.4399999999998,
+   "text": " So this tells me that every single term cancels in this thing except for tn. And again,"
+  },
+  {
+   "start": 1211.76,
+   "text": " remember t0, we can set that to be 0. That's whenever you make like, that's when you start the clock."
+  },
+  {
+   "start": 1219.6,
+   "text": " So what does this tell us? This tells me that the time of my nth observation divided by n,"
+  },
+  {
+   "start": 1229.92,
+   "text": " that's this piece of the limit. Well, as long as n is large, this is basically going to be converged"
+  },
+  {
+   "start": 1237.68,
+   "text": " to this thing right here. Okay, so I'm using squiggly lines here because this only holds true in the"
+  },
+  {
+   "start": 1246.3200000000002,
+   "text": " limit. So if I take n really, really large, I get close to the limit. This should be approximately"
+  },
+  {
+   "start": 1252.0800000000002,
+   "text": " equal. So this tells me that I can actually estimate my decay rate as n divided by tn minus n"
+  },
+  {
+   "start": 1267.28,
+   "text": " times a. And actually, we'll make these squiggly as well. Again, this only holds in the limit as n"
+  },
+  {
+   "start": 1273.68,
+   "text": " goes to infinity. But look at how cool this is. Just by assuming this exponential distribution,"
+  },
+  {
+   "start": 1281.44,
+   "text": " we can actually estimate the decay rate of the radioactive material by looking at the nth"
+  },
+  {
+   "start": 1287.68,
+   "text": " observation here while also accounting for the locking time. Okay, so even though we can't"
+  },
+  {
+   "start": 1294.64,
+   "text": " record observations inside of this time frame, we can account for it and we can still figure out"
+  },
+  {
+   "start": 1302.0800000000002,
+   "text": " the decay rate. Even if this thing decays super, super, super, super fast. Maybe there's a hundred"
+  },
+  {
+   "start": 1308.4,
+   "text": " decays that take place inside of this time when we're locked. That's okay. Our model accounts for"
+  },
+  {
+   "start": 1316.48,
+   "text": " that. And therefore, as long as I keep tracking all of these successive these successive observations"
+  },
+  {
+   "start": 1324.32,
+   "text": " when I can, I can approximate the decay rate of this radioactive material. That's incredible, right?"
+  },
+  {
+   "start": 1331.3600000000001,
+   "text": " And it's all just using a very, very simple exponential distribution. Again, this is not a"
+  },
+  {
+   "start": 1335.6,
+   "text": " massive logical leap. This exponential distribution is used for all kinds of different sort of"
+  },
+  {
+   "start": 1341.1200000000001,
+   "text": " waiting or arrival processes, right? So I use the example of being a shopkeeper. That's a pretty"
+  },
+  {
+   "start": 1346.0000000000002,
+   "text": " natural one with these radioactive substances. Again, the longer you wait, the more the higher the"
+  },
+  {
+   "start": 1352.0000000000002,
+   "text": " probability you would expect to see some kind of decay in these things. Okay, so we could again"
+  },
+  {
+   "start": 1363.3600000000001,
+   "text": " investigate a little bit of sensitivity here. Now, the first thing when it comes to sensitivity of"
+  },
+  {
+   "start": 1370.0,
+   "text": " this is the fact that I actually have this only in the limit. Remember, the strong law of large"
+  },
+  {
+   "start": 1376.16,
+   "text": " numbers only holds as the limit is n goes to infinity. That means that I probably need to make"
+  },
+  {
+   "start": 1382.16,
+   "text": " a lot of observations before I can see nice convergence of this thing. Okay, so that's the first"
+  },
+  {
+   "start": 1388.48,
+   "text": " piece of sort of wiggle room or error that can be incurred in our model, right? So we have to be"
+  },
+  {
+   "start": 1395.92,
+   "text": " very, very careful. The strong law of large numbers only happens in the limit. Here, I got rid of"
+  },
+  {
+   "start": 1403.44,
+   "text": " the limit. I made the approximation. So I want you to be very, very careful of that. Okay."
+  },
+  {
+   "start": 1408.8000000000002,
+   "text": " Now, another thing is that this is a very, very small number and it could be slightly inaccurate."
+  },
+  {
+   "start": 1416.24,
+   "text": " So what we could ask ourselves is what is the sensitivity to the locking time?"
+  },
+  {
+   "start": 1422.3200000000002,
+   "text": " So we could note that the decay rate as a function of the stopping time A. So if I set this"
+  },
+  {
+   "start": 1433.8400000000001,
+   "text": " equal here because I'm going to try and estimate this from the data that's being brought in,"
+  },
+  {
+   "start": 1438.48,
+   "text": " this is just equal to lambda squared. So you can do the derivative yourself. It's very interesting."
+  },
+  {
+   "start": 1444.4,
+   "text": " It's kind of fun. But this tells me that the sensitivity of lambda with respect to A"
+  },
+  {
+   "start": 1452.24,
+   "text": " is equal to, so lambda squared times A over lambda, which is equal to lambda times A."
+  },
+  {
+   "start": 1463.2,
+   "text": " Okay, so what does that actually represent, right? So lambda is the decay rate. So how much of a decay,"
+  },
+  {
+   "start": 1472.64,
+   "text": " how much decay you expect per second A is the number of seconds that you are locked for. So the"
+  },
+  {
+   "start": 1479.68,
+   "text": " question is, what does this actually represent? So first of all, if A is very, very small,"
+  },
+  {
+   "start": 1486.0800000000002,
+   "text": " then this thing should be expected to be small as well. But what is the sensitivity right there?"
+  },
+  {
+   "start": 1492.16,
+   "text": " That sensitivity is again, decay rate per second times number of seconds. That number right there"
+  },
+  {
+   "start": 1500.72,
+   "text": " represents how many decays should be expected to be taking place while the system is locked."
+  },
+  {
+   "start": 1507.52,
+   "text": " Okay, so if lambda is very, very large, then you're missing lots of information, right?"
+  },
+  {
+   "start": 1514.0,
+   "text": " When the system is locked, there's tons of decay happening. You're missing all of it. And"
+  },
+  {
+   "start": 1521.36,
+   "text": " similarly, if lambda is really, really small, then when the system is locked, you're not really"
+  },
+  {
+   "start": 1526.1599999999999,
+   "text": " missing anything. And that tells you that you're relatively insensitive. So this is really,"
+  },
+  {
+   "start": 1531.92,
+   "text": " really interesting to me because this tells me that my sensitivity is really just a question of"
+  },
+  {
+   "start": 1536.88,
+   "text": " how much information I lose every time I lock the system. So if I can drive down how long this"
+  },
+  {
+   "start": 1544.5600000000002,
+   "text": " thing locks, I lose very little information. I really see directly from time to time how much,"
+  },
+  {
+   "start": 1551.52,
+   "text": " or when these decays take place. But if the system locks for longer, then I could potentially be"
+  },
+  {
+   "start": 1558.8,
+   "text": " missing decays. And therefore I'm a little bit more sensitive in this case, right? Because I'm"
+  },
+  {
+   "start": 1564.56,
+   "text": " missing a little bit of information from my system. So again, the sensitivity value would depend"
+  },
+  {
+   "start": 1572.48,
+   "text": " on the values of lambda and a in particular for these things. You can actually maybe compute them out."
+  },
+  {
+   "start": 1578.6399999999999,
+   "text": " But what to me is more interesting is the symbolic representation here. And that our solution"
+  },
+  {
+   "start": 1584.72,
+   "text": " tells us that we can estimate the decay rate even though we have the stopping. But we do have"
+  },
+  {
+   "start": 1590.88,
+   "text": " this sensitivity, right? The longer we stop for the potential for losing more information. And that"
+  },
+  {
+   "start": 1599.2,
+   "text": " is a beautiful wrap-up to this problem and an application of continuous time probability"
+  },
+  {
+   "start": 1606.48,
+   "text": " modeling models in mathematical modeling. Now when we come back in the next video, we're going to talk"
+  },
+  {
+   "start": 1611.8400000000001,
+   "text": " a little bit about statistics and the normal distribution, the bell curve. And we're going to keep"
+  },
+  {
+   "start": 1618.64,
+   "text": " building on some of these ideas of using probability models in order to model real world phenomena"
+  },
+  {
+   "start": 1626.2400000000002,
+   "text": " and coupling it with a lot of the intuition and the information that we've already built up."
+  },
+  {
+   "start": 1631.7600000000002,
+   "text": " I'll see you in the next video, everybody."
+  }
+ ]
+}

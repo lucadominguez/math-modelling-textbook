@@ -1,0 +1,589 @@
+{
+ "video_id": "IglP4Zjhefw",
+ "title": "Fitting Nonlinear Models with LASSO Regression - Math Modelling - Lecture 22",
+ "channel": "Math Modelling",
+ "duration_s": 1036,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back. Now what I would like to do in this lecture is continue"
+  },
+  {
+   "start": 5.5200000000000005,
+   "text": " our discussion about fitting data. Now in the previous lecture I introduced you to essentially"
+  },
+  {
+   "start": 10.72,
+   "text": " lines of best fits. Now I did it in the context of linear dynamical systems. And what we saw"
+  },
+  {
+   "start": 18.240000000000002,
+   "text": " is that we have different measures of distances that can help us or hurt us when it comes to doing"
+  },
+  {
+   "start": 25.12,
+   "text": " these fitting problems. In particular we have all of these P norms and we saw that the best one"
+  },
+  {
+   "start": 31.68,
+   "text": " typically for handling outliers is P equal to 1. But it comes with the issue that a lot of"
+  },
+  {
+   "start": 37.6,
+   "text": " time it's a hard function to differentiate. It has an absolute value in it. That has non-continuous"
+  },
+  {
+   "start": 43.120000000000005,
+   "text": " derivative. These are things that we learn in basic calculus courses. So typically we like to use"
+  },
+  {
+   "start": 48.480000000000004,
+   "text": " maybe P equal to 2 for these kind of things. Now what I would like to focus on is an extension"
+  },
+  {
+   "start": 54.800000000000004,
+   "text": " of this to non-linear functions. So the process is mostly the same. So we can imagine again that we're"
+  },
+  {
+   "start": 64.16,
+   "text": " given a bunch of data points. Let's say a bunch of points let's imagine they are in R2. So I'm just"
+  },
+  {
+   "start": 78.08000000000001,
+   "text": " going to keep everything simple. You can always sort of extend the dimensions here if you want to."
+  },
+  {
+   "start": 83.12,
+   "text": " Things just become a little uglier. But this is what I know I'm doing now. This is what I'm doing"
+  },
+  {
+   "start": 88.4,
+   "text": " next. Doing now, doing next. So these are points sampled from some process that are going to be fit"
+  },
+  {
+   "start": 96.48,
+   "text": " to a dynamical system. So the idea here is instead of looking for a linear relationship between"
+  },
+  {
+   "start": 105.12,
+   "text": " X and Y we'd like to look for a non-linear relationship. In particular maybe we want to fit to a"
+  },
+  {
+   "start": 111.36,
+   "text": " polynomial. So for example let's try and find a polynomial that can do this."
+  },
+  {
+   "start": 124.0,
+   "text": " Squared all the way up to some polynomial degree. I'm going to call D for degree. So you get to"
+  },
+  {
+   "start": 132.0,
+   "text": " choose what the polynomial degree is. Maybe if you're using the yeast model you want to fit it to a"
+  },
+  {
+   "start": 136.56,
+   "text": " logistic mapping then you would use degree two right because we know that the logistic mapping"
+  },
+  {
+   "start": 142.24,
+   "text": " is just a nice little hump function. But in this case now we have a vector of coefficients"
+  },
+  {
+   "start": 152.24,
+   "text": " that need to be fit to the data. My coefficients are the coefficients in this or the coefficients of"
+  },
+  {
+   "start": 160.16,
+   "text": " each one of these polynomials. You can think of this as potentially being like a Taylor expansion."
+  },
+  {
+   "start": 164.96,
+   "text": " So if I was in the context of the previous video I only went up to linear order. I was only"
+  },
+  {
+   "start": 170.4,
+   "text": " tuning the Y intercept and the slope. But now I've got way more terms on here. But the basic"
+  },
+  {
+   "start": 178.32,
+   "text": " process remains because the idea is that I am trying to discover a relationship that would give me"
+  },
+  {
+   "start": 186.48,
+   "text": " a discrete time dynamical process which is given by f of xn which f would be c0 plus c1 x of n"
+  },
+  {
+   "start": 199.51999999999998,
+   "text": " plus c2 x of n squared all the way up to my teeth degree."
+  },
+  {
+   "start": 209.2,
+   "text": " Okay so I don't want you to lose sight of what I'm actually trying to do here. Input output x"
+  },
+  {
+   "start": 215.68,
+   "text": " of n x of n plus 1 right so I know how to get from one step to the next. I know what happens."
+  },
+  {
+   "start": 223.12,
+   "text": " I just need to figure out the function that does that for me. This data could be sequential right"
+  },
+  {
+   "start": 229.68,
+   "text": " it could be hour zero hour one hour one hour two hour two hour three you know hour one hundred"
+  },
+  {
+   "start": 238.16,
+   "text": " hour one hundred and one. For example right I'm just trying to fit the process that takes me from"
+  },
+  {
+   "start": 244.96,
+   "text": " what I'm doing now to what I'm doing next. That's how my data is given to me. What I'm doing now"
+  },
+  {
+   "start": 250.32,
+   "text": " what I'm doing next. But that means that I can set up exactly the same kind of problem"
+  },
+  {
+   "start": 258.71999999999997,
+   "text": " than I had before. I can look at an error function. My error function again as a value of p is"
+  },
+  {
+   "start": 267.59999999999997,
+   "text": " chosen. Now my error function takes in my coefficients of my polynomial and fits them according to"
+  },
+  {
+   "start": 277.6,
+   "text": " a p norm. So let's do i equal to one all the way up to n is going to be y i the output"
+  },
+  {
+   "start": 289.20000000000005,
+   "text": " minus the input right. So I want this whole thing to be equal that's the same as if I put a"
+  },
+  {
+   "start": 295.44,
+   "text": " minus here that's equal to zero. So I get minus c zero plus c one x i plus dot dot dot c d x"
+  },
+  {
+   "start": 305.76,
+   "text": " sorry i to the d all to the power of p and then I'm doing a p norm of that error vector again"
+  },
+  {
+   "start": 317.12,
+   "text": " just trying to match inputs to outputs. If this if each component here was zero that mean I perfectly"
+  },
+  {
+   "start": 322.71999999999997,
+   "text": " matched this input to output. Okay that's all that's happening here. Now now we have to look at"
+  },
+  {
+   "start": 332.88,
+   "text": " something interesting about this right. The input is d plus one dimensional."
+  },
+  {
+   "start": 342.88,
+   "text": " Remember in the last video it was only a two-dimensional input right so I could even just like"
+  },
+  {
+   "start": 347.44,
+   "text": " plot the loss function or this error function and I could figure out maybe where the minimum is"
+  },
+  {
+   "start": 352.64,
+   "text": " just from a little plot nothing too fancy right. Well here now if I go even up to quadratic order"
+  },
+  {
+   "start": 359.92,
+   "text": " it's a three-dimensional input and a one-dimensional output. So things get a little hard right"
+  },
+  {
+   "start": 366.96000000000004,
+   "text": " and in particular things in real life are typically very non-linear so maybe I need a high"
+  },
+  {
+   "start": 371.76,
+   "text": " polynomial degree. Maybe I need to go up to degree 100 in order to get a good fit for my data."
+  },
+  {
+   "start": 379.04,
+   "text": " That would mean that I have a 101 dimensional input and I have one big ugly polynomial that I"
+  },
+  {
+   "start": 387.92,
+   "text": " have to look at whatever this process is done right. So it's possible that you know maybe a 100"
+  },
+  {
+   "start": 395.04,
+   "text": " dimensional polynomial is a good fit but think about how awful these coefficients could look right."
+  },
+  {
+   "start": 401.44,
+   "text": " 0.98632 127.629 negative 39.68 you know whatever these numbers happen to be they're just horrible"
+  },
+  {
+   "start": 412.64,
+   "text": " horrible numbers. Well this would be the optimal setup right. Again with p equal to 1 that would"
+  },
+  {
+   "start": 420.56,
+   "text": " help you get rid of outliers the same thing that we saw in the previous video you could use p equal"
+  },
+  {
+   "start": 425.76,
+   "text": " to 2 because it makes things a little bit better behaved but we would like to try to make the function"
+  },
+  {
+   "start": 434.64,
+   "text": " that comes out of this at least a little more interpretable okay. So here's the big trade-off"
+  },
+  {
+   "start": 441.68,
+   "text": " when it comes to data science. I can get really maybe accurate descriptions of the data by just"
+  },
+  {
+   "start": 447.68,
+   "text": " going to really high polynomial degree. Something that you have done throughout your mathematical"
+  },
+  {
+   "start": 452.64,
+   "text": " career though is probably avoid very very complicated ugly functions. Why? Because they're hard to"
+  },
+  {
+   "start": 459.12,
+   "text": " work with they take a long time right differentiating a degree 100 polynomial. Okay maybe that's not"
+  },
+  {
+   "start": 465.44,
+   "text": " that bad but if you have to differentiate all 101 terms in this thing then it becomes a lot of"
+  },
+  {
+   "start": 470.96000000000004,
+   "text": " work and it becomes a lot of accounting to keep track of especially if these coefficients are large."
+  },
+  {
+   "start": 477.04,
+   "text": " So what we do typically is we do a little bit of an augmenting of our function. So we introduce a"
+  },
+  {
+   "start": 486.24,
+   "text": " different error function. Let's call it ETILDA to emphasize that it's different and I get a value of"
+  },
+  {
+   "start": 494.40000000000003,
+   "text": " p and q and again the input is the coefficients. Okay so the first piece of this is my original input."
+  },
+  {
+   "start": 504.8,
+   "text": " Okay so bear with me while I write this out. See one x i all the way up x i to the d and then to"
+  },
+  {
+   "start": 520.72,
+   "text": " the power of p the one over p but I'm going to add a little term on the end of this. Okay so I have"
+  },
+  {
+   "start": 527.6800000000001,
+   "text": " my original error function plus a value lambda and then the q norm of c. Okay so notice there's a"
+  },
+  {
+   "start": 541.12,
+   "text": " p and a q in here. The p norm describes the measure of the error. The q norm describes the size"
+  },
+  {
+   "start": 551.12,
+   "text": " of the coefficients. This is called a regularization parameter. So regularization"
+  },
+  {
+   "start": 561.04,
+   "text": " parameter. It is going to be positive. It could even be zero. If it's equal to zero you get your"
+  },
+  {
+   "start": 570.24,
+   "text": " original process back here. So what is the regularization parameter doing? Well let's break this into"
+  },
+  {
+   "start": 578.24,
+   "text": " two different components. Okay the first component here is asking that you fit your data."
+  },
+  {
+   "start": 584.88,
+   "text": " Okay that's a reasonable assumption right. That's what we were trying to do here. The second component"
+  },
+  {
+   "start": 591.44,
+   "text": " says okay if you're going to fit the data at least try and give me small coefficients in the"
+  },
+  {
+   "start": 597.52,
+   "text": " coefficient vector. Right so that's what this is doing. The larger lambda is the more of a preference"
+  },
+  {
+   "start": 604.56,
+   "text": " you have for small coefficients. Okay because again you want to make this as small as possible."
+  },
+  {
+   "start": 611.6,
+   "text": " The ideal way to make this small is have both of these terms be zero but that's not going to happen."
+  },
+  {
+   "start": 618.64,
+   "text": " So to make this thing small you have to have both of them be small together. So you have to have a"
+  },
+  {
+   "start": 624.5600000000001,
+   "text": " small size of your vector of coefficients and a good fit for your data. Now there's a few"
+  },
+  {
+   "start": 632.72,
+   "text": " different things that you can see here. First of all if lambda is equal to zero it says just fit my"
+  },
+  {
+   "start": 638.24,
+   "text": " data. I don't care what the coefficients are. They could be big. They could be small. You know they"
+  },
+  {
+   "start": 643.9200000000001,
+   "text": " could be whatever. Just give me the best fit possible. That might be what you're looking for right."
+  },
+  {
+   "start": 649.1200000000001,
+   "text": " If you're going to do this on the computer you know and you're not going to do any analysis with"
+  },
+  {
+   "start": 653.28,
+   "text": " your system then take lambda equal to zero. But me personally I like to sit down and crunch the"
+  },
+  {
+   "start": 659.36,
+   "text": " numbers right. I like to do the pencil and paper math once I'm done. I spent all this time in this"
+  },
+  {
+   "start": 664.16,
+   "text": " class learning all of these methods to analyze these systems. I might as well put them to use."
+  },
+  {
+   "start": 670.48,
+   "text": " So what I would like is I would like a system that I can actually interpret. So once you start"
+  },
+  {
+   "start": 675.92,
+   "text": " turning lambda on now it's giving a bit of a preference to smaller coefficients. So you have"
+  },
+  {
+   "start": 683.04,
+   "text": " this balancing act taking place here. Okay. So not only is it trying to fit the data but it's"
+  },
+  {
+   "start": 689.04,
+   "text": " sacrificing a bit of the fit to give you interpretability. In fact if lambda gets really really big"
+  },
+  {
+   "start": 697.92,
+   "text": " the best way to make this thing small is just make small coefficients because this is really"
+  },
+  {
+   "start": 703.28,
+   "text": " overinflated in the sum right. Take lambda equal to a million for example. Well then this thing"
+  },
+  {
+   "start": 711.52,
+   "text": " basically has a baseline of a million. So the best way to make this thing go down is just make a"
+  },
+  {
+   "start": 718.48,
+   "text": " smaller vector. Okay. So now you can see that there's two limits. Very very small lambda means"
+  },
+  {
+   "start": 726.72,
+   "text": " fit the data really really well. I don't care what the coefficients look like. Very very big lambda"
+  },
+  {
+   "start": 733.28,
+   "text": " means okay don't worry so much about the data spend your time making those coefficients small"
+  },
+  {
+   "start": 739.12,
+   "text": " and then you can see that there's some sort of Goldilocks zone in the middle that is sort of where"
+  },
+  {
+   "start": 744.88,
+   "text": " you want to hit right. Pretty good fit for the data but also you know not too big of coefficients."
+  },
+  {
+   "start": 751.7600000000001,
+   "text": " Now that means that lambda is what we call a hyperparameter of the system. It is something that"
+  },
+  {
+   "start": 758.8000000000001,
+   "text": " needs to be chosen before you do the optimization here right before you do before you find the values"
+  },
+  {
+   "start": 764.72,
+   "text": " of C you need to choose what lambda is. This makes it a bit of a pain right. Typically in practice what"
+  },
+  {
+   "start": 772.0,
+   "text": " we do is we do this over a bunch of different values of lambda and we decide which one of those"
+  },
+  {
+   "start": 780.1600000000001,
+   "text": " those optimizers the values of C is going to give us the best the best fit for our data in terms of"
+  },
+  {
+   "start": 788.32,
+   "text": " what we want out of this right. So this becomes a complicated process right. This is really sort of hard"
+  },
+  {
+   "start": 795.84,
+   "text": " data science right here because now you have to do a little bit of decision making before you go"
+  },
+  {
+   "start": 802.6400000000001,
+   "text": " into this. But this is true math modeling go all the way back to the first couple lectures here"
+  },
+  {
+   "start": 808.1600000000001,
+   "text": " right. You have to make assumptions and borrow from other people when you're doing this right."
+  },
+  {
+   "start": 814.72,
+   "text": " And your assumption might be you know again if you're me maybe I want lambda a little bit larger"
+  },
+  {
+   "start": 820.88,
+   "text": " maybe I want lambda to like 10 or 100 or something like that because I really care about having"
+  },
+  {
+   "start": 825.9200000000001,
+   "text": " small coefficients I want to be able to do the math right. I want to be able to work with this thing"
+  },
+  {
+   "start": 830.32,
+   "text": " I want you know linearizations around this that I can actually look at the numbers and figure out"
+  },
+  {
+   "start": 836.24,
+   "text": " what's going on. But again maybe your biologist or something like that and you don't want to do the"
+  },
+  {
+   "start": 841.76,
+   "text": " math you just want the perfect fit you want to be able to predict what's going to happen in the"
+  },
+  {
+   "start": 845.6,
+   "text": " future then you just make lambda super super small. Now in particular there's what's called the"
+  },
+  {
+   "start": 852.72,
+   "text": " lasso method. Now the lasso method typically takes p equal to 2 why because that makes everything sort"
+  },
+  {
+   "start": 861.2,
+   "text": " of smooth it makes it really easy to work with when you're doing derivatives here but also takes"
+  },
+  {
+   "start": 866.32,
+   "text": " q equal to 1 and this q equal to 1 here is like the ultimate regularizer because it treats every"
+  },
+  {
+   "start": 875.6,
+   "text": " coefficient of c equally everybody should be small together if q was bigger say 10 or 100 then"
+  },
+  {
+   "start": 886.32,
+   "text": " it is putting more preference on the big coefficients right it's trying to shrink the big ones"
+  },
+  {
+   "start": 890.88,
+   "text": " more than it's trying to shrink the small ones why let's imagine you get a vector that looks"
+  },
+  {
+   "start": 896.88,
+   "text": " like this 1 and 10 you take a q norm of this okay so I get 1 to the power of q plus 10 to the power of"
+  },
+  {
+   "start": 908.72,
+   "text": " q to the 1 over q okay if q is equal to 1 then both of those things are treated equally and you"
+  },
+  {
+   "start": 919.44,
+   "text": " just sort of get 11 here but if q is bigger say 10 this thing still stays at 1 but this thing"
+  },
+  {
+   "start": 929.9200000000001,
+   "text": " goes 10 to the 10 right so that's has an outsized influence so if you are trying to fit this data"
+  },
+  {
+   "start": 936.0,
+   "text": " you're trying to clamp that one down as much as possible and you don't really care about this one"
+  },
+  {
+   "start": 941.2,
+   "text": " over here it's the same thing that we saw in the previous video with larger values of p favoring"
+  },
+  {
+   "start": 947.84,
+   "text": " outliers right you spend more time working on the ones that are super big and trying to crush them"
+  },
+  {
+   "start": 953.0400000000001,
+   "text": " down then you do you know focusing on everybody so the reason that we typically use q equal to 1"
+  },
+  {
+   "start": 960.1600000000001,
+   "text": " at least for this this regularize term this regularizer term is because you want to treat everybody"
+  },
+  {
+   "start": 965.6800000000001,
+   "text": " equally you want them all to be small together you don't want to preference outliers you don't want"
+  },
+  {
+   "start": 970.0,
+   "text": " to just make one of the coefficients super small and then the rest of them kind of just medium you"
+  },
+  {
+   "start": 974.88,
+   "text": " want everybody to be small all together okay so you can see this can get pretty complicated pretty"
+  },
+  {
+   "start": 981.76,
+   "text": " fast right you could have a lot of data it could this could easily be extended to higher dimensions"
+  },
+  {
+   "start": 987.4399999999999,
+   "text": " you have different values of p and q that you can choose you have a different different values of"
+  },
+  {
+   "start": 992.8,
+   "text": " lambda that will give you different results depending on it you know there's a lot of human decision"
+  },
+  {
+   "start": 998.88,
+   "text": " making that goes into this before you can you know get something interpretable out of it"
+  },
+  {
+   "start": 1005.2,
+   "text": " and that's where you come in right you have to decide what it is that you want"
+  },
+  {
+   "start": 1010.64,
+   "text": " and what it is you want a preference right so this requires an intimate knowledge of the data"
+  },
+  {
+   "start": 1016.56,
+   "text": " and what you're trying to get out of this personally I like doing math I want to do I want"
+  },
+  {
+   "start": 1022.96,
+   "text": " something that I can do math on but again keep your biologist friend in mind right maybe your"
+  },
+  {
+   "start": 1027.28,
+   "text": " physicist or your chemist friend they might just want something that gives them predictions into"
+  },
+  {
+   "start": 1032.6399999999999,
+   "text": " the future okay I'll see you in the next lecture everybody"
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "video_id": "1hCX5Gbeo0E",
+ "title": "Cobweb Diagrams - Math Modelling - Lecture 14",
+ "channel": "Math Modelling",
+ "duration_s": 1864,
+ "url": "https://youtu.be/1hCX5Gbeo0E",
+ "transcript_source": "whisper-local",
+ "frames": [],
+ "doc_model": "deepseek/deepseek-v4-flash",
+ "vision_model": "google/gemini-2.5-flash",
+ "generated": "2026-08-03 23:44"
+}

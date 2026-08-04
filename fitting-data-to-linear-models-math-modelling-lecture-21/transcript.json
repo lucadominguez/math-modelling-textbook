@@ -1,0 +1,2285 @@
+{
+ "video_id": "JlDCfTGkJZc",
+ "title": "Fitting Data to Linear Models - Math Modelling - Lecture 21",
+ "channel": "Math Modelling",
+ "duration_s": 2171,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back."
+  },
+  {
+   "start": 2.5,
+   "text": " Now, throughout the course of this discussion"
+  },
+  {
+   "start": 6.08,
+   "text": " on dynamical systems, I have talked a lot about"
+  },
+  {
+   "start": 9.92,
+   "text": " how we can analyze models and maybe how we can derive them"
+  },
+  {
+   "start": 14.68,
+   "text": " from very theoretical principles."
+  },
+  {
+   "start": 17.36,
+   "text": " But we are currently living in the age of big data."
+  },
+  {
+   "start": 21.2,
+   "text": " There's data for everything that can be found in labs"
+  },
+  {
+   "start": 26.080000000000002,
+   "text": " across universities and research institutes across countries"
+  },
+  {
+   "start": 32.0,
+   "text": " or just on the internet for free."
+  },
+  {
+   "start": 35.36,
+   "text": " So, what we would like to be able to do"
+  },
+  {
+   "start": 38.0,
+   "text": " is we would like to inform our models based on"
+  },
+  {
+   "start": 41.56,
+   "text": " maybe real world data."
+  },
+  {
+   "start": 43.92,
+   "text": " And so, that's what I'm going to talk about"
+  },
+  {
+   "start": 45.8,
+   "text": " in this lecture and the one that follows."
+  },
+  {
+   "start": 49.52,
+   "text": " But before I can do that, I want to talk about"
+  },
+  {
+   "start": 52.56,
+   "text": " how we measure distances,"
+  },
+  {
+   "start": 55.120000000000005,
+   "text": " how we talk about the size of vectors."
+  },
+  {
+   "start": 58.68000000000001,
+   "text": " And I want to do it with three little simple examples."
+  },
+  {
+   "start": 63.800000000000004,
+   "text": " Now, my first example is probably one,"
+  },
+  {
+   "start": 67.08000000000001,
+   "text": " hopefully, that you're fairly familiar with."
+  },
+  {
+   "start": 70.4,
+   "text": " So, let's imagine that we have two airplanes."
+  },
+  {
+   "start": 74.52000000000001,
+   "text": " One airplane has traveled 25 kilometers north,"
+  },
+  {
+   "start": 81.12,
+   "text": " 30 kilometers east, and one kilometer up."
+  },
+  {
+   "start": 85.0,
+   "text": " So, we're moving around in three-dimensional space."
+  },
+  {
+   "start": 87.08,
+   "text": " I'm using myself as the reference point."
+  },
+  {
+   "start": 89.84,
+   "text": " So, 25 north, 30 east, and one kilometer up."
+  },
+  {
+   "start": 95.0,
+   "text": " Similarly, I've got another plane"
+  },
+  {
+   "start": 96.84,
+   "text": " that is currently 35 kilometers north from me,"
+  },
+  {
+   "start": 100.52,
+   "text": " 10 kilometers east, and two kilometers up."
+  },
+  {
+   "start": 102.96000000000001,
+   "text": " Okay, so the numbers are purely made up."
+  },
+  {
+   "start": 104.64,
+   "text": " They're not trying to be realistic."
+  },
+  {
+   "start": 109.16,
+   "text": " But that means that I have two vectors."
+  },
+  {
+   "start": 110.88,
+   "text": " Okay, so airplane one, which I will say"
+  },
+  {
+   "start": 114.04,
+   "text": " is 25, 30, and one."
+  },
+  {
+   "start": 122.84,
+   "text": " And I have airplane two, which is 35, 10 and two."
+  },
+  {
+   "start": 130.20000000000002,
+   "text": " So, the question is, which one is further away from me?"
+  },
+  {
+   "start": 133.8,
+   "text": " Well, we have a pretty standard way"
+  },
+  {
+   "start": 135.88,
+   "text": " of measuring distance in this case."
+  },
+  {
+   "start": 138.56,
+   "text": " And that's through standard Pythagorean theorem type metric."
+  },
+  {
+   "start": 144.48,
+   "text": " In particular, we call this the two norm of these vectors."
+  },
+  {
+   "start": 148.48,
+   "text": " Okay, so the two norm of a one is equal to,"
+  },
+  {
+   "start": 153.76,
+   "text": " so this is just your Pythagorean computation,"
+  },
+  {
+   "start": 156.79999999999998,
+   "text": " 25 squared plus 30 squared plus one squared."
+  },
+  {
+   "start": 163.12,
+   "text": " In this case, you get about 39."
+  },
+  {
+   "start": 167.35999999999999,
+   "text": " Similarly, airplane two's distance from me."
+  },
+  {
+   "start": 171.68,
+   "text": " This is gonna be 35 squared plus 10 squared plus two squared"
+  },
+  {
+   "start": 177.44,
+   "text": " all under the square root, which is about 36."
+  },
+  {
+   "start": 182.92000000000002,
+   "text": " So we can say that with this measure of distance,"
+  },
+  {
+   "start": 186.44,
+   "text": " absolute distance as the crow flies,"
+  },
+  {
+   "start": 189.48000000000002,
+   "text": " that airplane one is currently further away from me."
+  },
+  {
+   "start": 193.8,
+   "text": " Now, the first thing you should ask yourself here"
+  },
+  {
+   "start": 196.20000000000002,
+   "text": " is why is Jason calling this the two norm?"
+  },
+  {
+   "start": 198.8,
+   "text": " This is sort of the standard distance."
+  },
+  {
+   "start": 200.48000000000002,
+   "text": " This is how I've been taught"
+  },
+  {
+   "start": 201.76000000000002,
+   "text": " that I should be measuring vectors and distances."
+  },
+  {
+   "start": 204.60000000000002,
+   "text": " Well, what I want you to notice is there's a lot of twos"
+  },
+  {
+   "start": 207.64000000000001,
+   "text": " that wind up in here."
+  },
+  {
+   "start": 209.00000000000003,
+   "text": " There's a square, a square, a square,"
+  },
+  {
+   "start": 211.72000000000003,
+   "text": " and a one over two from the square root."
+  },
+  {
+   "start": 215.36,
+   "text": " Okay, so just keep that in the back of your mind for now."
+  },
+  {
+   "start": 218.04000000000002,
+   "text": " I'm gonna introduce some other types of distance metrics,"
+  },
+  {
+   "start": 222.52,
+   "text": " and they're gonna have different numbers that pop up in them."
+  },
+  {
+   "start": 226.00000000000003,
+   "text": " Okay, let's think about something else."
+  },
+  {
+   "start": 229.16,
+   "text": " Let's imagine that I'm given final grades."
+  },
+  {
+   "start": 231.79999999999998,
+   "text": " So final grades for class one,"
+  },
+  {
+   "start": 234.72,
+   "text": " let's imagine there's just five people in the class."
+  },
+  {
+   "start": 237.68,
+   "text": " Somebody got an 82, somebody got an 86,"
+  },
+  {
+   "start": 242.64,
+   "text": " somebody got a 90,"
+  },
+  {
+   "start": 244.84,
+   "text": " and somebody got a 71 and a 74."
+  },
+  {
+   "start": 247.88,
+   "text": " Okay, so there's five students in class one."
+  },
+  {
+   "start": 250.51999999999998,
+   "text": " These are their grades."
+  },
+  {
+   "start": 253.35999999999999,
+   "text": " Similarly, there are five students in class two"
+  },
+  {
+   "start": 257.84000000000003,
+   "text": " and one got a 91, one got a 76, one got a 63,"
+  },
+  {
+   "start": 265.20000000000005,
+   "text": " one got an 85 and one got an 81."
+  },
+  {
+   "start": 269.56000000000006,
+   "text": " Okay, five students per class."
+  },
+  {
+   "start": 271.28000000000003,
+   "text": " I taught the same class, the same material,"
+  },
+  {
+   "start": 274.6,
+   "text": " and these were the final grades."
+  },
+  {
+   "start": 276.48,
+   "text": " So I can ask myself which class did better, right?"
+  },
+  {
+   "start": 280.20000000000005,
+   "text": " Well, you wouldn't do a two norm computation of this"
+  },
+  {
+   "start": 284.04,
+   "text": " because that would really sort of have no meaning."
+  },
+  {
+   "start": 287.68,
+   "text": " But I guess I'm betting that you probably guessed"
+  },
+  {
+   "start": 290.56,
+   "text": " that how you could compute who did better."
+  },
+  {
+   "start": 293.40000000000003,
+   "text": " And that is you could take the class average, right?"
+  },
+  {
+   "start": 295.88,
+   "text": " See which one has a higher average."
+  },
+  {
+   "start": 299.16,
+   "text": " Now, what you do to compute the average here"
+  },
+  {
+   "start": 302.12,
+   "text": " would be add up all the elements of the vector"
+  },
+  {
+   "start": 303.88,
+   "text": " and divide by five."
+  },
+  {
+   "start": 305.8,
+   "text": " Now since both of them were being divided"
+  },
+  {
+   "start": 307.2,
+   "text": " by exactly the same number,"
+  },
+  {
+   "start": 309.24,
+   "text": " I don't need to worry about dividing by five, right?"
+  },
+  {
+   "start": 313.52,
+   "text": " If I take any two numbers, I divide them both by five,"
+  },
+  {
+   "start": 316.52,
+   "text": " they still preserves which one is bigger than the other one."
+  },
+  {
+   "start": 320.35999999999996,
+   "text": " So really, I just need to compute the sum of these vectors."
+  },
+  {
+   "start": 324.4,
+   "text": " Now, this is going to be called the one norm, okay?"
+  },
+  {
+   "start": 330.08,
+   "text": " So this ends up being the sum."
+  },
+  {
+   "start": 332.03999999999996,
+   "text": " I'm gonna throw absolute values around everything."
+  },
+  {
+   "start": 335.24,
+   "text": " This is going to be part of the definition."
+  },
+  {
+   "start": 339.0,
+   "text": " But just for a second, I mean it doesn't matter"
+  },
+  {
+   "start": 341.59999999999997,
+   "text": " because these are all positive numbers anyways,"
+  },
+  {
+   "start": 344.44,
+   "text": " but this will arise when I give you a more abstract"
+  },
+  {
+   "start": 348.16,
+   "text": " way of thinking about this, okay?"
+  },
+  {
+   "start": 350.48,
+   "text": " So in this case, my class average is 403 divided by five, right?"
+  },
+  {
+   "start": 358.36,
+   "text": " So the total grade points, you know, out of 500 is 400."
+  },
+  {
+   "start": 363.04,
+   "text": " So in this case, the average is somewhere on 80."
+  },
+  {
+   "start": 367.0,
+   "text": " Okay, then I can do the same thing for class two"
+  },
+  {
+   "start": 372.88,
+   "text": " in the so-called one norm."
+  },
+  {
+   "start": 375.4,
+   "text": " I get 91 plus the absolute value of 76"
+  },
+  {
+   "start": 379.12,
+   "text": " plus the absolute value of 63 plus the absolute value of 85"
+  },
+  {
+   "start": 384.88,
+   "text": " plus the absolute value of 81."
+  },
+  {
+   "start": 388.04,
+   "text": " In this case, class two has an average of 396."
+  },
+  {
+   "start": 393.24,
+   "text": " All right, so this person with the 63 really, really pulled"
+  },
+  {
+   "start": 395.52,
+   "text": " down the class average."
+  },
+  {
+   "start": 396.92,
+   "text": " And in fact, you know, their class average about 79"
+  },
+  {
+   "start": 400.28000000000003,
+   "text": " or something like that, once you divide by five."
+  },
+  {
+   "start": 403.20000000000005,
+   "text": " Okay, so the question is, you know,"
+  },
+  {
+   "start": 404.64000000000004,
+   "text": " what are those absolute values doing in there?"
+  },
+  {
+   "start": 406.84000000000003,
+   "text": " Well, they're measuring absolute distance"
+  },
+  {
+   "start": 408.92,
+   "text": " of each component from zero, okay?"
+  },
+  {
+   "start": 411.36,
+   "text": " So, you know, somebody got negative 20 here."
+  },
+  {
+   "start": 415.52000000000004,
+   "text": " We wouldn't make any sense, but that would still be counted"
+  },
+  {
+   "start": 418.20000000000005,
+   "text": " as a 20% because you're only talking about"
+  },
+  {
+   "start": 420.64000000000004,
+   "text": " how far you are away from zero in here."
+  },
+  {
+   "start": 424.04,
+   "text": " Now, why the one?"
+  },
+  {
+   "start": 425.64000000000004,
+   "text": " Well, remember, we talked about the two"
+  },
+  {
+   "start": 427.6,
+   "text": " because of the exponents on these things."
+  },
+  {
+   "start": 430.04,
+   "text": " You can think of the exponent on every one of these numbers"
+  },
+  {
+   "start": 432.32,
+   "text": " as being a one."
+  },
+  {
+   "start": 433.8,
+   "text": " You can also think of this as being,"
+  },
+  {
+   "start": 435.48,
+   "text": " you know, the power of one over one."
+  },
+  {
+   "start": 437.0,
+   "text": " It's a silly way to think of it,"
+  },
+  {
+   "start": 438.8,
+   "text": " but that's when the one comes from."
+  },
+  {
+   "start": 440.12,
+   "text": " The exponents on this thing are all ones."
+  },
+  {
+   "start": 442.68,
+   "text": " The exponents here were all twos."
+  },
+  {
+   "start": 446.08000000000004,
+   "text": " Okay, let's do another example, okay?"
+  },
+  {
+   "start": 449.12,
+   "text": " So now we have two ways that we can measure"
+  },
+  {
+   "start": 451.92,
+   "text": " the length of vectors, right?"
+  },
+  {
+   "start": 453.88,
+   "text": " There are two completely different ways of measuring"
+  },
+  {
+   "start": 456.08000000000004,
+   "text": " and they give you different interpretations"
+  },
+  {
+   "start": 457.92,
+   "text": " of what you're thinking about."
+  },
+  {
+   "start": 460.64000000000004,
+   "text": " Okay, here's my next one, okay?"
+  },
+  {
+   "start": 464.04,
+   "text": " My friend and I are doing,"
+  },
+  {
+   "start": 465.40000000000003,
+   "text": " we're practicing javelin throws."
+  },
+  {
+   "start": 466.92,
+   "text": " We're throwing javelins, okay?"
+  },
+  {
+   "start": 469.0,
+   "text": " You get three shots, three throws,"
+  },
+  {
+   "start": 472.56,
+   "text": " whoever's goes furthest of those three throws wins, okay?"
+  },
+  {
+   "start": 477.8,
+   "text": " So I could have two complete duds"
+  },
+  {
+   "start": 479.64000000000004,
+   "text": " and one goes super, super far."
+  },
+  {
+   "start": 481.76,
+   "text": " Only the one that goes super far is the one that matters."
+  },
+  {
+   "start": 485.76,
+   "text": " Okay, so let's imagine in meters,"
+  },
+  {
+   "start": 488.16,
+   "text": " this is what comes up."
+  },
+  {
+   "start": 490.40000000000003,
+   "text": " So a distance for person one,"
+  },
+  {
+   "start": 493.96000000000004,
+   "text": " let's imagine it's 82 meters."
+  },
+  {
+   "start": 497.32000000000005,
+   "text": " It's 73 meters and 79 meters."
+  },
+  {
+   "start": 502.8,
+   "text": " And person two, their first throw gets 81 meters."
+  },
+  {
+   "start": 508.6,
+   "text": " Their second throw gets 78 meters"
+  },
+  {
+   "start": 512.32,
+   "text": " and their third throw gets 83 meters."
+  },
+  {
+   "start": 515.44,
+   "text": " Okay, so how do we compare these two things?"
+  },
+  {
+   "start": 519.1600000000001,
+   "text": " Well, we said all that matters is your longest throw."
+  },
+  {
+   "start": 523.1600000000001,
+   "text": " That means you're looking for the maximum"
+  },
+  {
+   "start": 525.88,
+   "text": " across these vectors, okay?"
+  },
+  {
+   "start": 528.2,
+   "text": " So this is another way of computing the distance"
+  },
+  {
+   "start": 533.2,
+   "text": " or the size of these vectors."
+  },
+  {
+   "start": 535.72,
+   "text": " And in this case, it's called the infinity norm."
+  },
+  {
+   "start": 539.76,
+   "text": " This case, I'm taking the maximum of, again,"
+  },
+  {
+   "start": 543.76,
+   "text": " absolute values, just like I did before."
+  },
+  {
+   "start": 551.76,
+   "text": " So I'm asking myself, you know, taking the absolute value,"
+  },
+  {
+   "start": 555.72,
+   "text": " I'm saying what's the largest swing away from zero?"
+  },
+  {
+   "start": 559.52,
+   "text": " So again, if I threw my javelin in the wrong direction,"
+  },
+  {
+   "start": 562.68,
+   "text": " 100 meters, I'd still win 100 meters, right?"
+  },
+  {
+   "start": 565.76,
+   "text": " It went really, really far."
+  },
+  {
+   "start": 566.72,
+   "text": " I just put it in the wrong direction."
+  },
+  {
+   "start": 568.6800000000001,
+   "text": " So it still count as 100 meter throw"
+  },
+  {
+   "start": 570.5600000000001,
+   "text": " under this measure of distance."
+  },
+  {
+   "start": 573.84,
+   "text": " So in this case, my distance is 82, right?"
+  },
+  {
+   "start": 579.08,
+   "text": " Person one, they get an 82 on the scoreboard."
+  },
+  {
+   "start": 583.08,
+   "text": " Same thing, person two, well,"
+  },
+  {
+   "start": 587.6,
+   "text": " they're gonna take the maximum of the absolute values"
+  },
+  {
+   "start": 590.24,
+   "text": " of all of these throws."
+  },
+  {
+   "start": 592.08,
+   "text": " So 81, 78, and 83."
+  },
+  {
+   "start": 599.2,
+   "text": " And their total is 83."
+  },
+  {
+   "start": 602.8000000000001,
+   "text": " So person two threw further by one meter"
+  },
+  {
+   "start": 608.2,
+   "text": " and they did it on their last throw, right?"
+  },
+  {
+   "start": 611.1600000000001,
+   "text": " But that means that I have one, two, three different ways"
+  },
+  {
+   "start": 615.6800000000001,
+   "text": " of describing how long a vector is,"
+  },
+  {
+   "start": 619.36,
+   "text": " what the size of a vector is."
+  },
+  {
+   "start": 621.2,
+   "text": " This is the one you probably know,"
+  },
+  {
+   "start": 623.6,
+   "text": " but you cannot say that you didn't understand these"
+  },
+  {
+   "start": 626.6800000000001,
+   "text": " before this lecture, right?"
+  },
+  {
+   "start": 628.24,
+   "text": " This is very intuitive, I imagine."
+  },
+  {
+   "start": 630.4,
+   "text": " And you do, think about different ways of measuring distances"
+  },
+  {
+   "start": 634.04,
+   "text": " or lengths of vectors, depending on the application."
+  },
+  {
+   "start": 637.52,
+   "text": " All that I wanna do today is show you"
+  },
+  {
+   "start": 640.36,
+   "text": " that we can put this in mathematical terms."
+  },
+  {
+   "start": 643.4,
+   "text": " In particular, we can do this for what are called the p norms."
+  },
+  {
+   "start": 650.2,
+   "text": " Now norm in math is just a sort of very specific way"
+  },
+  {
+   "start": 655.5200000000001,
+   "text": " of talking about distances or lengths of vectors, okay?"
+  },
+  {
+   "start": 659.5200000000001,
+   "text": " So, here's my two lines."
+  },
+  {
+   "start": 664.72,
+   "text": " These I've been using over and over and over again."
+  },
+  {
+   "start": 667.32,
+   "text": " These are what we describe a norm by mathematics."
+  },
+  {
+   "start": 671.08,
+   "text": " The subscript p tells you which number you're using."
+  },
+  {
+   "start": 674.5600000000001,
+   "text": " This was a two norm."
+  },
+  {
+   "start": 675.84,
+   "text": " This was a one norm."
+  },
+  {
+   "start": 677.1600000000001,
+   "text": " This was what's called an infinity norm."
+  },
+  {
+   "start": 680.0400000000001,
+   "text": " The standard computation of this thing is,"
+  },
+  {
+   "start": 684.88,
+   "text": " take the absolute value of the first component,"
+  },
+  {
+   "start": 687.04,
+   "text": " raise it to the power of p,"
+  },
+  {
+   "start": 689.4,
+   "text": " plus the absolute value of the second component to the power of p,"
+  },
+  {
+   "start": 694.12,
+   "text": " all the way to the last component."
+  },
+  {
+   "start": 696.1999999999999,
+   "text": " This vector can be as long as you want it to be,"
+  },
+  {
+   "start": 699.56,
+   "text": " and then take the pth root."
+  },
+  {
+   "start": 702.8399999999999,
+   "text": " And you can do this for any p bigger than or equal to one."
+  },
+  {
+   "start": 707.8399999999999,
+   "text": " Okay, so p equal to one, I just get the sum of the absolute values."
+  },
+  {
+   "start": 712.32,
+   "text": " That's what I showed you."
+  },
+  {
+   "start": 714.12,
+   "text": " P equal to two, the absolute values don't matter"
+  },
+  {
+   "start": 716.6800000000001,
+   "text": " when you square a number."
+  },
+  {
+   "start": 717.72,
+   "text": " So that's why I didn't put absolute values in this."
+  },
+  {
+   "start": 720.72,
+   "text": " But that's your sort of standard Euclidean distance."
+  },
+  {
+   "start": 724.84,
+   "text": " And then you can also have this infinity norm,"
+  },
+  {
+   "start": 727.96,
+   "text": " which is the one that I just showed you down here,"
+  },
+  {
+   "start": 732.44,
+   "text": " which is just the maximum of the absolute value"
+  },
+  {
+   "start": 735.08,
+   "text": " of all your components, right?"
+  },
+  {
+   "start": 740.0,
+   "text": " So you can come up with a different measure of distance"
+  },
+  {
+   "start": 743.24,
+   "text": " for every single value of p."
+  },
+  {
+   "start": 745.56,
+   "text": " I could have the 100 norm,"
+  },
+  {
+   "start": 747.92,
+   "text": " or the 5,638,223 norm, right?"
+  },
+  {
+   "start": 754.08,
+   "text": " All I need to do is pick a different value of p,"
+  },
+  {
+   "start": 757.12,
+   "text": " and that will select a different way of measuring distance."
+  },
+  {
+   "start": 761.48,
+   "text": " Now, what I would like to do"
+  },
+  {
+   "start": 763.32,
+   "text": " with the remainder of this lecture"
+  },
+  {
+   "start": 765.64,
+   "text": " is show you what they actually can do for you,"
+  },
+  {
+   "start": 769.12,
+   "text": " and how they can help you in practice,"
+  },
+  {
+   "start": 772.64,
+   "text": " and how they can hurt you in practice."
+  },
+  {
+   "start": 775.28,
+   "text": " And I'm gonna do that by showing you"
+  },
+  {
+   "start": 777.16,
+   "text": " what they emphasize differently over each other, right?"
+  },
+  {
+   "start": 781.4,
+   "text": " So I want you to maybe take a look at this for a second,"
+  },
+  {
+   "start": 786.12,
+   "text": " and you might even be able to see some of this,"
+  },
+  {
+   "start": 788.84,
+   "text": " just the difference between the infinity norm"
+  },
+  {
+   "start": 791.0,
+   "text": " and the other p norms."
+  },
+  {
+   "start": 793.48,
+   "text": " For example, if I took a class,"
+  },
+  {
+   "start": 798.52,
+   "text": " if I took all of my grades here,"
+  },
+  {
+   "start": 801.1999999999999,
+   "text": " and I said, okay, well,"
+  },
+  {
+   "start": 802.4,
+   "text": " maybe I don't want to compute the average,"
+  },
+  {
+   "start": 805.0799999999999,
+   "text": " I just want to know, who's the superstar of my class?"
+  },
+  {
+   "start": 808.72,
+   "text": " Who has the better student in each of those classes?"
+  },
+  {
+   "start": 813.6,
+   "text": " Well, then I could just look at the infinity norm"
+  },
+  {
+   "start": 816.4,
+   "text": " of the G1 and G2 vectors."
+  },
+  {
+   "start": 822.4,
+   "text": " And in this case, I've got one student who got a 91,"
+  },
+  {
+   "start": 827.28,
+   "text": " but I've got one student who got a 90."
+  },
+  {
+   "start": 829.4,
+   "text": " So that would give me the G2 is better"
+  },
+  {
+   "start": 833.36,
+   "text": " under this different metric."
+  },
+  {
+   "start": 835.9599999999999,
+   "text": " Why?"
+  },
+  {
+   "start": 837.0799999999999,
+   "text": " The one norm is taking everybody equal,"
+  },
+  {
+   "start": 840.9599999999999,
+   "text": " whereas the infinity norm just says,"
+  },
+  {
+   "start": 843.24,
+   "text": " give me your best, that's all that I care about, right?"
+  },
+  {
+   "start": 846.3199999999999,
+   "text": " Give me the biggest value you can get in there."
+  },
+  {
+   "start": 848.8,
+   "text": " So immediately, without doing a whole lot of math,"
+  },
+  {
+   "start": 851.1999999999999,
+   "text": " you can already see that there's differences."
+  },
+  {
+   "start": 853.04,
+   "text": " These things emphasize different things."
+  },
+  {
+   "start": 855.52,
+   "text": " Same thing down here."
+  },
+  {
+   "start": 857.0,
+   "text": " If I take my average javelin throws,"
+  },
+  {
+   "start": 861.08,
+   "text": " well, then this D2 is much better than D1."
+  },
+  {
+   "start": 866.64,
+   "text": " And that's because this 73 really sinks you, right?"
+  },
+  {
+   "start": 869.32,
+   "text": " Maybe I tripped, maybe I slipped a little bit"
+  },
+  {
+   "start": 871.16,
+   "text": " whenever I went to throw that javelin."
+  },
+  {
+   "start": 873.12,
+   "text": " Well, if I'm gonna take the average over all three throws,"
+  },
+  {
+   "start": 876.92,
+   "text": " that really hurts me, right?"
+  },
+  {
+   "start": 878.16,
+   "text": " That's like when your professor takes the average"
+  },
+  {
+   "start": 880.92,
+   "text": " of all of your assignments,"
+  },
+  {
+   "start": 882.04,
+   "text": " but you forgot to hand one in at the end of the year."
+  },
+  {
+   "start": 884.4,
+   "text": " That hurts a lot more than me saying,"
+  },
+  {
+   "start": 886.2,
+   "text": " okay, well, I'll just take your best assignment at the end of the year."
+  },
+  {
+   "start": 890.4000000000001,
+   "text": " All right, so, how do we do this in practice?"
+  },
+  {
+   "start": 894.5600000000001,
+   "text": " How do we use this stuff?"
+  },
+  {
+   "start": 897.1600000000001,
+   "text": " Here's what I wanna do."
+  },
+  {
+   "start": 898.72,
+   "text": " I wanna imagine, I want to fit a discrete time dynamical system."
+  },
+  {
+   "start": 904.88,
+   "text": " Okay, so here's my discrete time dynamical system."
+  },
+  {
+   "start": 907.6800000000001,
+   "text": " It's gonna be a line."
+  },
+  {
+   "start": 911.0400000000001,
+   "text": " Okay, so whatever I'm doing now,"
+  },
+  {
+   "start": 914.24,
+   "text": " is just going to give me what I'm doing next"
+  },
+  {
+   "start": 917.0,
+   "text": " by finding a slope and a Y intercept."
+  },
+  {
+   "start": 922.84,
+   "text": " Okay."
+  },
+  {
+   "start": 925.96,
+   "text": " So, this is a really, really simple example,"
+  },
+  {
+   "start": 929.44,
+   "text": " but it's the basic premise."
+  },
+  {
+   "start": 931.28,
+   "text": " I'm gonna do this in one dimension."
+  },
+  {
+   "start": 933.76,
+   "text": " So maybe it's my yeast colony, for example."
+  },
+  {
+   "start": 936.4,
+   "text": " I wanna know how I wanna fit some data of my yeast to this,"
+  },
+  {
+   "start": 940.88,
+   "text": " and I wanna do it."
+  },
+  {
+   "start": 941.72,
+   "text": " I wanna make sure I can do this in a linear way."
+  },
+  {
+   "start": 944.68,
+   "text": " Very, very simple basic example,"
+  },
+  {
+   "start": 946.88,
+   "text": " but I wanna show you the ins and outs of how this works."
+  },
+  {
+   "start": 950.56,
+   "text": " Well, first of all, I need some data, all right?"
+  },
+  {
+   "start": 953.8399999999999,
+   "text": " I need some data to actually fit this thing"
+  },
+  {
+   "start": 956.0,
+   "text": " to figure out what M and B are gonna be."
+  },
+  {
+   "start": 958.64,
+   "text": " So let's do this."
+  },
+  {
+   "start": 959.68,
+   "text": " Let's say here's my data."
+  },
+  {
+   "start": 961.9599999999999,
+   "text": " I have little data points."
+  },
+  {
+   "start": 964.48,
+   "text": " I'm gonna say X1, Y1, X2, Y2,"
+  },
+  {
+   "start": 970.48,
+   "text": " and I'm gonna go up to, let's imagine I've got like,"
+  },
+  {
+   "start": 975.48,
+   "text": " M data points, M."
+  },
+  {
+   "start": 980.5600000000001,
+   "text": " And here's how my data is organized, okay?"
+  },
+  {
+   "start": 984.4,
+   "text": " What I'm doing now?"
+  },
+  {
+   "start": 985.96,
+   "text": " What I'm doing next?"
+  },
+  {
+   "start": 987.64,
+   "text": " What I'm doing now?"
+  },
+  {
+   "start": 989.04,
+   "text": " What I'm doing next?"
+  },
+  {
+   "start": 990.6,
+   "text": " What I'm doing now?"
+  },
+  {
+   "start": 991.9200000000001,
+   "text": " What I'm doing next, okay?"
+  },
+  {
+   "start": 994.24,
+   "text": " So that means that if I put X1 into this function,"
+  },
+  {
+   "start": 997.64,
+   "text": " I get Y1."
+  },
+  {
+   "start": 999.44,
+   "text": " If I put X2 into this function, I get Y2, okay?"
+  },
+  {
+   "start": 1003.5200000000001,
+   "text": " So I'm giving you points that are on this line."
+  },
+  {
+   "start": 1006.36,
+   "text": " That's it."
+  },
+  {
+   "start": 1007.2,
+   "text": " Nothing fancy."
+  },
+  {
+   "start": 1008.24,
+   "text": " Just points on the line."
+  },
+  {
+   "start": 1009.8800000000001,
+   "text": " I want you to find a line of best fit, right?"
+  },
+  {
+   "start": 1013.32,
+   "text": " This is something that we do all the time, potentially."
+  },
+  {
+   "start": 1016.44,
+   "text": " I mean, you do it graphically,"
+  },
+  {
+   "start": 1017.6400000000001,
+   "text": " maybe early on in your education."
+  },
+  {
+   "start": 1019.72,
+   "text": " Maybe if you've taken a statistics class,"
+  },
+  {
+   "start": 1021.32,
+   "text": " you've done it, you know, in your class,"
+  },
+  {
+   "start": 1025.1200000000001,
+   "text": " you know, fitting data to a line,"
+  },
+  {
+   "start": 1026.8400000000001,
+   "text": " but that's all that I'm doing."
+  },
+  {
+   "start": 1028.0,
+   "text": " I'm putting it in the language of dynamical systems"
+  },
+  {
+   "start": 1030.28,
+   "text": " because that's what you're used to now."
+  },
+  {
+   "start": 1032.48,
+   "text": " But that's it."
+  },
+  {
+   "start": 1033.32,
+   "text": " Line of best fit."
+  },
+  {
+   "start": 1035.72,
+   "text": " Well, so that means the goal,"
+  },
+  {
+   "start": 1040.52,
+   "text": " so my goal is find, sorry, find m and b,"
+  },
+  {
+   "start": 1049.96,
+   "text": " so that I'm going to make a vector"
+  },
+  {
+   "start": 1054.96,
+   "text": " of differences here, okay?"
+  },
+  {
+   "start": 1057.72,
+   "text": " So the vector, so I have Y1, the output,"
+  },
+  {
+   "start": 1062.72,
+   "text": " minus the input, m, X1 plus b."
+  },
+  {
+   "start": 1068.72,
+   "text": " So if I put X1 into this, I want it to be close to Y1."
+  },
+  {
+   "start": 1073.0,
+   "text": " So this component right here is measuring"
+  },
+  {
+   "start": 1075.0,
+   "text": " how far off those two things are,"
+  },
+  {
+   "start": 1077.52,
+   "text": " given a value of m and b."
+  },
+  {
+   "start": 1079.52,
+   "text": " Same thing for Y2."
+  },
+  {
+   "start": 1081.56,
+   "text": " And I do it for every single data point."
+  },
+  {
+   "start": 1090.56,
+   "text": " Xm plus b, okay?"
+  },
+  {
+   "start": 1097.56,
+   "text": " So I've got a bunch of data points."
+  },
+  {
+   "start": 1101.56,
+   "text": " I have a slope, and I have a Y intercept,"
+  },
+  {
+   "start": 1106.76,
+   "text": " a Y intercept, and I have a vector that measures"
+  },
+  {
+   "start": 1111.84,
+   "text": " how close my function is to my desired output."
+  },
+  {
+   "start": 1117.44,
+   "text": " That's all it is."
+  },
+  {
+   "start": 1118.44,
+   "text": " If this thing was zero, that would tell me"
+  },
+  {
+   "start": 1119.84,
+   "text": " that I have found m and b to exactly match input to output."
+  },
+  {
+   "start": 1125.32,
+   "text": " Now I have a vector, and I want to measure how big it is."
+  },
+  {
+   "start": 1130.2,
+   "text": " That means I can use some P norms."
+  },
+  {
+   "start": 1133.6399999999999,
+   "text": " So here's what I would like to do."
+  },
+  {
+   "start": 1136.3200000000002,
+   "text": " I am going to set up an error function."
+  },
+  {
+   "start": 1141.5600000000002,
+   "text": " An error function that measures the difference"
+  },
+  {
+   "start": 1144.3200000000002,
+   "text": " between inputs and outputs of my system, or of my data."
+  },
+  {
+   "start": 1149.6000000000001,
+   "text": " So it's an error, e for error."
+  },
+  {
+   "start": 1153.2,
+   "text": " It's going to be classified in terms of a P norm,"
+  },
+  {
+   "start": 1156.44,
+   "text": " so a measure of distance."
+  },
+  {
+   "start": 1159.0800000000002,
+   "text": " And it's going to be a function of the Y intercept,"
+  },
+  {
+   "start": 1163.08,
+   "text": " sorry, the Y intercept, and the slope of my linear function."
+  },
+  {
+   "start": 1165.84,
+   "text": " The two things I don't know, okay?"
+  },
+  {
+   "start": 1169.3999999999999,
+   "text": " Well, how do I do this?"
+  },
+  {
+   "start": 1171.8799999999999,
+   "text": " It's just going to be the P norm of this vector."
+  },
+  {
+   "start": 1175.52,
+   "text": " So it's going to be the sum from i equal 1 to m of each one"
+  },
+  {
+   "start": 1184.1599999999999,
+   "text": " of these components to the power of p,"
+  },
+  {
+   "start": 1185.92,
+   "text": " so yi minus m xi plus b to the power of p,"
+  },
+  {
+   "start": 1195.16,
+   "text": " all the power of 1 over p."
+  },
+  {
+   "start": 1198.16,
+   "text": " So it's just the P norm of that vector."
+  },
+  {
+   "start": 1200.0400000000002,
+   "text": " I said that the P norm captures the length of a vector."
+  },
+  {
+   "start": 1204.16,
+   "text": " My goal would be to make this thing zero, right?"
+  },
+  {
+   "start": 1207.3600000000001,
+   "text": " Match every single input to the output through this function."
+  },
+  {
+   "start": 1212.08,
+   "text": " And the way that I would do that is find an m and b to make this as small as possible."
+  },
+  {
+   "start": 1220.2,
+   "text": " Okay?"
+  },
+  {
+   "start": 1221.3999999999999,
+   "text": " So you could do the same thing with p equal to infinity."
+  },
+  {
+   "start": 1225.6799999999998,
+   "text": " It would just measure the maximal difference here, right?"
+  },
+  {
+   "start": 1227.84,
+   "text": " So I don't want to write it down because it's just like more writing."
+  },
+  {
+   "start": 1231.24,
+   "text": " But what I want you to notice is this is a function of m and b."
+  },
+  {
+   "start": 1236.52,
+   "text": " It takes a two-dimensional input, m and b, and gives you an error."
+  },
+  {
+   "start": 1242.64,
+   "text": " It's a function from two dimensions to one dimension."
+  },
+  {
+   "start": 1247.5600000000002,
+   "text": " And we want to make this as small as possible."
+  },
+  {
+   "start": 1250.8,
+   "text": " This is starting to sound a lot like an optimization problem, right?"
+  },
+  {
+   "start": 1266.76,
+   "text": " All the way back to where we started, we want to find a minimum of this function."
+  },
+  {
+   "start": 1271.68,
+   "text": " The smallest possible value that can be input into this, the smallest value that can"
+  },
+  {
+   "start": 1278.16,
+   "text": " be output of this thing, given the inputs m and b."
+  },
+  {
+   "start": 1282.28,
+   "text": " They can be whatever you want, right?"
+  },
+  {
+   "start": 1283.52,
+   "text": " So it's unconstrained optimization."
+  },
+  {
+   "start": 1285.48,
+   "text": " We don't even have to worry about Lagrange multipliers or anything super complicated."
+  },
+  {
+   "start": 1289.88,
+   "text": " Just every possible m and b that can go into that thing, find the minimum."
+  },
+  {
+   "start": 1294.88,
+   "text": " Now, there's lots of different ways you can do this, right?"
+  },
+  {
+   "start": 1297.1200000000001,
+   "text": " You could do it with old school calculus methods, find the derivative of set equal to zero."
+  },
+  {
+   "start": 1301.2,
+   "text": " You know, it might be a lot of work."
+  },
+  {
+   "start": 1303.1200000000001,
+   "text": " So we could use things like gradient descent or Newton's method or even just plot this thing, right?"
+  },
+  {
+   "start": 1310.6000000000001,
+   "text": " It's only two dimensions up into one more dimension."
+  },
+  {
+   "start": 1313.1200000000001,
+   "text": " This is very plotable and we can estimate what the minimum of this thing is, you know,"
+  },
+  {
+   "start": 1317.96,
+   "text": " given the data that you're provided with here."
+  },
+  {
+   "start": 1322.56,
+   "text": " What I would like to do though is explore what happens for different values of p."
+  },
+  {
+   "start": 1327.68,
+   "text": " Because different values of p will drastically alter what your function is that you're fitting."
+  },
+  {
+   "start": 1336.2,
+   "text": " All right, let's look at an example."
+  },
+  {
+   "start": 1340.0,
+   "text": " Now, I'm going to give you, in this case, 11 data points, all right, sorry, 13."
+  },
+  {
+   "start": 1348.84,
+   "text": " So let me just write them out."
+  },
+  {
+   "start": 1350.12,
+   "text": " So 0.1 and 0.5."
+  },
+  {
+   "start": 1353.3999999999999,
+   "text": " So if we're imagining this is maybe a colony of yeast,"
+  },
+  {
+   "start": 1357.0,
+   "text": " it's saying, if I currently have 0.1 units of yeast, then in an hour,"
+  },
+  {
+   "start": 1363.2,
+   "text": " I have 0.5 units of yeast, okay?"
+  },
+  {
+   "start": 1366.36,
+   "text": " So that's what the data is organized by input, output, current time next time."
+  },
+  {
+   "start": 1372.32,
+   "text": " Similarly, maybe someone else ran some experiments."
+  },
+  {
+   "start": 1375.08,
+   "text": " They saw when they had 0.4 units, then they had 0.9 units in an hour."
+  },
+  {
+   "start": 1381.44,
+   "text": " And so the data here is purely expository."
+  },
+  {
+   "start": 1384.96,
+   "text": " It's not meant to represent much."
+  },
+  {
+   "start": 1387.64,
+   "text": " It's just meant to illustrate some things to you, okay?"
+  },
+  {
+   "start": 1390.96,
+   "text": " So 1.2, 1.5, 1.3, 1.5, 1.7, 2.0, 2.2, 2.2."
+  },
+  {
+   "start": 1408.2,
+   "text": " So maybe a bunch of people did these experiments, 2.8, 2.8, 3.0, 2.7, 4.0, 3.0, 4.3, 3.5, 4.4, 3.7,"
+  },
+  {
+   "start": 1439.0,
+   "text": " and the last 1.4.9 and 3.9, okay?"
+  },
+  {
+   "start": 1443.3600000000001,
+   "text": " So if you'd like to go ahead and pause the video and try and actually fit to a line"
+  },
+  {
+   "start": 1450.64,
+   "text": " using the error function that I just gave you, use some different values of p, right?"
+  },
+  {
+   "start": 1455.76,
+   "text": " Try and minimize it."
+  },
+  {
+   "start": 1458.24,
+   "text": " So what I actually did is I built the error function that I just had on the board for you,"
+  },
+  {
+   "start": 1463.6000000000001,
+   "text": " and I used MATLAB's convex optimization solver, so the CVX function."
+  },
+  {
+   "start": 1469.96,
+   "text": " And in that case, what I did is I minimized my error function for different values of p"
+  },
+  {
+   "start": 1475.04,
+   "text": " to identify the optimal m and b slope and y intercept that fit this data."
+  },
+  {
+   "start": 1481.56,
+   "text": " Again, it's a line of best fit problem. That's it, okay?"
+  },
+  {
+   "start": 1486.76,
+   "text": " So here's what I got."
+  },
+  {
+   "start": 1487.96,
+   "text": " Using p equal to 1, this is what I got."
+  },
+  {
+   "start": 1492.08,
+   "text": " m and b come out to be about 0.6873,"
+  },
+  {
+   "start": 1499.04,
+   "text": " 6873, and 0.6251, okay?"
+  },
+  {
+   "start": 1506.48,
+   "text": " So, okay, that's fine."
+  },
+  {
+   "start": 1508.28,
+   "text": " Then I did it with p equal to 2, and with p equal to 2, I got 0.6713,"
+  },
+  {
+   "start": 1518.76,
+   "text": " and 6530, okay?"
+  },
+  {
+   "start": 1522.52,
+   "text": " So, not too far off from what I got with p equal to 1."
+  },
+  {
+   "start": 1528.08,
+   "text": " And then just for fun, I picked a bigger value of p, you could use whatever you want,"
+  },
+  {
+   "start": 1533.68,
+   "text": " but I picked p equal to 10, okay?"
+  },
+  {
+   "start": 1535.28,
+   "text": " So it's one that we haven't played with today, but it's relatively big compared to the other two."
+  },
+  {
+   "start": 1540.68,
+   "text": " I got m and b, in this case, I get 6470."
+  },
+  {
+   "start": 1549.76,
+   "text": " And I get 6950."
+  },
+  {
+   "start": 1554.52,
+   "text": " Okay, here's what I would love for you to do."
+  },
+  {
+   "start": 1557.4,
+   "text": " I would love for you to plot those points and then plot each one of these lines."
+  },
+  {
+   "start": 1562.04,
+   "text": " And in particular, you don't really see much of a change, okay?"
+  },
+  {
+   "start": 1567.6,
+   "text": " So what you should see is a bunch of points sort of scattered along a line."
+  },
+  {
+   "start": 1571.32,
+   "text": " So it should look roughly like this."
+  },
+  {
+   "start": 1574.52,
+   "text": " If this is x, this is y, you know, there's sort of points scattered,"
+  },
+  {
+   "start": 1581.44,
+   "text": " there's 13 of them total, and then each one of these lines kind of just looks really,"
+  },
+  {
+   "start": 1589.0,
+   "text": " really, really similar, something like that, and maybe something like that, right?"
+  },
+  {
+   "start": 1597.0,
+   "text": " I mean, they basically all look the same, and you can see that, right?"
+  },
+  {
+   "start": 1601.3200000000002,
+   "text": " The values of m and b are the same at the first significant digit, right?"
+  },
+  {
+   "start": 1607.68,
+   "text": " At the point six, same thing with the values of b, right?"
+  },
+  {
+   "start": 1612.5200000000002,
+   "text": " So you get a slight variation around the 100th or the one 100th digit here,"
+  },
+  {
+   "start": 1619.3200000000002,
+   "text": " but by and large, these things are mostly the same."
+  },
+  {
+   "start": 1623.44,
+   "text": " Okay, so then it doesn't matter, right?"
+  },
+  {
+   "start": 1627.24,
+   "text": " I should just use whatever value p I like, right?"
+  },
+  {
+   "start": 1629.64,
+   "text": " Seven's my favorite number, so I'm going to use p equal to seven."
+  },
+  {
+   "start": 1632.16,
+   "text": " Every single time I do this, well, okay, let me augment my data set, okay?"
+  },
+  {
+   "start": 1638.68,
+   "text": " Let me add in two more points, and I'm going to add in 0.5 comma 0.8,"
+  },
+  {
+   "start": 1649.68,
+   "text": " and I'm going to add in 3.9 comma 0.3."
+  },
+  {
+   "start": 1660.2800000000002,
+   "text": " 3.8, pardon me."
+  },
+  {
+   "start": 1661.44,
+   "text": " So as you can see here, these are massive, massive, massive outliers, right?"
+  },
+  {
+   "start": 1666.92,
+   "text": " 0.5 is pretty close to about 0.4."
+  },
+  {
+   "start": 1669.3600000000001,
+   "text": " It gave me somewhere around one."
+  },
+  {
+   "start": 1671.44,
+   "text": " This means that I'm going to get, you know, some point way up here,"
+  },
+  {
+   "start": 1676.8400000000001,
+   "text": " and I'm going to get another point, you know, way over here."
+  },
+  {
+   "start": 1682.24,
+   "text": " These are massive outliers in my data, okay?"
+  },
+  {
+   "start": 1685.52,
+   "text": " So maybe, if this was my yeast colony, maybe these two were, you know,"
+  },
+  {
+   "start": 1691.64,
+   "text": " somebody's first day in the lab, and you know, maybe they made some little mistakes"
+  },
+  {
+   "start": 1695.68,
+   "text": " or something happened, right?"
+  },
+  {
+   "start": 1697.8,
+   "text": " So they gave me some faulty data."
+  },
+  {
+   "start": 1699.48,
+   "text": " I got some massive outliers."
+  },
+  {
+   "start": 1700.76,
+   "text": " These things should not be in there."
+  },
+  {
+   "start": 1703.2,
+   "text": " Well, nonetheless, you know, data's data, I got to work with what I'm given,"
+  },
+  {
+   "start": 1708.04,
+   "text": " and maybe it wasn't that crazy, but it certainly deviates from, you know,"
+  },
+  {
+   "start": 1713.68,
+   "text": " the norm here, right?"
+  },
+  {
+   "start": 1714.92,
+   "text": " What I was sort of expecting."
+  },
+  {
+   "start": 1717.0,
+   "text": " Well, okay, how about I repeat?"
+  },
+  {
+   "start": 1719.5600000000002,
+   "text": " In this case, I'll run the error again, and I'll minimize the error again"
+  },
+  {
+   "start": 1725.0,
+   "text": " using the CVX package."
+  },
+  {
+   "start": 1727.28,
+   "text": " I'm going to do it with an error function with p equal to 1."
+  },
+  {
+   "start": 1729.92,
+   "text": " In this case, I get m and b are equal to, so 0.668,"
+  },
+  {
+   "start": 1741.96,
+   "text": " and 0.6333."
+  },
+  {
+   "start": 1747.92,
+   "text": " Okay, that's actually pretty interesting, right?"
+  },
+  {
+   "start": 1749.68,
+   "text": " Because this didn't change a whole lot."
+  },
+  {
+   "start": 1752.56,
+   "text": " The still the same leading digit, and it really, I mean, it's just a tiny, tiny,"
+  },
+  {
+   "start": 1758.04,
+   "text": " little change."
+  },
+  {
+   "start": 1759.3600000000001,
+   "text": " To me, that's pretty interesting, right?"
+  },
+  {
+   "start": 1760.92,
+   "text": " Because these are massive outliers."
+  },
+  {
+   "start": 1764.08,
+   "text": " Now, it's true, maybe by my picture, maybe you're thinking that they sort of balance"
+  },
+  {
+   "start": 1769.2,
+   "text": " each other out."
+  },
+  {
+   "start": 1770.16,
+   "text": " That's not really what's going on."
+  },
+  {
+   "start": 1771.76,
+   "text": " You can use a lot of different outliers in here."
+  },
+  {
+   "start": 1774.84,
+   "text": " You'll kind of see the same trend, right?"
+  },
+  {
+   "start": 1776.24,
+   "text": " So I could have put an outlier over here."
+  },
+  {
+   "start": 1777.84,
+   "text": " I could have put another one up here."
+  },
+  {
+   "start": 1779.48,
+   "text": " You know, I would still kind of see the same thing."
+  },
+  {
+   "start": 1781.6000000000001,
+   "text": " So I don't want you to think that this is, you know, I really strategically"
+  },
+  {
+   "start": 1785.56,
+   "text": " chose data here in order to make it, you know, like an interesting example."
+  },
+  {
+   "start": 1791.56,
+   "text": " These are purely sort of random outliers that I chose."
+  },
+  {
+   "start": 1795.16,
+   "text": " It just so happens that they have this sort of splitting."
+  },
+  {
+   "start": 1798.6000000000001,
+   "text": " Okay, so if I use P equal to 2 here, I get 0.57, okay?"
+  },
+  {
+   "start": 1805.16,
+   "text": " So a way different, 5, 2, and 0.99, okay, 4, 7."
+  },
+  {
+   "start": 1813.92,
+   "text": " All right, that is radically different, all right?"
+  },
+  {
+   "start": 1816.92,
+   "text": " I completely lost the first digit of what I had last time."
+  },
+  {
+   "start": 1821.0000000000002,
+   "text": " So I'm being influenced more by the outliers."
+  },
+  {
+   "start": 1824.88,
+   "text": " Now let's see this taken to a bit of an extreme with P equal to 10."
+  },
+  {
+   "start": 1829.68,
+   "text": " In this case, M and B are equal to 0.1340, and B is equal to 1.99."
+  },
+  {
+   "start": 1842.3600000000001,
+   "text": " It's a 2, basically, 6, 8."
+  },
+  {
+   "start": 1847.48,
+   "text": " If I sketch out what some of these lines look like here, I'm not going to draw the random"
+  },
+  {
+   "start": 1854.08,
+   "text": " scattering of data anymore."
+  },
+  {
+   "start": 1857.4399999999998,
+   "text": " But if I sort of sketch out what these things look like, you sort of get P equal to 1, looks"
+  },
+  {
+   "start": 1863.32,
+   "text": " like this, then maybe, let's do blue, let's do maybe P equal to 2, it's kind of like"
+  },
+  {
+   "start": 1873.0,
+   "text": " this, it's a little more tilted, it's a little more skewed by these things, so you can see"
+  },
+  {
+   "start": 1877.76,
+   "text": " it's trying to balance, right?"
+  },
+  {
+   "start": 1879.16,
+   "text": " It's trying to pull down in order to account for this, but also pull up to account for"
+  },
+  {
+   "start": 1884.72,
+   "text": " that."
+  },
+  {
+   "start": 1885.72,
+   "text": " But again, most of the data is right along here, whereas the P equal to 10 looks like,"
+  },
+  {
+   "start": 1892.3600000000001,
+   "text": " I mean, it's not horizontal, but it is getting close to being horizontal, and it looks"
+  },
+  {
+   "start": 1898.96,
+   "text": " a lot more like that."
+  },
+  {
+   "start": 1901.72,
+   "text": " So what you can see here is that the outliers have a drastic effect when you have a larger"
+  },
+  {
+   "start": 1911.0,
+   "text": " value of P. In particular, if I took P equal to 100, you would see even more of a straight"
+  },
+  {
+   "start": 1915.48,
+   "text": " line, right?"
+  },
+  {
+   "start": 1916.48,
+   "text": " So it's really trying to balance out these outliers."
+  },
+  {
+   "start": 1920.88,
+   "text": " So the question is, why, right?"
+  },
+  {
+   "start": 1922.8,
+   "text": " How could I have anticipated this by looking at the P norms?"
+  },
+  {
+   "start": 1928.16,
+   "text": " Well, let's look at this, right?"
+  },
+  {
+   "start": 1930.04,
+   "text": " So each one of these things we have this, m x i plus B to the power of P. Now, the bigger"
+  },
+  {
+   "start": 1943.1599999999999,
+   "text": " this value is, the higher P is, it's going to make it even bigger."
+  },
+  {
+   "start": 1948.2,
+   "text": " So for example, imagine this, this error is 10, right?"
+  },
+  {
+   "start": 1951.6,
+   "text": " So this would be, you know, at the massive outliers here, when this thing is big, the"
+  },
+  {
+   "start": 1958.24,
+   "text": " power of P will make it explode, right?"
+  },
+  {
+   "start": 1961.44,
+   "text": " So 10 to the power of 10."
+  },
+  {
+   "start": 1962.76,
+   "text": " That's a huge number as opposed to 10 to the power of 1 or even 10 to the power of 2."
+  },
+  {
+   "start": 1968.76,
+   "text": " The bigger the value of P here, it puts more weight on outliers because outliers give"
+  },
+  {
+   "start": 1976.08,
+   "text": " a bigger value."
+  },
+  {
+   "start": 1977.64,
+   "text": " And that means that if you want to minimize your error function, the bigger values of"
+  },
+  {
+   "start": 1983.16,
+   "text": " P spend more time focusing on outliers, right?"
+  },
+  {
+   "start": 1987.0,
+   "text": " Because those are the things that are contributing the most to the big errors."
+  },
+  {
+   "start": 1991.48,
+   "text": " That's why you're getting this sort of balancing for the P equal to 10 because it's trying"
+  },
+  {
+   "start": 1996.36,
+   "text": " to balance out, trying to make these distances as small as possible because those are the"
+  },
+  {
+   "start": 2001.84,
+   "text": " ones that are having the largest effect on the error function."
+  },
+  {
+   "start": 2006.76,
+   "text": " When P is smaller, outliers don't have as much of an effect."
+  },
+  {
+   "start": 2010.96,
+   "text": " They don't get blown up in the same way."
+  },
+  {
+   "start": 2013.4,
+   "text": " And everybody sort of contributes a little equally here."
+  },
+  {
+   "start": 2016.56,
+   "text": " And so, what we see is we see almost a bit of a robustness to outliers, right?"
+  },
+  {
+   "start": 2022.84,
+   "text": " We're pretty close to what we were before."
+  },
+  {
+   "start": 2025.9199999999998,
+   "text": " So if my friends who are the first day in the lab, if they really did make a mistake,"
+  },
+  {
+   "start": 2031.3999999999999,
+   "text": " at least using P equal to 1 is accounting."
+  },
+  {
+   "start": 2034.28,
+   "text": " It's sort of helping to not have those mistakes have an outsized influence on your data,"
+  },
+  {
+   "start": 2040.6399999999999,
+   "text": " right?"
+  },
+  {
+   "start": 2041.64,
+   "text": " Bigger values of P you use, the bigger influence you can have on outliers, okay?"
+  },
+  {
+   "start": 2050.76,
+   "text": " So typically the optimal setting here would be to use P equal to 1, right?"
+  },
+  {
+   "start": 2056.2000000000003,
+   "text": " The smallest possible value of P that you could possibly use."
+  },
+  {
+   "start": 2060.7200000000003,
+   "text": " The only issue with using P equal to 1 is that you're stuck with a bunch of absolute"
+  },
+  {
+   "start": 2065.6800000000003,
+   "text": " values."
+  },
+  {
+   "start": 2066.6800000000003,
+   "text": " Now if you want to use something like Newton's method or gradient descent, they always"
+  },
+  {
+   "start": 2070.76,
+   "text": " require you to take derivatives."
+  },
+  {
+   "start": 2073.84,
+   "text": " Absolute values are difficult to take derivatives of."
+  },
+  {
+   "start": 2077.5600000000004,
+   "text": " Now typically what people do in practice is they offer themselves a bit of a trade-off."
+  },
+  {
+   "start": 2083.5200000000004,
+   "text": " They say people to 1 is the best thing that I could use, but it has annoying things"
+  },
+  {
+   "start": 2088.84,
+   "text": " to take derivatives up."
+  },
+  {
+   "start": 2091.2000000000003,
+   "text": " P equal to 2, you know, when P is equal to 2 here, this thing just becomes a nice quadratic"
+  },
+  {
+   "start": 2098.36,
+   "text": " function."
+  },
+  {
+   "start": 2099.88,
+   "text": " I can take derivatives of quadratic functions all day."
+  },
+  {
+   "start": 2105.36,
+   "text": " That thing is nice and smooth, it has a nice derivative that I can take, and so I get"
+  },
+  {
+   "start": 2109.86,
+   "text": " a little bit of a happy medium."
+  },
+  {
+   "start": 2111.36,
+   "text": " It's the smallest value of P that I get a nice smooth function, but it's small enough"
+  },
+  {
+   "start": 2118.88,
+   "text": " that it doesn't outliers, don't have a huge effect on it."
+  },
+  {
+   "start": 2122.1600000000003,
+   "text": " They still have some effect, right?"
+  },
+  {
+   "start": 2124.16,
+   "text": " We can see in this B value in particular, but it's not so big that the outliers are"
+  },
+  {
+   "start": 2131.96,
+   "text": " really, really, really drastically altering here."
+  },
+  {
+   "start": 2134.8399999999997,
+   "text": " So typically, this is the sort of Goldilocks one that we use in practice because it's"
+  },
+  {
+   "start": 2142.24,
+   "text": " the easiest one to look at from a calculus perspective, right?"
+  },
+  {
+   "start": 2145.64,
+   "text": " It's got nice smooth things that we can differentiate, but it's also a small enough value of P"
+  },
+  {
+   "start": 2152.68,
+   "text": " that it doesn't have an outsized influence on outliers."
+  },
+  {
+   "start": 2157.16,
+   "text": " Okay, in the next lecture, I'm going to come back to these data fitting examples, and"
+  },
+  {
+   "start": 2163.68,
+   "text": " I'm going to look at fitting non-linear functions, and in particular, we're going to talk about"
+  },
+  {
+   "start": 2168.16,
+   "text": " the Lasso method."
+  },
+  {
+   "start": 2169.96,
+   "text": " I'll see you in the next lecture."
+  }
+ ]
+}

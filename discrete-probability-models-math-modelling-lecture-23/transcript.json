@@ -1,0 +1,977 @@
+{
+ "video_id": "7c43WFHCRac",
+ "title": "Discrete Probability Models - Math Modelling - Lecture 23",
+ "channel": "Math Modelling",
+ "duration_s": 1790,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back."
+  },
+  {
+   "start": 2.16,
+   "text": " Now, this lecture marks the third major unit of our exploration of mathematical modeling."
+  },
+  {
+   "start": 10.56,
+   "text": " Now, that means that we have concluded our discussion of dynamic systems,"
+  },
+  {
+   "start": 15.44,
+   "text": " and although we didn't finish the subject, right, it's an open area of investigation,"
+  },
+  {
+   "start": 21.44,
+   "text": " we are going to transition into probability models."
+  },
+  {
+   "start": 25.04,
+   "text": " And in particular, probability models we're going to see"
+  },
+  {
+   "start": 28.0,
+   "text": " incorporate a lot of the ideas that we have seen in optimization"
+  },
+  {
+   "start": 32.88,
+   "text": " and in dynamical systems, and we're going to carry those things through"
+  },
+  {
+   "start": 36.88,
+   "text": " into our stochastic or random models."
+  },
+  {
+   "start": 40.96,
+   "text": " Now, this is very similar to what I did with the previous lecture where I talked about data fitting,"
+  },
+  {
+   "start": 45.760000000000005,
+   "text": " and we saw that all of the ideas that we developed for optimization can be carried over."
+  },
+  {
+   "start": 50.24,
+   "text": " So we have this sort of cascading that's taking place in mathematical modeling."
+  },
+  {
+   "start": 55.04,
+   "text": " And this is really the sort of unifying idea of applied mathematics in general, right?"
+  },
+  {
+   "start": 59.04,
+   "text": " Whatever the tool is that's necessary for the job."
+  },
+  {
+   "start": 63.2,
+   "text": " So, keeping with the theme of this lecture series,"
+  },
+  {
+   "start": 66.8,
+   "text": " this is a course on mathematical modeling, not on dynamical systems,"
+  },
+  {
+   "start": 70.24,
+   "text": " and therefore we're going to talk about another aspect of mathematical modeling."
+  },
+  {
+   "start": 75.12,
+   "text": " Now, what we will talk about in this lecture in particular are discrete probability models."
+  },
+  {
+   "start": 81.68,
+   "text": " So, I'm going to make a slight assumption here that you have some basic idea of how"
+  },
+  {
+   "start": 87.60000000000001,
+   "text": " probabilities work from a mathematical perspective. Now, that doesn't mean that I'm going to"
+  },
+  {
+   "start": 93.44000000000001,
+   "text": " not introduce you to any of the topics that I will talk about."
+  },
+  {
+   "start": 96.88000000000001,
+   "text": " Indeed, I will tell you about every single piece that you're going to need,"
+  },
+  {
+   "start": 100.64000000000001,
+   "text": " but we won't go into full detail about certain aspects of probability theory,"
+  },
+  {
+   "start": 105.2,
+   "text": " because I'm going to make the assumption that you have a basic familiarity with it."
+  },
+  {
+   "start": 109.60000000000001,
+   "text": " Again, like everything in this class, we are going to bend our focus towards the modeling aspect"
+  },
+  {
+   "start": 116.48,
+   "text": " of this. So, probability here is going to be the tool, but the goal will be to do some modeling."
+  },
+  {
+   "start": 122.88000000000001,
+   "text": " Okay, with that being said, let's review some basics. Okay, so I'm going to think about a random"
+  },
+  {
+   "start": 129.52,
+   "text": " variable, X, and I'm going to think about a discrete probability distribution here. So,"
+  },
+  {
+   "start": 138.24,
+   "text": " that means that X can be taken or can take on one of only finitely many states."
+  },
+  {
+   "start": 146.48000000000002,
+   "text": " Okay, so for example, this could be rolling a dice. There are six possible states that can come"
+  },
+  {
+   "start": 153.60000000000002,
+   "text": " up from rolling a die. The number is one through six. That would mean that my N is six."
+  },
+  {
+   "start": 158.96,
+   "text": " My random variable here is what's shown on the dice after rolling it."
+  },
+  {
+   "start": 164.56,
+   "text": " Well, along with each one of these elements that we can take on, we have a probability that they are selected."
+  },
+  {
+   "start": 174.8,
+   "text": " I'm going to use this P. This is very similar to how you denote the real numbers R."
+  },
+  {
+   "start": 181.52,
+   "text": " Probability that X takes on any one of these states is going to be given by a number P I,"
+  },
+  {
+   "start": 191.04,
+   "text": " which is going to be between zero and one. One represents a hundred percent probability that"
+  },
+  {
+   "start": 196.79999999999998,
+   "text": " that happens, zero represents a zero percent probability, and everything else in between, you know,"
+  },
+  {
+   "start": 202.16,
+   "text": " 0.5, 0.75. These are just percentages if you like to think of it that way."
+  },
+  {
+   "start": 208.23999999999998,
+   "text": " Now, of course, we're going to make an assumption here. The assumption is that we have all of the"
+  },
+  {
+   "start": 213.35999999999999,
+   "text": " information about the possible states. So, these are the only things that X can take on."
+  },
+  {
+   "start": 219.52,
+   "text": " And what this means is that all of these probabilities together are going to give you one."
+  },
+  {
+   "start": 228.16000000000003,
+   "text": " That means that one hundred percent of the outcomes are accounted for."
+  },
+  {
+   "start": 232.4,
+   "text": " Go back to the dice example, okay? So, if I say that the numbers on the dice can only come"
+  },
+  {
+   "start": 238.48000000000002,
+   "text": " off one through five, but you roll a six that wasn't accounted for, right? So, this is sort of a"
+  },
+  {
+   "start": 246.0,
+   "text": " completeness of information assumption here, right? I know all possible states that can be taken on"
+  },
+  {
+   "start": 252.56,
+   "text": " and all of them have probabilities. Now, for example, I could think about a dice,"
+  },
+  {
+   "start": 258.08,
+   "text": " for example, and I could say the probability that seven comes up, while the probability that"
+  },
+  {
+   "start": 263.2,
+   "text": " happens is zero with a standard dice. So, that would give, you know, X is equal to seven probability"
+  },
+  {
+   "start": 270.0,
+   "text": " zero. So, we're not going to include that, okay? So, we're only going to include things with"
+  },
+  {
+   "start": 273.68,
+   "text": " potentially positive probabilities here and that we have all of the information about our system."
+  },
+  {
+   "start": 281.76,
+   "text": " All right. So, typically the first thing that you learn when you take a probability class,"
+  },
+  {
+   "start": 285.68,
+   "text": " you know, after the basics here is calculating the mean or the expected value. So, similarly,"
+  },
+  {
+   "start": 294.08,
+   "text": " I'm going to use this E sort of same thing as the P, same thing as the real numbers R,"
+  },
+  {
+   "start": 300.72,
+   "text": " the expected value of my random variable X. So, this is the average. Well, this is given by a"
+  },
+  {
+   "start": 309.84000000000003,
+   "text": " weighted sum. So, I equal one to N of my probabilities multiplied by the outcome. So, for example,"
+  },
+  {
+   "start": 319.6,
+   "text": " again, if this is my dice, I have a one in six probability of rolling anything on a fair dice. So,"
+  },
+  {
+   "start": 325.68,
+   "text": " there's no waiting that would preference a number coming up here. And so, that would give me"
+  },
+  {
+   "start": 330.40000000000003,
+   "text": " every one of these PIs is one over six. Add them all up. I get one. And XI would be the value that"
+  },
+  {
+   "start": 337.04,
+   "text": " comes up. So, that would be one over six times one plus one over six times two plus one over six"
+  },
+  {
+   "start": 344.88000000000005,
+   "text": " times three, so on and so forth, right? In this case, you would average or your expected value"
+  },
+  {
+   "start": 351.84000000000003,
+   "text": " would be 3.5 because everybody is equal so that it's just the midpoint between one and six coming"
+  },
+  {
+   "start": 358.0,
+   "text": " up on the dice here. Okay. So, these PIs here are typically referred to as the probability distribution."
+  },
+  {
+   "start": 369.52,
+   "text": " So, right here, P1, P2 and all the way up to PN, this is the probability distribution."
+  },
+  {
+   "start": 380.48,
+   "text": " Okay. Now, another piece of this that we might have to recall before moving forward on all of this"
+  },
+  {
+   "start": 393.44,
+   "text": " is the idea of independence. Okay. So, let's remind ourselves, let's imagine we have two possible random"
+  },
+  {
+   "start": 404.24,
+   "text": " variables that draw from some discrete probability distribution. So, there's only"
+  },
+  {
+   "start": 410.24,
+   "text": " finally many states that these can take on. One of them could have more states than the other."
+  },
+  {
+   "start": 416.24,
+   "text": " So, for example, one could be rolling a six-sided dice and one of them could be rolling a 12-sided"
+  },
+  {
+   "start": 422.08,
+   "text": " die. It doesn't really matter. The only thing that matters here is that there is a finite number"
+  },
+  {
+   "start": 426.88,
+   "text": " of possibilities. Well, then I would say that these things are independent if the probability"
+  },
+  {
+   "start": 435.44,
+   "text": " that my random variable takes on a value and the probability that my random variable Z takes"
+  },
+  {
+   "start": 443.68,
+   "text": " on another value, let's say J, sorry, is just each one of these individual probabilities multiplied"
+  },
+  {
+   "start": 452.88,
+   "text": " together. So, sorry, like that. Okay. So, again, think about the dice example. I mean, they could both"
+  },
+  {
+   "start": 469.68,
+   "text": " be six-sided die. If dice or the die represented by Y, the probability of that rolling a two,"
+  },
+  {
+   "start": 476.88,
+   "text": " that's one in six. The probability of the dice marked by Z rolling, say, a one is one in six."
+  },
+  {
+   "start": 485.68,
+   "text": " You know, what happens on the dice? Why does not affect what happens on the dice? Z and vice-versa."
+  },
+  {
+   "start": 491.84,
+   "text": " They're completely independent. So, we would say that the probability of getting a two on the Y"
+  },
+  {
+   "start": 497.28,
+   "text": " die and a one on the Z die is just one over six times one over six. It's a one in 36 chance."
+  },
+  {
+   "start": 506.40000000000003,
+   "text": " These things are completely independent of each other. There is no relationship between what happens"
+  },
+  {
+   "start": 512.24,
+   "text": " on Z and what happens on Y. Okay. So, again, quick and dirty overview of probability. You hopefully"
+  },
+  {
+   "start": 523.9200000000001,
+   "text": " have some familiarity with this. If not, I highly recommend, you know, digging it a little bit more"
+  },
+  {
+   "start": 530.4,
+   "text": " into the details, into the theory for this before moving on with the modeling aspect of this."
+  },
+  {
+   "start": 538.88,
+   "text": " Now, if you're comfortable moving forward, let's actually look at an example of modeling something"
+  },
+  {
+   "start": 545.4399999999999,
+   "text": " according to a discrete probability distribution, okay, or a discrete probability model. And here's"
+  },
+  {
+   "start": 553.52,
+   "text": " the basic idea, okay. I want to imagine that I am an electronics manufacturer, or at least I work"
+  },
+  {
+   "start": 560.56,
+   "text": " at a manufacturing firm for electronics, that I produce a variety of diodes, okay. Now, quality"
+  },
+  {
+   "start": 567.92,
+   "text": " control engineers attempt to ensure the faulty diodes will be detected in the factory before"
+  },
+  {
+   "start": 574.16,
+   "text": " they're shipped, right? I want to get the bad ones before I send them out. Now, it's estimated"
+  },
+  {
+   "start": 579.04,
+   "text": " that about 0.3 percent of the diodes produced will be faulty, but it is sort of completely random"
+  },
+  {
+   "start": 587.52,
+   "text": " as to where they show up, okay. So, there's no way of just saying, you know, every every three out"
+  },
+  {
+   "start": 593.76,
+   "text": " of 1,000 will be faulty. Okay. Now, it is possible for me to hire someone to sit and check every"
+  },
+  {
+   "start": 605.28,
+   "text": " diode individually. You know, as they're going down the conveyor belt, they say, this one's good,"
+  },
+  {
+   "start": 609.04,
+   "text": " this one's good, this one's no good, et cetera. But that's a little bit expensive. To test one"
+  },
+  {
+   "start": 615.6,
+   "text": " diode, I have calculated cost me five cents. So, five cents per diode, all right. So, I'm making,"
+  },
+  {
+   "start": 621.6,
+   "text": " you know, tons and tons of these diodes, it may be I'm making a million an hour, whatever happens to"
+  },
+  {
+   "start": 625.68,
+   "text": " be, it could be very, very expensive to test every single one of them. What I could do instead"
+  },
+  {
+   "start": 631.9200000000001,
+   "text": " is I can test batches of them. So, I can take a random sample of them and then I can test that"
+  },
+  {
+   "start": 639.44,
+   "text": " whole batch. And if the whole batch is good, it gets sent off, but if it's bad, then I have to"
+  },
+  {
+   "start": 644.96,
+   "text": " test each one individually. To test a batch of, say, end diodes, it cost me four cents plus one"
+  },
+  {
+   "start": 654.08,
+   "text": " cent for every diode in the batch. So, four plus n. Again, if it fails, then I got to sift through"
+  },
+  {
+   "start": 660.16,
+   "text": " them individually and I got to do five cents per diode. So, the idea here, what we would like"
+  },
+  {
+   "start": 665.92,
+   "text": " to do, we'd like to use probability to figure out what the optimal number that I should be testing"
+  },
+  {
+   "start": 671.52,
+   "text": " in each batch is so that I can minimize the number of faulty diodes that gets sent out."
+  },
+  {
+   "start": 680.0,
+   "text": " So, here's how I want to do it. I'm going to say n is equal to the number of diodes."
+  },
+  {
+   "start": 690.9599999999999,
+   "text": " Per test group."
+  },
+  {
+   "start": 696.0,
+   "text": " Okay, so this is how many I select in a batch that are going to be looked at all together. Okay."
+  },
+  {
+   "start": 704.16,
+   "text": " I'm going to say c is equal to the testing cost for a group"
+  },
+  {
+   "start": 709.6800000000001,
+   "text": " for a group. So, how much it cost me to test the group of n diodes, right? It's going to be a function of n"
+  },
+  {
+   "start": 723.12,
+   "text": " and the last thing, the average testing cost."
+  },
+  {
+   "start": 729.84,
+   "text": " Okay, and this is going to be in cents per diode."
+  },
+  {
+   "start": 742.88,
+   "text": " Now, as you can tell, this is going to be sort of an optimization problem, but again,"
+  },
+  {
+   "start": 748.96,
+   "text": " this is a probabilistic optimization problem. I would like to minimize a here, right?"
+  },
+  {
+   "start": 754.72,
+   "text": " I want to drive down the cost on average that it costs to test these diodes, right?"
+  },
+  {
+   "start": 761.6,
+   "text": " So, in this case, n is a decision variable. I get to choose what it is. It's the input."
+  },
+  {
+   "start": 768.24,
+   "text": " It's the one thing that I get to control here, okay? Now, c is sort of, it's a random outcome,"
+  },
+  {
+   "start": 777.52,
+   "text": " right? Because if everybody in that group is good that gets tested, then I don't have to pay any"
+  },
+  {
+   "start": 784.4,
+   "text": " more than just testing the whole group. But, if there's even one faulty diode in the group,"
+  },
+  {
+   "start": 789.84,
+   "text": " then testing costs go through the roof because I have to look at each diode individually and pay"
+  },
+  {
+   "start": 794.16,
+   "text": " five cents per diode. And then, finally, a is not random. It's actually going to be an expected value,"
+  },
+  {
+   "start": 803.12,
+   "text": " okay? So, let's actually walk through this and let's see what we can do here."
+  },
+  {
+   "start": 810.0,
+   "text": " Okay. So, first of all, if n is equal to 1, then a is equal to 5. Why? If there's only one,"
+  },
+  {
+   "start": 826.08,
+   "text": " if I'm just selecting each diode individually, it costs me five cents to check the diodes,"
+  },
+  {
+   "start": 832.08,
+   "text": " right? So, that means that on average it costs me five cents. I'm checking every single diode"
+  },
+  {
+   "start": 838.5600000000001,
+   "text": " individually. Okay, so that's one piece of this. Now, if n is bigger than 1,"
+  },
+  {
+   "start": 848.1600000000001,
+   "text": " we have that the cost is a base price of four cents plus one cent for every diode that you check,"
+  },
+  {
+   "start": 857.2800000000001,
+   "text": " right? So, if I check a batch of 10, it costs me 14 cents, four cents base price plus one cent for"
+  },
+  {
+   "start": 864.8000000000001,
+   "text": " every diode that gets checked. And this is only if the group contains no faulty diodes."
+  },
+  {
+   "start": 881.2800000000001,
+   "text": " No faulty diodes."
+  },
+  {
+   "start": 887.0400000000001,
+   "text": " Okay, so that's the base price for just checking a group of them. If they're all good,"
+  },
+  {
+   "start": 891.76,
+   "text": " I can send that out the door. But then the cost will be that base price of four plus n,"
+  },
+  {
+   "start": 900.96,
+   "text": " so for checking the group. But if one in that group fails, then I got to go through each one"
+  },
+  {
+   "start": 908.3199999999999,
+   "text": " individually and check how much it costs. That means I got to pay five cents per diode on top of"
+  },
+  {
+   "start": 914.96,
+   "text": " this, right? So, if I've got a big group of 10, my grouping mechanism, my factory tells me that"
+  },
+  {
+   "start": 920.48,
+   "text": " something in there failed, but it doesn't know exactly which one it is. So, I got to send a worker"
+  },
+  {
+   "start": 925.12,
+   "text": " over there to check each individual diode that's in the group, five cents per diode in the group."
+  },
+  {
+   "start": 931.04,
+   "text": " This is for the machine to check the whole group together. This is for my worker to check each"
+  },
+  {
+   "start": 936.1600000000001,
+   "text": " diode individually. So, otherwise. All right. And the last piece of this, a is equal to,"
+  },
+  {
+   "start": 950.5600000000001,
+   "text": " okay, so this is the average testing cost in cents per diode. So, a is going to be the average"
+  },
+  {
+   "start": 957.76,
+   "text": " value of C, the average cost per diode, the average cost for checking, sorry, pardon me,"
+  },
+  {
+   "start": 969.52,
+   "text": " the average value of C divided by the number of diodes in the group, right? So, C is the testing"
+  },
+  {
+   "start": 980.96,
+   "text": " cost for a group. You want the expected value, the average of that thing, and then per diode."
+  },
+  {
+   "start": 989.12,
+   "text": " Okay. So, as I said, we're going to model this thing as a discrete probability model. So,"
+  },
+  {
+   "start": 998.8000000000001,
+   "text": " now we have to put together the model, right? So, if we sort of follow the five step method,"
+  },
+  {
+   "start": 1003.9200000000001,
+   "text": " this is sort of step one. Step two is the decision to actually model this as a discrete probability"
+  },
+  {
+   "start": 1010.4,
+   "text": " model, and then step three is to put this thing together into an actual model. So, we would like to"
+  },
+  {
+   "start": 1018.48,
+   "text": " compute the expected value of C, right? That's the average value of C. Remember, the thing that we"
+  },
+  {
+   "start": 1028.4,
+   "text": " care about is A, that means that we need an expected value of C, and then we need to divide it by N."
+  },
+  {
+   "start": 1033.36,
+   "text": " So, the question is, what is the expected value of C? Well, the expected value of C is going to be"
+  },
+  {
+   "start": 1039.92,
+   "text": " the cost if the group is faulty, or sorry, contains no faults, multiplied by the probability that there"
+  },
+  {
+   "start": 1048.48,
+   "text": " is actually no faults in that group. Okay. I'm going to call this P for now. Plus, the cost,"
+  },
+  {
+   "start": 1056.48,
+   "text": " if there is a fault in the group, multiplied by the probability that at least one diode is faulty"
+  },
+  {
+   "start": 1068.08,
+   "text": " in that group. That probability is actually going to be one minus P. There are only two options,"
+  },
+  {
+   "start": 1073.6799999999998,
+   "text": " either everything is good, or at least one is bad. So, P and one minus P, you add those two things"
+  },
+  {
+   "start": 1081.9199999999998,
+   "text": " together, you get one, which means that we have all of the possible probabilities accounted for in"
+  },
+  {
+   "start": 1088.3999999999999,
+   "text": " this. P tells me everybody in my batch is good, one minus P tells me at least one diode in my batch"
+  },
+  {
+   "start": 1095.36,
+   "text": " is bad. Now, I can actually figure out what P is. Remember, I told you that 0.3% of the"
+  },
+  {
+   "start": 1104.6399999999999,
+   "text": " diodes end up being faulty. So, that means that, so here, let's write this, 0.003 diodes are faulty,"
+  },
+  {
+   "start": 1118.56,
+   "text": " and this means that 0.997, sorry, diode is good in percentage. So, 99% percent of the diodes are"
+  },
+  {
+   "start": 1141.04,
+   "text": " good. And so, if I have a batch of N diodes, then each one of these has a probability. Each one of"
+  },
+  {
+   "start": 1150.0,
+   "text": " them is completely independent, right? So, if I find a faulty diode here, that doesn't tell me"
+  },
+  {
+   "start": 1155.68,
+   "text": " anything about another diode that might be on the conveyor belt. So, each one of these is"
+  },
+  {
+   "start": 1159.52,
+   "text": " completely independent, and that means that each one of them has a 99.7% chance of being good."
+  },
+  {
+   "start": 1167.44,
+   "text": " This tells me that my probability that I have N good ones in my batch is 0.997 to the power of N,"
+  },
+  {
+   "start": 1179.68,
+   "text": " why? Because these things are independent. That means I can multiply their individual probabilities"
+  },
+  {
+   "start": 1185.2,
+   "text": " together. So, if I have two diodes, each one is 99.7% good, 0.997 times 0.997. That would give an"
+  },
+  {
+   "start": 1195.76,
+   "text": " exponent of two. If you have three, then you just multiply it another one of those 0.997s in,"
+  },
+  {
+   "start": 1202.08,
+   "text": " again. And what this gives me is an expected value here, which now has this probability in it."
+  },
+  {
+   "start": 1212.24,
+   "text": " So, let's write it all out. The expected value of C, in this case, is 4 plus N times 0.997"
+  },
+  {
+   "start": 1225.28,
+   "text": " to the power of N, that's P, and then plus 4 plus N plus 5N, the probability that there's a faulty"
+  },
+  {
+   "start": 1238.4,
+   "text": " one, 1 minus 0.997 to the power of N. Okay, that formula for the expected value can actually be"
+  },
+  {
+   "start": 1248.72,
+   "text": " cleaned up a little bit, if we factor some nice pieces together. And in fact, this clean comes"
+  },
+  {
+   "start": 1255.68,
+   "text": " out to be 4 plus 6N, and then minus 5N, 0.997 to the N. So, all I did was clean up that expected"
+  },
+  {
+   "start": 1270.56,
+   "text": " value computation that was down here at the bottom. But this gives me now my expected value"
+  },
+  {
+   "start": 1278.0800000000002,
+   "text": " of the cost of checking these diodes. And therefore, my average cost per diode is going to be my"
+  },
+  {
+   "start": 1290.88,
+   "text": " expected value divided by N, which is going to be 4 over N plus 6 minus 5 times 0.997 to the N."
+  },
+  {
+   "start": 1301.6,
+   "text": " Now, what is it that I wanted to do? Well, I would like to find the optimizer of this thing."
+  },
+  {
+   "start": 1313.36,
+   "text": " So, I would like to find the minimum value of my A function here, which, so you can do this"
+  },
+  {
+   "start": 1324.3999999999999,
+   "text": " in a number of different ways. This is very, very similar to the pig problem all the way back"
+  },
+  {
+   "start": 1329.76,
+   "text": " at the beginning of this lecture series. It's an optimization problem. In our case, with the pig,"
+  },
+  {
+   "start": 1334.64,
+   "text": " we had over the number of days that we held onto the pig. In this case, same basic idea. This"
+  },
+  {
+   "start": 1340.32,
+   "text": " is a function of N. It's completely deterministic now. And you can take the derivative and set it"
+  },
+  {
+   "start": 1347.3600000000001,
+   "text": " equal to 0. So, the minimum of A is this minimum is 1.48 cents per diode at N equal to 17."
+  },
+  {
+   "start": 1371.1200000000001,
+   "text": " So, what does that mean? Well, that tells me as maybe the manager or the owner of this factory,"
+  },
+  {
+   "start": 1379.7600000000002,
+   "text": " whatever it happens to be. Maybe I'm just trying to minimize my workload. Maybe I'll work in"
+  },
+  {
+   "start": 1384.3200000000002,
+   "text": " the assembly line. Well, I am telling myself that I should organize these diodes into batches"
+  },
+  {
+   "start": 1390.5600000000002,
+   "text": " of 17. So, that's my batch and I test all 17 of them with the machine. And in this case,"
+  },
+  {
+   "start": 1402.0,
+   "text": " the cost per diode of doing it this way is going to average to about 1.48 cents per diode."
+  },
+  {
+   "start": 1410.8,
+   "text": " Okay. So, remember, if I test a batch of 17, I put that into the machine that cost me 21 cents,"
+  },
+  {
+   "start": 1418.3999999999999,
+   "text": " 4 cent base price plus 1 cent for everything that goes into that. Most of those are not going to"
+  },
+  {
+   "start": 1425.12,
+   "text": " be faulty, right? Those are going to be good diodes. In the off chance, in the very, very low"
+  },
+  {
+   "start": 1429.68,
+   "text": " probability that these things actually do fail, well, in that case, then it's going to cost me a"
+  },
+  {
+   "start": 1435.68,
+   "text": " little bit more than 1 cent per diode and it's going to cost me 5 cents to test each one in that"
+  },
+  {
+   "start": 1441.92,
+   "text": " batch of 17. So, in this case, we can ask ourselves, you know, we could do a little bit of"
+  },
+  {
+   "start": 1451.04,
+   "text": " sensitivity, just like we did with optimization, just like we did with dynamic systems, right? We"
+  },
+  {
+   "start": 1458.4,
+   "text": " always want to talk about sensitivity. It's one of the integral pieces to discussing mathematical"
+  },
+  {
+   "start": 1464.48,
+   "text": " modeling. Okay. So, there's a few things that we should keep in mind here, right? Maybe the"
+  },
+  {
+   "start": 1471.0400000000002,
+   "text": " factory is set up in such a way that you can only test in batches of 5s or 10s, right? So, maybe"
+  },
+  {
+   "start": 1478.48,
+   "text": " you can't test 17 at a time, right? Maybe they come in sets of 5. Well, in that case,"
+  },
+  {
+   "start": 1486.08,
+   "text": " I mean, you would have to maybe move to 15 or 20 at a time, but the nice thing is, if you sketch out"
+  },
+  {
+   "start": 1493.36,
+   "text": " this function, or if you put it into, say, Desmos or any of whatever your favorite plotters are,"
+  },
+  {
+   "start": 1498.6399999999999,
+   "text": " you'll see that this thing is actually, you know, it's pretty flat around the minimum, which means"
+  },
+  {
+   "start": 1504.08,
+   "text": " that you got a lot of wiggle room, okay? So, even going down to 15, it's not going to increase this"
+  },
+  {
+   "start": 1509.68,
+   "text": " minimum by a whole lot. It's not going to cost you a lot more, okay? So, that in itself is a bit of"
+  },
+  {
+   "start": 1516.24,
+   "text": " a sensitivity computation. That tells us that, you know, okay, if I don't get exactly 17 in every single"
+  },
+  {
+   "start": 1522.64,
+   "text": " batch, I still got a little bit of wiggle room, and it's not going to really cost me that much more."
+  },
+  {
+   "start": 1528.72,
+   "text": " But really what I would like to interrogate is the probability of faulting this in your"
+  },
+  {
+   "start": 1535.28,
+   "text": " diodes. So, I'm going to call this Q, and this was the .3% chance that you have a faulty diode, okay?"
+  },
+  {
+   "start": 1546.6399999999999,
+   "text": " So, what we can see is that if you find this in the model, this thing is coming up right in here."
+  },
+  {
+   "start": 1554.96,
+   "text": " So, this means that A actually can be written as 4 over N plus 6 minus 5, 1 minus Q to the power of N,"
+  },
+  {
+   "start": 1567.92,
+   "text": " okay? So, if Q was equal to 0.03, that would give me my nice .997, okay? So, what I would like"
+  },
+  {
+   "start": 1574.96,
+   "text": " to do is I would like to interrogate the sensitivity of my model with respect to this probability,"
+  },
+  {
+   "start": 1585.28,
+   "text": " right? So, again, this is just an estimation, right? I estimate that .3% of my diodes are faulty."
+  },
+  {
+   "start": 1591.68,
+   "text": " Of course, this is not necessarily true. So, I would like to see how robust this is."
+  },
+  {
+   "start": 1596.96,
+   "text": " What I would like to emphasize to you is that this is just an optimization problem. This is no"
+  },
+  {
+   "start": 1602.64,
+   "text": " different than what we started this course with. Sure, there was some probability originally,"
+  },
+  {
+   "start": 1607.5200000000002,
+   "text": " but I used an expected value to get rid of that probability and get myself right into just an old"
+  },
+  {
+   "start": 1614.3200000000002,
+   "text": " school optimization problem, something that we started the class with. And that means that at"
+  },
+  {
+   "start": 1623.2800000000002,
+   "text": " sorry, at N equal to 17, we can compute some sensitivities. So, we can do the sensitivity of A"
+  },
+  {
+   "start": 1630.8799999999999,
+   "text": " with respect to Q, which we remember this formula, hopefully, derivative of A with respect to Q times"
+  },
+  {
+   "start": 1638.48,
+   "text": " Q over A. Remember, this is the relative change. In this case, it's like .16, teeny, teeny tiny,"
+  },
+  {
+   "start": 1648.1599999999999,
+   "text": " right? It's a very, very little change. So, for every 1% change in Q, there is only a .1% change in A."
+  },
+  {
+   "start": 1660.32,
+   "text": " This is a fantastic robustness computation for us. This because this number is so, so tiny,"
+  },
+  {
+   "start": 1667.52,
+   "text": " it tells us that changing Q doesn't have a huge effect on changing A, right? That's what this"
+  },
+  {
+   "start": 1676.56,
+   "text": " is telling us. We have a little bit of wiggle room. So, even if we didn't get that estimation of"
+  },
+  {
+   "start": 1681.84,
+   "text": " the probability of .3%, exactly right? We have a very, very insensitive or inelastic model here."
+  },
+  {
+   "start": 1690.8,
+   "text": " And so, that tells us that we've got lots of wiggle room. And the last piece that I'd like to emphasize"
+  },
+  {
+   "start": 1696.56,
+   "text": " before concluding this is that this value is always going to be an estimation, right? The best"
+  },
+  {
+   "start": 1702.4,
+   "text": " that we could do is we could take historical data and we could say, okay, of all the diodes that we"
+  },
+  {
+   "start": 1708.32,
+   "text": " sent out last year, maybe .2997 of them or whatever the number happens to be, turn down to be faulty,"
+  },
+  {
+   "start": 1716.8,
+   "text": " right? That's where I could estimate this probability from. And that is exactly the type of"
+  },
+  {
+   "start": 1722.96,
+   "text": " situation where I would like to look at sensitivity, because maybe last year was a slightly skewed"
+  },
+  {
+   "start": 1730.6399999999999,
+   "text": " year, right? Maybe I actually have way less faulty diodes. It's just that there was some weird"
+  },
+  {
+   "start": 1736.0,
+   "text": " humidity in my factory that was throwing off a couple diodes or a few more than usual, right?"
+  },
+  {
+   "start": 1742.16,
+   "text": " This is exactly where sensitivity is extremely important. And again, what we're seeing here"
+  },
+  {
+   "start": 1748.32,
+   "text": " is an extremely insensitive model to this value of q. Okay, the next lecture in this series,"
+  },
+  {
+   "start": 1757.04,
+   "text": " we're going to come back where you'll look at continuous probability models. So, I remind you,"
+  },
+  {
+   "start": 1761.76,
+   "text": " this was a discrete probability model. It came from the fact that we had these values n that we"
+  },
+  {
+   "start": 1767.2,
+   "text": " could be choosing over. And the fact that there was only two probabilities at play here, either"
+  },
+  {
+   "start": 1773.52,
+   "text": " everybody is working or at least one is faulty. In the next section or in the next lecture,"
+  },
+  {
+   "start": 1780.0,
+   "text": " we're going to talk about when you can take on a continuum of values, right? So when something is"
+  },
+  {
+   "start": 1784.48,
+   "text": " less than a certain value, but it could be anything less. All right, I'll see you in the next"
+  },
+  {
+   "start": 1789.76,
+   "text": " lecture, everybody."
+  }
+ ]
+}

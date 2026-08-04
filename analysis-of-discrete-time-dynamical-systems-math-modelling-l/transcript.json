@@ -1,0 +1,405 @@
+{
+ "video_id": "6It02qpjHQ8",
+ "title": "Analysis of Discrete-Time Dynamical Systems - Math Modelling - Lecture 19",
+ "channel": "Math Modelling",
+ "duration_s": 494,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " Hello everyone and welcome back."
+  },
+  {
+   "start": 2.4,
+   "text": " Now for the previous few videos, I've focused a lot on continuous time dynamical systems."
+  },
+  {
+   "start": 7.5600000000000005,
+   "text": " And that's not because the theory is just applicable to continuous time systems."
+  },
+  {
+   "start": 11.88,
+   "text": " In fact, everything that we've talked about so far has an analog with the screen time"
+  },
+  {
+   "start": 15.92,
+   "text": " systems."
+  },
+  {
+   "start": 17.32,
+   "text": " And that's the purpose of this short lecture video, it's just to catch us up with some"
+  },
+  {
+   "start": 22.04,
+   "text": " of the things we might have overlooked while we were walking through the theory of dynamical"
+  },
+  {
+   "start": 27.32,
+   "text": " systems."
+  },
+  {
+   "start": 28.72,
+   "text": " Now remember that discrete time dynamical systems we write as the change in some state"
+  },
+  {
+   "start": 35.04,
+   "text": " variable X is equal to a function of that state variable."
+  },
+  {
+   "start": 41.64,
+   "text": " Now typically we like to actually open this up a little bit."
+  },
+  {
+   "start": 47.16,
+   "text": " Remember that the change here, this is what you're doing next versus what you're currently"
+  },
+  {
+   "start": 54.519999999999996,
+   "text": " doing."
+  },
+  {
+   "start": 55.84,
+   "text": " And so this typically gets opened up into a difference equation where we say if we know"
+  },
+  {
+   "start": 66.68,
+   "text": " what we're currently doing, then we know what will happen next."
+  },
+  {
+   "start": 71.28,
+   "text": " Things like Newton's method or gradient descent."
+  },
+  {
+   "start": 73.76,
+   "text": " These are examples of these kinds of difference equations."
+  },
+  {
+   "start": 77.08000000000001,
+   "text": " But of course we've seen over and over throughout this class that we can model things like yeast"
+  },
+  {
+   "start": 81.60000000000001,
+   "text": " populations through these types of models."
+  },
+  {
+   "start": 85.32000000000001,
+   "text": " Now if we call this whole piece right here G of X, so if we say G of X is equal to X plus"
+  },
+  {
+   "start": 93.88000000000001,
+   "text": " F of X, we can do a similar process to what we've been doing with continuous dynamical"
+  },
+  {
+   "start": 100.04,
+   "text": " systems."
+  },
+  {
+   "start": 101.04,
+   "text": " That is we can linearize around a fixed point or an equilibrium for this thing."
+  },
+  {
+   "start": 108.08,
+   "text": " So let's suppose X star is an equilibrium."
+  },
+  {
+   "start": 119.2,
+   "text": " Now remember this means that F of X star is equal to zero which is equivalent to saying G"
+  },
+  {
+   "start": 128.92,
+   "text": " of X star is equal to X."
+  },
+  {
+   "start": 131.2,
+   "text": " Now it's two different interpretations of exactly the same thing."
+  },
+  {
+   "start": 135.12,
+   "text": " In the case where F of X star is equal to zero, that tells you that there's no change"
+  },
+  {
+   "start": 138.96,
+   "text": " from step to step."
+  },
+  {
+   "start": 140.76,
+   "text": " That means that what you're doing next is the same as what you're doing now."
+  },
+  {
+   "start": 145.4,
+   "text": " Now putting it in this interpretation of a difference equation where you're going based"
+  },
+  {
+   "start": 151.12,
+   "text": " on what you have, that means that if you currently are at the equilibrium, you're going"
+  },
+  {
+   "start": 156.72,
+   "text": " to stay at the equilibrium, right?"
+  },
+  {
+   "start": 158.16,
+   "text": " So these are two equivalent viewers of the same thing."
+  },
+  {
+   "start": 162.52,
+   "text": " But as I said, this is typically the more standard notation that you'll encounter because"
+  },
+  {
+   "start": 166.68,
+   "text": " things like Newton's method or gradient descent, even Euler's method that we'll explain"
+  },
+  {
+   "start": 170.88,
+   "text": " in the next video, they all get put into this update type equation."
+  },
+  {
+   "start": 176.12,
+   "text": " Now what we did with the continuous dynamics is we linearize, we took a Jacobian matrix"
+  },
+  {
+   "start": 183.44,
+   "text": " about this steady state."
+  },
+  {
+   "start": 187.52,
+   "text": " We can do the same thing."
+  },
+  {
+   "start": 189.08,
+   "text": " So we have a linearized equation."
+  },
+  {
+   "start": 191.68,
+   "text": " So we say linearized, this means compute the Jacobian."
+  },
+  {
+   "start": 195.44,
+   "text": " And we would get an updating scheme that is the Jacobian matrix of my function g."
+  },
+  {
+   "start": 203.20000000000002,
+   "text": " So this is why I want to work with this g function here at the equilibrium, okay?"
+  },
+  {
+   "start": 211.4,
+   "text": " So this is a completely linear dynamical system."
+  },
+  {
+   "start": 216.16,
+   "text": " And we have similar results to what we had in continuous time."
+  },
+  {
+   "start": 220.84,
+   "text": " So in particular, all of the dynamics of this thing are determined by the eigenvalues"
+  },
+  {
+   "start": 227.6,
+   "text": " of the matrix dg."
+  },
+  {
+   "start": 231.76,
+   "text": " In particular, we have stability if every eigenvalue, so every eigenvalue of dg of x star"
+  },
+  {
+   "start": 249.12,
+   "text": " is modulus, so modulus less than 1."
+  },
+  {
+   "start": 257.0,
+   "text": " Now the modulus here denotes the fact that it belongs to the unit circle in the complex"
+  },
+  {
+   "start": 261.88,
+   "text": " plane."
+  },
+  {
+   "start": 262.88,
+   "text": " Remember, some of these eigenvalues could be complex conjugates of each other."
+  },
+  {
+   "start": 266.92,
+   "text": " The fact is, if you take the absolute value of a complex number, so they're real part"
+  },
+  {
+   "start": 271.44,
+   "text": " squared plus the imaginary part squared all under the square root, the Euclidean norm."
+  },
+  {
+   "start": 276.56,
+   "text": " If every one of those eigenvalues is smaller than 1, then you have stability of your original"
+  },
+  {
+   "start": 283.86,
+   "text": " equilibrium point."
+  },
+  {
+   "start": 285.84,
+   "text": " Why?"
+  },
+  {
+   "start": 286.84,
+   "text": " Because we know that this Jacobian matrix actually becomes with called a contraction."
+  },
+  {
+   "start": 292.48,
+   "text": " It says that after every iteration, so after each n, you are contracting."
+  },
+  {
+   "start": 297.88,
+   "text": " You are getting smaller and smaller and smaller and smaller until you disappear down to zero"
+  },
+  {
+   "start": 304.04,
+   "text": " as n goes to infinity."
+  },
+  {
+   "start": 306.52,
+   "text": " Now the stable manifold theorem that we learned for continuous dynamics is the same thing"
+  },
+  {
+   "start": 312.68,
+   "text": " for these discrete time dynamics."
+  },
+  {
+   "start": 315.76,
+   "text": " If you have a contraction for your linearized discrete system, then you find that locally"
+  },
+  {
+   "start": 324.44,
+   "text": " you have a contraction for your fully nonlinear system."
+  },
+  {
+   "start": 328.79999999999995,
+   "text": " Remember, the local part comes in the fact that you are doing a Taylor expansion here?"
+  },
+  {
+   "start": 334.6,
+   "text": " And this tells you that if you start close to this equilibrium, you are going to converge"
+  },
+  {
+   "start": 340.84000000000003,
+   "text": " into it when the linearized matrix that Jacobian has all eigenvalues with modulus less than"
+  },
+  {
+   "start": 348.32000000000005,
+   "text": " 1."
+  },
+  {
+   "start": 350.56,
+   "text": " And you can actually look at this the other way around as well."
+  },
+  {
+   "start": 355.48,
+   "text": " You can say that it is unstable if there exists at least 1, so at least 1 eigenvalue of"
+  },
+  {
+   "start": 365.94,
+   "text": " this matrix dg of x star, with modulus greater than 1."
+  },
+  {
+   "start": 376.24,
+   "text": " So if there is even 1 eigenvalue inside of the unit circle, then you have instability."
+  },
+  {
+   "start": 384.2,
+   "text": " Why that eigenvalue when you take successive powers of it is going to get bigger?"
+  },
+  {
+   "start": 389.52,
+   "text": " And that means that you, one dimension at least of this thing, is expanding."
+  },
+  {
+   "start": 393.8,
+   "text": " You no longer have a contraction, you have an unstable direction here, and that instability"
+  },
+  {
+   "start": 400.08,
+   "text": " from the linear system carries over into an instability for the nonlinear system."
+  },
+  {
+   "start": 405.88,
+   "text": " That actually tells you that if you started close to this thing, then you would expect"
+  },
+  {
+   "start": 410.44,
+   "text": " to be pushed away due to this instability."
+  },
+  {
+   "start": 414.36,
+   "text": " But what I really want you to notice here, it is the same basic process that we saw with"
+  },
+  {
+   "start": 419.28,
+   "text": " continuous time-dynamical systems."
+  },
+  {
+   "start": 422.08,
+   "text": " In particular, it all comes down to just analyzing the eigenvalues of a matrix."
+  },
+  {
+   "start": 428.92,
+   "text": " The stable manifold theorem tells you the same thing."
+  },
+  {
+   "start": 431.72,
+   "text": " If you have stability for the linear system, then it carries over to stability for the nonlinear"
+  },
+  {
+   "start": 436.24,
+   "text": " system."
+  },
+  {
+   "start": 437.24,
+   "text": " The only thing you have to be very, very careful of here is the meaning of stability is slightly"
+  },
+  {
+   "start": 445.04,
+   "text": " different."
+  },
+  {
+   "start": 446.04,
+   "text": " For discrete time systems, you have to be in the unit circle in the complex plane."
+  },
+  {
+   "start": 452.24,
+   "text": " Remember, for continuous time systems, you have to be in the left half of the complex"
+  },
+  {
+   "start": 456.48,
+   "text": " plane."
+  },
+  {
+   "start": 457.48,
+   "text": " That's when you have a real part less than zero."
+  },
+  {
+   "start": 459.40000000000003,
+   "text": " This is typically the thing that messes people up the most."
+  },
+  {
+   "start": 462.68,
+   "text": " But if you can remember that piece of it, everything else is the same."
+  },
+  {
+   "start": 467.40000000000003,
+   "text": " In particular, we also have the Hartman-Grobeman theorem here as well."
+  },
+  {
+   "start": 471.16,
+   "text": " It tells you that if you zoom in closer and closer to this equilibrium value for the nonlinear"
+  },
+  {
+   "start": 478.88,
+   "text": " difference equation, it looks more and more like the linearized system."
+  },
+  {
+   "start": 484.2,
+   "text": " It might be just bent or deformed a little bit, but it has the same basic structure."
+  },
+  {
+   "start": 489.8,
+   "text": " It is homeomorphic to what you get with the discrete time system."
+  }
+ ]
+}

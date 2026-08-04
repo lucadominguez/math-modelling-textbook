@@ -1,0 +1,12 @@
+{
+ "video_id": "SY6NvKj0fRM",
+ "title": "Constrained Modelling and Shadow Pricing - Math Modelling - Lecture 7",
+ "channel": "Math Modelling",
+ "duration_s": 1937,
+ "url": "https://youtu.be/SY6NvKj0fRM",
+ "transcript_source": "whisper-local",
+ "frames": [],
+ "doc_model": "deepseek/deepseek-v4-flash",
+ "vision_model": "google/gemini-2.5-flash",
+ "generated": "2026-08-03 23:54"
+}

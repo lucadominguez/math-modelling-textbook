@@ -1,0 +1,1049 @@
+{
+ "video_id": "62hMXVuyFvU",
+ "title": "Introduction to Statistics - Math Modelling - Lecture 25",
+ "channel": "Math Modelling",
+ "duration_s": 1495,
+ "source": "whisper-local",
+ "segments": [
+  {
+   "start": 0.0,
+   "text": " All right, hello everyone and welcome back."
+  },
+  {
+   "start": 3.0,
+   "text": " Now in the past few videos we've been talking a lot about probability."
+  },
+  {
+   "start": 6.0,
+   "text": " We've looked at discrete probability models and continuous probability models."
+  },
+  {
+   "start": 11.0,
+   "text": " Now what I would like to do in this lecture is go deeper a little bit on the statistics side."
+  },
+  {
+   "start": 17.0,
+   "text": " So in particular what we're going to do is talk about not only the expected value of a random variable"
+  },
+  {
+   "start": 23.0,
+   "text": " but the variance of that random variable and also introduce the central limit theorem."
+  },
+  {
+   "start": 29.0,
+   "text": " And of course as we do with every lecture we're going to talk a little bit about applications through an example."
+  },
+  {
+   "start": 35.0,
+   "text": " So let's start with the basics."
+  },
+  {
+   "start": 37.0,
+   "text": " Now let's imagine again that x is a random variable."
+  },
+  {
+   "start": 43.0,
+   "text": " Now we've already seen that we can derive an expectation or an expected value or a mean or an average of x."
+  },
+  {
+   "start": 52.0,
+   "text": " Now what I would like to do is introduce the variance of x."
+  },
+  {
+   "start": 59.0,
+   "text": " Okay, so this is my boldface or my blackboard style v to denote the variance of my random variable."
+  },
+  {
+   "start": 66.0,
+   "text": " And this is going to be the expected value of x minus the expected value of x all squared."
+  },
+  {
+   "start": 77.0,
+   "text": " Okay, so let's take a look at that. Let's interrogate it for a second before we move on."
+  },
+  {
+   "start": 82.0,
+   "text": " What is this actually telling me?"
+  },
+  {
+   "start": 84.0,
+   "text": " Okay, here's my random variable and here is my average."
+  },
+  {
+   "start": 90.0,
+   "text": " Squaring that you can think back to what we did with the p norms a few lectures ago."
+  },
+  {
+   "start": 95.0,
+   "text": " You can really think of this as being a measure of the distance of your state from your average."
+  },
+  {
+   "start": 103.0,
+   "text": " Okay, so then what the variance is telling you?"
+  },
+  {
+   "start": 107.0,
+   "text": " It's the sort of expected distance that you should be observing from your mean of your data or your expected value of your random variable."
+  },
+  {
+   "start": 118.0,
+   "text": " Okay, so this is why we call it a variance."
+  },
+  {
+   "start": 121.0,
+   "text": " It's sort of the expected variation that you should be observing in your random variable."
+  },
+  {
+   "start": 128.0,
+   "text": " So just while we're here, we can write out actually what the formula for this is."
+  },
+  {
+   "start": 135.0,
+   "text": " In discrete time you're going to look at something like this, xk minus the expected value of x squared times the probability that x is equal to xk."
+  },
+  {
+   "start": 152.0,
+   "text": " Remember for a discrete probability distribution, you have a discrete set of states."
+  },
+  {
+   "start": 157.0,
+   "text": " I'm referring to them as xk. I'm purposely not saying what the sum is over here because it could be a finite set."
+  },
+  {
+   "start": 163.0,
+   "text": " It could be an infinite set. The only thing that matters is that it is a discrete collection of states that you can take on."
+  },
+  {
+   "start": 169.0,
+   "text": " Similarly, we can do the same thing for a continuous random variable."
+  },
+  {
+   "start": 177.0,
+   "text": " And in this case, it's an integral instead of a sum. And here I just get this piece."
+  },
+  {
+   "start": 185.0,
+   "text": " And then remember we have a density function, the x."
+  },
+  {
+   "start": 190.0,
+   "text": " Again, I'm purposely not putting in the balance of integration on this because they could be an interval."
+  },
+  {
+   "start": 197.0,
+   "text": " They could be say zero to infinity or minus infinity to zero."
+  },
+  {
+   "start": 201.0,
+   "text": " Or they could be the whole real line or they could be any number of things."
+  },
+  {
+   "start": 204.0,
+   "text": " So the only thing that matters is that you can take on infinitely many values over some sort of interval in the real numbers."
+  },
+  {
+   "start": 213.0,
+   "text": " Alright, so we have a measure of what we should be expecting out of a random variable."
+  },
+  {
+   "start": 219.0,
+   "text": " That's the average, the expected value."
+  },
+  {
+   "start": 221.0,
+   "text": " And then we also have a measure of how much we should be expected to vary from that. That's the variance."
+  },
+  {
+   "start": 228.0,
+   "text": " We can actually put these things together and we can talk about the central limit theorem."
+  },
+  {
+   "start": 234.0,
+   "text": " So maybe you're familiar with the central limit theorem."
+  },
+  {
+   "start": 238.0,
+   "text": " It's one of these sort of fundamental or crucial results from statistics."
+  },
+  {
+   "start": 244.0,
+   "text": " And what it tells us is the limit as n goes to infinity."
+  },
+  {
+   "start": 250.0,
+   "text": " So if you take a lot of samples of something of the probability of x1 plus all the way up to xn minus n mu divided by root n times sigma less than or equal to t."
+  },
+  {
+   "start": 269.0,
+   "text": " I'll explain what every piece of this is in just a moment."
+  },
+  {
+   "start": 273.0,
+   "text": " This is equal to minus infinity to t of 1 over the square root of 2 pi e to the minus x squared over 2 dx."
+  },
+  {
+   "start": 290.0,
+   "text": " Okay, so clearly I left out a lot of information here."
+  },
+  {
+   "start": 294.0,
+   "text": " First of all, mu is equal to the expected value of all of these xn."
+  },
+  {
+   "start": 301.0,
+   "text": " So I'm assuming that each one of these xn's just like I did with the strong law of large numbers are identical and identically distributed random variables."
+  },
+  {
+   "start": 314.0,
+   "text": " So they all have the same probability distribution."
+  },
+  {
+   "start": 316.0,
+   "text": " You can imagine these as just distinct rules of the dice."
+  },
+  {
+   "start": 319.0,
+   "text": " So I take a six-sided die, I roll it, that's my x1."
+  },
+  {
+   "start": 323.0,
+   "text": " Then I roll it again, that's my x2."
+  },
+  {
+   "start": 325.0,
+   "text": " Then I roll it again, that's my x3."
+  },
+  {
+   "start": 327.0,
+   "text": " And also, we have this conventional notation that the square of sigma is the variance of each one of these things."
+  },
+  {
+   "start": 338.0,
+   "text": " Okay, so notice that I just have a sigma, not a sigma squared."
+  },
+  {
+   "start": 342.0,
+   "text": " This sigma is the standard deviation."
+  },
+  {
+   "start": 345.0,
+   "text": " It's the square root of the variance."
+  },
+  {
+   "start": 348.0,
+   "text": " So what this says is it's sort of like an updated or a stronger version of the law of large numbers."
+  },
+  {
+   "start": 357.0,
+   "text": " So for every single one of my draws, I subtract off the mean."
+  },
+  {
+   "start": 361.0,
+   "text": " So that's what this piece is telling you right here on the top."
+  },
+  {
+   "start": 364.0,
+   "text": " You can always think of this thing right here."
+  },
+  {
+   "start": 368.0,
+   "text": " Sorry, N mu as x1 minus mu plus x2 minus mu all the way up."
+  },
+  {
+   "start": 377.0,
+   "text": " So for every single draw of this probability distribution, I'm subtracting off the mean."
+  },
+  {
+   "start": 386.0,
+   "text": " And when I subtract off the mean and scale by the standard deviation,"
+  },
+  {
+   "start": 392.0,
+   "text": " I ask how big can this thing be?"
+  },
+  {
+   "start": 395.0,
+   "text": " Then it is given by what's called the standard normal distribution."
+  },
+  {
+   "start": 402.0,
+   "text": " Okay, so this is a probability distribution itself."
+  },
+  {
+   "start": 406.0,
+   "text": " It has a density function."
+  },
+  {
+   "start": 409.0,
+   "text": " And that density function, I'm going to call g of x, which is 1 over the square root of 2 pi e to the minus x squared over 2."
+  },
+  {
+   "start": 421.0,
+   "text": " Okay, that is the density function for the normal distribution."
+  },
+  {
+   "start": 426.0,
+   "text": " That's your usual bell curve, right?"
+  },
+  {
+   "start": 429.0,
+   "text": " So when people talk about the bell curve and mathematics,"
+  },
+  {
+   "start": 434.0,
+   "text": " that is what they are talking about."
+  },
+  {
+   "start": 437.0,
+   "text": " It's just that beautiful little bell shape."
+  },
+  {
+   "start": 439.0,
+   "text": " So as we call this thing a Gaussian function named after Carl Friedrich Gauss,"
+  },
+  {
+   "start": 443.0,
+   "text": " one of the most famous and one of the most prolific mathematicians of all time."
+  },
+  {
+   "start": 449.0,
+   "text": " So what's something interesting that we can say from the central limit theorem?"
+  },
+  {
+   "start": 454.0,
+   "text": " Well, first of all, if we do some numerical integration on this thing,"
+  },
+  {
+   "start": 460.0,
+   "text": " if you integrate from minus 1 to 1 of this probability density right here,"
+  },
+  {
+   "start": 467.0,
+   "text": " well, that gives you about 0.60."
+  },
+  {
+   "start": 471.0,
+   "text": " So let's write that down."
+  },
+  {
+   "start": 473.0,
+   "text": " Minus 1 to 1 of 2 pi e to the minus x squared over 2 dx."
+  },
+  {
+   "start": 481.0,
+   "text": " This is about 0.68."
+  },
+  {
+   "start": 485.0,
+   "text": " And if you integrate from minus 2 to 2 of 1 over the square root of 2 pi e to the minus x squared over 2 dx,"
+  },
+  {
+   "start": 499.0,
+   "text": " this is equal to about 0.95."
+  },
+  {
+   "start": 502.0,
+   "text": " So you might be saying yourself why these numbers, Jason, right?"
+  },
+  {
+   "start": 506.0,
+   "text": " What's interesting about these?"
+  },
+  {
+   "start": 508.0,
+   "text": " Well, this is a probability distribution itself."
+  },
+  {
+   "start": 511.0,
+   "text": " You can actually check very easily that the mean of this standard deviation,"
+  },
+  {
+   "start": 516.0,
+   "text": " or this standard normal distribution is 0."
+  },
+  {
+   "start": 520.0,
+   "text": " So that means that I'm symmetric on this interval minus 1 to 1 over the mean."
+  },
+  {
+   "start": 525.0,
+   "text": " You can actually also check that the variance is equal to 1."
+  },
+  {
+   "start": 529.0,
+   "text": " So this is an interval of one variation to the left and one variation to the right from the mean."
+  },
+  {
+   "start": 537.0,
+   "text": " So this tells me that 68% of the data is contained within about one variation."
+  },
+  {
+   "start": 544.0,
+   "text": " Similarly, here, two variations to the left, two variations to the right,"
+  },
+  {
+   "start": 549.0,
+   "text": " about 95% of my data lies within two variations from the mean."
+  },
+  {
+   "start": 555.0,
+   "text": " And you can actually put this together and you can see from the central limit theorem,"
+  },
+  {
+   "start": 561.0,
+   "text": " this actually tells me, so CLT, central limit theorem,"
+  },
+  {
+   "start": 566.0,
+   "text": " tells me that when I take N very, very large,"
+  },
+  {
+   "start": 570.0,
+   "text": " so the double greater than means really big."
+  },
+  {
+   "start": 574.0,
+   "text": " Here, I have a limit as N goes to infinity,"
+  },
+  {
+   "start": 577.0,
+   "text": " so the bigger the value of N is, the more this becomes true."
+  },
+  {
+   "start": 582.0,
+   "text": " So when N is super, super large, I find that 68% of the time,"
+  },
+  {
+   "start": 591.0,
+   "text": " we have, well, if I just open this thing up,"
+  },
+  {
+   "start": 597.0,
+   "text": " then I get minus 1 less than or equal to x1 plus xn minus n mu over sigma root n is less than or equal to 1."
+  },
+  {
+   "start": 611.0,
+   "text": " And I get 95% of the time."
+  },
+  {
+   "start": 620.0,
+   "text": " We have what? Well, you get these bounds of minus 2 in here."
+  },
+  {
+   "start": 630.0,
+   "text": " Mu divided by sigma square root of n less than or equal to 2."
+  },
+  {
+   "start": 640.0,
+   "text": " Alright, so what does that really tell me? Well, it tells me what this sum should be bounded by."
+  },
+  {
+   "start": 647.0,
+   "text": " In fact, it tells me that N times the mean,"
+  },
+  {
+   "start": 654.0,
+   "text": " so if you have N draws of this thing times the mean,"
+  },
+  {
+   "start": 658.0,
+   "text": " so if I roll the dice, let's say four times,"
+  },
+  {
+   "start": 662.0,
+   "text": " well, the average, the expected value on the dice should be three and a half,"
+  },
+  {
+   "start": 666.0,
+   "text": " so then I get four times three and a half, right?"
+  },
+  {
+   "start": 669.0,
+   "text": " So imagine I get the average every single time I roll this thing,"
+  },
+  {
+   "start": 673.0,
+   "text": " minus sigma square root n, so minus a standard deviation for times the square root of the number of draws,"
+  },
+  {
+   "start": 683.0,
+   "text": " this is less than or equal to your sum, which is bounded by N mu plus sigma square root of n."
+  },
+  {
+   "start": 691.0,
+   "text": " So it really tells you what your sum should be bounded by, at least 68% of the time."
+  },
+  {
+   "start": 698.0,
+   "text": " If you want to do this 95% of the time, you can put twos in here that will give you the same result."
+  },
+  {
+   "start": 705.0,
+   "text": " So in this case, we would say that this 95% variation right here,"
+  },
+  {
+   "start": 712.0,
+   "text": " well, that's referred to as the range of normal variation for this sum."
+  },
+  {
+   "start": 719.0,
+   "text": " So if you're lying inside of this interval, you're inside of the range of normal variation."
+  },
+  {
+   "start": 726.0,
+   "text": " Similarly, if you're outside of it, you're referred to as statistically significant,"
+  },
+  {
+   "start": 732.0,
+   "text": " because you are in that sort of 5% probability range, right?"
+  },
+  {
+   "start": 737.0,
+   "text": " It's a very, very low probability event that that's happening,"
+  },
+  {
+   "start": 740.0,
+   "text": " and therefore, you might say that, well, this is something worth noting, right?"
+  },
+  {
+   "start": 744.0,
+   "text": " This is something out of the ordinary."
+  },
+  {
+   "start": 748.0,
+   "text": " Okay, so we got a little bit of theory, maybe hopefully it's a little bit of review for you."
+  },
+  {
+   "start": 753.0,
+   "text": " So, you know, this is a math modeling class."
+  },
+  {
+   "start": 756.0,
+   "text": " Let's do some modeling with this. Let's model something."
+  },
+  {
+   "start": 759.0,
+   "text": " So here's what I would like to do."
+  },
+  {
+   "start": 761.0,
+   "text": " I would like to see if something is out of the ordinary based on the central limit here."
+  },
+  {
+   "start": 766.0,
+   "text": " So here's what we'll do."
+  },
+  {
+   "start": 768.0,
+   "text": " Let's imagine that we have a 911 service in some local community,"
+  },
+  {
+   "start": 774.0,
+   "text": " and on average, they receive about 171 calls per month."
+  },
+  {
+   "start": 780.0,
+   "text": " Now, in this case, this rate, there's 171 calls per month,"
+  },
+  {
+   "start": 789.0,
+   "text": " was estimated over sort of historical data,"
+  },
+  {
+   "start": 793.0,
+   "text": " but this month, currently, I only got 153 calls to the 911 service."
+  },
+  {
+   "start": 802.0,
+   "text": " So the question is, is this out of the ordinary,"
+  },
+  {
+   "start": 805.0,
+   "text": " or is this sort of within the range of normal variation?"
+  },
+  {
+   "start": 808.0,
+   "text": " Should, you know, is something interesting happening here?"
+  },
+  {
+   "start": 812.0,
+   "text": " Did crime maybe go way, way down?"
+  },
+  {
+   "start": 814.0,
+   "text": " Or should we expect this kind of thing as a normal fluctuation in the data?"
+  },
+  {
+   "start": 820.0,
+   "text": " Okay, well, let's let lambda be the rate at which"
+  },
+  {
+   "start": 830.0,
+   "text": " calls are coming in per month."
+  },
+  {
+   "start": 842.0,
+   "text": " And let's let xn equal to the time between"
+  },
+  {
+   "start": 853.0,
+   "text": " the n minus first and nth calls."
+  },
+  {
+   "start": 862.0,
+   "text": " Okay, so as soon as the call comes in, then I start the clock,"
+  },
+  {
+   "start": 866.0,
+   "text": " and I wait until the next call comes in."
+  },
+  {
+   "start": 868.0,
+   "text": " Whatever that was, that's my value of xn that comes in."
+  },
+  {
+   "start": 872.0,
+   "text": " Now, we are going to make the assumption that these xn's are completely independent."
+  },
+  {
+   "start": 878.0,
+   "text": " Okay, so the fact that, you know, the last xn was equal to five minutes,"
+  },
+  {
+   "start": 884.0,
+   "text": " that has no influence on the next time that I wait for calls to come in."
+  },
+  {
+   "start": 890.0,
+   "text": " But I am going to make the assumption that this is exponentially distributed"
+  },
+  {
+   "start": 897.0,
+   "text": " with rate parameter lambda."
+  },
+  {
+   "start": 901.0,
+   "text": " Okay, so you might have to recall what we did in the previous lecture on continuous probability models."
+  },
+  {
+   "start": 907.0,
+   "text": " The exponential distribution was introduced there."
+  },
+  {
+   "start": 912.0,
+   "text": " And so what we would like to do is we'd like to model this as a statistical inference problem."
+  },
+  {
+   "start": 918.0,
+   "text": " So we're going to apply the central limit theorem in a very specific way to see if that,"
+  },
+  {
+   "start": 925.0,
+   "text": " if receiving that 153 calls is out of the ordinary given that our average was 171."
+  },
+  {
+   "start": 933.0,
+   "text": " Okay, so if we're going to apply the central limit theorem, I need some averages."
+  },
+  {
+   "start": 938.0,
+   "text": " I need some expected values."
+  },
+  {
+   "start": 940.0,
+   "text": " Well, since we assumed that our waiting time is exponentially distributed and independent,"
+  },
+  {
+   "start": 949.0,
+   "text": " we already know that the expected value here should be 1 over lambda, 1 over the rate."
+  },
+  {
+   "start": 957.0,
+   "text": " So you can think about this in a really, really simple way."
+  },
+  {
+   "start": 960.0,
+   "text": " If I know that customers come into my store on average about 2 per hour,"
+  },
+  {
+   "start": 965.0,
+   "text": " then this tells me the expected time that I should wait for a customer to come in."
+  },
+  {
+   "start": 971.0,
+   "text": " Half an hour, 1 over 2."
+  },
+  {
+   "start": 973.0,
+   "text": " That's exactly what this is telling me."
+  },
+  {
+   "start": 975.0,
+   "text": " The expected amount of time that I should wait is 1 over 171 per month."
+  },
+  {
+   "start": 981.0,
+   "text": " So if I take a month and divide it evenly into 171 points,"
+  },
+  {
+   "start": 986.0,
+   "text": " that's when I should expect the waiting period for each one of these things to take place."
+  },
+  {
+   "start": 992.0,
+   "text": " Okay, so the next thing is my variance."
+  },
+  {
+   "start": 999.0,
+   "text": " So this one is a little trickier."
+  },
+  {
+   "start": 1001.0,
+   "text": " We have not computed this one yet."
+  },
+  {
+   "start": 1004.0,
+   "text": " So this is going to require our density function."
+  },
+  {
+   "start": 1008.0,
+   "text": " So we're going to integrate from 0 to infinity."
+  },
+  {
+   "start": 1013.0,
+   "text": " X minus the mean, the expected value, squared."
+  },
+  {
+   "start": 1019.0,
+   "text": " And then times the density right here."
+  },
+  {
+   "start": 1026.0,
+   "text": " Lambda e to the minus lambda x."
+  },
+  {
+   "start": 1028.0,
+   "text": " So again, you might have to go back, recall some information from the previous video."
+  },
+  {
+   "start": 1032.0,
+   "text": " But I have great news for you."
+  },
+  {
+   "start": 1034.0,
+   "text": " I will do this integration for you."
+  },
+  {
+   "start": 1037.0,
+   "text": " This is 1 over lambda squared."
+  },
+  {
+   "start": 1040.0,
+   "text": " Now remember, the standard deviation squared is the variance."
+  },
+  {
+   "start": 1047.0,
+   "text": " So if I take a square root here, the standard deviation is just equal to the mean in this case."
+  },
+  {
+   "start": 1054.0,
+   "text": " So using the central limit theorem, so CLT, this tells me that,"
+  },
+  {
+   "start": 1064.0,
+   "text": " let's say n times mu, that's n over lambda, that's the n over mu."
+  },
+  {
+   "start": 1070.0,
+   "text": " And then within the 95% confidence interval, 2 times the square root of n over lambda,"
+  },
+  {
+   "start": 1077.0,
+   "text": " that's 2 sigma square root of n, is less than or equal to the sum of all the time that I wait between these calls,"
+  },
+  {
+   "start": 1090.0,
+   "text": " which is less than or equal to, again, n over lambda, that's n times mu,"
+  },
+  {
+   "start": 1095.0,
+   "text": " plus 2 square root of n over lambda, again."
+  },
+  {
+   "start": 1103.0,
+   "text": " So with 95% confidence, according to the central limit theorem, I should expect that this holds."
+  },
+  {
+   "start": 1113.0,
+   "text": " Now I also know that lambda is 171."
+  },
+  {
+   "start": 1120.0,
+   "text": " So in this case, I can put this in."
+  },
+  {
+   "start": 1125.0,
+   "text": " I also know that the number of calls that came in is 153."
+  },
+  {
+   "start": 1131.0,
+   "text": " So I've got all the information."
+  },
+  {
+   "start": 1133.0,
+   "text": " What this really gives me, if I put in these numbers into the left and right bounds,"
+  },
+  {
+   "start": 1139.0,
+   "text": " this gives me about 0.75, should be less than or equal to this sum of the time that I wait for all of these calls,"
+  },
+  {
+   "start": 1152.0,
+   "text": " which is less than or equal to 1.04."
+  },
+  {
+   "start": 1156.0,
+   "text": " Okay, so you might have the question now."
+  },
+  {
+   "start": 1159.0,
+   "text": " Okay, what does this actually mean?"
+  },
+  {
+   "start": 1162.0,
+   "text": " Well, let's point something out."
+  },
+  {
+   "start": 1165.0,
+   "text": " This is 153 calls that come in from over the course of a month."
+  },
+  {
+   "start": 1170.0,
+   "text": " So that means that waiting, if I take all of these waiting periods together,"
+  },
+  {
+   "start": 1176.0,
+   "text": " and I add up the time that I waited, it's one month worth of waiting,"
+  },
+  {
+   "start": 1180.0,
+   "text": " assuming that the calls don't take any more time."
+  },
+  {
+   "start": 1184.0,
+   "text": " So this should be approximately equal to 1."
+  },
+  {
+   "start": 1189.0,
+   "text": " It should be a month's worth of waiting."
+  },
+  {
+   "start": 1192.0,
+   "text": " So the fact that one actually does lie in between these two bounds that have computed from the central limit theorem,"
+  },
+  {
+   "start": 1201.0,
+   "text": " tells me that this is not a statistically significant event."
+  },
+  {
+   "start": 1206.0,
+   "text": " That is this 153 calls right here is within the normal variation for the problem."
+  },
+  {
+   "start": 1217.0,
+   "text": " Okay, so let's actually write that down."
+  },
+  {
+   "start": 1220.0,
+   "text": " This is within the normal variation."
+  },
+  {
+   "start": 1232.0,
+   "text": " So that's interesting, right?"
+  },
+  {
+   "start": 1234.0,
+   "text": " That doesn't tell me that there was like potentially like a drop in crime or something like that"
+  },
+  {
+   "start": 1239.0,
+   "text": " or just a drop in people turning to 911 in this town."
+  },
+  {
+   "start": 1243.0,
+   "text": " This is very much not out of the ordinary."
+  },
+  {
+   "start": 1246.0,
+   "text": " It's within 95% of the events that take place."
+  },
+  {
+   "start": 1250.0,
+   "text": " That's within this possibility."
+  },
+  {
+   "start": 1253.0,
+   "text": " So before we conclude this, we should talk a little bit about sensitivity."
+  },
+  {
+   "start": 1258.0,
+   "text": " Okay, so it's very, very possible that our estimation of 171 calls is inaccurate."
+  },
+  {
+   "start": 1265.0,
+   "text": " Maybe we have some that were under reported."
+  },
+  {
+   "start": 1268.0,
+   "text": " Maybe it was during the pandemic when people were, say, stuck inside."
+  },
+  {
+   "start": 1273.0,
+   "text": " And there was just less calls coming to 911 or maybe it was during a spike in calls."
+  },
+  {
+   "start": 1281.0,
+   "text": " So we have some sort of inaccuracies in our data."
+  },
+  {
+   "start": 1284.0,
+   "text": " So what we could do, for example, is look at what happens if we change the value of lambda instead"
+  },
+  {
+   "start": 1293.0,
+   "text": " and keeping this assumption or this fact that we had 153 calls per month commit."
+  },
+  {
+   "start": 1299.0,
+   "text": " Well, we would get something like 153 divided by lambda."
+  },
+  {
+   "start": 1304.0,
+   "text": " That's n over lambda."
+  },
+  {
+   "start": 1307.0,
+   "text": " Minus 2 times the square root of 153 divided by lambda is less than this."
+  },
+  {
+   "start": 1315.0,
+   "text": " The sum of all the 153 calls that come in."
+  },
+  {
+   "start": 1318.0,
+   "text": " Actually, let's make that 153."
+  },
+  {
+   "start": 1321.0,
+   "text": " Which is less than or equal to 153 over lambda plus 2 root 153 divided by lambda."
+  },
+  {
+   "start": 1331.0,
+   "text": " Now, again, remember, we want this to be approximately equal to 1."
+  },
+  {
+   "start": 1336.0,
+   "text": " We're looking at a time frame of 1 month."
+  },
+  {
+   "start": 1340.0,
+   "text": " And this tells me that lambda should be between 128 and 178."
+  },
+  {
+   "start": 1349.0,
+   "text": " For this to be within the range of normal variation."
+  },
+  {
+   "start": 1354.0,
+   "text": " So as long as your average number of calls historically is between 128 and 178,"
+  },
+  {
+   "start": 1361.0,
+   "text": " then receiving 153 calls is not really that statistically significant."
+  },
+  {
+   "start": 1366.0,
+   "text": " It's within the normal variation of the problem."
+  },
+  {
+   "start": 1369.0,
+   "text": " That's what that computation is telling you."
+  },
+  {
+   "start": 1372.0,
+   "text": " It's a little bit of a different way of looking at sensitivity than we're probably used to."
+  },
+  {
+   "start": 1377.0,
+   "text": " Another thing that we could look at is if our historical data says that we have 171 calls per month,"
+  },
+  {
+   "start": 1384.0,
+   "text": " what is the range of normal variation that we can expect?"
+  },
+  {
+   "start": 1390.0,
+   "text": " So what's the lower and upper bounds of the number of calls before we start thinking that something strange is happening here?"
+  },
+  {
+   "start": 1397.0,
+   "text": " Well, that would give us the number of calls n divided by now we're taking lambda to be 171 again."
+  },
+  {
+   "start": 1405.0,
+   "text": " Minus 2 root n over 171."
+  },
+  {
+   "start": 1410.0,
+   "text": " This is again equal to the sum of all the weighting which again should be approximately equal to 1"
+  },
+  {
+   "start": 1418.0,
+   "text": " because we're going over a month."
+  },
+  {
+   "start": 1420.0,
+   "text": " Then n over 171 plus 2 square root of n divided by 171."
+  },
+  {
+   "start": 1429.0,
+   "text": " Now, in order for 1 to lie inside of that interval, this tells me that n should be between 147 and 199."
+  },
+  {
+   "start": 1443.0,
+   "text": " Okay, so the number of calls per month that's coming in that would be statistically sort of insignificant within the normal variation,"
+  },
+  {
+   "start": 1451.0,
+   "text": " what I should expect is between 147 and 199."
+  },
+  {
+   "start": 1455.0,
+   "text": " Once I see something say below 147, then I think something statistically significant is happening, something really out of the ordinary."
+  },
+  {
+   "start": 1463.0,
+   "text": " Or if I see more than 200 calls a month out of the ordinary, something weird is going on, right?"
+  },
+  {
+   "start": 1469.0,
+   "text": " So this is the kind of sensitivity analysis that we can do for these statistical inference problems."
+  },
+  {
+   "start": 1476.0,
+   "text": " Okay, what we're going to do when we come back in the next video is look more at that normal distribution."
+  },
+  {
+   "start": 1481.0,
+   "text": " In particular, we're going to use it to describe brownie and motion and diffusion, so how things spread around space"
+  },
+  {
+   "start": 1489.0,
+   "text": " and how that can help us to understand problems in mathematical modeling."
+  },
+  {
+   "start": 1493.0,
+   "text": " I'll see you in the next video, everyone."
+  }
+ ]
+}
