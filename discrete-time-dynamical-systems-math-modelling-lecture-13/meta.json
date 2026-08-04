@@ -10,31 +10,31 @@
    "file": "frames/frame_01_140s.jpg",
    "ts": 140.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows the definition of S-state space and equations for \u0394X1, \u0394X2, and \u0394Xn."
+   "caption": "A whiteboard shows the definition of S-state space and equations for \u0394X\u2081 through \u0394Xn."
   },
   {
    "file": "frames/frame_02_220s.jpg",
    "ts": 220.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard displays equations for S-state space, including definitions for \u0394X_i, \u0394X, and \u0394X = X(n+1) - X(n)."
+   "caption": "The whiteboard displays equations for S-state space, including definitions for \u0394X_1 through \u0394X_n, and the overall function \u0394X = F(x) and \u0394X = X(n+1) - X(n)."
   },
   {
    "file": "frames/frame_03_360s.jpg",
    "ts": 360.0,
    "kind": "whiteboard",
-   "caption": "This frame shows mathematical equations defining state space, delta X, and initial conditions, along with the term 'Steady-states'."
+   "caption": "This frame shows mathematical equations for state space, including definitions for delta X, X(n+1), initial conditions, and steady-states."
   },
   {
    "file": "frames/frame_04_400s.jpg",
    "ts": 400.0,
    "kind": "whiteboard",
-   "caption": "Mathematical equations defining state space, initial conditions, and steady-states are written on a blackboard."
+   "caption": "This frame shows equations for state space, initial conditions, and steady-states, including definitions for \u0394X and X(n+1)."
   },
   {
    "file": "frames/frame_05_440s.jpg",
    "ts": 440.0,
    "kind": "whiteboard",
-   "caption": "This frame displays mathematical equations defining state space, initial conditions, and steady states."
+   "caption": "The whiteboard shows equations for state space, initial conditions, and steady states, including the definition of \u0394X as F(X) and X(n+1) = X(n) + F(X(n))."
   },
   {
    "file": "frames/frame_06_540s.jpg",
@@ -43,109 +43,97 @@
    "caption": "The whiteboard displays mathematical equations and definitions related to state space, initial conditions, steady-states, and stability."
   },
   {
-   "file": "frames/frame_07_640s.jpg",
-   "ts": 640.0,
-   "kind": "whiteboard",
-   "caption": "This frame shows mathematical definitions for state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
-  },
-  {
-   "file": "frames/frame_08_680s.jpg",
+   "file": "frames/frame_07_680s.jpg",
    "ts": 680.0,
    "kind": "whiteboard",
-   "caption": "This frame displays mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
+   "caption": "The whiteboard shows mathematical definitions for state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
   },
   {
-   "file": "frames/frame_09_720s.jpg",
+   "file": "frames/frame_08_720s.jpg",
    "ts": 720.0,
    "kind": "whiteboard",
    "caption": "This frame shows mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
   },
   {
-   "file": "frames/frame_10_820s.jpg",
+   "file": "frames/frame_09_820s.jpg",
    "ts": 820.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard shows definitions for state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
+   "caption": "The whiteboard shows definitions for S-state space, initial condition, steady-states, and stability, along with an example of Fibonacci numbers."
   },
   {
-   "file": "frames/frame_11_880s.jpg",
+   "file": "frames/frame_10_880s.jpg",
    "ts": 880.0,
    "kind": "whiteboard",
    "caption": "The whiteboard shows definitions for state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
   },
   {
-   "file": "frames/frame_12_940s.jpg",
+   "file": "frames/frame_11_940s.jpg",
    "ts": 940.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations defining state space, initial conditions, steady-states, and stability, along with an example of Fibonacci numbers."
+   "caption": "This frame displays mathematical definitions and examples related to state space, steady-states, stability, and Fibonacci numbers."
   },
   {
-   "file": "frames/frame_13_980s.jpg",
+   "file": "frames/frame_12_980s.jpg",
    "ts": 980.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows mathematical equations for state space, Fibonacci numbers, and stability conditions."
+   "caption": "A whiteboard displays mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, including an example of Fibonacci numbers."
   },
   {
-   "file": "frames/frame_14_1040s.jpg",
+   "file": "frames/frame_13_1040s.jpg",
    "ts": 1040.0,
    "kind": "whiteboard",
    "caption": "This frame displays mathematical definitions and examples related to state space, steady-states, and stability, including equations for Fibonacci numbers and a system with a decay term."
   },
   {
-   "file": "frames/frame_15_1080s.jpg",
+   "file": "frames/frame_14_1080s.jpg",
    "ts": 1080.0,
    "kind": "whiteboard",
-   "caption": "This frame shows mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, including examples for Fibonacci numbers and a system with a parameter lambda."
+   "caption": "This frame shows mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, including examples for Fibonacci numbers and a linear system."
   },
   {
-   "file": "frames/frame_16_1120s.jpg",
+   "file": "frames/frame_15_1120s.jpg",
    "ts": 1120.0,
    "kind": "whiteboard",
    "caption": "The whiteboard shows definitions for state space, initial conditions, steady-states, and stability, along with examples for Fibonacci numbers and a system with a negative feedback loop."
   },
   {
-   "file": "frames/frame_17_1160s.jpg",
+   "file": "frames/frame_16_1160s.jpg",
    "ts": 1160.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, Fibonacci numbers, steady-states, and stability."
+   "caption": "This whiteboard frame shows mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, including examples for Fibonacci numbers and a system with a parameter lambda."
   },
   {
-   "file": "frames/frame_18_1200s.jpg",
+   "file": "frames/frame_17_1200s.jpg",
    "ts": 1200.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, steady-states, and stability, including examples for Fibonacci numbers and a linear system."
+   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, initial conditions, steady-states, and stability, including examples for Fibonacci numbers and a system with a decay term."
   },
   {
-   "file": "frames/frame_19_1240s.jpg",
-   "ts": 1240.0,
-   "kind": "whiteboard",
-   "caption": "The whiteboard shows definitions for state space, initial conditions, steady-states, and stability, along with examples for Fibonacci numbers and a system with a decay term."
-  },
-  {
-   "file": "frames/frame_20_1280s.jpg",
+   "file": "frames/frame_18_1280s.jpg",
    "ts": 1280.0,
    "kind": "whiteboard",
    "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, Fibonacci numbers, steady-states, and stability."
   },
   {
-   "file": "frames/frame_21_1340s.jpg",
+   "file": "frames/frame_19_1340s.jpg",
    "ts": 1340.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, Fibonacci numbers, and stability analysis, including examples."
+   "caption": "This frame shows a whiteboard with mathematical equations and definitions related to state space, Fibonacci numbers, steady states, and stability, including an example of a stable system."
   },
   {
-   "file": "frames/frame_22_1400s.jpg",
+   "file": "frames/frame_20_1400s.jpg",
    "ts": 1400.0,
    "kind": "whiteboard",
-   "caption": "This frame shows mathematical equations and definitions related to state space, Fibonacci numbers, steady-states, and stability, written on a whiteboard."
+   "caption": "This frame displays mathematical equations and definitions related to state space, Fibonacci numbers, steady-states, and stability."
   },
   {
-   "file": "frames/frame_23_1460s.jpg",
+   "file": "frames/frame_21_1460s.jpg",
    "ts": 1460.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard showing mathematical equations for state space, Fibonacci numbers, and stability analysis, with a person standing in front of it."
+   "caption": "This frame displays mathematical equations and definitions related to state space, Fibonacci numbers, and stability analysis, including examples."
   }
  ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 02:19"
+ "generated": "2026-08-04 04:55"
 }
