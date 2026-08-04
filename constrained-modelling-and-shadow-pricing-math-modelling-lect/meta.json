@@ -10,13 +10,13 @@
    "file": "frames/frame_01_60s.jpg",
    "ts": 60.0,
    "kind": "whiteboard",
-   "caption": "A man points to the mathematical expression 'Ex: P(s,t)' written in green on a dark background."
+   "caption": "A man points to the mathematical expression 'Ex: P(s,t)' written on a dark background."
   },
   {
    "file": "frames/frame_02_120s.jpg",
    "ts": 120.0,
    "kind": "whiteboard",
-   "caption": "A mathematical example showing the function P(s,t) with several terms involving s and t."
+   "caption": "A mathematical example showing the function P(s,t) with several terms."
   },
   {
    "file": "frames/frame_03_200s.jpg",
@@ -28,124 +28,112 @@
    "file": "frames/frame_04_300s.jpg",
    "ts": 300.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows an example profit function P(s,t) with constraints defining a feasible region, and the start of a gradient calculation."
+   "caption": "A whiteboard shows an example problem with a profit function P(s,t) and constraints defining a feasible region."
   },
   {
    "file": "frames/frame_05_380s.jpg",
    "ts": 380.0,
    "kind": "whiteboard",
-   "caption": "This frame displays an example problem with a profit function P(s,t), constraints for s and t, the gradient of P, and a function g(s,t) defining the feasible region."
+   "caption": "This frame displays mathematical equations for P(s,t), constraints for s and t, the gradient of P, and the function g(s,t) with a feasible region indicated."
   },
   {
    "file": "frames/frame_06_440s.jpg",
    "ts": 440.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows the profit function P(s,t) and its partial derivatives, along with constraints defining the feasible region and the setup for Lagrange multipliers."
+   "caption": "A whiteboard shows the profit function P(s,t) and its gradient, along with constraints defining the feasible region and the setup for Lagrange multipliers."
   },
   {
-   "file": "frames/frame_07_480s.jpg",
-   "ts": 480.0,
-   "kind": "whiteboard",
-   "caption": "This frame displays a multi-variable calculus problem involving profit function P(s,t) and constraints, including the feasible region and the setup for Lagrange multipliers."
-  },
-  {
-   "file": "frames/frame_08_560s.jpg",
+   "file": "frames/frame_07_560s.jpg",
    "ts": 560.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows an example problem for P(s,t) with constraints, the gradient of P, and calculations involving g(s,t) and lambda."
+   "caption": "A whiteboard displays a complex mathematical problem involving profit function P(s,t), constraints, and the gradient of P and g, with a step showing the substitution of t=10,000-s."
   },
   {
-   "file": "frames/frame_09_680s.jpg",
+   "file": "frames/frame_08_680s.jpg",
    "ts": 680.0,
    "kind": "whiteboard",
-   "caption": "This frame shows the mathematical derivation for optimizing a profit function P(s,t) subject to constraints, using Lagrange multipliers to find the values of s, t, and the maximum profit P."
+   "caption": "This frame shows the mathematical derivation of optimal values for s and t, and the resulting profit P, using Lagrange multipliers."
   },
   {
-   "file": "frames/frame_10_840s.jpg",
+   "file": "frames/frame_09_840s.jpg",
    "ts": 840.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows the calculation of P(s,t) with constraints and the resulting values for s, t, and P."
+   "caption": "A whiteboard shows the calculation of P(s,t) with several constraints and the final values for s, t, and P."
   },
   {
-   "file": "frames/frame_11_880s.jpg",
+   "file": "frames/frame_10_880s.jpg",
    "ts": 880.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations and constraints for an optimization problem, including the profit function P(s,t), partial derivatives, and a list of 4 constraints to check."
+   "caption": "A whiteboard shows a complex mathematical problem involving profit maximization with constraints, including the profit function P(s,t), partial derivatives, and a list of four constraints to check."
   },
   {
-   "file": "frames/frame_12_1000s.jpg",
+   "file": "frames/frame_11_1000s.jpg",
    "ts": 1000.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows a mathematical problem involving profit maximization P(s,t) with constraints, including the feasible region, gradient calculations, and a graph illustrating the constraints and endpoints."
+   "caption": "A whiteboard shows the profit function P(s,t) and constraints for s and t, along with calculations for the gradient, lambda, and endpoints of g(s,t)=10,000, and a graph plotting the feasible region."
   },
   {
-   "file": "frames/frame_13_1060s.jpg",
+   "file": "frames/frame_12_1060s.jpg",
    "ts": 1060.0,
    "kind": "whiteboard",
-   "caption": "This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including profit function P(s,t), constraints, partial derivatives, and a feasible region graph."
+   "caption": "This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including a profit function P(s,t), constraints, partial derivatives, and a feasible region."
   },
   {
-   "file": "frames/frame_14_1140s.jpg",
-   "ts": 1140.0,
-   "kind": "whiteboard",
-   "caption": "The frame shows the mathematical expression 'Consider g(s,t)=s+t=c' written on a dark background."
-  },
-  {
-   "file": "frames/frame_15_1200s.jpg",
+   "file": "frames/frame_13_1200s.jpg",
    "ts": 1200.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows the equations for considering g(s,t) and the gradient of P."
+   "caption": "A whiteboard shows the equations for g(s,t) and the start of a gradient calculation."
   },
   {
-   "file": "frames/frame_16_1300s.jpg",
+   "file": "frames/frame_14_1300s.jpg",
    "ts": 1300.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows mathematical equations for g(s,t), s, t, and lambda."
+   "caption": "A whiteboard shows mathematical equations for g(s,t), s, t, and lambda, with the speaker gesturing."
   },
   {
-   "file": "frames/frame_17_1380s.jpg",
+   "file": "frames/frame_15_1380s.jpg",
    "ts": 1380.0,
    "kind": "whiteboard",
-   "caption": "A whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c)."
+   "caption": "The whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c)."
   },
   {
-   "file": "frames/frame_18_1440s.jpg",
+   "file": "frames/frame_16_1440s.jpg",
    "ts": 1440.0,
    "kind": "whiteboard",
    "caption": "This frame shows mathematical equations for g(s,t), P, S, t, and \u03bb, along with sensitivity calculations for S(s,c) and S(t,c)."
   },
   {
-   "file": "frames/frame_19_1500s.jpg",
+   "file": "frames/frame_17_1500s.jpg",
    "ts": 1500.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard shows calculations for sensitivities, including partial derivatives and the chain rule."
+   "caption": "A person writes mathematical equations on a whiteboard, including calculations for sensitivities and partial derivatives."
   },
   {
-   "file": "frames/frame_20_1600s.jpg",
+   "file": "frames/frame_18_1600s.jpg",
    "ts": 1600.0,
    "kind": "whiteboard",
-   "caption": "The whiteboard shows mathematical equations for sensitivities, including calculations for S(s,c) and S(t,c), and a partial equation for S(P,c)."
+   "caption": "The whiteboard displays mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and the derivative of P with respect to c."
   },
   {
-   "file": "frames/frame_21_1680s.jpg",
+   "file": "frames/frame_19_1680s.jpg",
    "ts": 1680.0,
    "kind": "whiteboard",
-   "caption": "This frame shows mathematical equations for sensitivities, including calculations for S(s,c), S(t,c), and S(P,c) with a Lagrange multiplier."
+   "caption": "This frame displays mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c), dP/dc, and S(P,c)."
   },
   {
-   "file": "frames/frame_22_1740s.jpg",
+   "file": "frames/frame_20_1740s.jpg",
    "ts": 1740.0,
    "kind": "whiteboard",
    "caption": "This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c), dP/dc, and S(P,c)."
   },
   {
-   "file": "frames/frame_23_1800s.jpg",
+   "file": "frames/frame_21_1800s.jpg",
    "ts": 1800.0,
    "kind": "whiteboard",
-   "caption": "This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers."
+   "caption": "A whiteboard shows mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and S(P,c)."
   }
  ],
  "doc_model": "deepseek/deepseek-v4-flash",
  "vision_model": "google/gemini-2.5-flash",
- "generated": "2026-08-04 01:35"
+ "generated": "2026-08-04 04:14"
 }

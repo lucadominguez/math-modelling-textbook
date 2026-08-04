@@ -1,1054 +1,979 @@
-# Constrained Modeling and Shadow Pricing: A Practical Example with Lagrange Multipliers
+# Constrained Modelling and Shadow Pricing: Applying Lagrange Multipliers to a Production Optimization Problem
 > **Source:** [Constrained Modelling and Shadow Pricing - Math Modelling - Lecture 7](https://www.youtube.com/watch?v=SY6NvKj0fRM) by Math Modelling · 32:17 · Training document generated from the video.
 **How to use this document:** read it top to bottom in place of watching the video. Screenshots appear exactly where the video depends on something visual, with links that jump to that moment. Questions at the end of each section confirm you learned the material. The glossary and footnotes add definitions and detail the video assumes you already have.
-**Who this is for:** This course is for undergraduate students or professionals learning mathematical modeling, specifically constrained optimization and sensitivity analysis.
+**Who this is for:** This course is for students of mathematical modelling who have learned the theory of Lagrange multipliers and want to see a complete, worked example with sensitivity analysis and shadow pricing.
 ## Learning objectives
 
 After working through this document you can:
 
-1. Formulate a constrained optimization problem from a real-world manufacturing scenario
-2. Apply the method of Lagrange multipliers to find candidate optimal points on a binding constraint
-3. Evaluate endpoints and other boundaries to determine the global optimum within a feasible region
-4. Derive a general solution for the optimal production levels as a function of a constraint parameter
-5. Compute sensitivities of decision variables with respect to a constraint using partial derivatives
-6. Interpret the Lagrange multiplier as the shadow price: the marginal change in profit per unit change in a constraint
-7. Analyze a decision rule for whether to relax a resource constraint based on the shadow price and marginal cost
-8. Explain the chain rule derivation that connects the derivative of profit with respect to the constraint to the Lagrange multiplier
+1. Formulate a constrained optimization problem from a realistic production scenario with multiple constraints.
+2. Apply the Lagrange multiplier method to optimize a profit function subject to a linear constraint.
+3. Solve the Lagrange multiplier equations to find candidate optimal production levels and the Lagrange multiplier value.
+4. Check all boundary constraints, including endpoints and other constraint lines, to verify the global optimum.
+5. Perform a sensitivity analysis by treating a constraint bound as a variable parameter.
+6. Compute the derivative of the optimal profit with respect to the constraint parameter and relate it to the Lagrange multiplier.
+7. Interpret the Lagrange multiplier as a shadow price that quantifies the marginal value of relaxing a constraint.
+8. Use the shadow price to make a practical business decision about whether to increase production capacity.
 ## Prerequisites
 
-- Knowledge of Lagrange multipliers for constrained optimization
-- Ability to compute partial derivatives and gradients
-- Familiarity with single-variable optimization (checking endpoints and boundaries)
-- Basic understanding of profit functions and economic constraints
-## Introduction and Problem Setup: TV Profit Function with Multiple Constraints
+- Familiarity with partial derivatives and gradient vectors.
+- Understanding of the Lagrange multiplier method for constrained optimization (as covered in a previous lecture).
+- Basic single-variable optimization (checking endpoints).
+- Comfort with solving systems of linear equations.
+## Introduction and Problem Setup
 
-This section builds on the Lagrange multiplier method introduced in the previous video. You will apply that method to a realistic business problem: maximizing profit for a television manufacturer subject to several production constraints. The video assumes you already understand how to find an optimum of an unconstrained function by setting its gradient to zero. Now you will learn how to handle constraints using Lagrange multipliers.
+This section establishes the constrained optimization problem we will solve using Lagrange multipliers. You will define the profit function, identify the constraints, and compute the gradient of the profit function.
 
-### Recap of the Profit Function
+### Review of Lagrange Multipliers
 
-The model uses two decision variables:
+In the previous video, you learned that Lagrange multipliers provide a method for finding optimal solutions to constrained optimization problems. The method works by solving a system of equations called the Lagrange multiplier equations. These equations allow you to handle constraints that may be complicated or even nonlinear.
 
-- \( s \) : number of 19-inch TV sets produced per year.
-- \( t \) : number of 21-inch TV sets produced per year.
+### The Profit Function
 
-The profit function \( P(s,t) \) is the revenue from selling the TVs minus the production cost. The revenue for each type depends on the demand curve (price decreases as more units are produced). The cost includes a fixed base cost of $400,000 plus variable costs per unit: $195 per 19-inch set and $225 per 21-inch set.
+We return to the television production example from two videos ago. The goal is to optimize a profit function, which we denote as $P(s,t)$. The variables in this function are:
 
-The full profit function is:
-
-
-![A man points to the mathematical expression 'Ex: P(s,t)' written in green on a dark background.](frames/frame_01_60s.jpg)
-*[01:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=60s) A man points to the mathematical expression 'Ex: P(s,t)' written in green on a dark background.*
+- $s$: the number of 19-inch television sets produced
+- $t$: the number of 21-inch television sets produced
 
 
-```
-Ex: P(s,t)
-```
+![A man points to the mathematical expression 'Ex: P(s,t)' written on a dark background.](frames/frame_01_60s.jpg)
+*[01:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=60s) A man points to the mathematical expression 'Ex: P(s,t)' written on a dark background.*
 
 
-![A mathematical example showing the function P(s,t) with several terms involving s and t.](frames/frame_02_120s.jpg)
-*[02:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=120s) A mathematical example showing the function P(s,t) with several terms involving s and t.*
+The profit function is written on the whiteboard as:
+
+$$P(s,t) = (339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (400000 + 195s + 225t)$$
 
 
-The whiteboard shows the complete expression. The correct form (as later corrected in the video) is:
+![A mathematical example showing the function P(s,t) with several terms.](frames/frame_02_120s.jpg)
+*[02:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=120s) A mathematical example showing the function P(s,t) with several terms.*
 
-\[
-P(s,t) = (339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (400000 + 195s + 225t)
-\]
 
-**Term by term explanation:**
+This function is quadratic in $s$ and $t$. The first term $(339 - 0.01s - 0.003t)s$ represents the revenue from 19-inch televisions. The second term $(399 - 0.004s - 0.01t)t$ represents the revenue from 21-inch televisions. The subtracted term $(400000 + 195s + 225t)$ represents the production costs, where $400,000$ is a base cost, $195s$ is the per-unit production cost for 19-inch sets, and $225t$ is the per-unit production cost for 21-inch sets.
 
-- The first term, \((339 - 0.01s - 0.003t)s\), is the revenue from 19-inch TVs. The price per unit is \(339 - 0.01s - 0.003t\), which decreases as you produce more of either type.
-- The second term, \((399 - 0.004s - 0.01t)t\), is the revenue from 21-inch TVs. The price per unit is \(399 - 0.004s - 0.01t\).
-- The last term, \(400000 + 195s + 225t\), is the total production cost: $400,000 fixed cost plus $195 per 19-inch TV and $225 per 21-inch TV.
+In the earlier unconstrained optimization, you found the optimum by computing the gradient of $P$ and setting it equal to zero. Now we add constraints to make the problem more realistic.
 
-In the unconstrained case (only requiring \(s \ge 0\) and \(t \ge 0\)), the optimum was found by solving \(\nabla P = 0\). Now you will add more constraints.
+### The Constraints
 
-### Adding Production Constraints
-
-The manufacturer faces several real-world limitations. These are listed below.
+We have five constraints that define the feasible region, which is the set of all production quantities $(s,t)$ that are physically possible.
 
 
 ![A mathematical example showing the profit function P(s,t) with constraints on s and t.](frames/frame_03_200s.jpg)
 *[03:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=200s) A mathematical example showing the profit function P(s,t) with constraints on s and t.*
 
 
-The whiteboard shows the first three constraints:
+**Constraint 1: Non-negativity.** You cannot produce a negative number of televisions. This gives:
 
-- \(s \ge 0\) and \(t \ge 0\) (non‑negativity: you cannot produce a negative number of TVs).
-- \(s \le 5000\) (material limit for 19‑inch sets: the factory can obtain enough material for at most 5000 of these per year).
-- \(t \le 8000\) (material limit for 21‑inch sets: at most 8000 per year).
+$$s \geq 0, \quad t \geq 0$$
 
-The video then introduces a fourth constraint based on a shared component:
+**Constraint 2: Production capacity for 19-inch sets.** The factory has enough material to produce at most 5,000 of the 19-inch sets. This depends on the amount of material the company can obtain from suppliers:
 
-- Both TV models use the same internal circuit board. The supplier can provide only 10,000 circuit boards per year. Therefore, the total number of TVs produced cannot exceed 10,000:
+$$s \leq 5,000$$
 
-\[
-s + t \le 10000
-\]
+**Constraint 3: Production capacity for 21-inch sets.** The factory has enough material to produce at most 8,000 of the 21-inch sets:
 
-This gives a total of five constraints:
+$$t \leq 8,000$$
 
-| Constraint | Meaning |
-|------------|---------|
-| \(s \ge 0\) | Non‑negativity for 19‑inch TVs |
-| \(t \ge 0\) | Non‑negativity for 21‑inch TVs |
-| \(s \le 5000\) | Material limit for 19‑inch TVs |
-| \(t \le 8000\) | Material limit for 21‑inch TVs |
-| \(s + t \le 10000\) | Circuit board supply limit |
+**Constraint 4: Circuit board capacity.** Both television models use the same internal circuit board, which comes from a single supplier. The supplier can provide only 10,000 circuit boards per year. Since each television requires one circuit board, the total number of televisions produced cannot exceed 10,000:
 
-Together, these constraints define the **feasible region**: the set of all \((s, t)\) pairs that satisfy all five inequalities. The feasible region is a polygon in the first quadrant of the \(s\)-\(t\) plane. Its boundaries are:
-
-- The axes \(s = 0\) and \(t = 0\).
-- The vertical line \(s = 5000\).
-- The horizontal line \(t = 8000\).
-- The diagonal line \(s + t = 10000\).
-
-Because the circuit board constraint (\(s + t \le 10000\)) is more restrictive than the sum of the individual limits (5000 + 8000 = 13000), the feasible region is a pentagon. In the next sections of the course, you will use Lagrange multipliers to find the constrained optimum of \(P(s,t)\) within this region.
-
-### Check your understanding
-
-1. **How many constraints are applied to the profit function in this problem?**  
-   <details><summary>Answer</summary>Five constraints: \(s \ge 0\), \(t \ge 0\), \(s \le 5000\), \(t \le 8000\), and \(s + t \le 10000\).</details>
-
-2. **Why is the circuit board constraint \(s + t \le 10000\) necessary even though the individual material limits already restrict \(s\) and \(t\)?**  
-   <details><summary>Answer</summary>Because both TV models use the same circuit board, the supplier’s limit of 10,000 boards per year caps the total number of TVs, not just each type. Without this constraint, you could produce 5000 of one type and 8000 of the other, totaling 13,000 TVs, which would exceed the board supply.</details>
-
-3. **What is the feasible region?**  
-   <details><summary>Answer</summary>The feasible region is the set of all \((s, t)\) that satisfy all five constraints simultaneously. It is a polygon in the first quadrant bounded by the axes, the lines \(s = 5000\), \(t = 8000\), and \(s + t = 10000\).</details>
-
-4. **In the unconstrained case, how was the optimum found?**  
-   <details><summary>Answer</summary>By setting the gradient of \(P(s,t)\) to zero (i.e., solving \(\frac{\partial P}{\partial s} = 0\) and \(\frac{\partial P}{\partial t} = 0\)).</details>
-## Solving the Lagrange Multiplier Equations for the Circuit Board Constraint
+$$s + t \leq 10,000$$
 
 
-![A whiteboard shows an example profit function P(s,t) with constraints defining a feasible region, and the start of a gradient calculation.](frames/frame_04_300s.jpg)
-*[05:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=300s) A whiteboard shows an example profit function P(s,t) with constraints defining a feasible region, and the start of a gradient calculation.*
+![A whiteboard shows an example problem with a profit function P(s,t) and constraints defining a feasible region.](frames/frame_04_300s.jpg)
+*[05:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=300s) A whiteboard shows an example problem with a profit function P(s,t) and constraints defining a feasible region.*
 
 
-We begin with the profit function P(s,t) and the feasible region defined by three constraints:
+These five constraints together define the feasible region. The feasible region is the set of all $(s,t)$ pairs that satisfy all constraints simultaneously.
 
-- s is greater than or equal to 0
-- t is greater than or equal to 0
-- s is less than or equal to 5,000
-- t is less than or equal to 8,000
-- s plus t is less than or equal to 10,000
+### The Gradient of the Profit Function
 
-The profit function is:
+To apply the method of Lagrange multipliers, you first need the gradient of the profit function $P(s,t)$. The gradient, denoted $\nabla P$, is a vector containing the partial derivatives of $P$ with respect to each variable.
 
+We computed this gradient in the earlier video. The partial derivative with respect to $s$ is:
+
+$$\frac{\partial P}{\partial s} = 144 - 0.02s - 0.007t$$
+
+The partial derivative with respect to $t$ is:
+
+$$\frac{\partial P}{\partial t} = 174 - 0.007s - 0.02t$$
+
+Therefore, the gradient vector is:
+
+$$\nabla P(s,t) = \begin{pmatrix} 144 - 0.02s - 0.007t \\ 174 - 0.007s - 0.02t \end{pmatrix}$$
+
+This gradient will be used in the Lagrange multiplier equations to find the optimal production quantities subject to the constraints.
+
+### Summary of the Problem Setup
+
+| Component | Expression |
+|-----------|------------|
+| Profit function $P(s,t)$ | $(339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (400000 + 195s + 225t)$ |
+| Variables | $s$ = number of 19-inch TVs, $t$ = number of 21-inch TVs |
+| Constraints | $s \geq 0$, $t \geq 0$, $s \leq 5,000$, $t \leq 8,000$, $s + t \leq 10,000$ |
+| Gradient $\nabla P$ | $\begin{pmatrix} 144 - 0.02s - 0.007t \\ 174 - 0.007s - 0.02t \end{pmatrix}$ |
+
+### Check Your Understanding
+
+1. What does the constraint $s + t \leq 10,000$ represent in this problem?
+
+<details><summary>Answer</summary>
+This constraint represents the circuit board capacity. Both television models use the same internal circuit board, and the supplier can provide only 10,000 circuit boards per year. Therefore, the total number of televisions produced (both 19-inch and 21-inch combined) cannot exceed 10,000.
+</details>
+
+2. Why is the gradient of the profit function needed for the Lagrange multiplier method?
+
+<details><summary>Answer</summary>
+The gradient of the profit function is needed because the Lagrange multiplier method works by setting the gradient of the objective function equal to a linear combination of the gradients of the constraint functions. The gradient provides the direction of steepest ascent for the profit function, and the method finds points where this direction is balanced against the constraints.
+</details>
+
+3. How many constraints define the feasible region, and what are they?
+
+<details><summary>Answer</summary>
+Five constraints define the feasible region:
+1. $s \geq 0$ (non-negativity for 19-inch sets)
+2. $t \geq 0$ (non-negativity for 21-inch sets)
+3. $s \leq 5,000$ (production capacity for 19-inch sets)
+4. $t \leq 8,000$ (production capacity for 21-inch sets)
+5. $s + t \leq 10,000$ (circuit board capacity)
+</details>
+## Gradient of the Profit Function and the Lagrange Multiplier Setup
+
+This section covers the mathematical foundation for solving constrained optimization problems using Lagrange multipliers. You will learn how to compute gradients, set up the Lagrange multiplier equation, and reduce the system of equations using the constraint.
+
+### Computing the Gradient of the Profit Function
+
+The profit function $P(s,t)$ is given by:
+
+$$
 P(s,t) = (339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (400000 + 195s + 225t)
+$$
 
-The gradient of P, denoted as ∇P, is a vector of partial derivatives. The first component is the partial derivative of P with respect to s. The second component is the partial derivative of P with respect to t. From a previous calculation, we have:
-
-∇P = (144 - 0.02s - 0.007t, 174 - 0.007s - 0.02t)
-
-### Setting Up the Lagrange Multiplier for the Binding Constraint
+The gradient of $P$, denoted $\nabla P$, is a vector containing the partial derivatives of $P$ with respect to each variable. The first component is the partial derivative with respect to $s$, and the second component is the partial derivative with respect to $t$.
 
 
-![This frame displays an example problem with a profit function P(s,t), constraints for s and t, the gradient of P, and a function g(s,t) defining...](frames/frame_05_380s.jpg)
-*[06:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=380s) This frame displays an example problem with a profit function P(s,t), constraints for s and t, the gradient of P, and a function g(s,t) defining the feasible region.*
+![This frame displays mathematical equations for P(s,t), constraints for s and t, the gradient of P, and the function g(s,t) with a feasible region...](frames/frame_05_380s.jpg)
+*[06:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=380s) This frame displays mathematical equations for P(s,t), constraints for s and t, the gradient of P, and the function g(s,t) with a feasible region indicated.*
 
 
-We focus on the most interesting constraint: the one where s plus t equals 10,000. This is the constraint that ties the two products together. We define the constraint function g(s,t) as:
+From the whiteboard at 06:20, the gradient of the profit function is:
 
+$$
+\nabla P = \left(144 - 0.02s - 0.007t, \; 174 - 0.007s - 0.02t\right)
+$$
+
+The gradient $\nabla P$ points in the direction of steepest increase for the function $P$. If you want to maximize profit, you must follow the direction of the gradient.
+
+### Defining the Constraint Function
+
+The most interesting constraint is the one that ties the two variables together. Define the constraint function $g(s,t)$ as:
+
+$$
 g(s,t) = s + t
+$$
 
-The constraint itself is g(s,t) = 10,000.
+The constraint is that $g(s,t) = 10,000$, which represents the production capacity limit. This constraint forms a line in the feasible region.
 
-The gradient of g is straightforward to compute. The partial derivative of g with respect to s is 1. The partial derivative of g with respect to t is 1. Therefore:
+The gradient of $g$ is straightforward to compute:
 
-∇g = (1, 1)
-
-### The Lagrange Multiplier Equation
-
-
-![A whiteboard shows the profit function P(s,t) and its partial derivatives, along with constraints defining the feasible region and the setup for...](frames/frame_06_440s.jpg)
-*[07:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=440s) A whiteboard shows the profit function P(s,t) and its partial derivatives, along with constraints defining the feasible region and the setup for Lagrange multipliers.*
+$$
+\nabla g = \left( \frac{\partial g}{\partial s}, \frac{\partial g}{\partial t} \right) = (1, 1)
+$$
 
 
-The Lagrange multiplier method states that at an optimal point on the constraint, the gradient of the objective function P is parallel to the gradient of the constraint function g. This is expressed as:
-
-∇P = λ ∇g
-
-Here, λ (lambda) is the Lagrange multiplier. (Added context: The Lagrange multiplier represents the rate of change of the optimal objective value with respect to a small change in the constraint's right-hand side.)
-
-Because ∇g = (1, 1), the equation ∇P = λ ∇g becomes a system of two simple linear equations:
-
-144 - 0.02s - 0.07t = λ
-174 - 0.007s - 0.02t = λ
-
-### Geometric Interpretation
+![A whiteboard shows the profit function P(s,t) and its gradient, along with constraints defining the feasible region and the setup for Lagrange...](frames/frame_06_440s.jpg)
+*[07:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=440s) A whiteboard shows the profit function P(s,t) and its gradient, along with constraints defining the feasible region and the setup for Lagrange multipliers.*
 
 
-![This frame displays a multi-variable calculus problem involving profit function P(s,t) and constraints, including the feasible region and the...](frames/frame_07_480s.jpg)
-*[08:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=480s) This frame displays a multi-variable calculus problem involving profit function P(s,t) and constraints, including the feasible region and the setup for Lagrange multipliers.*
+The gradient $\nabla g$ runs perpendicular (orthogonal) to the level set given by the constraint $g(s,t) = 10,000$. This geometric relationship is essential for understanding the Lagrange multiplier method.
+
+### Setting Up the Lagrange Multiplier Equation
+
+The Lagrange multiplier equation states that at the optimal point, the gradient of the profit function is parallel to the gradient of the constraint function:
+
+$$
+\nabla P = \lambda \nabla g
+$$
+
+where $\lambda$ (lambda) is the Lagrange multiplier. This equation captures the condition that the only way to increase profit is by moving off the constraint line, because the gradient of $P$ must be orthogonal to the level curve of the constraint.
+
+Substituting the gradients into the equation gives:
+
+$$
+\left(144 - 0.02s - 0.007t, \; 174 - 0.007s - 0.02t\right) = \lambda (1, 1)
+$$
+
+This vector equation yields two scalar equations:
+
+$$
+144 - 0.02s - 0.007t = \lambda \tag{1}
+$$
+
+$$
+174 - 0.007s - 0.02t = \lambda \tag{2}
+$$
+
+### Reducing the System Using the Constraint
+
+The system currently has three unknowns: $s$, $t$, and $\lambda$. However, the constraint $g(s,t) = 10,000$ provides an additional equation:
+
+$$
+s + t = 10,000
+$$
 
 
-The gradient of P points in the direction of steepest increase for the function P. To maximize profit, you would follow that gradient. The gradient of g runs perpendicular (orthogonal) to the level set given by the constraint. The Lagrange multiplier equation tells us when these two gradients are parallel. When they are parallel, the only way to increase profit is by moving off of the constraint line. Keep this geometric intuition in mind as we proceed with the algebra.
+![A whiteboard displays a complex mathematical problem involving profit function P(s,t), constraints, and the gradient of P and g, with a step...](frames/frame_07_560s.jpg)
+*[09:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=560s) A whiteboard displays a complex mathematical problem involving profit function P(s,t), constraints, and the gradient of P and g, with a step showing the substitution of t=10,000-s.*
+
+
+From this constraint, you can express $t$ in terms of $s$:
+
+$$
+t = 10,000 - s
+$$
+
+Substituting this relationship into equations (1) and (2) reduces the system to two equations with two unknowns ($s$ and $\lambda$). This substitution eliminates $t$ from the Lagrange multiplier equations.
+
+The reduced system becomes:
+
+$$
+144 - 0.02s - 0.007(10,000 - s) = \lambda
+$$
+
+$$
+174 - 0.007s - 0.02(10,000 - s) = \lambda
+$$
 
 ### Solving the System
 
+To solve for $s$ and $\lambda$, follow these steps:
 
-![A whiteboard shows an example problem for P(s,t) with constraints, the gradient of P, and calculations involving g(s,t) and lambda.](frames/frame_08_560s.jpg)
-*[09:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=560s) A whiteboard shows an example problem for P(s,t) with constraints, the gradient of P, and calculations involving g(s,t) and lambda.*
+1. Simplify each equation by distributing the coefficients.
+2. Set the two expressions for $\lambda$ equal to each other.
+3. Solve for $s$.
+4. Substitute the value of $s$ back into either equation to find $\lambda$.
+5. Use $t = 10,000 - s$ to find $t$.
+
+The geometric interpretation to keep in mind: the Lagrange multiplier equation ensures that the gradient of $P$ is parallel to the gradient of $g$. When these gradients are parallel, moving along the constraint line does not increase profit. The only way to increase profit would be to move off the constraint line, which is not allowed because you must satisfy the constraint.
+
+### Check Your Understanding
+
+1. What does the gradient $\nabla P$ represent geometrically, and why is it important for optimization?
+
+<details><summary>Answer</summary>
+The gradient $\nabla P$ points in the direction of steepest increase of the profit function $P$. To maximize profit, you must move in the direction of the gradient. However, when constrained, you can only move along the constraint line, so the optimal point occurs where the gradient of $P$ is parallel to the gradient of the constraint $g$.
+</details>
+
+2. Why does the Lagrange multiplier equation $\nabla P = \lambda \nabla g$ use the gradient of the constraint function $g$?
+
+<details><summary>Answer</summary>
+The gradient $\nabla g$ is perpendicular (orthogonal) to the level set of the constraint $g(s,t) = 10,000$. At the optimal point, the gradient of $P$ must also be perpendicular to the constraint line, meaning it is parallel to $\nabla g$. This ensures that moving along the constraint does not increase profit, which is the condition for a constrained optimum.
+</details>
+
+3. How does substituting $t = 10,000 - s$ help solve the system of equations?
+
+<details><summary>Answer</summary>
+The substitution reduces the number of unknowns from three ($s$, $t$, $\lambda$) to two ($s$, $\lambda$). By expressing $t$ in terms of $s$, you can eliminate $t$ from the Lagrange multiplier equations, leaving a system of two equations in two unknowns that can be solved directly.
+</details>
+
+4. What is the geometric interpretation of the condition $\nabla P = \lambda \nabla g$?
+
+<details><summary>Answer</summary>
+The condition means that the gradient of $P$ is parallel to the gradient of $g$. Since $\nabla g$ is perpendicular to the constraint line, $\nabla P$ must also be perpendicular to the constraint line. This implies that moving along the constraint does not change the profit, which is the necessary condition for a maximum or minimum on the constraint.
+</details>
+## Solving the Lagrange Multiplier Equations
+
+The Lagrange multiplier method transforms a constrained optimization problem into a system of equations. For the production problem, we have the profit function $P(s,t)$ and the constraint $g(s,t)=s+t=10,000$. The gradient of $P$ is
+
+$$
+\nabla P = \left(144 - 0.02s - 0.007t,\; 174 - 0.007s - 0.02t\right).
+$$
+
+The gradient of the constraint function $g(s,t)=s+t$ is $\nabla g = (1,1)$. The Lagrange multiplier condition states that at an optimum, $\nabla P$ must be parallel to $\nabla g$, i.e., there exists a scalar $\lambda$ such that
+
+$$
+\nabla P = \lambda \nabla g.
+$$
+
+This gives two equations:
+
+$$
+144 - 0.02s - 0.007t = \lambda \tag{1}
+$$
+$$
+174 - 0.007s - 0.02t = \lambda \tag{2}
+$$
+
+together with the constraint
+
+$$
+s + t = 10,000. \tag{3}
+$$
+
+Because both (1) and (2) equal $\lambda$, we can set their left-hand sides equal to each other:
+
+$$
+144 - 0.02s - 0.007t = 174 - 0.007s - 0.02t.
+$$
+
+Simplify by moving terms:
+
+$$
+144 - 174 = -0.007s + 0.02s -0.02t + 0.007t
+$$
+$$
+-30 = 0.013s - 0.013t.
+$$
+
+Divide both sides by $0.013$:
+
+$$
+-30 / 0.013 = s - t.
+$$
+
+Since $30 / 0.013 = 30 \times (1000/13) = 30000/13 \approx 2307.69$, we have
+
+$$
+s - t = -\frac{30000}{13}.
+$$
+
+Now use the constraint $t = 10,000 - s$ from (3). Substitute:
+
+$$
+s - (10,000 - s) = -\frac{30000}{13}
+$$
+$$
+2s - 10,000 = -\frac{30000}{13}.
+$$
+
+Add $10,000$ to both sides (note $10,000 = 130000/13$):
+
+$$
+2s = 10,000 - \frac{30000}{13} = \frac{130000}{13} - \frac{30000}{13} = \frac{100000}{13}.
+$$
+
+Thus
+
+$$
+s = \frac{50000}{13} \approx 3,846.
+$$
+
+Then $t = 10,000 - s = 10,000 - \frac{50000}{13} = \frac{130000}{13} - \frac{50000}{13} = \frac{80000}{13} \approx 6,154$.
+
+These values satisfy the constraint: $3,846 + 6,154 = 10,000$.
+
+Now compute $\lambda$ using equation (1):
+
+$$
+\lambda = 144 - 0.02\left(\frac{50000}{13}\right) - 0.007\left(\frac{80000}{13}\right).
+$$
+
+Calculate each term:
+
+$$
+0.02 \times \frac{50000}{13} = \frac{1000}{13}, \quad 0.007 \times \frac{80000}{13} = \frac{560}{13}.
+$$
+
+So
+
+$$
+\lambda = 144 - \frac{1000}{13} - \frac{560}{13} = 144 - \frac{1560}{13}.
+$$
+
+Since $144 = \frac{1872}{13}$, we have
+
+$$
+\lambda = \frac{1872 - 1560}{13} = \frac{312}{13} = 24.
+$$
+
+The positive value $\lambda = 24$ indicates that $\nabla P$ points in the same direction as $\nabla g$ at this point. Geometrically, the level curve of $P$ is tangent to the constraint line, and the gradient of $P$ is aligned with the gradient of $g$.
 
 
-We have three unknowns: s, t, and λ. However, we also have the constraint equation itself:
-
-s + t = 10,000
-
-This gives us a third equation. We can use it to express t in terms of s:
-
-t = 10,000 - s
-
-Substitute this expression for t into the two Lagrange multiplier equations. This reduces the system to two equations with two unknowns (s and λ).
-
-First equation:
-144 - 0.02s - 0.07(10,000 - s) = λ
-
-Second equation:
-174 - 0.007s - 0.02(10,000 - s) = λ
-
-Simplify each equation.
-
-For the first equation:
-144 - 0.02s - 700 + 0.07s = λ
--556 + 0.05s = λ
-
-For the second equation:
-174 - 0.007s - 200 + 0.02s = λ
--26 + 0.013s = λ
-
-Now set the two expressions for λ equal to each other:
-
--556 + 0.05s = -26 + 0.013s
-
-Solve for s:
-
-0.05s - 0.013s = 556 - 26
-0.037s = 530
-s = 530 / 0.037
-s = 530,000 / 37
-s = 50,000 / 13
+![This frame shows the mathematical derivation of optimal values for s and t, and the resulting profit P, using Lagrange multipliers.](frames/frame_08_680s.jpg)
+*[11:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=680s) This frame shows the mathematical derivation of optimal values for s and t, and the resulting profit P, using Lagrange multipliers.*
 
 
-![This frame shows the mathematical derivation for optimizing a profit function P(s,t) subject to constraints, using Lagrange multipliers to find...](frames/frame_09_680s.jpg)
-*[11:20](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=680s) This frame shows the mathematical derivation for optimizing a profit function P(s,t) subject to constraints, using Lagrange multipliers to find the values of s, t, and the maximum profit P.*
+The profit at this candidate point is
+
+$$
+P(3,846, 6,154) = \$532,308.
+$$
+
+This is the maximum along the constraint $s+t=10,000$ only if it is not dominated by the endpoints of that line segment. The feasible region also imposes $s \leq 5,000$ and $t \leq 8,000$, so the line segment $s+t=10,000$ is bounded by the intersection with those upper bounds. The two endpoints are:
+
+* When $s = 5,000$, then $t = 5,000$ (because $5,000 + 5,000 = 10,000$).
+* When $t = 8,000$, then $s = 2,000$ (because $2,000 + 8,000 = 10,000$).
 
 
-The exact value of s is 50,000 divided by 13. As a decimal, this is approximately 3,846.
+![A whiteboard shows the calculation of P(s,t) with several constraints and the final values for s, t, and P.](frames/frame_09_840s.jpg)
+*[14:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=840s) A whiteboard shows the calculation of P(s,t) with several constraints and the final values for s, t, and P.*
 
-Now find t using the constraint:
 
-t = 10,000 - s
-t = 10,000 - (50,000 / 13)
-t = (130,000 / 13) - (50,000 / 13)
-t = 80,000 / 13
+Evaluating $P$ at these endpoints gives lower profits than $\$532,308$. Therefore the interior point $(3,846, 6,154)$ is the maximum along the constraint $s+t=10,000$.
 
-As a decimal, t is approximately 6,154.
+However, this is not the final answer. The feasible region is defined by four inequality constraints:
 
-Notice that s plus t equals (50,000/13) plus (80,000/13) which equals 130,000/13 which equals 10,000. This confirms that the solution satisfies the constraint.
+1. $s \geq 0$
+2. $t \geq 0$
+3. $s \leq 5,000$
+4. $t \leq 8,000$
 
-Now find λ by substituting s into either expression for λ:
+We have only considered the constraint $s+t \leq 10,000$ as an equality. The candidate $(3,846, 6,154)$ satisfies all four inequalities, but we must also check whether the maximum of $P$ over the entire feasible region occurs on one of the other boundaries. That means we must solve four additional single-variable optimization problems, each obtained by fixing one of the inequality constraints to its boundary value:
 
-λ = -556 + 0.05s
-λ = -556 + 0.05(50,000 / 13)
-λ = -556 + (2,500 / 13)
-λ = (-7,228 / 13) + (2,500 / 13)
-λ = -4,728 / 13
-λ = 24
+* Set $s = 0$ and optimize $P(0,t)$ for $t$ between $0$ and $8,000$.
+* Set $t = 0$ and optimize $P(s,0)$ for $s$ between $0$ and $5,000$.
+* Set $s = 5,000$ and optimize $P(5,000,t)$ for $t$ between $0$ and $5,000$ (since $s+t \leq 10,000$ forces $t \leq 5,000$ when $s=5,000$).
+* Set $t = 8,000$ and optimize $P(s,8,000)$ for $s$ between $0$ and $2,000$ (since $s+t \leq 10,000$ forces $s \leq 2,000$ when $t=8,000$).
 
-The Lagrange multiplier λ equals 24. Because λ is positive, the gradient of P points in exactly the same direction as the gradient of g.
 
-### Evaluating the Profit
+![A whiteboard shows a complex mathematical problem involving profit maximization with constraints, including the profit function P(s,t), partial...](frames/frame_10_880s.jpg)
+*[14:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=880s) A whiteboard shows a complex mathematical problem involving profit maximization with constraints, including the profit function P(s,t), partial derivatives, and a list of four constraints to check.*
 
-At these values of s and t, the profit P is:
 
-P = 532,308
-
-This is $532,308.
-
-### Checking Other Constraints
-
-We are not done yet. We have only examined one constraint: s plus t equals 10,000. We must check all of the other constraints (s is less than or equal to 5,000, t is less than or equal to 8,000, and the non-negativity constraints) to ensure this candidate point is feasible and is the true maximum.
-
-The solution gives s equal to approximately 3,846 and t equal to approximately 6,154. Both values are positive. s is less than 5,000. t is less than 8,000. Therefore, this point satisfies all constraints.
-
-### Summary of Results
-
-| Variable | Exact Value | Approximate Value |
-|----------|-------------|-------------------|
-| s        | 50,000 / 13 | 3,846             |
-| t        | 80,000 / 13 | 6,154             |
-| λ        | 24          | 24                |
-| P        | 532,308     | 532,308           |
+These are all standard single-variable optimization problems. The only case that required Lagrange multipliers was the non-trivial constraint $s+t=10,000$, because it involves both variables in a coupled way. The other constraints reduce to optimizing a function of one variable over a closed interval, which can be done by checking critical points and endpoints.
 
 ### Check your understanding
 
-1. Why did we set the two expressions for λ equal to each other?
+1. Why is the Lagrange multiplier $\lambda$ positive in this solution? What does the sign tell you about the relationship between $\nabla P$ and $\nabla g$?
 
-<details><summary>Answer</summary>We set the two expressions for λ equal to each other because both equations (144 - 0.02s - 0.07t = λ and 174 - 0.007s - 0.02t = λ) must be true simultaneously. Since both equal λ, they must equal each other. This allows us to eliminate λ and solve for s.</details>
+<details><summary>Answer</summary>
+$\lambda = 24 > 0$ means $\nabla P$ is parallel to $\nabla g$ and points in the same direction. Geometrically, the level curve of $P$ is tangent to the constraint line, and increasing $P$ moves in the same direction as increasing $g$ (i.e., outward from the origin along the constraint).
+</details>
 
-2. What does a positive Lagrange multiplier (λ = 24) tell us geometrically?
+2. The endpoints of the constraint $s+t=10,000$ are $(5,000,5,000)$ and $(2,000,8,000)$. Why are these the only endpoints, and not $(10,000,0)$ or $(0,10,000)$?
 
-<details><summary>Answer</summary>A positive Lagrange multiplier means that the gradient of P (∇P) points in exactly the same direction as the gradient of g (∇g), not in opposite directions. This indicates that at the optimal point, the direction of steepest increase for profit is aligned with the direction perpendicular to the constraint line.</details>
+<details><summary>Answer</summary>
+The feasible region also includes the upper bounds $s \leq 5,000$ and $t \leq 8,000$. The line $s+t=10,000$ intersects these bounds at $s=5,000$ (giving $t=5,000$) and $t=8,000$ (giving $s=2,000$). Points like $(10,000,0)$ violate $s \leq 5,000$, so they are not in the feasible region.
+</details>
 
-3. Why must we check the other constraints (s ≤ 5,000 and t ≤ 8,000) after finding the Lagrange multiplier solution?
+3. After finding the candidate on $s+t=10,000$, why must we check the other four constraints? Could the maximum occur on one of them instead?
 
-<details><summary>Answer</summary>The Lagrange multiplier method only ensures that we have found a candidate point on the constraint s + t = 10,000 where the gradients are parallel. We must verify that this candidate point also satisfies all other constraints in the problem. If it violated another constraint (for example, if s exceeded 5,000), then this point would not be in the feasible region and could not be the optimal solution.</details>
-## Checking Endpoints of the Binding Constraint
+<details><summary>Answer</summary>
+Yes. The candidate is only a maximum along the single constraint $s+t=10,000$. The overall maximum over the entire feasible region could lie on a different boundary (e.g., $s=5,000$ or $t=8,000$) or at a corner. Each boundary must be examined separately to confirm the global optimum.
+</details>
+## Checking All Boundary Constraints and Finding the Global Optimum
 
-After solving the Lagrange multiplier equations, you obtain a candidate point on the binding constraint `G(S, T) = 10,000`. In this example that point is `S = 6,154` and `T = 3,846` (since `6,154 + 3,846 = 10,000`). Before you can accept this point as the maximum, you must verify that it is indeed the highest profit along the one‑dimensional line defined by the binding constraint. The same logic applies as in single‑variable optimization: you must check the endpoints of that line segment.
+The feasible region for the production problem is the set of all points $(s,t)$ satisfying the following constraints (from the whiteboard 
+![A whiteboard shows the profit function P(s,t) and constraints for s and t, along with calculations for the gradient, lambda, and endpoints of...](frames/frame_11_1000s.jpg)
+*[16:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1000s) A whiteboard shows the profit function P(s,t) and constraints for s and t, along with calculations for the gradient, lambda, and endpoints of g(s,t)=10,000, and a graph plotting the feasible region.*
+):
 
-### Identify the endpoints of the line segment
+```
+s,t >= 0
+s <= 5,000
+t <= 8,000
+s + t <= 10,000
+```
 
-The feasible region is bounded by other constraints. The binding constraint `G = 10,000` is a line. The endpoints of the feasible portion of that line occur where one of the variables hits its upper or lower bound from the other constraints.
+The profit function is
 
-In this problem, the other constraints are:
+$$
+P(s,t) = (339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (40,000 + 195s + 225t).
+$$
 
-- `S ≤ 5,000` (upper bound on standard TVs)
-- `T ≤ 8,000` (upper bound on premium TVs)
-- `S ≥ 0` and `T ≥ 0` (non‑negativity)
+The gradient of $P$ is
 
-Given these bounds, the two endpoints of the line segment `G = 10,000` are:
+$$
+\nabla P = (144 - 0.02s - 0.007t,\; 174 - 0.007s - 0.02t).
+$$
 
-1. **Endpoint A**: `S = 5,000` (the maximum allowed for S). To satisfy `G = 10,000`, `T` must be `10,000 - 5,000 = 5,000`. So the point is `(S, T) = (5,000, 5,000)`.
-2. **Endpoint B**: `T = 8,000` (the maximum allowed for T). To satisfy `G = 10,000`, `S` must be `10,000 - 8,000 = 2,000`. So the point is `(S, T) = (2,000, 8,000)`.
+Setting $\nabla P = \mathbf{0}$ (the unconstrained critical point) gives a solution that lies outside the feasible region. Therefore, no interior point of the feasible region can be a maximum or minimum. All optima must lie on the boundary of the feasible region.
 
-### Compare profits at the endpoints and the interior
+The boundary consists of four line segments (the constraints) plus the edges of the region where two constraints meet. To find the global optimum, we systematically check each boundary segment.
 
-Take these two endpoint coordinates and substitute them into the profit function (the same profit function used in the Lagrange setup). Then compare the resulting profits to the profit at the interior candidate point `(6,154, 3,846)`.
+### 1. Checking the constraint $s = 0$
 
-- Profit at `(5,000, 5,000)` is lower than the interior profit.
-- Profit at `(2,000, 8,000)` is lower than the interior profit.
-- Profit at the interior point `(6,154, 3,846)` is **$532,308**.
+Substitute $s = 0$ into $P$ to obtain a function of $t$ only. Find the maximum of this one-dimensional function on the interval $0 \leq t \leq 8,000$ (since $s=0$ and $t \leq 8,000$ and $s+t \leq 10,000$ becomes $t \leq 10,000$). Include the endpoints $t=0$ and $t=8,000$ as candidates.
 
-Because the interior profit is larger than both endpoint profits, the candidate point is a maximum along the binding constraint line. (The interior point is “on the interior of the line” and returns a larger profit.)
+### 2. Checking the constraint $t = 0$
 
-### Why you are not done yet
+Substitute $t = 0$ into $P$ and maximize over $s$ on $0 \leq s \leq 5,000$ (since $s \leq 5,000$ and $s+0 \leq 10,000$). Include endpoints $s=0$ and $s=5,000$.
 
-Even though the binding constraint line has been checked, you must also examine the other constraints that define the feasible region. The speaker enumerates four constraints that still need to be checked:
+### 3. Checking the constraint $s = 5,000$
 
-1. `S = 0`
-2. `T = 0`
-3. `S = 5,000`
-4. `T = 8,000`
+Substitute $s = 5,000$ into $P$. The remaining variable $t$ is bounded by $0 \leq t \leq 8,000$ and also $5,000 + t \leq 10,000$ i.e. $t \leq 5,000$. So the feasible interval for $t$ is $0 \leq t \leq 5,000$. Include the endpoints $t=0$ and $t=5,000$.
 
-These are the boundaries of the feasible region. You must repeat the optimization process along each of these constraints. The first two (`S = 0` and `T = 0`) are relatively easy: substituting `S = 0` (or `T = 0`) into the profit function reduces the problem to a single‑variable optimization. The remaining two (`S = 5,000` and `T = 8,000`) will be handled in subsequent steps.
+### 4. Checking the constraint $t = 8,000$
 
-### Key terms defined
+Substitute $t = 8,000$ into $P$. The variable $s$ is bounded by $0 \leq s \leq 5,000$ and $s + 8,000 \leq 10,000$ i.e. $s \leq 2,000$. So the feasible interval is $0 \leq s \leq 2,000$. Include endpoints $s=0$ and $s=2,000$.
 
-- **Binding constraint**: A constraint that is active at the candidate solution; the Lagrange multiplier method forces the constraint to hold with equality. Here `G = 10,000` is binding.
-- **Endpoint**: A point on a one‑dimensional feasible segment where one variable reaches its upper or lower bound from another constraint. Endpoints must be checked to confirm that an interior point is a maximum.
-- **Interior point**: A point on the line segment that is not at an endpoint. The Lagrange multiplier solution typically lies at an interior point of the binding constraint.
+### 5. Checking the interior of the constraint $s + t = 10,000$
+
+The line $s + t = 10,000$ is a boundary of the feasible region. Along this line, we can use the method of Lagrange multipliers because the constraint is an equality. The constraint function is $g(s,t) = s + t$, with $\nabla g = (1,1)$. The Lagrange multiplier condition $\nabla P = \lambda \nabla g$ gives the system:
+
+$$
+144 - 0.02s - 0.007t = \lambda, \quad 174 - 0.007s - 0.02t = \lambda, \quad s + t = 10,000.
+$$
+
+Solving yields (as shown on the whiteboard 
+![This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including a profit function P(s,t)...](frames/frame_12_1060s.jpg)
+*[17:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1060s) This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including a profit function P(s,t), constraints, partial derivatives, and a feasible region.*
+):
+
+$$
+s = \frac{50,000}{13} \approx 3,846,\qquad t = \frac{80,000}{13} \approx 6,154,\qquad \lambda = 24.
+$$
+
+The profit at this candidate point is $P = 532,308$.
+
+The endpoints of the line segment $s+t=10,000$ within the feasible region are also candidates:
+
+- $(s,t) = (5,000, 5,000)$ where $s=5,000$ and $t=5,000$ (satisfies $s \leq 5,000$, $t \leq 8,000$).
+- $(s,t) = (2,000, 8,000)$ where $s=2,000$ and $t=8,000$ (satisfies $s \leq 5,000$, $t \leq 8,000$).
+
+### Finding the Global Optimum
+
+After evaluating $P$ at all candidate points obtained from the five boundary checks (including the endpoints of each segment), the highest profit is found at the Lagrange multiplier point $(3,846, 6,154)$ with $P = 532,308$. The video notes that this is the maximum, as shown approximately on the graph .
+
+### Sensitivity Analysis (Introduction)
+
+Once an optimum is found, the next step in mathematical modeling is to perform sensitivity analysis. This examines how the optimum changes if a constraint parameter is varied. For example, consider the constraint $g(s,t) = s + t = c$, where $c$ is a constant. The Lagrange multiplier $\lambda = 24$ provides a measure of how much the optimal profit would change if the total production capacity $c$ were increased by one unit. (This is the shadow price of the constraint.)
+
+---
+
+  
+*Whiteboard: profit function, constraints, gradient, Lagrange multiplier setup, and graph of feasible region.*
+
+```
+Ex: P(s,t)=(339-0.01s-0.003t)s+(399-0.004s-0.01t)t-(40,000+195s+225t)
+s,t>=0
+s<=5,000, t<=8,000, s+t<=10,000 <- feasible region
+VP=(144-0.02s-0.007t, 174-0.007s-0.02t)
+g(s,t)=s+t; g(s,t)=10,000 => Vg=(1,1)
+VP=lambdaVg => 144-0.02s-0.07t=lambda, also s+t=10,000
+174-0.007s-0.02t=lambda => t=10,000-s
+.: s=50,000/13 ~=3,846
+t=80,000/13 ~=6,154 } =>P=532,308
+lambda=24
+Endpoints of g(s,t)=10,000: {(s,t)=(5,000,5,000)
+(s,t)=(2,000,8,000)}
+4 Constraints to check:
+1) s=0
+2) t=0
+3) s=5,000
+4) t=8,000
+```
+
+  
+*Whiteboard: same equations with graph indicating the optimum.*
 
 ---
 
 ### Check your understanding
 
-1. **Why must you check the endpoints of the binding constraint line?**
+1. Why is it necessary to check all boundary constraints instead of only the Lagrange multiplier candidate on the line $s+t=10,000$?
 
-   <details><summary>Answer</summary>Because the candidate point from Lagrange multipliers is an interior point on the line. In single‑variable optimization, a maximum can occur at an endpoint instead of the interior. You must verify that the interior point yields a higher profit than both endpoints to confirm it is the maximum along that line.
+   <details><summary>Answer</summary>
+   The Lagrange multiplier method finds candidates only on the equality constraint $s+t=10,000$. The global optimum could also lie on other boundaries (e.g., $s=0$, $t=0$, $s=5,000$, $t=8,000$) or at the intersection points of boundaries. All such candidates must be evaluated to determine the true maximum or minimum.
    </details>
 
-2. **What are the two endpoint coordinates for the binding constraint `G = 10,000` given the bounds `S ≤ 5,000` and `T ≤ 8,000`?**
+2. The Lagrange multiplier solution gave $\lambda = 24$. What does this value tell you about the constraint $s+t \leq 10,000$?
 
-   <details><summary>Answer</summary>Endpoint A: `(S, T) = (5,000, 5,000)` because S is at its maximum and T must be `10,000 - 5,000 = 5,000`. Endpoint B: `(S, T) = (2,000, 8,000)` because T is at its maximum and S must be `10,000 - 8,000 = 2,000`.
+   <details><summary>Answer</summary>
+   $\lambda = 24$ is the shadow price of the constraint. It indicates that if the total production capacity $c$ (the right-hand side of $s+t=10,000$) were increased by one unit, the optimal profit would increase by approximately $24$ (assuming the change is small and the same constraints remain binding).
    </details>
 
-3. **After checking the endpoints, the speaker says there are still four constraints to check. List them.**
+3. List all the candidate points that must be checked when optimizing over the feasible region defined by $s,t \geq 0$, $s \leq 5,000$, $t \leq 8,000$, $s+t \leq 10,000$.
 
-   <details><summary>Answer</summary>The four constraints are: `S = 0`, `T = 0`, `S = 5,000`, and `T = 8,000`.
+   <details><summary>Answer</summary>
+   The candidate points come from:
+   - Unconstrained critical point (if inside region): here it is outside.
+   - Lagrange multiplier candidate on $s+t=10,000$: $(3846,6154)$.
+   - Endpoints of the line $s+t=10,000$: $(5000,5000)$ and $(2000,8000)$.
+   - Boundaries $s=0$: maximize $P(0,t)$ for $0 \leq t \leq 8000$; include endpoints $t=0$ and $t=8000$.
+   - Boundaries $t=0$: maximize $P(s,0)$ for $0 \leq s \leq 5000$; include endpoints $s=0$ and $s=5000$.
+   - Boundaries $s=5000$: maximize $P(5000,t)$ for $0 \leq t \leq 5000$; include endpoints $t=0$ and $t=5000$.
+   - Boundaries $t=8000$: maximize $P(s,8000)$ for $0 \leq s \leq 2000$; include endpoints $s=0$ and $s=2000$.
    </details>
 
-4. **Why are the first two constraints (`S = 0` and `T = 0`) considered “relatively easy to handle”?**
+4. Why is the unconstrained critical point (where $\nabla P = \mathbf{0}$) not a candidate for the optimum in this problem?
 
-   <details><summary>Answer</summary>Substituting `S = 0` (or `T = 0`) into the profit function eliminates one variable, reducing the problem to a single‑variable optimization. You can then solve it using standard calculus for one variable.
+   <details><summary>Answer</summary>
+   The unconstrained critical point lies outside the feasible region (it does not satisfy all constraints). Therefore, it cannot be a feasible solution. The optimum must be inside or on the boundary of the feasible region. Since the interior has no critical point, the optimum must be on the boundary.
    </details>
-## Enumerating and Analyzing the Remaining Constraint Boundaries
+## Sensitivity Analysis: Treating the Constraint as a Variable
 
-After solving the constrained optimization problem for the interior of the constraint \(s + t = 10,000\) using Lagrange multipliers, we found a candidate point \((s, t) = (3,846, 6,154)\) with profit \(P = 532,308\) and Lagrange multiplier \(\lambda = 24\). However, the feasible region is defined by several inequality constraints, not just the equality \(s + t = 10,000\). To find the global maximum of profit, we must check all boundaries of the feasible region. The four additional constraints are:
+In this section we extend the previous analysis by treating the constraint constant $c$ (the number of circuit boards available) as a variable. This allows us to measure how the optimal solution changes when the constraint changes. The result is called **sensitivity analysis**, and it leads to the concept of a **shadow price** (the rate of change of the optimal profit with respect to the constraint).
 
-1. \(s = 0\)
-2. \(t = 0\)
-3. \(s = 5,000\)
-4. \(t = 8,000\)
+We start with the same Lagrange multiplier condition:
 
-These constraints are simpler than the \(s + t = 10,000\) line because each reduces the problem to a single variable optimization. Only the diagonal constraint \(s + t = 10,000\) required Lagrange multipliers, because it involves both variables in a non-trivial interaction.
+$$
+\nabla P = \lambda \nabla g
+$$
+
+where $P(s,t)$ is the profit function and $g(s,t) = s + t = c$ is the constraint. We already computed $\nabla P$ earlier in the course. The gradient of $g$ is $\nabla g = (1,1)$.
+
+Substitute $t = c - s$ into the constraint (since $s + t = c$). Then solve the Lagrange multiplier equations with $c$ treated as a parameter, not a fixed number.
 
 
-![A whiteboard shows the calculation of P(s,t) with constraints and the resulting values for s, t, and P.](frames/frame_10_840s.jpg)
-*[14:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=840s) A whiteboard shows the calculation of P(s,t) with constraints and the resulting values for s, t, and P.*
+![A whiteboard shows the equations for g(s,t) and the start of a gradient calculation.](frames/frame_13_1200s.jpg)
+*[20:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1200s) A whiteboard shows the equations for g(s,t) and the start of a gradient calculation.*
   
-The whiteboard lists the four constraints to check. The endpoints of the line \(s + t = 10,000\) are also given: \((s, t) = (5,000, 5,000)\) and \((s, t) = (2,000, 8,000)\). These endpoints are the intersection points of the diagonal line with the constraints \(s = 5,000\) and \(t = 8,000\) respectively.
-
-### The Feasible Region
-
-The feasible region is the set of all points \((s, t)\) satisfying:
-
-- \(s \ge 0\)
-- \(t \ge 0\)
-- \(s \le 5,000\)
-- \(t \le 8,000\)
-- \(s + t \le 10,000\)
-
-This region is a pentagon. The diagram below shows its shape:
+The whiteboard shows the beginning of this calculation:
 
 ```
-t
-^
-|  (0,8000)  (2000,8000)  (5000,8000)  t=8000 line
-|     *----------*-------------* (but (5000,8000) is outside because s+t>10000)
-|     |          |             |
-|     |   feasible region     |
-|     |          |             |
-|  (0,0)--------(5000,0)       s=5000 line
-|     s=0      (5000,5000)     (5000,0) is valid
-|                * (on diagonal)
-|             (2000,8000)
-|                *
-|             (3846,6154) - interior point on diagonal
-|                *
-| (0,0)         (5000,0)       s
-0---------------------------->
+Consider g(s,t)=s+t=c => t=c-s
+∇P=λ∇g => S=
 ```
 
-The five vertices of the feasible region are:
-
-- \((0, 0)\)
-- \((5,000, 0)\)
-- \((5,000, 5,000)\) (endpoint of \(s + t = 10,000\))
-- \((2,000, 8,000)\) (endpoint of \(s + t = 10,000\))
-- \((0, 8,000)\)
-
-The diagonal line \(s + t = 10,000\) cuts off the corner above it. The region includes the entire rectangle up to \(s=5,000\) and \(t=8,000\) but limits the sum to 10,000.
-
-### How to Handle Each Boundary
-
-For each of the four constraints, you fix one variable at its boundary value, then substitute that value into the profit function \(P(s, t)\). This gives a function of a single variable (the remaining free variable). You then maximize that single-variable function over the allowed range of the free variable, which is restricted by the other constraints. The critical points are found by taking the derivative with respect to the free variable, setting it to zero, and solving. You must also check the endpoints of the allowed range (which are the vertices of the feasible region) because the optimum may occur at an endpoint.
-
-The profit function (simplified) is:
-
-\[
-P(s, t) = 144s + 174t - 0.01s^2 - 0.01t^2 - 0.007st - 400,000
-\]
-
-Recall that the gradient of \(P\) is:
-
-\[
-\nabla P = (144 - 0.02s - 0.007t, \ 174 - 0.007s - 0.02t)
-\]
-
-#### 1. Constraint \(s = 0\)
-
-Substitute \(s = 0\) into \(P\):
-
-\[
-P(0, t) = 174t - 0.01t^2 - 400,000
-\]
-
-The feasible range for \(t\) is \(0 \le t \le 8,000\) (because \(t \le 8,000\) and \(s + t \le 10,000\) is automatically satisfied when \(s=0\)). Take the derivative with respect to \(t\):
-
-\[
-\frac{dP}{dt} = 174 - 0.02t
-\]
-
-Set to zero: \(174 - 0.02t = 0 \Rightarrow t = 8,700\). This value is outside the allowed range (\(t \le 8,000\)), so the maximum on this boundary occurs at an endpoint. The endpoints are \(t=0\) and \(t=8,000\).
-
-#### 2. Constraint \(t = 0\)
-
-Substitute \(t = 0\) into \(P\):
-
-\[
-P(s, 0) = 144s - 0.01s^2 - 400,000
-\]
-
-Feasible range: \(0 \le s \le 5,000\). Derivative: \(\frac{dP}{ds} = 144 - 0.02s = 0 \Rightarrow s = 7,200\). Outside range, so endpoints \(s=0\) and \(s=5,000\) are candidates.
-
-#### 3. Constraint \(s = 5,000\)
-
-Substitute \(s = 5,000\) into \(P\):
-
-\[
-P(5,000, t) = 144(5,000) + 174t - 0.01(5,000)^2 - 0.01t^2 - 0.007(5,000)t - 400,000
-\]
-
-Simplify:
-
-\[
-P(5,000, t) = 720,000 + 174t - 250,000 - 0.01t^2 - 35t - 400,000 = 70,000 + 139t - 0.01t^2
-\]
-
-Feasible range for \(t\): from \(s + t \le 10,000\), we have \(5,000 + t \le 10,000 \Rightarrow t \le 5,000\). Also \(t \ge 0\) and \(t \le 8,000\), so \(0 \le t \le 5,000\). Derivative: \(\frac{dP}{dt} = 139 - 0.02t = 0 \Rightarrow t = 6,950\). Outside range. Endpoints: \(t=0\) and \(t=5,000\).
-
-#### 4. Constraint \(t = 8,000\)
-
-Substitute \(t = 8,000\) into \(P\):
-
-\[
-P(s, 8,000) = 144s + 174(8,000) - 0.01s^2 - 0.01(8,000)^2 - 0.007s(8,000) - 400,000
-\]
-
-Simplify:
-
-\[
-P(s, 8,000) = 144s + 1,392,000 - 0.01s^2 - 640,000 - 56s - 400,000 = 352,000 + 88s - 0.01s^2
-\]
-
-Feasible range for \(s\): from \(s + 8,000 \le 10,000 \Rightarrow s \le 2,000\). Also \(s \ge 0\), so \(0 \le s \le 2,000\). Derivative: \(\frac{dP}{ds} = 88 - 0.02s = 0 \Rightarrow s = 4,400\). Outside range. Endpoints: \(s=0\) and \(s=2,000\).
-
-### The Diagonal Constraint \(s + t = 10,000\) (Already Solved)
-
-The interior point on this line, \((3,846, 6,154)\), was found using Lagrange multipliers. The endpoints of this line segment within the feasible region are \((5,000, 5,000)\) and \((2,000, 8,000)\). These endpoints are also on the constraints \(s=5,000\) and \(t=8,000\) respectively, so they will be evaluated when we check those boundaries.
-
-### Summary of All Candidate Points
-
-The Lagrange multiplier solution gave one interior point. The boundaries (including the endpoints) produce several candidate points. A full table of all candidate points (including the ones from the four boundaries and the diagonal endpoints) is built by evaluating \(P\) at each vertex of the feasible region and at any interior critical points that fall within the boundaries. In this problem, the interior critical points on the simple boundaries all fell outside the feasible range, so the only candidates are the five vertices and the interior Lagrange point. The vertices are:
-
-| \((s, t)\) | \(P(s, t)\) (to be computed) |
-|------------|-------------------------------|
-| \((0,0)\) | \(-400,000\) |
-| \((5,000,0)\) | \(144(5000)-0.01(5000)^2-400,000 = 720,000 - 250,000 - 400,000 = 70,000\) |
-| \((5,000,5,000)\) | (endpoint) already computed in video? Actually the video gave \(P=532,308\) for the interior point, but not for endpoints. The endpoints of the diagonal are \((5000,5000)\) and \((2000,8000)\). We can compute: \(P(5000,5000) = 144(5000)+174(5000)-0.01(5000)^2-0.01(5000)^2-0.007(5000)(5000)-400,000 = 720,000+870,000-250,000-250,000-175,000-400,000 = 515,000\). Similarly \(P(2000,8000) = 144(2000)+174(8000)-0.01(2000)^2-0.01(8000)^2-0.007(2000)(8000)-400,000 = 288,000+1,392,000-40,000-640,000-112,000-400,000 = 488,000\). |
-| \((2,000,8,000)\) | computed above: 488,000 |
-| \((0,8,000)\) | \(P(0,8000) = 174(8000)-0.01(8000)^2-400,000 = 1,392,000-640,000-400,000 = 352,000\) |
-| \((3,846,6,154)\) | 532,308 (from Lagrange) |
-
-The maximum profit among these is 532,308 at \((3,846, 6,154)\). The shadow price (the Lagrange multiplier \(\lambda = 24\)) indicates that if the constraint \(s+t \le 10,000\) were relaxed by one unit, profit would increase by approximately 24 units, assuming the optimal solution remains on that constraint.
+The full solution (shown in the next screenshot) yields the following expressions for the optimal $s$, $t$, and $\lambda$ as linear functions of $c$:
 
 
-![This frame shows a whiteboard with mathematical equations and constraints for an optimization problem, including the profit function P(s,t)...](frames/frame_11_880s.jpg)
-*[14:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=880s) This frame shows a whiteboard with mathematical equations and constraints for an optimization problem, including the profit function P(s,t), partial derivatives, and a list of 4 constraints to check.*
+![A whiteboard shows mathematical equations for g(s,t), s, t, and lambda, with the speaker gesturing.](frames/frame_14_1300s.jpg)
+*[21:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1300s) A whiteboard shows mathematical equations for g(s,t), s, t, and lambda, with the speaker gesturing.*
   
-The whiteboard again shows the list of four constraints to check, confirming that these are the boundaries that must be analyzed.
-
-
-![A whiteboard shows a mathematical problem involving profit maximization P(s,t) with constraints, including the feasible region, gradient...](frames/frame_12_1000s.jpg)
-*[16:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1000s) A whiteboard shows a mathematical problem involving profit maximization P(s,t) with constraints, including the feasible region, gradient calculations, and a graph illustrating the constraints and endpoints.*
-  
-The whiteboard includes a sketch of the feasible region, showing the diagonal line, the vertical line \(s=5,000\), the horizontal line \(t=8,000\), and the endpoints of the diagonal.
-
-### Check Your Understanding
-
-1. Why do the constraints \(s=0\), \(t=0\), \(s=5,000\), and \(t=8,000\) lead to single-variable optimization problems, while the constraint \(s+t=10,000\) required Lagrange multipliers?
-
-<details><summary>Answer</summary>
-
-Each of the four constraints fixes one variable completely, leaving only one free variable. Substituting the fixed value into the profit function reduces it to a function of a single variable, which can be maximized using ordinary calculus (derivative equals zero). The constraint \(s+t=10,000\) involves both variables in a non-trivial way; neither variable is fixed, and the relationship between them is not just a simple substitution of one variable. Therefore, Lagrange multipliers are needed to handle the equality constraint while both variables vary.
-</details>
-
-2. What are the five vertices of the feasible region? List them in \((s, t)\) order.
-
-<details><summary>Answer</summary>
-
-The vertices are:
-- \((0, 0)\)
-- \((5,000, 0)\)
-- \((5,000, 5,000)\)
-- \((2,000, 8,000)\)
-- \((0, 8,000)\)
-
-These points are the intersections of the boundary lines.
-</details>
-
-3. When checking the boundary \(t = 8,000\), the feasible range for \(s\) is \(0 \le s \le 2,000\). Why is the upper bound 2,000 and not 5,000?
-
-<details><summary>Answer</summary>
-
-The constraint \(s + t \le 10,000\) must hold. With \(t = 8,000\), we have \(s + 8,000 \le 10,000\), so \(s \le 2,000\). The other constraint \(s \le 5,000\) is looser, but the tighter bound from the sum constraint determines the feasible range.
-</details>
-
-4. Suppose you found a critical point on the boundary \(s = 0\) at \(t = 8,700\) by solving \(\frac{dP}{dt}=0\). Is this point a candidate for the optimum? Why or why not?
-
-<details><summary>Answer</summary>
-
-No, because \(t = 8,700\) is outside the feasible range for \(t\) on that boundary. The range on \(t\) when \(s=0\) is \(0 \le t \le 8,000\) (due to \(t \le 8,000\)). The critical point \(t=8,700\) is not feasible, so it is not a candidate. The optimum on that boundary must be at an endpoint.
-</details>
-## Sensitivity Analysis: Generalizing the Constraint to s + t = c
-
-
-![This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including profit function P(s,t)...](frames/frame_13_1060s.jpg)
-*[17:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1060s) This frame shows a whiteboard with mathematical equations and a graph related to optimization problems, including profit function P(s,t), constraints, partial derivatives, and a feasible region graph.*
-
-
-Before performing sensitivity analysis, recall the structure of the problem. The profit function is:
+The whiteboard displays the completed formulas:
 
 ```
-P(s,t) = (339 - 0.01s - 0.003t)s + (399 - 0.004s - 0.01t)t - (400000 + 195s + 225t)
-```
-
-The constraints are:
-
-```
-s ≥ 0
-t ≥ 0
-s ≤ 5,000
-t ≤ 8,000
-s + t ≤ 10,000
-```
-
-The feasible region is the set of all points (s, t) that satisfy all five constraints. The gradient of P was already computed as:
-
-```
-∇P = (144 - 0.02s - 0.007t, 174 - 0.007s - 0.02t)
-```
-
-In a previous example, you set ∇P = 0 and solved. That solution fell outside the feasible region. This means there is no interior maximum or minimum. All optimal points must lie on one of the constraint boundaries.
-
-The four boundaries to check are:
-
-1. s = 0
-2. t = 0
-3. s = 5,000
-4. t = 8,000
-
-For the constraint s + t = 10,000, the endpoints are:
-
-```
-(s, t) = (5,000, 5,000)
-(s, t) = (2,000, 8,000)
-```
-
-By systematically checking each boundary, the maximum occurs at approximately:
-
-```
-s = 50,000 / 13 ≈ 3,846
-t = 80,000 / 13 ≈ 6,154
-```
-
-At that point, λ = 24 and P = 532,308. This is the optimum for the original problem with c = 10,000.
-
-### Generalizing the Constraint
-
-
-![The frame shows the mathematical expression 'Consider g(s,t)=s+t=c' written on a dark background.](frames/frame_14_1140s.jpg)
-*[19:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1140s) The frame shows the mathematical expression 'Consider g(s,t)=s+t=c' written on a dark background.*
-
-
-Now perform a sensitivity analysis. Sensitivity analysis asks: how does the optimal solution change when a parameter in the problem changes? Here, the parameter of interest is the right-hand side of the constraint s + t = c.
-
-Let:
-
-```
-g(s, t) = s + t = c
-```
-
-In the original problem, c = 10,000. Now allow c to be any positive constant. This generalization lets you answer questions such as:
-
-- If the supplier can produce more circuit boards, will profit increase?
-- Will the increase be large or small?
-- Will the optimal mix of s and t shift?
-
-This analysis leads to the concept of shadow pricing. A shadow price is the rate at which the optimal value of the objective function changes per unit change in a constraint's right-hand side. (added context: the shadow price is exactly the Lagrange multiplier λ at the optimum.)
-
-### Solving the General Problem
-
-
-![A whiteboard shows the equations for considering g(s,t) and the gradient of P.](frames/frame_15_1200s.jpg)
-*[20:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1200s) A whiteboard shows the equations for considering g(s,t) and the gradient of P.*
-
-
-The Lagrange multiplier equation is:
-
-```
-∇P = λ ∇g
-```
-
-Since g(s, t) = s + t, the gradient is:
-
-```
-∇g = (1, 1)
-```
-
-The constraint s + t = c implies:
-
-```
-t = c - s
-```
-
-Substitute this into the gradient equations. The system becomes:
-
-```
-144 - 0.02s - 0.007t = λ
-174 - 0.007s - 0.02t = λ
-s + t = c
-```
-
-Solving this linear system gives all variables as functions of c:
-
-```
-s = (13c - 30,000) / 26
+Consider g(s,t) = s+t = c => t = c-s
+∇P = λ∇g => s = (13c - 30,000) / 26
 t = (13c + 30,000) / 26
 λ = 3(106,000 - 9c) / 2,000
 ```
 
-All three are linear functions of c. This is convenient because it means the sensitivity is constant across the range of c values for which the solution remains feasible.
+In LaTeX:
 
-The steps to arrive at these formulas are identical to the original problem. The only difference is that c is left as a symbolic constant instead of being replaced by 10,000.
+$$
+s(c) = \frac{13c - 30,000}{26}, \qquad
+t(c) = \frac{13c + 30,000}{26}, \qquad
+\lambda(c) = \frac{3(106,000 - 9c)}{2,000}.
+$$
 
-### Interpreting the Results
+These are all **linear functions of $c$**, so their derivatives are constants. The derivative of $s$ with respect to $c$ is
 
-The formulas show:
+$$
+\frac{ds}{dc} = \frac{13}{26} = \frac{1}{2}.
+$$
 
-- As c increases, s increases by 13/26 = 0.5 units per unit of c.
-- As c increases, t also increases by 13/26 = 0.5 units per unit of c.
-- As c increases, λ decreases. Specifically, λ = (318,000 - 27c) / 2,000.
+Similarly, $\frac{dt}{dc} = \frac{1}{2}$. The derivative of $\lambda$ with respect to $c$ is $-\frac{27}{2,000}$, but we will not need it here.
 
-The shadow price is λ. At c = 10,000, λ = 24. This means each additional unit of total production capacity (one more circuit board available) increases the optimal profit by approximately 24 dollars, assuming the solution remains feasible.
+Now we evaluate the **sensitivity** of the optimal values at the original operating point $c = 10,000$. Sensitivity is a dimensionless measure that tells us the percentage change in the output ($s$ or $t$) for a given percentage change in the input ($c$). It is defined as:
 
-If c increases beyond a certain point, the solution may violate one of the other constraints (such as s ≤ 5,000 or t ≤ 8,000). In that case, the shadow price would change, and the linear formulas would no longer apply.
+$$
+\text{Sensitivity of } s \text{ with respect to } c = \frac{ds}{dc} \cdot \frac{c}{s(c)}.
+$$
 
-### Feasibility Limits for the General Solution
+At $c = 10,000$, the optimal $s$ is:
 
-The general solution is valid only while all original constraints remain satisfied. The relevant limits are:
+$$
+s(10,000) = \frac{13 \cdot 10,000 - 30,000}{26} = \frac{130,000 - 30,000}{26} = \frac{100,000}{26} = \frac{50,000}{13} \approx 3846.15.
+$$
 
-| Constraint | Condition | Implied limit on c |
-|---|---|---|
-| s ≥ 0 | (13c - 30,000) / 26 ≥ 0 | c ≥ 30,000 / 13 ≈ 2,307.7 |
-| t ≥ 0 | (13c + 30,000) / 26 ≥ 0 | c ≥ -30,000 / 13 (always true for positive c) |
-| s ≤ 5,000 | (13c - 30,000) / 26 ≤ 5,000 | c ≤ (160,000) / 13 ≈ 12,307.7 |
-| t ≤ 8,000 | (13c + 30,000) / 26 ≤ 8,000 | c ≤ (178,000) / 13 ≈ 13,692.3 |
+Therefore the sensitivity of $s$ at $c = 10,000$ is:
 
-The binding upper limit is c ≤ 160,000 / 13 ≈ 12,307.7, from the constraint s ≤ 5,000. For c above that value, the optimal point would violate the individual production limit on s, and the problem would need to be re-solved with that constraint active.
+$$
+\frac{1}{2} \cdot \frac{10,000}{\frac{100,000}{26}} = \frac{1}{2} \cdot \frac{10,000 \cdot 26}{100,000} = \frac{1}{2} \cdot \frac{260,000}{100,000} = \frac{1}{2} \cdot 2.6 = 1.3.
+$$
 
-### Summary of the Procedure
+A sensitivity of 1.3 means that a 1% increase in the number of circuit boards $c$ leads to a 1.3% increase in the optimal number of smartphones $s$ (at least for small changes near $c = 10,000$). This tells us that the constraint is **tight** and that increasing the supply of circuit boards has a more than proportional effect on smartphone production.
 
-1. Write the constraint as g(s, t) = c.
-2. Compute ∇g.
-3. Set ∇P = λ∇g.
-4. Substitute t = c - s.
-5. Solve the resulting linear system for s, t, and λ as functions of c.
-6. Check which constraints become binding as c changes.
-7. Interpret λ as the shadow price: the change in optimal profit per unit change in c.
+The same derivative applies to $t$, but the sensitivity of $t$ is different because the baseline value $t(10,000)$ is larger:
 
-### Check your understanding
+$$
+t(10,000) = \frac{13 \cdot 10,000 + 30,000}{26} = \frac{130,000 + 30,000}{26} = \frac{160,000}{26} = \frac{80,000}{13} \approx 6153.85.
+$$
 
-1. What is the shadow price in the original problem with c = 10,000, and what does it mean?
+Sensitivity of $t$ at $c = 10,000$:
 
-<details><summary>Answer</summary>
-The shadow price is λ = 24. It means that if the total production capacity s + t increases by one unit (from 10,000 to 10,001), the optimal profit increases by approximately 24 dollars, assuming no other constraint becomes binding.
-</details>
+$$
+\frac{1}{2} \cdot \frac{10,000}{\frac{160,000}{26}} = \frac{1}{2} \cdot \frac{10,000 \cdot 26}{160,000} = \frac{1}{2} \cdot \frac{260,000}{160,000} = \frac{1}{2} \cdot 1.625 = 0.8125.
+$$
 
-2. For the general solution, what are the formulas for s, t, and λ in terms of c?
-
-<details><summary>Answer</summary>
-s = (13c - 30,000) / 26, t = (13c + 30,000) / 26, and λ = 3(106,000 - 9c) / 2,000.
-</details>
-
-3. Up to what value of c does the general solution remain valid without violating the constraint s ≤ 5,000?
-
-<details><summary>Answer</summary>
-The constraint s ≤ 5,000 requires (13c - 30,000) / 26 ≤ 5,000. Solving gives c ≤ 160,000 / 13 ≈ 12,307.7. Above this value, the solution would violate the individual limit on s.
-</details>
-
-4. Why is it useful that s, t, and λ are linear functions of c?
-
-<details><summary>Answer</summary>
-Because they are linear, the rate of change (the shadow price) is constant over the feasible range of c. This makes it easy to predict the effect of small changes in capacity without re-solving the entire optimization problem.
-</details>
-## Computing Sensitivities of the Decision Variables
-
-Now that we have the optimal solution at a specific constraint value (c = 10,000 units), we can investigate how the optimal decision variables s (steel) and t (titanium) change when the constraint itself changes slightly. This is a sensitivity analysis. The sensitivity (or elasticity) of a decision variable with respect to a parameter is the percentage change in the variable caused by a 1% change in the parameter. (Added context: sensitivity is dimensionless, making it easy to compare across different scales.)
-
-In our problem, the constraint is total production capacity: g(s, t) = s + t = c. The optimal formulas for s and t in terms of c were derived earlier:
-
-
-![A whiteboard shows mathematical equations for g(s,t), s, t, and lambda.](frames/frame_16_1300s.jpg)
-*[21:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1300s) A whiteboard shows mathematical equations for g(s,t), s, t, and lambda.*
-
-
-```text
-Consider g(s,t)=s+t=c => t=c-s
-∇P=λ∇g => s= 13c-30,000 / 26
-t= 13c+30,000 / 26
-λ= 3(106,000-9c) / 2,000
-```
-
-From these formulas, we can directly compute the derivatives of s and t with respect to c:
-
-- For s: ds/dc = 13/26 = 1/2.
-- For t: dt/dc = 13/26 = 1/2.
-
-The speaker notes that both derivatives are the same simple value, 1/2. This means that for a given incremental change in c, both s and t increase by half that amount.
-
-Now we compute the sensitivities at the specific point c = 10,000, where the optimal production levels are s = 3,846 and t = 6,154 (from earlier calculations).
-
-### Sensitivity of s with respect to c
-
-The sensitivity of s to c is defined as:
-
-S(s, c) = (ds/dc) * (c / s)
-
-Substitute the values:
-
-ds/dc = 1/2, c = 10,000, s = 3,846
-
-S(s, c) = (1/2) * (10,000 / 3,846) ≈ 1.3
-
-
-![A whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c).](frames/frame_17_1380s.jpg)
-*[23:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1380s) A whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c).*
-
-
-The whiteboard shows this calculation:
-
-```text
-Sensitivities
-S(s,c)= 1/2 * 10,000/3,846 ≈ 1.3
-```
-
-### Sensitivity of t with respect to c
-
-Similarly, for t:
-
-S(t, c) = (dt/dc) * (c / t)
-
-dt/dc = 1/2, c = 10,000, t = 6,154
-
-S(t, c) = (1/2) * (10,000 / 6,154) ≈ 0.8
-
-### Interpretation
-
-These sensitivity values are close to 1.0, but not extremely large. The speaker explains: "these things aren't really all that sensitive." A 1% change in c (approximately 10 units, because 1% of 10,000 is 100? Wait, the transcript says "A 1% change of 10,000, that's about 10 units". Actually 1% of 10,000 is 100, not 10. The speaker may have misspoken, or the example uses a different base. However, the key point is that the percentage change in the decision variables is roughly proportional to the percentage change in the constraint: s changes by about 1.3% for a 1% increase in c, and t changes by about 0.8%. This tells us that the optimal mix is not extremely sensitive to small changes in total capacity.
-
-In summary, the derivatives ds/dc and dt/dc are both constant (1/2), but the sensitivity measures differ because the optimal production levels are different. The sensitivity of steel is slightly higher than that of titanium, meaning steel responds more strongly (in percentage terms) to a change in capacity.
+This shows that a 1% increase in $c$ causes a 0.8125% increase in tablet production $t$. The smartphone production is more sensitive because it is the smaller product at the optimum.
 
 ### Check your understanding
 
-1. What is the derivative of s with respect to c, and why is it the same for t?
-2. Calculate the sensitivity S(t, c) using the formula. Show your steps.
-3. If the company increases c by 5% (from 10,000 to 10,500), approximately by what percentage would s and t change? (Use the sensitivity values.)
-4. Why is sensitivity a more useful metric than the derivative alone when comparing variables with different magnitudes?
+1. **Why do we treat $c$ as a variable in sensitivity analysis?**  
+   <details><summary>Answer</summary>  
+   By treating the constraint constant $c$ as a variable, we can compute how the optimal solution changes when the constraint changes. This tells us the marginal value of relaxing the constraint, which is the essence of shadow pricing.  
+   </details>
 
-<details>
-<summary>Answer</summary>
+2. **What is the derivative $\frac{ds}{dc}$ and what does it represent?**  
+   <details><summary>Answer</summary>  
+   $\frac{ds}{dc} = \frac{1}{2}$. It represents the absolute rate of change in optimal smartphone production $s$ when the number of available circuit boards $c$ increases by one unit.  
+   </details>
 
-1. ds/dc = 1/2. It is the same for t because both s and t are linear functions of c with the same coefficient (13/26) in the numerator. The derivative of a linear term ax + b is a, so both derivatives equal 13/26 = 1/2.
-2. S(t, c) = (dt/dc) * (c / t) = (1/2) * (10,000 / 6,154) ≈ 0.5 * 1.625 = 0.8125, rounded to 0.8.
-3. A 5% increase in c would cause s to change by approximately 5% * 1.3 = 6.5% and t to change by approximately 5% * 0.8 = 4.0%.
-4. Sensitivity is dimensionless (percentage change per percentage change), so it allows direct comparison of responsiveness across variables that have different units or scales. The derivative alone (e.g., 0.5) does not tell you how large a relative change is for a given variable.
+3. **At $c=10,000$, the sensitivity of $s$ is 1.3. Interpret this number.**  
+   <details><summary>Answer</summary>  
+   A 1% increase in the number of circuit boards (from 10,000 to 10,100) leads to approximately a 1.3% increase in the optimal number of smartphones (from 3846.15 to about 3896). So smartphone production is more than proportionally responsive to changes in the constraint.  
+   </details>
 
-</details>
-## Deriving the Shadow Price: The Lagrange Multiplier as Marginal Profit
+4. **Why is the sensitivity of $t$ smaller than the sensitivity of $s$ at $c=10,000$?**  
+   <details><summary>Answer</summary>  
+   The derivative $\frac{dt}{dc}$ is the same as $\frac{ds}{dc}$ ($1/2$), but the baseline value $t(10,000)$ is larger than $s(10,000)$. Since sensitivity is $\frac{dt}{dc} \cdot \frac{c}{t}$, a larger denominator $t$ makes the sensitivity smaller. The same absolute change in production is a smaller relative change for the larger product.  
+   </details>
+## The Derivative of Profit and the Shadow Price
 
-In this section, you will learn that the Lagrange multiplier λ is not just a mathematical artifact; it is the **shadow price** of the constraint. The shadow price tells you how much the optimal profit changes when the binding resource (the constraint value c) is increased by one unit. This is also called the **marginal profit** with respect to the constraint.
+### 1. Sensitivity of the Optimal Production Mix to the Resource Constraint
 
-We continue with the same production problem: you manufacture two types of TVs (19‑inch and 20‑inch), and the total number of units produced is limited by a resource constraint `s + t = c`. The profit function `P(s,t)` and the constraint `g(s,t) = s + t = c` are given. The optimal solution was found using Lagrange multipliers, yielding λ = 24 when `c = 10,000`. Now we will confirm that λ equals the derivative of optimal profit with respect to `c`.
+We already derived the optimal production levels as functions of the resource constraint $c$ (the total number of TVs that can be produced):
 
-### Sensitivity of the Optimal Production Quantities
+$$
+s(c) = \frac{13c - 30,000}{26}, \qquad
+t(c) = \frac{13c + 30,000}{26}.
+$$
 
-First, we examine how the optimal numbers of 19‑inch TVs (`s`) and 20‑inch TVs (`t`) change when the resource `c` changes. From the earlier Lagrange multiplier analysis, we have the expressions for `s` and `t` in terms of `c`:
+From these, the derivatives with respect to $c$ are:
 
-```
-s = (13c - 30,000) / 26
-t = (13c + 30,000) / 26
-```
+$$
+\frac{ds}{dc} = \frac{13}{26} = \frac{1}{2}, \qquad
+\frac{dt}{dc} = \frac{13}{26} = \frac{1}{2}.
+$$
 
 
-![This frame shows mathematical equations for g(s,t), P, S, t, and λ, along with sensitivity calculations for S(s,c) and S(t,c).](frames/frame_18_1440s.jpg)
+![The whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c).](frames/frame_15_1380s.jpg)
+*[23:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1380s) The whiteboard shows mathematical equations for g(s,t), P, S, t, and lambda, along with a calculation for Sensitivities S(s,c).*
+
+
+The whiteboard shows these expressions and the first sensitivity calculation.  
+A 1% change in $c$ (which is 10 units when $c = 10,000$) causes a change in $s$ of about $0.5 \times 10 = 5$ units. To express this as a **sensitivity** (a dimensionless elasticity), we use the formula:
+
+$$
+S(x,c) = \frac{dx}{dc} \cdot \frac{c}{x}.
+$$
+
+For $s$ at $c = 10,000$ and optimal $s = 3,846$:
+
+$$
+S(s,c) = \frac{1}{2} \cdot \frac{10,000}{3,846} \approx 1.3.
+$$
+
+Interpretation: a 1% increase in the resource $c$ (from 10,000 to 10,100) yields about a 1.3% increase in the optimal number of 19-inch TVs, i.e., roughly 30 more TVs.
+
+
+![This frame shows mathematical equations for g(s,t), P, S, t, and λ, along with sensitivity calculations for S(s,c) and S(t,c).](frames/frame_16_1440s.jpg)
 *[24:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1440s) This frame shows mathematical equations for g(s,t), P, S, t, and λ, along with sensitivity calculations for S(s,c) and S(t,c).*
 
 
-The derivatives are straightforward:
+For $t$ at $c = 10,000$ and optimal $t = 6,154$:
 
-```
-ds/dc = 1/2
-dt/dc = 1/2
-```
+$$
+S(t,c) = \frac{1}{2} \cdot \frac{10,000}{6,154} \approx 0.8.
+$$
 
-These derivatives are constant: each additional unit of resource is split equally between the two products.
+A 1% increase in $c$ yields about a 0.8% increase in the optimal number of 23-inch TVs, i.e., roughly 60 more TVs. The sensitivities are small, indicating that the optimal production mix is not highly sensitive to changes in the resource constraint.
 
-Now we compute the **sensitivity** of each production quantity to a 1% change in `c`. Sensitivity is defined as the percentage change in the output divided by the percentage change in the input, evaluated at the operating point. For `c = 10,000`:
+### 2. Derivative of Optimal Profit with Respect to the Constraint
 
-```
-S(s,c) = (ds/dc) * (c / s) = (1/2) * (10,000 / 3,846) ≈ 1.3
-S(t,c) = (dt/dc) * (c / t) = (1/2) * (10,000 / 6,154) ≈ 0.8
-```
+We now ask: how does the maximum profit $P(s,t)$ change when we change the resource constraint $c$? Because the optimal $s$ and $t$ themselves depend on $c$, the total derivative of profit with respect to $c$ is given by the **chain rule**:
 
-The values `s = 3,846` and `t = 6,154` are the optimal quantities at `c = 10,000`. The sensitivities tell us:
-
-- A 1% increase in the resource `c` leads to approximately a 1.3% increase in the production of 19‑inch TVs.
-- The same 1% increase in `c` leads to only about a 0.8% increase in the production of 20‑inch TVs.
-
-The speaker remarks: “the optimal number that you should be producing is only about 1.3% more of the 19‑inch TVs. Okay, so again, this is around 30 TVs. Same thing for 6,000 here, we’re about 1% more, so about 60 more TVs.” (The exact numbers differ slightly because the transcript uses approximate values; the sensitivity table above gives the precise percentages.)
-
-| Sensitivity | Formula                                          | Value |
-|-------------|--------------------------------------------------|-------|
-| `S(s,c)`    | `(1/2) * (10,000 / 3,846)`                       | 1.3   |
-| `S(t,c)`    | `(1/2) * (10,000 / 6,154)`                       | 0.8   |
-
-### Deriving the Marginal Profit `dP/dc`
-
-The profit function `P(s,t)` does not explicitly depend on `c`. The resource `c` enters only through the constraint that determines the optimal `s` and `t`. Therefore, the total derivative of profit with respect to `c` is given by the chain rule:
+$$
+\frac{dP}{dc} = \frac{\partial P}{\partial s} \cdot \frac{ds}{dc} + \frac{\partial P}{\partial t} \cdot \frac{dt}{dc} + \frac{\partial P}{\partial c}.
+$$
 
 
-![The whiteboard shows calculations for sensitivities, including partial derivatives and the chain rule.](frames/frame_19_1500s.jpg)
-*[25:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1500s) The whiteboard shows calculations for sensitivities, including partial derivatives and the chain rule.*
+![A person writes mathematical equations on a whiteboard, including calculations for sensitivities and partial derivatives.](frames/frame_17_1500s.jpg)
+*[25:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1500s) A person writes mathematical equations on a whiteboard, including calculations for sensitivities and partial derivatives.*
 
 
-```
-dP/dc = ∂P/∂s * ds/dc + ∂P/∂t * dt/dc + ∂P/∂c
-```
+The whiteboard shows this chain rule expression. Notice that the profit function $P(s,t)$ does **not** explicitly depend on $c$; the resource cap enters only through the constraint. Therefore $\frac{\partial P}{\partial c} = 0$. All variation in profit is implicit, arising from the changes in the optimal production levels.
 
-Because `P` has no explicit `c` term, `∂P/∂c = 0`. So:
+We already know $\frac{ds}{dc} = \frac{dt}{dc} = \frac{1}{2}$. The partial derivatives $\frac{\partial P}{\partial s}$ and $\frac{\partial P}{\partial t}$ can be computed from the profit function (not shown in this section, but assumed known). When we evaluate them at the optimal point and multiply by $\frac{1}{2}$, we obtain:
 
-```
-dP/dc = ∂P/∂s * (1/2) + ∂P/∂t * (1/2)
-```
-
-The partial derivatives `∂P/∂s` and `∂P/∂t` are known from the profit function. When evaluated at the optimal point, the result is a single number. The speaker states: “I’m going to ruin the surprise. I’m going to tell you that this is equal to 24. Now most numbers are arbitrary, but this 24 is not completely arbitrary in this case. We’ve seen this 24 actually come up before.”
+$$
+\frac{dP}{dc} = 24.
+$$
 
 
-![The whiteboard shows mathematical equations for sensitivities, including calculations for S(s,c) and S(t,c), and a partial equation for S(P,c).](frames/frame_20_1600s.jpg)
-*[26:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1600s) The whiteboard shows mathematical equations for sensitivities, including calculations for S(s,c) and S(t,c), and a partial equation for S(P,c).*
+![The whiteboard displays mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and the...](frames/frame_18_1600s.jpg)
+*[26:40](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1600s) The whiteboard displays mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and the derivative of P with respect to c.*
 
 
-Indeed, the Lagrange multiplier λ was computed earlier:
+The whiteboard shows the result: $dP/dc = 24$. This number is not arbitrary; it is exactly the **Lagrange multiplier** $\lambda$ from the constrained optimization problem. Recall that at the optimum, $\nabla P = \lambda \nabla g$, and the Lagrange multiplier measures the rate of change of the optimal objective value with respect to a change in the constraint. Here we have derived it directly from the chain rule, confirming that $\lambda = \frac{dP}{dc}$.
 
-```
-λ = 3(106,000 - 9c) / 2,000
-```
+### 3. Sensitivity of Optimal Profit to the Constraint
 
-At `c = 10,000`:
+We now compute the sensitivity of profit with respect to $c$ in the same dimensionless form:
 
-```
-λ = 3(106,000 - 90,000) / 2,000 = 3 * 16,000 / 2,000 = 48,000 / 2,000 = 24
-```
+$$
+S(P,c) = \frac{dP}{dc} \cdot \frac{c}{P_{\text{opt}}}.
+$$
 
-So `dP/dc = λ = 24`. This is the **shadow price** of the constraint: increasing the resource by one unit (from 10,000 to 10,001) increases the optimal profit by 24 units (dollars, in this example).
+At $c = 10,000$, the optimal profit is $P_{\text{opt}} = 532,308$ (a value from earlier calculations). Using $\frac{dP}{dc} = 24$:
 
-### Sensitivity of the Optimal Profit
-
-Now we compute the **sensitivity of profit** to a 1% change in the resource:
+$$
+S(P,c) = 24 \cdot \frac{10,000}{532,308} \approx 0.45.
+$$
 
 
-![This frame shows mathematical equations for sensitivities, including calculations for S(s,c), S(t,c), and S(P,c) with a Lagrange multiplier.](frames/frame_21_1680s.jpg)
-*[28:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1680s) This frame shows mathematical equations for sensitivities, including calculations for S(s,c), S(t,c), and S(P,c) with a Lagrange multiplier.*
+![This frame displays mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c)...](frames/frame_19_1680s.jpg)
+*[28:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1680s) This frame displays mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c), dP/dc, and S(P,c).*
 
 
-```
-S(P,c) = (dP/dc) * (c / P) = 24 * (10,000 / 532,308) ≈ 0.45
-```
+Interpretation: a 1% increase in the resource constraint (10 units) leads to only about a 0.45% increase in optimal profit. The profit is relatively insensitive to changes in the production capacity. This is a key managerial insight: small changes in the resource cap do not dramatically affect the maximum achievable profit.
 
-The optimal profit at `c = 10,000` is `P = 532,308`. The sensitivity of 0.45 means a 1% increase in the resource leads to only about a 0.45% increase in profit. The speaker notes: “my optimal profit is not really that sensitive to changing around these constraints, right? I’m losing out on about half a percentage of profit if you do a 1% change in this constraint c.”
+### 4. Geometric Intuition: Why $\frac{dP}{dc}$ Equals $\lambda$
 
-### Geometric Intuition: Why λ Equals the Marginal Profit
-
-Why does the Lagrange multiplier give the rate of change of profit with respect to the constraint? The geometric explanation:
-
-- The gradient `∇P` points in the direction of steepest increase of profit.
-- The constraint `g(s,t) = c` is a line (or curve) in the `(s,t)` plane. The gradient `∇g` is perpendicular to the level sets of `g`.
-- At the optimum, the Lagrange multiplier condition `∇P = λ ∇g` holds. This means `∇P` is parallel to `∇g`.
-- Changing `c` shifts the constraint line. The direction of that shift is perpendicular to the line, i.e., along `∇g`. Because `∇P` is parallel to `∇g`, moving the constraint by one unit changes the profit by λ units.
+The gradient of the profit function, $\nabla P$, points in the direction of steepest increase of profit. The constraint $g(s,t) = s + t = c$ defines a line; its level sets are parallel lines. Changing $c$ shifts the constraint line perpendicularly (since the gradient of $g$ is constant). At the optimum, $\nabla P$ is parallel to $\nabla g$ (the Lagrange multiplier condition). Therefore, the rate at which the optimal profit changes as the constraint line moves is exactly the magnitude of $\nabla P$ along the direction of the constraint’s normal, which is $\lambda$.
 
 
-![This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c)...](frames/frame_22_1740s.jpg)
+![This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c)...](frames/frame_20_1740s.jpg)
 *[29:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1740s) This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c), dP/dc, and S(P,c).*
+ (geometry described, not a separate screenshot)
 
+The speaker notes: “All it does is moves upward … that’s moving in a perpendicular direction.” This geometric reasoning is why we can directly read off the shadow price $\lambda$ from the derivative of profit.
 
-The speaker summarizes: “for every one unit that I change c, my profit changes by 24 units. That is exactly what this relationship is telling me. And the way that I know that that’s true is because if this is the gradient of g, it, from this equation is 1 over lambda times the gradient of p. Each unit gradient of g is moving c.”
+The following diagram summarizes the relationships:
 
-The following ASCII diagram shows the idea:
-
-```
-        Profit contours (level sets of P)
-        (higher profit toward top-right)
-        
-        Constraint line g = c (original)
-        |
-        |  ∇P (perpendicular to profit contours)
-        |  ↑
-        |  |
-        |  λ∇g (same direction as ∇P)
-        |  ↑
-        |  |
-        --------← g = c (shifted up when c increases)
+```mermaid
+flowchart LR
+    A[Resource Constraint c] -->|change| B[Shift of constraint line]
+    B --> C[New optimal point (s’,t’)]
+    C --> D[New optimal profit P’]
+    A -->|rate of change| E[λ = dP/dc]
+    E --> F[Shadow price = Lagrange multiplier]
 ```
 
-When `c` increases, the constraint line moves outward along the direction of `∇g`. Since `∇P = λ ∇g`, the profit increases by λ for each unit of that movement.
+### 5. Practical Takeaway
 
-### Summary of Key Results
-
-| Quantity | Symbol | Value at c=10,000 |
-|----------|--------|-------------------|
-| Lagrange multiplier | λ | 24 |
-| Marginal profit `dP/dc` | same as λ | 24 |
-| Sensitivity of profit `S(P,c)` | 24 * (10,000/532,308) | 0.45 |
-| Sensitivity of s `S(s,c)` | 1.3 |
-| Sensitivity of t `S(t,c)` | 0.8 |
+- The Lagrange multiplier $\lambda$ is the **shadow price** of the resource: the marginal increase in maximum profit per unit increase in the resource.
+- In this example, $\lambda = 24$: each additional unit of production capacity (within the relevant range) would increase profit by 24 units.
+- The sensitivity measures show that the optimal production quantities and profit are not very responsive to changes in the total capacity; the company can expect only modest improvements from relaxing the constraint.
 
 ---
 
 ### Check Your Understanding
 
-1. **Why is `∂P/∂c` equal to zero in the chain rule calculation for `dP/dc`?**
+1. **Interpretation of sensitivity**  
+   The sensitivity of profit with respect to the constraint is $S(P,c) \approx 0.45$. What does this tell a manager about the effect of increasing production capacity by 1%?
 
-<details><summary>Answer</summary>
-The profit function `P(s,t)` depends only on the production quantities s and t, not on the resource limit c. The constraint `c` influences the optimal s and t, but there is no direct term in P that contains c. Hence the partial derivative of P with respect to c, holding s and t constant, is zero.
+   <details><summary>Answer</summary>
+   A 1% increase in the resource constraint (from 10,000 to 10,100 units) would increase the optimal profit by only about 0.45%. Profit is relatively inelastic with respect to capacity in this range.
+   </details>
+
+2. **Chain rule and the Lagrange multiplier**  
+   Why is it possible to compute $\frac{dP}{dc}$ without explicitly knowing the profit function $P(s,t)$? What is the shortcut?
+
+   <details><summary>Answer</summary>
+   The shortcut is that $\frac{dP}{dc} = \lambda$, the Lagrange multiplier. Because the optimality condition $\nabla P = \lambda \nabla g$ implies that the only way profit changes with the constraint is through the direction of $\nabla g$; the multiplier exactly captures that rate of change.
+   </details>
+
+3. **Computing sensitivity from the derivative**  
+   If the optimal profit at $c=10,000$ is 532,308 and $\frac{dP}{dc}=24$, what is the sensitivity $S(P,c)$? What does a sensitivity greater than 1 imply?
+
+   <details><summary>Answer</summary>
+   $S(P,c) = 24 \cdot \frac{10,000}{532,308} \approx 0.45$. A sensitivity greater than 1 would mean that a 1% change in the constraint leads to a more than 1% change in the output (here, profit). That would indicate high leverage.
+   </details>
+## Conclusion and Preview of Next Topic
+
+
+![This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c)...](frames/frame_20_1740s.jpg)
+*[29:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1740s) This frame shows mathematical equations and calculations related to sensitivities and Lagrange multipliers, including formulas for S(s,c), S(t,c), dP/dc, and S(P,c).*
+
+
+The Lagrange multiplier $\lambda = 24$ that you computed in the previous section has a concrete economic interpretation. It tells you how your objective function (profit $P$) changes when you relax the constraint (the maximum number of circuit boards $c$ that can be produced). Specifically, for every one unit you change $c$, your profit changes by 24 units. This relationship comes directly from the Lagrange multiplier equation.
+
+To understand why this is true, consider the gradient relationship. The gradient of the constraint function $g$ and the gradient of the profit function $P$ are related by:
+
+$$\nabla g = \frac{1}{\lambda} \nabla P$$
+
+This means that each unit you move in the direction of $\nabla g$ is equivalent to moving $\lambda$ units in the direction of $\nabla P$. Since $\nabla g$ points in the direction of changing $c$, moving one unit in that direction changes profit by $\lambda = 24$ units.
+
+The video also demonstrates how to compute sensitivities, which measure the percentage change in one variable relative to a percentage change in another. The on-screen calculations show:
+
+$$S(s,c) = \frac{1}{2} \cdot \frac{10,000}{3,846} \approx 1.3$$
+
+$$S(t,c) = \frac{1}{2} \cdot \frac{10,000}{6,154} \approx 0.8$$
+
+$$S(P,c) = 24 \cdot \frac{10,000}{532,308} \approx 0.45$$
+
+These sensitivities tell you how responsive each variable is to changes in $c$. For example, $S(P,c) \approx 0.45$ means that a 1% increase in $c$ leads to approximately a 0.45% increase in profit.
+
+
+![A whiteboard shows mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and S(P,c).](frames/frame_21_1800s.jpg)
+*[30:00](https://www.youtube.com/watch?v=SY6NvKj0fRM&t=1800s) A whiteboard shows mathematical equations for sensitivities and Lagrange multipliers, including calculations for S(s,c), S(t,c), and S(P,c).*
+
+
+This interpretation leads directly to the concept of a **shadow price**. A shadow price is the change in the objective function (profit) per unit change in a constraint's right-hand side value. In this production problem, the shadow price of circuit boards is $\$24$ per unit.
+
+Here is how you apply this information in practice. Suppose the circuit board company contacts you and says they can produce one more unit of circuit boards. You now know that for every one unit change in the number of circuit boards that can be produced, you gain $\$24$ in profit. You then ask yourself: will it cost me more than $\$24$ to produce another television using that additional circuit board?
+
+- If the cost to produce another television is less than $\$24$ (for example, $\$23$), then you should accept the offer. You will make a profit of $\$1$ per television.
+- If the cost to produce another television is more than $\$24$ (for example, $\$25$), then you should decline the offer. You will lose money on each television produced.
+
+This decision rule works because the shadow price tells you the maximum amount you should be willing to pay for one additional unit of the constrained resource. The shadow price represents the marginal value of relaxing the constraint.
+
+### Preview of Next Topic
+
+In the next video, you will return to Newton's method and examine how it can help solve optimization problems in higher dimensions. Newton's method provides an iterative approach to finding optimal points, and extending it to multiple dimensions allows you to solve more complex constrained optimization problems efficiently.
+
+### Check your understanding
+
+1. What does the Lagrange multiplier $\lambda = 24$ represent in this production optimization problem?
+
+<details>
+<summary>Answer</summary>
+The Lagrange multiplier $\lambda = 24$ represents the shadow price of the circuit board constraint. It means that for every one unit increase in the maximum number of circuit boards that can be produced, profit increases by $\$24$.
 </details>
 
-2. **If the constraint `c` were increased from 10,000 to 10,001, by approximately how much would the optimal profit increase? Explain how you know.**
+2. A supplier offers to provide one additional circuit board for $\$20$. Based on the shadow price, should you accept this offer? Why or why not?
 
-<details><summary>Answer</summary>
-The optimal profit would increase by about 24 units (dollars). This is because `dP/dc = λ = 24`. For a one‑unit increase in c, the change in profit is approximately the derivative, so ΔP ≈ 24 * 1 = 24.
+<details>
+<summary>Answer</summary>
+Yes, you should accept the offer. The shadow price of $\$24$ means you gain $\$24$ in profit from using one additional circuit board. Since the cost of $\$20$ is less than the $\$24$ gain, you will make a profit of $\$4$ per television produced with that circuit board.
 </details>
 
-3. **The sensitivity of profit `S(P,c)` is 0.45. Interpret this number in plain language.**
+3. What does a sensitivity $S(P,c) = 0.45$ tell you about the relationship between profit and the circuit board constraint?
 
-<details><summary>Answer</summary>
-A 1% increase in the resource `c` (from 10,000 to 10,100) leads to approximately a 0.45% increase in the optimal profit. Profit is relatively inelastic with respect to the resource; you need a large change in the resource to get a proportional change in profit.
+<details>
+<summary>Answer</summary>
+A sensitivity of $0.45$ means that a 1% increase in the circuit board constraint $c$ leads to approximately a 0.45% increase in profit $P$. This is a measure of the percentage responsiveness of profit to changes in the constraint.
 </details>
 
-4. **Why is the derivative `ds/dc` equal to 1/2? What does this tell you about the optimal production mix?**
+4. If the cost to produce an additional television using a new circuit board is $\$30$, what decision should you make based on the shadow price?
 
-<details><summary>Answer</summary>
-From the expressions `s = (13c - 30,000)/26` and `t = (13c + 30,000)/26`, differentiating with respect to c gives `1/2` for both. This means each additional unit of resource is split equally between the two products. The optimal mix is such that the marginal benefit of extra resource is the same for both products, so half of the new resource goes to each.
+<details>
+<summary>Answer</summary>
+You should decline the offer. The shadow price of $\$24$ represents the maximum additional profit from using one more circuit board. Since the production cost of $\$30$ exceeds the $\$24$ gain, you would lose $\$6$ on each television produced.
 </details>
 ## Key takeaways
 
-- The Lagrange multiplier method provides a systematic way to find optimum points on a constraint that couples multiple decision variables.
-- For a binding constraint, the gradient of the profit function must be parallel to the gradient of the constraint, leading to the equation ∇P = λ∇g.
-- After solving the Lagrange multiplier equations, checking the endpoints of the constraint line and all other boundary constraints is necessary to confirm the global optimum.
-- Generalizing the constraint to a variable parameter c allows the derivation of optimal decision variables as linear functions of c, simplifying sensitivity analysis.
-- Sensitivities measure the percentage change in decision variables or profit for a 1% change in the constraint parameter, revealing which product is more responsive.
-- The Lagrange multiplier λ equals the derivative of the optimal profit with respect to the constraint parameter, i.e., the shadow price or marginal profit per unit of resource.
-- The shadow price can be used to make practical decisions: expand capacity only if the marginal cost of an additional unit is less than the shadow price.
-- The chain rule derivation shows that dP/dc = λ because the profit function does not explicitly depend on c, and the partial derivatives of P with respect to s and t both equal λ at the optimum.
+- The Lagrange multiplier method finds candidate optimal points by setting the gradient of the objective function parallel to the gradient of the constraint, solving the system ∇P = λ∇g.
+- For the television profit problem, the Lagrange multiplier equations yield a candidate solution of s ≈ 3846, t ≈ 6154, and λ = 24 on the circuit board constraint s + t = 10000.
+- A candidate point from Lagrange multipliers must be verified against all boundary constraints, including endpoints and other constraint lines, to confirm it is the global optimum.
+- The global optimum occurs at the Lagrange multiplier candidate because the unconstrained maximum lies outside the feasible region, forcing the optimum onto a boundary.
+- Sensitivity analysis treats the constraint bound as a variable parameter c, allowing computation of how optimal production levels change with the constraint.
+- The derivative of optimal profit with respect to the constraint parameter c equals the Lagrange multiplier λ, which is 24 in this example.
+- The Lagrange multiplier λ = 24 is the shadow price, meaning each additional circuit board (one unit increase in c) increases profit by $24.
+- A business can use the shadow price to decide whether to increase capacity: if the cost to produce one more TV is less than $24, it is profitable to do so.
+- The sensitivity of profit with respect to the constraint is low at about 0.45, meaning a 1% increase in circuit board capacity yields only a 0.45% increase in profit.
+- The chain rule shows that dP/dc = λ because the profit function does not depend explicitly on c, only implicitly through s and t.
 ## Glossary
 
 | Term | Definition |
 |---|---|
-| Lagrange multiplier | A scalar λ used in constrained optimization such that at an optimum, the gradient of the objective is λ times the gradient of the constraint. |
-| Shadow price | The marginal increase in the objective (profit) per unit increase in a resource constraint, equal to the Lagrange multiplier at the optimum. |
-| Gradient | A vector of all partial derivatives of a function, pointing in the direction of steepest increase. |
-| Feasible region | The set of all points that satisfy all given constraints, including nonnegativity and resource limits. |
-| Binding constraint | A constraint that is active at the optimum, i.e., the optimum lies exactly on the constraint boundary. |
-| Constraint function | A function g(s,t) that defines a restriction, often set equal to a constant c. |
-| Partial derivative | The derivative of a multivariable function with respect to one variable, holding all others constant. |
-| Chain rule | A formula for computing the derivative of a composite function; used here to relate dP/dc to partial derivatives and ds/dc, dt/dc. |
-| Sensitivity analysis | The study of how the optimal solution changes as parameters of the model vary. |
-| Sensitivity (elasticity) | The percentage change in a decision variable or objective divided by a 1% change in a parameter, computed as derivative times parameter divided by value. |
-| Endpoint | A point on a constraint line where it meets another constraint, requiring evaluation to ensure a global optimum. |
-| Level set | A set of points where a function takes a constant value, e.g., g(s,t)=c. |
-| Orthogonal | Perpendicular; the gradient of a function is orthogonal to its level sets at any point. |
-| Unconstrained optimum | A point where the gradient of the objective is zero, ignoring all constraints. |
-| Marginal cost | The additional cost incurred by producing one more unit of a product. |
-| Marginal profit | The additional profit earned from producing one more unit, equal to the shadow price for a resource constraint. |
-| Decision variable | A variable whose value can be chosen by the decision maker, such as s (number of 19-inch TVs) and t (number of 21-inch TVs). |
-| Resource constraint | A limit on the total amount of a resource available, such as circuit boards or materials. |
-| Linear function | A function of the form f(x)=ax+b; the optimal solutions derived here are linear in c. |
-| Quadratic profit function | A profit function that includes terms like s², t², and s*t, leading to a linear gradient system when combined with linear constraints. |
+| Lagrange multiplier | A scalar λ used in the method of Lagrange multipliers to find local maxima or minima of a function subject to equality constraints. |
+| Gradient | A vector of partial derivatives of a function, denoted ∇P, that points in the direction of steepest increase of the function. |
+| Constraint | A condition that limits the feasible values of decision variables in an optimization problem, such as s + t ≤ 10000. |
+| Feasible region | The set of all points that satisfy all constraints of an optimization problem. |
+| Shadow price | The marginal value of relaxing a constraint by one unit, equal to the Lagrange multiplier at the optimum. |
+| Sensitivity analysis | The study of how the optimal solution of an optimization problem changes when a parameter of the problem is varied. |
+| Partial derivative | The derivative of a multivariable function with respect to one variable while holding all other variables constant. |
+| Chain rule | A formula for computing the derivative of a composite function, used here as dP/dc = (∂P/∂s)(ds/dc) + (∂P/∂t)(dt/dc). |
+| Global optimum | The point in the feasible region that gives the highest (or lowest) value of the objective function among all feasible points. |
+| Boundary constraint | A constraint that defines an edge or limit of the feasible region, such as s = 0 or s = 5000. |
+| Endpoint | A point at the intersection of two or more boundary constraints, such as (5000, 5000) on the line s + t = 10000. |
+| Profit function | A mathematical function P(s, t) that gives the total profit from producing s units of one product and t units of another. |
+| Linear constraint | A constraint that can be written as a linear equation or inequality, such as s + t = 10000. |
+| Optimization | The process of finding the best possible value of an objective function subject to given constraints. |
+| Marginal value | The additional benefit obtained from increasing a resource by one unit, quantified by the shadow price. |
+| Production capacity | The maximum amount of a product that can be produced given available resources, such as materials or labor. |
+| Single-variable optimization | An optimization problem with only one decision variable, solved by finding critical points and checking endpoints. |
+| Feasible point | Any point that satisfies all constraints of an optimization problem. |
+| Derivative | A measure of how a function changes as its input changes, used to find rates of change and optimize functions. |
+| Parameter | A variable in a model that can be adjusted, such as the constraint bound c in sensitivity analysis. |
 ## Footnotes and deeper context
 
-1. **Verification of lambda=24.** The Lagrange multiplier λ=24 is derived from the general solution λ = 3(106000-9c)/2000. At c=10000, this simplifies to 24. This value is not arbitrary; it arises from the specific coefficients in the profit function and the constraint.
-2. **Endpoint checking procedure.** The endpoints of the constraint s+t=10000 are (5000,5000) and (2000,8000). These points are where the constraint line meets the material limits s≤5000 and t≤8000. Both yield lower profit than the interior Lagrange point, confirming that the interior point is a maximum along that line.
-3. **Profit function exact form.** The full profit function is P(s,t) = (144s - 0.01s² - 0.0035st) + (174t - 0.0035st - 0.01t²) - 400000 - 225s - 225t? The transcript gives a simplified gradient. The precise coefficients matter for the numerical values but not for the method. The derived λ=24 is correct for the given parameters.
-4. **Chain rule derivation detail.** The chain rule for dP/dc is (∂P/∂s)(ds/dc) + (∂P/∂t)(dt/dc) + ∂P/∂c. Since P does not explicitly depend on c, ∂P/∂c=0. At the optimum, ∂P/∂s = λ and ∂P/∂t = λ, and ds/dc = dt/dc = 1/2, so dP/dc = λ(1/2+1/2)=λ.
-5. **Applicability of shadow price.** The shadow price of $24 per circuit board is valid only for small changes in capacity near the current optimum. If the constraint is relaxed significantly, the optimal solution may shift to a different boundary, and the Lagrange multiplier may change.
-6. **Common misconception.** The Lagrange multiplier λ is not the marginal cost of the constraint; it is the marginal benefit (increase in profit) from relaxing the constraint. The decision rule compares the shadow price to the marginal cost of producing an additional unit.
+1. **Lagrange multiplier method validity.** The Lagrange multiplier method requires that the gradient of the constraint is nonzero at the candidate point. For the constraint g(s,t) = s + t, ∇g = (1,1) is never zero, so the method is valid for all points on the line.
+2. **Second-order conditions.** The video checks endpoints and other boundaries to confirm the candidate is a maximum, but a rigorous proof would also examine the bordered Hessian or second derivative test for constrained optimization to verify the nature of the critical point.
+3. **Shadow price interpretation.** The shadow price of $24 per circuit board is valid only for small changes near c = 10000. For large changes, the optimal solution may shift to a different boundary, and the shadow price would change.
+4. **Sensitivity formulas.** The sensitivity S(P,c) = (dP/dc) * (c/P) is a dimensionless elasticity measure. A value of 0.45 means profit is inelastic with respect to the constraint: a 1% increase in c yields only a 0.45% increase in profit.
+5. **Linear functions of c.** The derived expressions for s(c), t(c), and λ(c) are linear because the profit function is quadratic and the constraint is linear. This linearity simplifies the sensitivity analysis but is not general for nonlinear constraints.
+6. **Envelope theorem.** The result that dP/dc = λ is a special case of the envelope theorem, which states that the derivative of the optimal value function with respect to a parameter equals the partial derivative of the Lagrangian with respect to that parameter.
 ## Where to go next
 
-- **Textbook: 'Mathematics for Economists' by Simon and Blume.** Chapters on constrained optimization and Lagrange multipliers provide rigorous derivations and more economic applications, including shadow pricing in resource allocation.
-- **Video: Next video in the course on Newton's method for higher-dimensional optimization.** This video applies Newton's method to solve optimization problems without constraints, building on the gradient and Hessian concepts introduced here.
-- **Official documentation: SciPy optimize tutorials (Python).** For hands-on practice, the SciPy documentation explains how to use numerical Lagrange multiplier methods (e.g., 'scipy.optimize.minimize' with constraints) to solve real-world problems programmatically.
+- **Read about the envelope theorem in optimization.** The envelope theorem generalizes the relationship between the Lagrange multiplier and the derivative of the optimal value. See 'Mathematics for Economists' by Simon and Blume, Chapter 19, for a rigorous treatment.
+- **Try solving a similar problem with nonlinear constraints.** Practice by modifying the profit function to include a nonlinear constraint, such as s^2 + t^2 = 10000. Use the same Lagrange multiplier setup and compare the shadow price interpretation.
+- **Explore shadow pricing in linear programming.** Shadow prices are a core concept in linear programming. Read about duality in 'Introduction to Linear Optimization' by Bertsimas and Tsitsiklis, Chapters 4 and 5, to see how shadow prices arise from dual variables.
+- **Study the bordered Hessian for second-order conditions.** To verify whether a candidate point is a maximum or minimum, compute the bordered Hessian matrix. See 'Advanced Calculus' by Kaplan, Chapter 6, for the method and examples.
 ---
 *Printed by yt2textbook, an open tool from Zorost AI Lab. Screenshots are frames captured from the source video; each caption links to the exact moment it appears.*
