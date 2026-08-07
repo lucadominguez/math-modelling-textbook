@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analysis of Discrete-Time Dynamical Systems - Math Modelling - Lecture 19 · visuals</title>
+<style>
+:root { --ink:#0b1120; --paper:#ece8de; --muted:#97a1b6; --ember:#e8590c; --gold:#d4af37; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { height:100%; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--ink); color:var(--paper); display:flex; flex-direction:column; overflow:hidden; }
+header { flex:0 0 auto; padding:12px 18px; display:flex; align-items:center; gap:14px;
+  border-bottom:1px solid rgba(212,175,55,.18); }
+header h1 { font-size:15px; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+header .hint { font-size:11px; color:var(--muted); margin-left:auto; white-space:nowrap; }
+#stage { position:relative; flex:1 1 auto; overflow:hidden; background:#05080f;
+  cursor:grab; }
+#stage.pan { cursor:grabbing; }
+figure { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+figure img { max-width:96%; max-height:88%; object-fit:contain; user-select:none;
+  -webkit-user-drag:none; transform-origin:center center; border-radius:3px;
+  box-shadow:0 6px 30px rgba(0,0,0,.5); }
+figcaption { position:absolute; left:0; right:0; bottom:0; padding:22px 20px 12px;
+  font-size:12px; color:var(--muted); background:linear-gradient(0deg,rgba(5,8,15,.9),transparent); }
+#nav { flex:0 0 auto; display:flex; gap:6px; overflow-x:auto; padding:10px 14px;
+  border-top:1px solid rgba(212,175,55,.12); scrollbar-width:thin; }
+#nav button { flex:0 0 auto; font:600 11px monospace; color:var(--paper);
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12);
+  border-radius:4px; padding:6px 9px; cursor:pointer; }
+#nav button b { color:var(--gold); }
+#nav button.on { background:var(--ember); border-color:var(--ember); color:#fff; }
+a.back { color:var(--gold); text-decoration:none; font-size:12px; }
+</style></head><body>
+<header>
+  <a class="back" href="README.md">← document</a>
+  <h1>Analysis of Discrete-Time Dynamical Systems - Math Modelling - Lecture 19 · visualizations</h1>
+  <span class="hint">16 items · drag to pan · wheel to zoom · click thumbnail to jump</span>
+</header>
+<div id="stage">
+<figure data-ts="60"><img src="frames/frame_01_60s.jpg" loading="lazy" alt="A whiteboard shows three equations relating to delta X and X(n+1)."/><figcaption>1:00 · A whiteboard shows three equations relating to delta X and X(n+1).</figcaption></figure>
+<figure data-ts="160"><img src="frames/frame_02_160s.jpg" loading="lazy" alt="The whiteboard displays mathematical equations for delta X, X(n+1), G(x), and the conditions for equilibrium."/><figcaption>2:40 · The whiteboard displays mathematical equations for delta X, X(n+1), G(x), and the conditions for equilibrium.</figcaption></figure>
+<figure data-ts="180"><img src="frames/frame_03_180s.jpg" loading="lazy" alt="The whiteboard shows mathematical equations for equilibrium, including ΔX = F(x) and G(x) = X + F(x)."/><figcaption>3:00 · The whiteboard shows mathematical equations for equilibrium, including ΔX = F(x) and G(x) = X + F(x).</figcaption></figure>
+<figure data-ts="220"><img src="frames/frame_04_220s.jpg" loading="lazy" alt="A whiteboard shows mathematical equations for linearization, including definitions for ΔX, G(x), and an equilibrium condition."/><figcaption>3:40 · A whiteboard shows mathematical equations for linearization, including definitions for ΔX, G(x), and an equilibrium condition.</figcaption></figure>
+<figure data-ts="260"><img src="frames/frame_05_260s.jpg" loading="lazy" alt="This frame displays mathematical equations and definitions related to linearization and stability of systems, including expressions for ΔX, G(x), and conditions for stability."/><figcaption>4:20 · This frame displays mathematical equations and definitions related to linearization and stability of systems, including expressions for ΔX, G(x), and conditions for stability.</figcaption></figure>
+<figure data-ts="380"><img src="frames/frame_06_380s.jpg" loading="lazy" alt="The whiteboard displays equations for linearization, equilibrium, and conditions for stability and instability based on eigenvalues."/><figcaption>6:20 · The whiteboard displays equations for linearization, equilibrium, and conditions for stability and instability based on eigenvalues.</figcaption></figure>
+<figure data-ts="400"><img src="frames/frame_07_400s.jpg" loading="lazy" alt="This frame shows mathematical equations for linearizing a system, defining stable and unstable conditions based on the modulus of eigenvalues."/><figcaption>6:40 · This frame shows mathematical equations for linearizing a system, defining stable and unstable conditions based on the modulus of eigenvalues.</figcaption></figure>
+<figure data-ts="460"><img src="frames/frame_08_460s.jpg" loading="lazy" alt="The whiteboard shows equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on the modulus of eigenvalues."/><figcaption>7:40 · The whiteboard shows equations for linearizing a system, defining equilibrium, and conditions for stability and instability based on the modulus of eigenvalues.</figcaption></figure>
+<figure data-ts="60"><img src="visuals/zoom_60s.png" loading="lazy" alt="This visualization shows the derivation of a difference equation, which is fundamental for understanding discrete dynamical systems."/><figcaption>1:00 · This visualization shows the derivation of a difference equation, which is fundamental for understanding discrete dynamical systems.</figcaption></figure>
+<figure data-ts="160"><img src="visuals/zoom_160s.png" loading="lazy" alt="This block of equations defines the relationship between the change in a variable (ΔX), its next state (X(n+1)), and a function F(x), and then introduces the concept of equilibrium where F(x*) = 0 or G(x*) = x*."/><figcaption>2:40 · This block of equations defines the relationship between the change in a variable (ΔX), its next state (X(n+1)), and a function F(x), and then introduces the concept of equilibrium where F(x*) = 0 or G(x*) = x*.</figcaption></figure>
+<figure data-ts="180"><img src="visuals/zoom_180s.png" loading="lazy" alt="This block of equations defines the change in a discrete dynamical system, introduces a function G(x), and states the conditions for an equilibrium point."/><figcaption>3:00 · This block of equations defines the change in a discrete dynamical system, introduces a function G(x), and states the conditions for an equilibrium point.</figcaption></figure>
+<figure data-ts="220"><img src="visuals/zoom_220s.png" loading="lazy" alt="This visualization presents a series of equations defining the change in X, an iterative update rule, a function G(x), and the conditions for equilibrium, which are fundamental concepts in dynamical systems."/><figcaption>3:40 · This visualization presents a series of equations defining the change in X, an iterative update rule, a function G(x), and the conditions for equilibrium, which are fundamental concepts in dynamical systems.</figcaption></figure>
+<figure data-ts="260"><img src="visuals/zoom_260s.png" loading="lazy" alt="This visualization presents the mathematical steps for linearizing a system and the condition for stability based on the eigenvalues of the linearized system's Jacobian matrix."/><figcaption>4:20 · This visualization presents the mathematical steps for linearizing a system and the condition for stability based on the eigenvalues of the linearized system's Jacobian matrix.</figcaption></figure>
+<figure data-ts="380"><img src="visuals/zoom_380s.png" loading="lazy" alt="This visualization presents the linearization of a discrete dynamical system and the conditions for stability and instability based on the eigenvalues of the linearized system's Jacobian matrix."/><figcaption>6:20 · This visualization presents the linearization of a discrete dynamical system and the conditions for stability and instability based on the eigenvalues of the linearized system's Jacobian matrix.</figcaption></figure>
+<figure data-ts="400"><img src="visuals/zoom_400s.png" loading="lazy" alt="This visualization presents the linearization of a discrete dynamical system and defines the conditions for stable and unstable equilibrium points based on the eigenvalues of the linearized system's Jacobian matrix."/><figcaption>6:40 · This visualization presents the linearization of a discrete dynamical system and defines the conditions for stable and unstable equilibrium points based on the eigenvalues of the linearized system's Jacobian matrix.</figcaption></figure>
+<figure data-ts="460"><img src="visuals/zoom_460s.png" loading="lazy" alt="This visualization presents the linearization of a discrete dynamical system and the conditions for stability and instability based on the modulus of eigenvalues."/><figcaption>7:40 · This visualization presents the linearization of a discrete dynamical system and the conditions for stability and instability based on the modulus of eigenvalues.</figcaption></figure>
+</div>
+<div id="nav"><button data-i="0" data-ts="60" data-src="frames/frame_01_60s.jpg">1:00</button>
+<button data-i="1" data-ts="160" data-src="frames/frame_02_160s.jpg">2:40</button>
+<button data-i="2" data-ts="180" data-src="frames/frame_03_180s.jpg">3:00</button>
+<button data-i="3" data-ts="220" data-src="frames/frame_04_220s.jpg">3:40</button>
+<button data-i="4" data-ts="260" data-src="frames/frame_05_260s.jpg">4:20</button>
+<button data-i="5" data-ts="380" data-src="frames/frame_06_380s.jpg">6:20</button>
+<button data-i="6" data-ts="400" data-src="frames/frame_07_400s.jpg">6:40</button>
+<button data-i="7" data-ts="460" data-src="frames/frame_08_460s.jpg">7:40</button>
+<button data-i="8" data-ts="60" data-src="visuals/zoom_60s.png">1:00 <b>Z</b></button>
+<button data-i="9" data-ts="160" data-src="visuals/zoom_160s.png">2:40 <b>Z</b></button>
+<button data-i="10" data-ts="180" data-src="visuals/zoom_180s.png">3:00 <b>Z</b></button>
+<button data-i="11" data-ts="220" data-src="visuals/zoom_220s.png">3:40 <b>Z</b></button>
+<button data-i="12" data-ts="260" data-src="visuals/zoom_260s.png">4:20 <b>Z</b></button>
+<button data-i="13" data-ts="380" data-src="visuals/zoom_380s.png">6:20 <b>Z</b></button>
+<button data-i="14" data-ts="400" data-src="visuals/zoom_400s.png">6:40 <b>Z</b></button>
+<button data-i="15" data-ts="460" data-src="visuals/zoom_460s.png">7:40 <b>Z</b></button></div>
+<script>
+const figs=[...document.querySelectorAll('#stage figure')];
+const nav=[...document.querySelectorAll('#nav button')];
+let idx=-1, sx=0, sy=0, s=false, scale=1;
+function show(i){ idx=i; figs.forEach((f,j)=>f.style.display=j===i?'flex':'none');
+  nav.forEach((b,j)=>b.classList.toggle('on',j===i)); reset(); }
+function reset(){ scale=1; const img=figs[idx].querySelector('img'); img.style.transform='scale(1)'; }
+function use(f){ show(f.dataset.i?+f.dataset.i:idx); }
+nav.forEach(b=>b.addEventListener('click',()=>show(+b.dataset.i)));
+const stage=document.getElementById('stage');
+stage.addEventListener('pointerdown',e=>{ s=true; sx=e.clientX; sy=e.clientY; stage.classList.add('pan'); });
+window.addEventListener('pointermove',e=>{ if(!s)return; const img=figs[idx].querySelector('img');
+  const dx=(e.clientX-sx), dy=(e.clientY-sy); sx=e.clientX; sy=e.clientY;
+  const r=img.getBoundingClientRect(); img.style.left=(r.left+dx)+'px'; img.style.top=(r.top+dy)+'px'; });
+window.addEventListener('pointerup',()=>{ s=false; stage.classList.remove('pan'); });
+stage.addEventListener('wheel',e=>{ e.preventDefault(); const img=figs[idx].querySelector('img');
+  scale*=e.deltaY<0?1.12:0.89; scale=Math.min(8,Math.max(0.2,scale));
+  img.style.transform='scale('+scale+')'; },{passive:false});
+show(0);
+</script></body></html>
